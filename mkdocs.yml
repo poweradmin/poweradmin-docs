@@ -1,0 +1,20 @@
+site_name: Poweradmin Docs
+site_url: https://docs.poweradmin.org
+site_description: Poweradmin is a web-based DNS administration tool for PowerDNS server.
+repo_url: https://github.com/poweradmin/poweradmin
+
+theme:
+  name: readthedocs
+  hljs_languages: true
+  hljs_languages:
+    - php
+
+nav:
+  - Introduction: index.md
+  - About: about.md
+
+validation:
+  links:
+    absolute_links: relative_to_docs
+    anchors: warn
+    unrecognized_links: warn
