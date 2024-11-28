@@ -34,6 +34,7 @@ nav:
 
   - Installation:
       - Quick Start: installation/quickstart.md
+      - Compatibility Guide: installation/compatibility-guide.md
       - Docker:
           - Installation: installation/docker.md
           - Docker Compose: installation/docker-compose.md
