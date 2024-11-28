@@ -10,6 +10,7 @@ PowerAdmin requires PHP 8.1 or higher to run. This document outlines the support
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
+> **Note**: Other web server software, such as Caddy, might also be supported. However, these are usually not tested by the maintainer and may only work with help from the community.
 ---
 
 ## Supported Distributions
