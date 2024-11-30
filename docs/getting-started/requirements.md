@@ -1,4 +1,4 @@
-# PowerAdmin Compatibility Guide
+# PowerAdmin System Requirements
 
 ## Overview
 PowerAdmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well as those that are not supported due to PHP version constraints. For the best experience, ensure your system meets or exceeds the recommended requirements.
@@ -11,6 +11,7 @@ PowerAdmin requires PHP 8.1 or higher to run. This document outlines the support
 - **Operating System**: Linux or BSD
 
 > **Note**: Other web server software, such as Caddy, might also be supported. However, these are usually not tested by the maintainer and may only work with help from the community.
+
 ---
 
 ## Supported Distributions
