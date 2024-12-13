@@ -16,13 +16,14 @@ PowerAdmin requires PHP 8.1 or higher to run. This document outlines the support
 
 ## Supported Distributions
 
-| Distribution | PHP Version | Notes                      |
-|--------------|-------------|----------------------------|
-| Debian 12.7  | 8.2         |                            |
-| Ubuntu 22.04 | 8.1         |                            |
-| Ubuntu 24.04 | 8.3         |                            |
-| Fedora 40    | 8.3         | Apache included by default |
-| Fedora 41    | 8.3         | Apache included by default |
+| Distribution  | PHP Version | Notes                      |
+|---------------|-------------|----------------------------|
+| Debian 12.7   | 8.2         |                            |
+| Ubuntu 22.04  | 8.1         |                            |
+| Ubuntu 24.04  | 8.3         |                            |
+| Fedora 40     | 8.3         | Apache included by default |
+| Fedora 41     | 8.3         | Apache included by default |
+| OpenSuse 15.6 | 8.2         |                            |
 
 ---
 
