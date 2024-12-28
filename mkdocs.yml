@@ -15,7 +15,7 @@ theme:
     - navigation.sections
     - navigation.expand
     - search.highlight
-  extra_files:
+  extra:
     - screenshots
 
 validation:
