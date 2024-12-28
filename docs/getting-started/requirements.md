@@ -1,16 +1,21 @@
 # PowerAdmin System Requirements
 
 ## Overview
-PowerAdmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well as those that are not supported due to PHP version constraints. For the best experience, ensure your system meets or exceeds the recommended requirements.
+
+PowerAdmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well
+as those that are not supported due to PHP version constraints. For the best experience, ensure your system meets or
+exceeds the recommended requirements.
 
 ---
 
 ## Minimum Requirements
+
 - **PHP**: 8.1 or higher
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
-> **Note**: Other web server software, such as Caddy, might also be supported. However, these are usually not tested by the maintainer and may only work with help from the community.
+> **Note**: Other web server software, such as Caddy, might also be supported. However, these are usually not tested by
+> the maintainer and may only work with help from the community.
 
 ---
 
@@ -28,7 +33,9 @@ PowerAdmin requires PHP 8.1 or higher to run. This document outlines the support
 ---
 
 ## BSD Operating Systems
-PowerAdmin is compatible with BSD operating systems that meet the PHP 8.1+ requirement. While not extensively tested, it should work as long as the environment is properly configured.
+
+PowerAdmin is compatible with BSD operating systems that meet the PHP 8.1+ requirement. While not extensively tested, it
+should work as long as the environment is properly configured.
 
 ---
 
@@ -47,5 +54,7 @@ PowerAdmin is compatible with BSD operating systems that meet the PHP 8.1+ requi
 ---
 
 ## Notes
-- Distributions listed as unsupported can potentially be configured manually with a custom PHP build, but this is not officially supported.
+
+- Distributions listed as unsupported can potentially be configured manually with a custom PHP build, but this is not
+  officially supported.
 - Upgrade paths are recommended for unsupported distributions to maintain security and compatibility.
