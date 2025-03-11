@@ -48,6 +48,7 @@ nav:
           - MySQL/MariaDB: database/mysql.md
           - PostgreSQL: database/postgresql.md
           - SQLite: database/sqlite.md
+      - Composer: installation/composer.md
 
   - Configuration:
       - Basic Configuration: configuration/basic.md
