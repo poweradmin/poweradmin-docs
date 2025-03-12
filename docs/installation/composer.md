@@ -93,7 +93,8 @@ just like when you initially installed the project.
 
 ## Post-Installation Steps
 
-1. Set up the database schema (see [MySQL/MariaDB](../database/mysql.md), [PostgreSQL](../database/postgresql.md), or [SQLite](../database/sqlite.md) setup)
+1. Set up the database schema (see [MySQL/MariaDB](../database/mysql.md), [PostgreSQL](../database/postgresql.md),
+   or [SQLite](../database/sqlite.md) setup)
 2. Configure web server permissions
 3. Set up initial admin user
 4. Configure PowerDNS connection
