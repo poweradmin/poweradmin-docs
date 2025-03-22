@@ -56,6 +56,7 @@ nav:
       - LDAP Integration: configuration/ldap.md
       - UI Customization: configuration/ui-customization.md
       - Environment Variables: configuration/environment.md
+      - Password Policies: configuration/password-policies.md
 
   - User Guide:
       - User Management:
