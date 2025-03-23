@@ -27,16 +27,9 @@ configured in the `config/password_policy.php` file. Below are the available opt
 - **enable_reuse_prevention**: Enable or disable prevention of password reuse. Default: `false`.
 - **prevent_reuse**: Number of previous passwords to check against for reuse. Default: `5`.
 
-## Account Lockout
-
-**Note:** The following settings are not implemented yet.
-
-- **enable_lockout**: Enable or disable account lockout after multiple failed login attempts. Default: `false`.
-- **lockout_attempts**: Number of failed login attempts before account is locked. Default: `5`.
-- **lockout_duration**: Duration of the lockout in minutes. Default: `15`.
-
 These settings can be customized by modifying the `config/password_policy.php` file. The default values are provided by
-the [PasswordPolicyDefaults](https://github.com/poweradmin/poweradmin/blob/b45f03be40b1194863739a44fea91500ff71b25c/lib/Domain/Config/PasswordPolicyDefaults.php) class.
+the [PasswordPolicyDefaults](https://github.com/poweradmin/poweradmin/blob/master/lib/Domain/Config/PasswordPolicyDefaults.php)
+class.
 
 ## Example Configuration
 
@@ -48,6 +41,9 @@ following content:
 
 return [
     'enable_password_rules' => true,
-    'enable_lockout' => true,
 ];
 ```
+
+When `enable_password_rules` is set to `true`, passwords will be required to be at least 6 characters long and contain
+at least one uppercase letter, one lowercase letter, and one number. Special characters are not required by default, but
+when used, they must be from the allowed set: `!@#$%^&*()+-=[]{}|;:,.<>?`

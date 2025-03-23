@@ -57,6 +57,7 @@ nav:
       - UI Customization: configuration/ui-customization.md
       - Environment Variables: configuration/environment.md
       - Password Policies: configuration/password-policies.md
+      - Security Policies: configuration/security-policies.md
 
   - User Guide:
       - User Management:
