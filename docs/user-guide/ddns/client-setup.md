@@ -53,10 +53,10 @@ When using multiple IPs:
 1. Download the dynamic DNS client script
 2. Make it executable and run:
 
-    ```bash
-    chmod 755 dynamic_dns_client.sh
-    ./dynamic_dns_client.sh
-    ```
+```bash
+chmod 755 dynamic_dns_client.sh
+./dynamic_dns_client.sh
+```
 
 ![Shell Script Configuration](../../screenshots/dynamic_update05.png)
 
@@ -79,26 +79,26 @@ chmod 755 dynamic_dns_client.sh
 
 1. Install required dependencies:
 
-    ```bash
-    pip install requests
-    ```
+```bash
+pip install requests
+```
 
 2. Run the script:
 
-    ```bash
-    python dynamic_dns_client.py
-    ```
+```bash
+python dynamic_dns_client.py
+```
 
 ### Perl Script
 
 1. Install required modules:
 
-    ```bash
-    cpan install LWP::UserAgent
-    ```
+```bash
+cpan install LWP::UserAgent
+```
 
 2. Run the script:
 
-    ```bash
-    perl dynamic_dns_client.pl
-    ```
+```bash
+perl dynamic_dns_client.pl
+```
