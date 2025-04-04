@@ -22,6 +22,7 @@ Before setting up Dynamic DNS, ensure you have:
     * Bash shell environment
     * Python 3.x with requests module
     * Perl with LWP::UserAgent module
+    * cURL or any HTTP client tool
 
 ## Features
 
