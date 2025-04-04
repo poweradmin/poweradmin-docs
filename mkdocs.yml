@@ -52,6 +52,9 @@ nav:
 
   - Configuration:
       - Basic Configuration: configuration/basic.md
+      - DNS Settings: configuration/dns-settings.md
+      - Database Configuration: configuration/database.md
+      - Logging Setup: configuration/logging.md
       - DNSSEC Setup: configuration/dnssec.md
       - LDAP Integration: configuration/ldap.md
       - UI Customization: configuration/ui-customization.md
