@@ -1,5 +1,17 @@
 # Dynamic DNS Overview
 
+Dynamic DNS (DDNS) provides a way to update DNS records when an IP address changes. While the updates are not automatic
+by default, the service can be automated through scheduled tasks (like cron jobs) or scripts that periodically check and
+update the DNS records. This is particularly useful for:
+
+- Hosting services on a connection with a dynamic IP address
+- Maintaining DNS records for home servers or networks
+- Providing consistent domain name access to systems with changing IP addresses
+- Remote access to home networks or IoT devices
+
+Poweradmin's Dynamic DNS implementation offers a flexible API that can be integrated with various automation tools and
+scripts to keep DNS records up to date. It supports both IPv4 and IPv6 addresses through various update methods.
+
 ## Requirements
 
 Before setting up Dynamic DNS, ensure you have:
@@ -47,7 +59,8 @@ Official client scripts:
 * `addons/dynamic_dns_client.py` - Python client script for updating IP addresses
 * `addons/dynamic_dns_client.pl` - Perl client script for updating IP addresses
 
-You can also use cURL or any HTTP client to update DNS records. See the [Using cURL](using-curl.md) guide for examples and best practices.
+You can also use cURL or any HTTP client to update DNS records. See the [Using cURL](using-curl.md) guide for examples
+and best practices.
 
 ## Security Features
 
@@ -58,3 +71,4 @@ You can also use cURL or any HTTP client to update DNS records. See the [Using c
 * Domain ownership verification
 
 For detailed configuration steps, see the [Configuration](configuration.md) section.
+
