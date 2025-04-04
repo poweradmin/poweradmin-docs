@@ -94,8 +94,8 @@ fi
 
 ## Security Considerations
 
-- Always use HTTPS to protect credentials
-- Consider using Basic Authentication instead of URL parameters
-- Store credentials securely, not in plain text
-- Use specific IP ranges if possible
-- Monitor for unusual update patterns
+* Always use HTTPS to protect credentials
+* Consider using Basic Authentication instead of URL parameters
+* Store credentials securely, not in plain text
+* Use specific IP ranges if possible
+* Monitor for unusual update patterns
