@@ -28,6 +28,7 @@ nav:
   - Home: index.md
   - Getting Started:
       - Overview: getting-started/overview.md
+      - Features: getting-started/features.md
       - Quick Evaluation:
           - Docker Demo: getting-started/docker-demo.md
           - First Steps: getting-started/first-steps.md
