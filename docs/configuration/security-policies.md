@@ -1,7 +1,8 @@
 # Password Policies
 
-Poweradmin allows you to enforce password policies to enhance the security of user accounts. These policies are
-configured in the `config/security_policy.php` file. Below are the available options:
+Poweradmin allows you to enforce password policies to enhance the security of user accounts. All security
+configurations, including account lockout and IP management policies, are now configured in the `config/settings.php`
+file under the `security` section.
 
 ## Account Lockout
 
@@ -13,28 +14,32 @@ configured in the `config/security_policy.php` file. Below are the available opt
 
 ## IP Address Management
 
-**Note:** The following settings are not implemented yet.
+- **whitelist_ip_addresses**: List of IP addresses that are always allowed to access the system. Supports IPs, CIDRs,
+  and wildcards. Takes priority over blacklist. Default: `[]`.
+- **blacklist_ip_addresses**: List of IP addresses that are blocked from accessing the system. Supports IPs, CIDRs, and
+  wildcards. Default: `[]`.
 
-- **whitelist_ip_addresses**: List of IP addresses that are always allowed to access the system. Default: `[]`.
-- **blacklist_ip_addresses**: List of IP addresses that are blocked from accessing the system. Default: `[]`.
-
-These settings can be customized by modifying the `config/security_policy.php` file. The default values are provided by
-the [SecurityPolicyDefaults](https://github.com/poweradmin/poweradmin/blob/master/lib/Domain/Config/SecurityPolicyDefaults.php)
-class.
+These settings can be found in the `security.account_lockout` section of your `config/settings.php` file.
 
 ## Example Configuration
 
-To enable the currently defined security policies, you can update the `config/security_policy.php` file with the
-following content:
+To enable account lockout and configure IP whitelisting, you can use the following configuration in your
+`config/settings.php`:
 
 ```php
 <?php
 
 return [
-    'enable_lockout' => true,
+    'security' => [
+        'account_lockout' => [
+            'enable_lockout' => true,
+            'whitelist_ip_addresses' => ['192.168.1.0/24', '10.0.0.*'],
+            'blacklist_ip_addresses' => ['1.2.3.4', '5.6.7.0/24'],
+        ],
+    ],
 ];
 ```
 
 When `enable_lockout` is set to `true`, an account will be locked for 15 minutes after 5 failed login attempts. The
-system tracks IP addresses by default and resets the failed attempts counter after a successful login. Setting this to
-`false` disables the entire account lockout mechanism, regardless of other lockout-related settings.
+system tracks IP addresses by default and resets the failed attempts counter after a successful login. Whitelisted IPs
+will never be locked out, while blacklisted IPs will always be blocked.

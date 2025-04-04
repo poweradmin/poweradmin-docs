@@ -1,7 +1,8 @@
 # Password Policies
 
-Poweradmin allows you to enforce password policies to enhance the security of user accounts. These policies are
-configured in the `config/password_policy.php` file. Below are the available options:
+Poweradmin allows you to enforce password policies to enhance the security of user accounts. All security
+configurations, including password policies, are now configured in a single `config/settings.php` file under the
+`security` section. This consolidates all security-related settings into one location for easier management.
 
 ## Password Rules
 
@@ -12,6 +13,14 @@ configured in the `config/password_policy.php` file. Below are the available opt
 - **require_numbers**: Require at least one numeric digit. Default: `true`.
 - **require_special**: Require at least one special character. Default: `false`.
 - **special_characters**: List of allowed special characters. Default: `!@#$%^&*()+-=[]{}|;:,.<>?`.
+
+## Password Security Settings
+
+The following additional security settings are available in the `security` section:
+
+- **password_encryption**: Choose the password hashing algorithm. Options: 'md5', 'md5salt', 'bcrypt', 'argon2i', '
+  argon2id'. Default: `bcrypt`.
+- **password_cost**: Cost factor for bcrypt algorithm. Default: `12`.
 
 ## Password Expiration
 
@@ -27,23 +36,26 @@ configured in the `config/password_policy.php` file. Below are the available opt
 - **enable_reuse_prevention**: Enable or disable prevention of password reuse. Default: `false`.
 - **prevent_reuse**: Number of previous passwords to check against for reuse. Default: `5`.
 
-These settings can be customized by modifying the `config/password_policy.php` file. The default values are provided by
-the [PasswordPolicyDefaults](https://github.com/poweradmin/poweradmin/blob/master/lib/Domain/Config/PasswordPolicyDefaults.php)
-class.
-
 ## Example Configuration
 
-To enable the currently defined password policies, you can update the `config/password_policy.php` file with the
-following content:
+To enable password rules with custom settings, add the following configuration to your `config/settings.php`:
 
 ```php
 <?php
 
 return [
-    'enable_password_rules' => true,
+    'security' => [
+        'password_encryption' => 'bcrypt',
+        'password_cost' => 12,
+        'password_policy' => [
+            'enable_password_rules' => true,
+            'min_length' => 8,
+            'require_special' => true,
+        ],
+    ],
 ];
 ```
 
-When `enable_password_rules` is set to `true`, passwords will be required to be at least 6 characters long and contain
-at least one uppercase letter, one lowercase letter, and one number. Special characters are not required by default, but
-when used, they must be from the allowed set: `!@#$%^&*()+-=[]{}|;:,.<>?`
+When `enable_password_rules` is set to `true`, passwords will be validated according to the configured rules. In this
+example, passwords must be at least 8 characters long and include special characters, along with the default
+requirements for uppercase letters, lowercase letters, and numbers.
