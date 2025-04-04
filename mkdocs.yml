@@ -54,11 +54,16 @@ nav:
       - Basic Configuration: configuration/basic.md
       - DNS Settings: configuration/dns-settings.md
       - Database Configuration: configuration/database.md
+      - PowerDNS API: configuration/powerdns-api.md
+      - DNSSEC: configuration/dnssec.md
       - Logging Setup: configuration/logging.md
-      - DNSSEC Setup: configuration/dnssec.md
       - LDAP Integration: configuration/ldap.md
-      - UI Customization: configuration/ui-customization.md
-      - Environment Variables: configuration/environment.md
+      - Mail Configuration: configuration/mail.md
+      - UI Customization:
+          - Overview: configuration/ui/overview.md
+          - Themes: configuration/ui/themes.md
+          - Layout: configuration/ui/layout.md
+          - Custom CSS: configuration/ui/custom-css.md
       - Password Policies: configuration/password-policies.md
       - Security Policies: configuration/security-policies.md
 

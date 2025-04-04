@@ -26,6 +26,7 @@ return [
         'password' => 'your_secure_password',
         'type' => 'mysql',
         'charset' => 'latin1',
+        'file' => '',
         'debug' => false,
     ],
 ];
