@@ -47,27 +47,17 @@ This document provides detailed explanations of all user permissions available i
 - Can change owners, zone types, and master server IPs for others' zones
 - High-level permission typically reserved for administrators
 
-### zone_comment_edit_own
-- Allows the user to add or edit comments for zones they own
-- Comments provide documentation and context for zones
-- Helps with zone organization and management
+### zone_content_edit_own_as_client
+- Allows the user to edit record content in zones they own, except SOA and NS records
+- Limited permission for users who should only modify certain record types
+- Provides restricted zone management capabilities
 
-### zone_comment_edit_others
-- Allows the user to add or edit comments for zones owned by other users
-- Users can annotate zones they don't own
-- Useful for team environments where documentation is shared
+## Search Permissions
 
-## Record Permissions
-
-### record_comment_edit_own
-- Allows the user to add or edit comments for records in zones they own
-- Comments can provide context for specific DNS records
-- Helps with documentation and change tracking
-
-### record_comment_edit_others
-- Allows the user to add or edit comments for records in zones they don't own
-- Users can annotate records in other users' zones
-- Useful for collaborative environments
+### search
+- Allows the user to perform searches across the system
+- User can search for zones, records, and other elements
+- Basic functionality for finding resources in larger deployments
 
 ## User Permissions
 
@@ -86,14 +76,24 @@ This document provides detailed explanations of all user permissions available i
 - Can modify other users' details and access rights
 - High-level administrative permission
 
-### user_add
+### user_add_new
 - Allows the user to add new users to the system
 - Can create accounts for others to access Poweradmin
 - Administrative permission for expanding system access
 
-### user_is_ueberadmin
-- Grants superuser (ueberadmin) status
-- User has full access to all functions in Poweradmin
+### user_passwd_edit_others
+- Allows the user to change passwords for other users
+- Can reset passwords when users are locked out
+- Administrative security management permission
+
+### user_edit_templ_perm
+- Allows the user to change the permission template assigned to users
+- Can modify user access by applying different templates
+- Streamlines permission management for administrators
+
+### user_is_ueberuser
+- Grants superuser status with full access to all functions
+- User has unlimited privileges throughout Poweradmin
 - Bypasses normal permission checks
 - Should be granted very selectively
 
@@ -109,30 +109,6 @@ This document provides detailed explanations of all user permissions available i
 - Can modify permission sets used for multiple users
 - Useful for maintaining consistent permission groups
 
-## Zone Template Permissions
-
-### zone_templ_add
-- Allows the user to add new zone templates
-- Templates provide pre-defined sets of records for new zones
-- Helps standardize zone creation
-
-### zone_templ_edit
-- Allows the user to edit existing zone templates
-- Can modify the record sets used for new zone creation
-- Useful for maintaining standardized zone configurations
-
-### zone_templ_view
-- Allows the user to view available zone templates
-- Read-only access to template configurations
-- Basic permission needed to use templates
-
-## Log Permissions
-
-### log_view
-- Allows the user to view system logs
-- Can see login attempts and changes to zones/records
-- Useful for auditing and troubleshooting
-
 ## Supermaster Permissions
 
 ### supermaster_view
@@ -144,6 +120,11 @@ This document provides detailed explanations of all user permissions available i
 - Allows the user to add new supermaster servers
 - Can configure authoritative name servers for PowerDNS
 - Advanced configuration permission
+
+### supermaster_edit
+- Allows the user to edit existing supermaster servers
+- Can modify authoritative name server configurations
+- Advanced permission for managing DNS infrastructure
 
 ## Additional Information
 
