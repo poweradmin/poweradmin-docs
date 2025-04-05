@@ -12,15 +12,18 @@ exceeds the recommended requirements.
 
 - **PHP**: 8.1 or higher
 - **PHP Extensions**:
-  - intl
-  - gettext
-  - openssl
-  - pdo
-  - pdo-mysql, pdo-pgsql or pdo-sqlite
-  - session
-  - filter
-  - tokenizer
-  - ldap (optional)
+    - `intl`
+    - `gettext`
+    - `openssl`
+    - `pdo`
+    - One of:
+        - `pdo-mysql`
+        - `pdo-pgsql`
+        - `pdo-sqlite`
+    - `session`
+    - `filter`
+    - `tokenizer`
+    - `ldap` (optional)
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
