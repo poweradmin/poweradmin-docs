@@ -6,19 +6,19 @@ This page describes the manual installation procedure for Poweradmin. While usin
 
 Verify that your setup meets the application requirements:
 
-- PHP 8.1 or newer
-- PHP extensions:
-  - intl
-  - gettext
-  - openssl
-  - pdo
-  - pdo-mysql, pdo-pgsql or pdo-sqlite
-  - session
-  - filter
-  - tokenizer
-  - ldap (optional)
-- Database: MySQL 5.7.x/8.x, MariaDB, PostgreSQL or SQLite
-- PowerDNS authoritative server 4.0.0+ setup with DB backend support
+* PHP 8.1 or newer
+* PHP extensions:
+    * intl
+    * gettext
+    * openssl
+    * pdo
+    * pdo-mysql, pdo-pgsql or pdo-sqlite
+    * session
+    * filter
+    * tokenizer
+    * ldap (optional)
+* Database: MySQL 5.7.x/8.x, MariaDB, PostgreSQL or SQLite
+* PowerDNS authoritative server 4.0.0+ setup with DB backend support
 
 For detailed requirements, see [System Requirements](../getting-started/requirements.md).
 
@@ -64,6 +64,7 @@ psql -U postgres -d powerdns -f sql/poweradmin-pgsql-db-structure.sql
 sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 ```
 
+**warning**
 The default admin username is 'admin' with password 'admin'. **You should change this password immediately after first login.**
 
 ### 4. Create Configuration File
@@ -111,9 +112,9 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 
 ### 5. Secure the Installation
 
-- Set appropriate permissions on configuration files
-- Remove the `install` directory after installation
-- Change the default admin password immediately after first login
+* Set appropriate permissions on configuration files
+* Remove the `install` directory after installation
+* Change the default admin password immediately after first login
 
 ### 6. Optional: Migrating from Legacy Configuration
 
@@ -130,9 +131,9 @@ This will convert your old `inc/config.inc.php` settings to the new `config/sett
 1. Configure web server permissions
 2. Set up proper DNS settings (see [DNS Settings](../configuration/dns-settings.md))
 3. Configure additional features as needed:
-   - [LDAP Integration](../configuration/ldap.md)
-   - [PowerDNS API](../configuration/powerdns-api.md)
-   - [DNSSEC](../configuration/dnssec.md)
+    * [LDAP Integration](../configuration/ldap.md)
+    * [PowerDNS API](../configuration/powerdns-api.md)
+    * [DNSSEC](../configuration/dnssec.md)
 
 ## Troubleshooting
 
