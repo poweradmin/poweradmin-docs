@@ -1,8 +1,17 @@
 # DNSSEC Configuration
 
-## Introduction
+## Overview
 
-DNSSEC (Domain Name System Security Extensions) provides authentication and integrity to DNS data. This guide explains how to configure DNSSEC in Poweradmin.
+PowerAdmin provides comprehensive support for DNSSEC (Domain Name System Security Extensions) through a well-structured implementation that follows domain-driven design principles. The system offers two implementation methods:
+
+1. **PowerDNS API Integration** (Recommended): Uses the PowerDNS REST API for DNSSEC operations
+2. **pdnsutil Command-line Tool** (Legacy): Uses the pdnsutil command-line utility 
+
+The DNSSEC implementation enables you to:
+- Secure and unsecure zones
+- Manage cryptographic keys (create, activate, deactivate, delete)
+- View DS (Delegation Signer) and DNSKEY records
+- Manage DNSSEC key rollovers
 
 ## Basic Concepts
 
@@ -13,29 +22,66 @@ DNSSEC (Domain Name System Security Extensions) provides authentication and inte
 
 ## Prerequisites
 
+- PowerDNS version 4.0.0 or higher
 - PowerDNS with DNSSEC support
 - Proper database configuration
 - API access configured (see [PowerDNS API Configuration](./powerdns-api.md))
 
-## Configuration Options
+## Implementation Methods
 
-The DNSSEC settings are configured in the `config/settings.php` file under the `dnssec` section:
+### Option 1: PowerDNS API Method (Recommended)
 
-- **enabled**: Enable DNSSEC functionality. Default: `false`
-- **debug**: Enable DNSSEC debug logging. Default: `false`
-- **command**: Path to pdnsutil command. Default: `/usr/bin/pdnsutil`
+To enable DNSSEC using the PowerDNS API:
 
-## Example Configuration
+1. Configure your PowerDNS server with API access
+2. Update your PowerAdmin configuration file with the following settings:
 
 ```php
 return [
     'dnssec' => [
         'enabled' => true,
-        'debug' => false,
-        'command' => '/usr/bin/pdnsutil',
+        'use_api' => true,
+        'api_url' => 'http://localhost:8081',
+        'api_key' => 'your-api-key',
     ],
 ];
 ```
+
+The API method provides several advantages:
+- No need to configure special permissions for the web server user
+- More secure as it doesn't require shell access
+- Better error handling and feedback
+- Full support for all DNSSEC operations
+
+### Option 2: pdnsutil Method (Legacy)
+
+If you can't use the API method, you can still use the legacy pdnsutil approach:
+
+1. Update your PowerAdmin configuration file:
+
+```php
+return [
+    'dnssec' => [
+        'enabled' => true,
+        'use_api' => false,
+        'command' => '/usr/bin/pdnsutil',
+        'debug' => false,
+    ],
+];
+```
+
+2. Configure permissions for the web server user to run pdnsutil:
+
+For example, on Ubuntu with Apache:
+```bash
+# Add the web server user to the root group
+adduser www-data root
+
+# Make pdns.conf readable by the web server user
+chmod 640 /etc/powerdns/pdns.conf
+```
+
+**Important Note**: The pdnsutil method requires the web server user to have access to the PowerDNS configuration file, which poses security risks. The API method is strongly recommended.
 
 ## PowerDNS Configuration
 
@@ -57,9 +103,30 @@ dig +dnssec example.com SOA
 
 ## Troubleshooting
 
-If you encounter issues with DNSSEC:
+Common issues:
 
-1. Check that both PowerDNS API and DNSSEC are enabled
-2. Verify the pdnsutil command path is correct
-3. Check PowerDNS logs for any DNSSEC-related errors
-4. Enable debug mode temporarily to get more detailed logs
+1. **API connection problems**: Ensure the API URL is correct and the API key has the necessary permissions
+
+2. **pdnsutil permission errors**: Check that the web server user can access pdns.conf and has permission to execute pdnsutil
+
+3. **DNSSEC operations failing**: Check the PowerDNS logs for detailed error messages
+
+4. Check that both PowerDNS API and DNSSEC are enabled
+
+5. Verify the pdnsutil command path is correct
+
+6. Enable debug mode temporarily to get more detailed logs
+
+## Migration
+
+If you're currently using the pdnsutil method, it's recommended to migrate to the API method:
+
+1. Configure the PowerDNS API (see PowerDNS documentation)
+2. Update your PowerAdmin configuration with API settings
+3. No data migration is needed - the same DNSSEC keys will be accessible through both methods
+
+## More Information
+
+For more details on DNSSEC and PowerDNS:
+- [PowerDNS DNSSEC Documentation](https://doc.powerdns.com/authoritative/dnssec/index.html)
+- [PowerDNS API Documentation](https://doc.powerdns.com/authoritative/http-api/index.html)
