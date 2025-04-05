@@ -1,12 +1,9 @@
 # PowerAdmin Development Guide
 
-## Project Overview
-PowerAdmin is a web-based administration tool for PowerDNS servers. It provides a user-friendly interface for managing DNS zones, records, templates, and users.
-
 ## Development Environment Setup
 
 ### Prerequisites
-- PHP 7.4 or higher
+- PHP 8.1 or higher
 - MySQL, PostgreSQL, or SQLite
 - Composer
 - Node.js and NPM (for frontend assets)
