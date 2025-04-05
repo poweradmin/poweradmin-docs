@@ -38,16 +38,16 @@ nav:
       - Features: getting-started/features.md
       - Quick Evaluation:
           - Docker Demo: getting-started/docker-demo.md
-          - First Steps: getting-started/first-steps.md
-          - Example Configurations: getting-started/examples.md
+#          - First Steps: getting-started/first-steps.md
+#          - Example Configurations: getting-started/examples.md
       - System Requirements: getting-started/requirements.md
 
   - Installation:
       - Quick Start: installation/quickstart.md
-      - Docker:
-          - Installation: installation/docker.md
-          - Docker Compose: installation/docker-compose.md
-          - Production Setup: installation/docker-production.md
+#      - Docker:
+#          - Installation: installation/docker.md
+#          - Docker Compose: installation/docker-compose.md
+#          - Production Setup: installation/docker-production.md
       - Operating Systems:
           - Debian: installation/debian.md
           - Ubuntu: installation/ubuntu.md
@@ -82,7 +82,7 @@ nav:
           - Permissions: user-guide/permissions.md
       - DNS Management:
           - Domains: user-guide/domains.md
-          - Record Types: user-guide/record-types.md
+#          - Record Types: user-guide/record-types.md
           - Zone Management: user-guide/zones.md
           - Templates: user-guide/templates.md
           - Bulk Operations: user-guide/bulk-operations.md
@@ -94,20 +94,20 @@ nav:
               - Using cURL: user-guide/ddns/using-curl.md
 
   - Advanced Topics:
-      - Security:
-          - Best Practices: advanced/security-best-practices.md
-          - API Security: advanced/api-security.md
-          - Authentication Methods: advanced/authentication.md
+#      - Security:
+#          - Best Practices: advanced/security-best-practices.md
+#          - API Security: advanced/api-security.md
+#          - Authentication Methods: advanced/authentication.md
       - Logging:
           - Log Configuration: advanced/logging-config.md
-          - Log Analysis: advanced/log-analysis.md
-      - Performance:
-          - Optimization: advanced/optimization.md
-          - Caching: advanced/caching.md
+#          - Log Analysis: advanced/log-analysis.md
+#      - Performance:
+#          - Optimization: advanced/optimization.md
+#          - Caching: advanced/caching.md
 
-  - Maintenance:
-      - Backup and Restore: maintenance/backup-restore.md
-      - Monitoring: maintenance/monitoring.md
+#  - Maintenance:
+#      - Backup and Restore: maintenance/backup-restore.md
+#      - Monitoring: maintenance/monitoring.md
       
   - Upgrading:
       - Overview: upgrading/index.md
@@ -119,14 +119,14 @@ nav:
       - v2.1.4: upgrading/v2.1.4.md
 
   - Troubleshooting:
-      - Common Issues: troubleshooting/common-issues.md
+#      - Common Issues: troubleshooting/common-issues.md
       - Debugging: troubleshooting/debugging.md
-      - FAQ: troubleshooting/faq.md
+#      - FAQ: troubleshooting/faq.md
 
-  - API Reference:
-      - API Overview: api/overview.md
-      - Authentication: api/authentication.md
-      - Endpoints: api/endpoints.md
+#  - API Reference:
+#      - API Overview: api/overview.md
+#      - Authentication: api/authentication.md
+#      - Endpoints: api/endpoints.md
 
   - Contributing:
       - Development Setup: contributing/development.md
