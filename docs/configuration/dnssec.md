@@ -27,6 +27,16 @@ The DNSSEC implementation enables you to:
 - Proper database configuration
 - API access configured (see [PowerDNS API Configuration](./powerdns-api.md))
 
+## Configuration Options
+
+DNSSEC settings can be configured in the `config/settings.php` file under the `dnssec` section or through individual variables in the legacy configuration format.
+
+| Legacy variable | Modern equivalent | Default value | Description | Added in version |
+|----------------|-------------------|---------------|-------------|-----------------|
+| $pdnssec_use | dnssec.enabled | false | Enable (true) or disable (false) DNSSEC support | 2.1.7 |
+| $pdnssec_debug | dnssec.debug | false | Enable debug for DNSSEC operations | 2.1.9 |
+| $pdnssec_command | dnssec.command | /usr/bin/pdnsutil | Full path to pdnsutil utility (will be deprecated in the future) | 2.1.7 |
+
 ## Implementation Methods
 
 ### Option 1: PowerDNS API Method (Recommended)
@@ -40,9 +50,11 @@ To enable DNSSEC using the PowerDNS API:
 return [
     'dnssec' => [
         'enabled' => true,
-        'use_api' => true,
-        'api_url' => 'http://localhost:8081',
-        'api_key' => 'your-api-key',
+        'debug' => false,
+    ],
+    'pdns_api' => [
+        'url' => 'http://localhost:8081',
+        'key' => 'your-api-key',
     ],
 ];
 ```
@@ -57,20 +69,21 @@ The API method provides several advantages:
 
 If you can't use the API method, you can still use the legacy pdnsutil approach:
 
-1. Update your PowerAdmin configuration file:
-
 ```php
 return [
     'dnssec' => [
         'enabled' => true,
-        'use_api' => false,
-        'command' => '/usr/bin/pdnsutil',
         'debug' => false,
+        'command' => '/usr/bin/pdnsutil',
+    ],
+    'pdns_api' => [
+        'url' => '',
+        'key' => '',
     ],
 ];
 ```
 
-2. Configure permissions for the web server user to run pdnsutil:
+Configure permissions for the web server user to run pdnsutil:
 
 For example, on Ubuntu with Apache:
 ```bash

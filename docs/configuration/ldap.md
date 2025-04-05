@@ -2,21 +2,23 @@
 
 Poweradmin supports LDAP (Lightweight Directory Access Protocol) authentication, allowing you to integrate with your existing directory service such as Active Directory or OpenLDAP.
 
-## Configuration Settings
+## Configuration Options
 
-The LDAP settings are configured in the `config/settings.php` file under the `ldap` section:
+LDAP settings can be configured in the `config/settings.php` file under the `ldap` section or through individual variables in the legacy configuration format.
 
-- **enabled**: Enable LDAP authentication. Default: `false`
-- **debug**: Enable LDAP debug logging. Default: `false`
-- **uri**: LDAP server URI. Default: `ldap://domaincontroller.example.com`
-- **base_dn**: Base DN where users are stored. Default: `ou=users,dc=example,dc=com`
-- **bind_dn**: Bind DN for LDAP authentication. Default: `cn=admin,dc=example,dc=com`
-- **bind_password**: Bind password for LDAP authentication
-- **user_attribute**: User attribute (uid for OpenLDAP, sAMAccountName for Active Directory). Default: `uid`
-- **protocol_version**: LDAP protocol version. Default: `3`
-- **search_filter**: Additional search filter. Default: empty
+| Legacy variable | Modern equivalent | Default value | Description | Added in version |
+|----------------|-------------------|---------------|-------------|-----------------|
+| $ldap_use | ldap.enabled | false | Enable LDAP authentication | 2.1.7 |
+| $ldap_debug | ldap.debug | false | Enable debug for LDAP connection | 2.1.7 |
+| $ldap_uri | ldap.uri | ldap://domaincontroller.example.com | LDAP server URI | 2.1.7 |
+| $ldap_basedn | ldap.base_dn | ou=users,dc=example,dc=com | The top level of the LDAP directory tree | 2.1.7 |
+| $ldap_search_filter | ldap.search_filter | no default | Filter for LDAP search | 2.1.7 |
+| $ldap_binddn | ldap.bind_dn | cn=admin,dc=example,dc=com | LDAP user for binding | 2.1.7 |
+| $ldap_bindpw | ldap.bind_password | some_password | Password for LDAP binding user | 2.1.7 |
+| $ldap_user_attribute | ldap.user_attribute | uid | Username attribute used in LDAP search filter | 2.1.7 |
+| $ldap_proto | ldap.protocol_version | 3 | LDAP protocol version | 2.1.7 |
 
-## Example Configuration
+## Modern Configuration Example
 
 ```php
 return [
@@ -29,17 +31,36 @@ return [
         'bind_password' => 'some_password',
         'user_attribute' => 'uid',
         'protocol_version' => 3,
-        'search_filter' => '',
+        'search_filter' => '(objectClass=account)',
     ],
 ];
+```
+
+## LDAP Search Filter Examples
+
+The search filter is used to limit which LDAP accounts can authenticate to Poweradmin:
+
+```php
+// Only users that are members of the 'powerdns' group
+$ldap_search_filter = '(memberOf=cn=powerdns,ou=groups,dc=poweradmin,dc=org)';
+
+// All accounts
+$ldap_search_filter = '(objectClass=account)';
+
+// Users that are both persons and members of the 'admins' group
+$ldap_search_filter = '(objectClass=person)(memberOf=cn=admins,ou=groups,dc=poweradmin,dc=org)';
+
+// Users with 'admin' in their common name
+$ldap_search_filter = '(cn=*admin*)';
 ```
 
 ## Basic Setup
 
 1. Enable LDAP authentication by setting `'enabled' => true` in the configuration array.
 2. Configure your LDAP server URI and base DN.
-3. Set binding credentials if required.
-4. Adjust the `search_filter` to match your LDAP schema.
+3. Set appropriate search filters based on your directory structure.
+4. Set binding credentials if required.
+5. Specify the user attribute that matches your directory structure.
 
 ## Advanced Configuration
 

@@ -12,20 +12,31 @@ Poweradmin can interact with PowerDNS through its API for advanced operations li
 
 ## Configuration Options
 
-The PowerDNS API settings are configured in the `config/settings.php` file under the `pdns_api` section:
+PowerDNS API settings can be configured in the `config/settings.php` file under the `pdns_api` section or through individual variables in the legacy configuration format.
 
-- **url**: PowerDNS API URL, e.g., 'http://127.0.0.1:8081'. Default: empty
-- **key**: PowerDNS API key. Default: empty
+| Legacy variable | Modern equivalent | Default value | Description | Added in version |
+|----------------|-------------------|---------------|-------------|-----------------|
+| $pdns_api_url | pdns_api.url | no default | The endpoint for establishing a connection to the PowerDNS API | 3.7.0 |
+| $pdns_api_key | pdns_api.key | no default | The authentication key required for establishing a connection with the PowerDNS API | 3.7.0 |
 
-## Example Configuration
+## Modern Configuration Example
 
 ```php
 return [
     'pdns_api' => [
-        'url' => 'http://localhost:8081',
+        'url' => 'http://localhost:8081/api/v1',
         'key' => 'YOUR_API_KEY',
     ],
 ];
+```
+
+## Legacy Configuration Example
+
+```php
+<?php
+// PowerDNS API settings
+$pdns_api_url = 'http://localhost:8081/api/v1';
+$pdns_api_key = 'YOUR_API_KEY';
 ```
 
 ## PowerDNS Server Setup

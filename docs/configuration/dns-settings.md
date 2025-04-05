@@ -1,35 +1,40 @@
 # DNS Settings
 
-DNS settings in Poweradmin are configured through the `config/settings.php` file under the `dns` section. These settings define various DNS-related defaults and behaviors.
+DNS settings in Poweradmin can be configured through the `config/settings.php` file under the `dns` section or through individual variables in the legacy configuration format.
 
-## Basic Configuration
+## Configuration Options
 
-- **hostmaster**: The email address of the hostmaster (DNS administrator). Default: `hostmaster.example.com`
-- **ns1**: Primary nameserver hostname. Default: `ns1.example.com`
-- **ns2**: Secondary nameserver hostname. Default: `ns2.example.com`
-- **ns3**: Third nameserver hostname. Default: none
-- **ns4**: Fourth nameserver hostname. Default: none
-- **ttl**: Default TTL for new records in seconds. Default: `86400` (24 hours)
+| Legacy variable | Modern equivalent | Default value | Description | Added in version |
+|----------------|-------------------|---------------|-------------|-----------------|
+| $dns_hostmaster | dns.hostmaster | no default | The default email address to use for the SOA record (e.g., 'hostmaster.example.net'). | |
+| $dns_ns1 | dns.ns1 | no default | The default primary nameserver. | |
+| $dns_ns2 | dns.ns2 | no default | The default secondary nameserver. | |
+| $dns_ns3 | dns.ns3 | no default | The third nameserver. | |
+| $dns_ns4 | dns.ns4 | no default | The fourth nameserver. | |
+| $dns_ttl | dns.ttl | 86400 | The default TTL for records (in seconds). | |
+| $dns_soa | (see below) | 28800 7200 604800 86400 | SOA settings for refresh, retry, expire and minimum | 2.2.3 |
+| - | dns.soa_refresh | 28800 | SOA refresh time | 2.2.3 |
+| - | dns.soa_retry | 7200 | SOA retry time | 2.2.3 |
+| - | dns.soa_expire | 604800 | SOA expire time | 2.2.3 |
+| - | dns.soa_minimum | 86400 | SOA minimum TTL | 2.2.3 |
+| $dns_strict_tld_check | dns.strict_tld_check | false | If enabled (true), allow official TLDs only. | |
+| $dns_top_level_tld_check | dns.top_level_tld_check | false | Don't allow creation of top-level TLDs when true. | 2.1.7 |
+| $dns_third_level_check | dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |
+| $dns_txt_auto_quote | dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
+| $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
 
 ## SOA Record Settings
 
-- **soa_refresh**: The time interval before the zone should be refreshed. Default: `28800` (8 hours)
-- **soa_retry**: The time interval that should elapse before a failed refresh should be retried. Default: `7200` (2 hours)
-- **soa_expire**: The upper limit on the time interval that can elapse before the zone is no longer authoritative. Default: `604800` (1 week)
-- **soa_minimum**: The negative result TTL. Default: `86400` (24 hours)
+In the modern configuration format, the SOA settings are configured as individual parameters:
 
-## Zone Settings
+- **refresh**: The time interval before the zone should be refreshed. Default: `28800` (8 hours)
+- **retry**: The time interval that should elapse before a failed refresh should be retried. Default: `7200` (2 hours)
+- **expire**: The upper limit on the time interval that can elapse before the zone is no longer authoritative. Default: `604800` (1 week)
+- **minimum**: The negative result TTL. Default: `86400` (24 hours)
 
-- **zone_type_default**: Default zone type for new zones. Options: 'MASTER', 'NATIVE'. Default: 'MASTER'
+In the legacy format, these are combined in the `$dns_soa` variable as a space-separated string.
 
-## Validation Settings
-
-- **strict_tld_check**: Enable strict validation of TLDs. Default: `false`
-- **top_level_tld_check**: Prevent creation of top-level domains. Default: `false`
-- **third_level_check**: Prevent creation of third-level domains. Default: `false`
-- **txt_auto_quote**: Automatically quote TXT records. Default: `false`
-
-## Example Configuration
+## Modern Configuration Example
 
 ```php
 return [
@@ -37,9 +42,10 @@ return [
         'hostmaster' => 'hostmaster.example.com',
         'ns1' => 'ns1.example.com',
         'ns2' => 'ns2.example.com',
-        'ns3' => '',
-        'ns4' => '',
+        'ns3' => 'ns3.example.com',
+        'ns4' => 'ns4.example.com',
         'ttl' => 86400,
+        // SOA settings
         'soa_refresh' => 28800,
         'soa_retry' => 7200,
         'soa_expire' => 604800,
@@ -51,4 +57,23 @@ return [
         'txt_auto_quote' => false,
     ],
 ];
+```
+
+## Legacy Configuration Example
+
+```php
+<?php
+// DNS settings
+$dns_hostmaster = 'hostmaster.example.com';
+$dns_ns1 = 'ns1.example.com';
+$dns_ns2 = 'ns2.example.com';
+$dns_ns3 = 'ns3.example.com';
+$dns_ns4 = 'ns4.example.com';
+$dns_ttl = 86400;
+$dns_soa = '28800 7200 604800 86400';
+$dns_strict_tld_check = false;
+$dns_top_level_tld_check = false;
+$dns_third_level_check = false;
+$dns_txt_auto_quote = false;
+$iface_zone_type_default = 'MASTER';
 ```

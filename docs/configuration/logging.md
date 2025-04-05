@@ -1,20 +1,17 @@
 # Logging Configuration
 
-Poweradmin's logging system can be configured through the `config/settings.php` file under the `logging` section.
+Poweradmin's logging system can be configured through the `config/settings.php` file under the `logging` section, or through individual variables in the legacy configuration format.
 
-## Basic Configuration
+## Configuration Options
 
-- **type**: The logging handler to use
-  - `null`: Disable logging
-  - `native`: Use PHP's native error logging
-- **level**: The minimum logging level (see below for options)
-- **database_enabled**: Enable logging zone and record changes to database. Default: `false`
-
-## Syslog Configuration
-
-- **syslog_enabled**: Write authentication attempts to syslog. Default: `false`
-- **syslog_identity**: Syslog identity string. Default: 'poweradmin'
-- **syslog_facility**: Syslog facility to use. Default: LOG_USER
+| Legacy variable | Modern equivalent | Default value | Description | Added in version |
+|----------------|-------------------|---------------|-------------|-----------------|
+| $logger_type | logging.type | null | Logger type (null, native) | 3.9.0 |
+| $logger_level | logging.level | info | Logging level (debug, info, notice, warning, error, critical, alert, emergency) | 3.9.0 |
+| $syslog_use | logging.syslog_enabled | false | Enable (true) or disable (false) logging of authentication attempts and other operations to syslog | 2.1.6 |
+| $syslog_ident | logging.syslog_identity | poweradmin | Specifies program name which is added to syslog message | 2.1.6 |
+| $syslog_facility | logging.syslog_facility | LOG_USER | Specifies what type of program is logging the message | 2.1.6 |
+| $dblog_use | logging.database_enabled | false | Enable (true) or disable (false) logging to database | 3.2.0 |
 
 ## Log Levels
 
@@ -29,7 +26,7 @@ Available logging levels, in order of increasing severity:
 7. ALERT: Action must be taken immediately
 8. EMERGENCY: System is unusable
 
-## Example Configuration
+## Modern Configuration Example
 
 ```php
 return [
@@ -44,6 +41,18 @@ return [
 ];
 ```
 
+## Legacy Configuration Example
+
+```php
+<?php
+// Logging settings
+$logger_type = 'native';
+$logger_level = 'warning';
+$syslog_use = true;
+$syslog_ident = 'poweradmin';
+$syslog_facility = LOG_USER;
+$dblog_use = true;
+```
+
 For more advanced logging configuration and analysis, see:
 - [Log Configuration](../advanced/logging-config.md)
-- [Log Analysis](../advanced/log-analysis.md)
