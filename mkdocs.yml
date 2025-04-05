@@ -43,6 +43,7 @@ nav:
       - System Requirements: getting-started/requirements.md
 
   - Installation:
+      - Overview: installation/index.md
 #      - Quick Start: installation/quickstart.md
 #      - Docker:
 #          - Installation: installation/docker.md
@@ -53,8 +54,8 @@ nav:
           - Ubuntu: installation/ubuntu.md
           - CentOS/RHEL: installation/centos.md
       - Database Setup:
-          - MySQL/MariaDB: database/mysql.md
-          - PostgreSQL: database/postgresql.md
+          - MySQL/MariaDB: database/mysql-configuration.md
+          - PostgreSQL: database/postgresql-configuration.md
           - SQLite: database/sqlite.md
       - Manual Installation: installation/manual.md
       - Composer: installation/composer.md
