@@ -108,3 +108,13 @@ Common LDAP issues and solutions:
 - Regularly rotate LDAP binding credentials
 - Consider implementing connection timeout settings
 - Monitor failed authentication attempts
+
+## Adding Users to PowerAdmin
+
+Add a user to Poweradmin:
+
+![PowerAdmin LDAP User](../../screenshots/pwa_ldap.png)
+
+The same user should exist in the LDAP schema:
+
+![OpenLDAP User](../../screenshots/openldap.png)
