@@ -1,27 +1,10 @@
-# PowerAdmin Logging Configuration Guide
+# Advanced Logging Configuration
 
-PowerAdmin includes a flexible logging system that supports multiple output methods and log levels. This guide explains how to configure various types of logging in your PowerAdmin installation.
+This guide provides detailed information about PowerAdmin's advanced logging capabilities and configuration options. For basic logging setup, see the [Basic Logging Configuration](../configuration/logging.md).
 
-## Logging Configuration
+## Log Types in Detail
 
-Logging settings are defined in your `config/settings.php` file. The defaults are provided in `config/settings.defaults.php`:
-
-```php
-'logging' => [
-    'type' => 'null',                          // Options: 'null', 'native'
-    'level' => 'info',                         // Options: 'debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency'
-    'database_enabled' => false,               // Enable logging zone and record changes to the database
-    
-    // Syslog Settings
-    'syslog_enabled' => false,                 // Write authentication attempts to syslog
-    'syslog_identity' => 'poweradmin',         // Syslog identity
-    'syslog_facility' => LOG_USER,             // Syslog facility
-],
-```
-
-## Log Types
-
-PowerAdmin supports several logging methods:
+PowerAdmin supports several logging methods that can be combined for comprehensive monitoring:
 
 ### 1. Native Logging
 
@@ -71,22 +54,7 @@ Logs authentication and security events to the system's syslog.
 ],
 ```
 
-## Log Levels
-
-PowerAdmin supports the standard PSR-3 log levels, from highest to lowest severity:
-
-1. `emergency`: System is unusable
-2. `alert`: Action must be taken immediately
-3. `critical`: Critical conditions
-4. `error`: Error conditions
-5. `warning`: Warning conditions
-6. `notice`: Normal but significant conditions
-7. `info`: Informational messages (default)
-8. `debug`: Debug-level messages
-
-When you set a specific log level, you will receive logs of that level and all higher severity levels. For example, setting `level` to `warning` will log warnings, errors, critical issues, alerts, and emergencies, but not info or debug messages.
-
-## Practical Examples
+## Environment-Specific Configurations
 
 ### Production Environment Configuration
 

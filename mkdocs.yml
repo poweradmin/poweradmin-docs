@@ -106,7 +106,8 @@ nav:
 #          - Optimization: advanced/optimization.md
 #          - Caching: advanced/caching.md
 
-#  - Maintenance:
+  - Maintenance:
+      - Overview: maintenance/index.md
 #      - Backup and Restore: maintenance/backup-restore.md
 #      - Monitoring: maintenance/monitoring.md
       

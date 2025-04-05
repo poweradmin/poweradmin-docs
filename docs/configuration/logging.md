@@ -1,6 +1,6 @@
-# Logging Configuration
+# Basic Logging Configuration
 
-Poweradmin's logging system can be configured through the `config/settings.php` file under the `logging` section, or through individual variables in the legacy configuration format.
+Poweradmin's logging system provides comprehensive monitoring of system activity. This guide covers the basic configuration options. For advanced settings and best practices, see the [Advanced Logging Configuration](../advanced/logging-config.md) guide.
 
 ## Configuration Options
 
@@ -25,6 +25,8 @@ Available logging levels, in order of increasing severity:
 6. CRITICAL: Critical conditions
 7. ALERT: Action must be taken immediately
 8. EMERGENCY: System is unusable
+
+When you set a specific log level, you will receive logs of that level and all higher severity levels. For example, setting `level` to `warning` will log warnings, errors, critical issues, alerts, and emergencies, but not info or debug messages.
 
 ## Modern Configuration Example
 
@@ -54,5 +56,5 @@ $syslog_facility = LOG_USER;
 $dblog_use = true;
 ```
 
-For more advanced logging configuration and analysis, see:
-- [Log Configuration](../advanced/logging-config.md)
+For more advanced logging configuration, environment-specific examples, and best practices, see:
+- [Advanced Logging Configuration](../advanced/logging-config.md)
