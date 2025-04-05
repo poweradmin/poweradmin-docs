@@ -87,7 +87,7 @@ This will create 256 PTR records:
 - Domain: `example.com`
 - Number of records: 100
 
-This will create 100 PTR records with hostnames like `vm-0.example.com` through `vm-63.example.com`
+This will create 100 PTR records with hostnames like `vm-0.example.com` through `vm-99.example.com`
 
 ![IPv6 Batch PTR Records example](../../screenshots/ptr-ipv6-example.png)
 
