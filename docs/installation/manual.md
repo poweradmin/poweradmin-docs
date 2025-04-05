@@ -4,23 +4,7 @@ This page describes the manual installation procedure for Poweradmin. While usin
 
 ## Prerequisites
 
-Verify that your setup meets the application requirements:
-
-* PHP 8.1 or newer
-* PHP extensions:
-    * intl
-    * gettext
-    * openssl
-    * pdo
-    * pdo-mysql, pdo-pgsql or pdo-sqlite
-    * session
-    * filter
-    * tokenizer
-    * ldap (optional)
-* Database: MySQL 5.7.x/8.x, MariaDB, PostgreSQL or SQLite
-* PowerDNS authoritative server 4.0.0+ setup with DB backend support
-
-For detailed requirements, see [System Requirements](../getting-started/requirements.md).
+Verify that your setup meets the application requirements. For detailed requirements, including PHP version, required extensions, and supported databases, see [System Requirements](../getting-started/requirements.md).
 
 ## Installation Steps
 
