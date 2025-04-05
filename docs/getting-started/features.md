@@ -4,14 +4,19 @@ PowerAdmin provides comprehensive DNS management and administration capabilities
 
 ## Zone & Record Management
 
-* Create and manage DNS zones (Master and Native types)
+* Create and manage DNS zones (Master, Native, and Slave types)
+* Support for supermasters for automatic provisioning of slave zones
 * Full DNS record support:
     * A and AAAA records
     * CNAME records
+    * HINFO records
     * MX records
-    * TXT records
+    * NS records
     * PTR records (Reverse DNS)
-    * Other record types
+    * SOA records
+    * SRV records
+    * TXT records
+    * Other record types (supported but not validated)
 * DNSSEC configuration and management
 
 ## Bulk Operations & Templates
@@ -37,6 +42,9 @@ PowerAdmin provides comprehensive DNS management and administration capabilities
 
 * Database support:
     * MySQL/MariaDB integration
+    * PostgreSQL support
+    * SQLite support
+    * Optimized for large databases (tested with 15,000+ zones and 150,000+ records)
     * Configurable connections
 * Email notifications:
     * Multiple transport methods
