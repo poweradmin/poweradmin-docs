@@ -48,8 +48,13 @@ psql -U postgres -d powerdns -f sql/poweradmin-pgsql-db-structure.sql
 sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 ```
 
-**warning**
-The default admin username is 'admin' with password 'admin'. **You should change this password immediately after first login.**
+!!! danger "Default Credentials"
+    The default login credentials are:
+    
+    * Username: `admin`
+    * Password: `admin`
+    
+    You **must** change these credentials immediately after your first login for security reasons.
 
 ### 4. Create Configuration File
 
@@ -122,3 +127,5 @@ This will convert your old `inc/config.inc.php` settings to the new `config/sett
 ## Troubleshooting
 
 For common installation issues and solutions, see [Common Issues](../troubleshooting/common-issues.md).
+
+`
