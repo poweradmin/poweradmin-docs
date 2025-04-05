@@ -1,10 +1,11 @@
 # Basic Configuration
 
-Poweradmin supports two configuration formats: legacy (individual PHP variables) and modern (array-based configuration). Both formats are stored in the `config/settings.php` file.
+Poweradmin supports two configuration formats: legacy (individual PHP variables) and modern (array-based configuration).
+Both formats are stored in the `config/settings.php` file.
 
 ## Legacy Configuration Format
 
-This is the traditional format, still supported for backwards compatibility:
+This is the traditional format, stored in `/inc/config.inc.php`, still supported for backwards compatibility:
 
 ```php
 <?php
@@ -60,6 +61,7 @@ The modern configuration format is organized into logical sections:
 - **pdns_api**: PowerDNS API integration settings
 
 For detailed information about specific settings, see:
+
 - [Database Configuration](database.md)
 - [DNS Settings](dns-settings.md)
 - [Security Policies](security-policies.md)
