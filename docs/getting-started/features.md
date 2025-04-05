@@ -18,6 +18,7 @@ PowerAdmin provides comprehensive DNS management and administration capabilities
     * TXT records
     * Other record types (supported but not validated)
 * DNSSEC configuration and management
+* IPv6 support
 
 ## Bulk Operations & Templates
 
@@ -31,7 +32,7 @@ PowerAdmin provides comprehensive DNS management and administration capabilities
 * Authentication system:
     * Account lockout protection
     * IP-based access control
-    * LDAP/Active Directory integration
+    * LDAP/Active Directory integration with custom filter
     * Custom password policies
 * Protection mechanisms:
     * CSRF prevention
@@ -57,6 +58,7 @@ PowerAdmin provides comprehensive DNS management and administration capabilities
 
 * Modern responsive design
 * Multi-language support
+* Light and dark themes
 * Customizable elements
 * Error management:
     * Development mode

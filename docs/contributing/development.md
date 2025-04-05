@@ -85,6 +85,22 @@ PowerAdmin follows PSR-12 with project-specific modifications. For detailed info
 4. Run tests and ensure coding standards
 5. Submit a pull request
 
+### Contribution Guidelines
+
+1. **Code Quality**: Ensure your code follows the project's style and standards
+2. **Testing**: Test your changes thoroughly before submitting
+3. **Documentation**: Include appropriate documentation for new features
+
+### Attribution Policy
+
+All meaningful contributions are credited in release notes. Please note:
+
+- Sometimes similar ideas come from multiple contributors; implementation quality determines which is merged
+- Contributions may be partially accepted or rewritten to maintain project consistency
+- Even if your exact code isn't used, your ideas will still be credited if they influence the final implementation
+
+If you notice your contribution hasn't been acknowledged in the release notes, please reach out - we want to ensure everyone receives proper recognition.
+
 ## Internationalization
 - Translation files are in the `locale/` directory
 - New strings should be wrapped in `_()` for translation

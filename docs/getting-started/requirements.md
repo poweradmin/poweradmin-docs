@@ -10,20 +10,21 @@ exceeds the recommended requirements.
 
 ## Minimum Requirements
 
-- **PHP**: 8.1 or higher
+- **PHP**: 8.1 or higher (including 8.2, 8.3, 8.4, etc.)
 - **PHP Extensions**:
     - `intl`
     - `gettext`
     - `openssl`
+    - `filter`
+    - `tokenizer`
     - `pdo`
     - One of:
         - `pdo-mysql`
         - `pdo-pgsql`
         - `pdo-sqlite`
-    - `session`
-    - `filter`
-    - `tokenizer`
     - `ldap` (optional)
+- **Database**: MySQL 5.7.x/8.x, MariaDB, PostgreSQL, or SQLite
+- **PowerDNS**: PowerDNS authoritative server 4.0.0+
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
@@ -71,3 +72,17 @@ should work as long as the environment is properly configured.
 - Distributions listed as unsupported can potentially be configured manually with a custom PHP build, but this is not
   officially supported.
 - Upgrade paths are recommended for unsupported distributions to maintain security and compatibility.
+
+## Tested Environments
+
+PowerAdmin has been tested with the following software combinations:
+
+| Poweradmin | PHP            | PowerDNS | MariaDB  | MySQL  | PostgreSQL | SQLite |
+|------------|----------------|----------|----------|--------|------------|--------|
+| 4.0.x      | 8.1.31         | 4.7.4    | 10.11.10 | 9.1.0  | 16.3       | 3.45.3 |
+| 3.9.x      | 8.1.31         | 4.7.4    | 10.11.10 | 9.1.0  | 16.3       | 3.45.3 |
+| 3.8.x      | 8.1.28         | 4.5.5    | 10.11.8  | -      | 16.3       | 3.45.3 |
+| 3.7.x      | 8.1.2          | 4.5.3    | 11.1.2   | 8.2.0  | 16.0       | 3.40.1 |
+| 3.6.x      | 8.1.2          | 4.5.3    | 11.1.2   | 8.1.0  | 16.0       | 3.40.1 |
+| 3.5.x      | 8.1.17         | 4.5.3    | 10.11.2  | 8.0.32 | 15.2       | 3.34.1 |
+| 3.4.x      | 7.4.3 / 8.1.12 | 4.2.1    | 10.10.2  | 8.0.31 | 15.1       | 3.34.1 |

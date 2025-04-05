@@ -20,7 +20,8 @@ Poweradmin is a friendly web interface for managing PowerDNS. It allows you to m
 
 To get started with Poweradmin, follow these steps:
 
-1. **Installation**: Refer to the [Installation Guide](installation/quickstart.md) for detailed instructions on how to install Poweradmin.
+1. **Installation**: Refer to the [Installation Guide](installation/quickstart.md) for detailed instructions on how to
+   install Poweradmin.
 2. **Configuration**: Check the [Configuration Guide](configuration/basic.md) to set up your Poweradmin instance.
 3. **User Guide**: Learn how to use Poweradmin with the [User Guide](user-guide/users-roles.md).
 
@@ -34,10 +35,18 @@ Join our community for support and discussions:
 
 ## Contributing
 
-We welcome contributions! Please see the [Contributing Guide](contributing/development.md) for more information on how to contribute to the project.
+We welcome contributions! Please see the [Contributing Guide](contributing/development.md) for more information on how
+to contribute to the project.
 
 ## License
 
 Poweradmin is licensed under the [GPL-3.0 License](https://www.gnu.org/licenses/gpl-3.0.html).
+
+## Disclaimer
+
+This project is not associated
+with [PowerDNS.com](https://www.powerdns.com/index.html), [Open-Xchange](https://www.open-xchange.com), or any other
+external parties. It is independently funded and maintained. If this project does not fulfill your requirements, please
+explore these alternative [options](https://github.com/PowerDNS/pdns/wiki/WebFrontends).
 
 Thank you for using Poweradmin!
