@@ -80,6 +80,7 @@ nav:
           - Zone Management: user-guide/zones.md
           - Templates: user-guide/templates.md
           - Bulk Operations: user-guide/bulk-operations.md
+          - Reverse DNS (PTR): user-guide/reverse-dns.md
           - Dynamic DNS:
               - Overview: user-guide/ddns/overview.md
               - Configuration: user-guide/ddns/configuration.md
