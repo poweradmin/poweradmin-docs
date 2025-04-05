@@ -2,7 +2,7 @@
 
 Poweradmin allows you to customize various layout aspects to better fit your workflow. These settings are configured in the `config/settings.php` file under the `interface` section.
 
-## Custom Header and Footer
+## Customizing Header and Footer
 
 In addition to the layout settings below, Poweradmin also supports custom header and footer templates. See [Custom Header and Footer](#custom-header-and-footer) section at the end of this document for details.
 
