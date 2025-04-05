@@ -2,6 +2,8 @@
 
 Welcome to the official documentation for Poweradmin, a web-based administration tool for PowerDNS.
 
+> **Note:** This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+
 ## Overview
 
 Poweradmin is a friendly web interface for managing PowerDNS. It allows you to manage DNS zones and records with ease.
