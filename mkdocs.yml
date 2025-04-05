@@ -73,7 +73,6 @@ nav:
       - User Management:
           - Users and Roles: user-guide/users-roles.md
           - Permissions: user-guide/permissions.md
-          - Access Control: user-guide/access-control.md
       - DNS Management:
           - Domains: user-guide/domains.md
           - Record Types: user-guide/record-types.md
