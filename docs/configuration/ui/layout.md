@@ -2,6 +2,10 @@
 
 Poweradmin allows you to customize various layout aspects to better fit your workflow. These settings are configured in the `config/settings.php` file under the `interface` section.
 
+## Custom Header and Footer
+
+In addition to the layout settings below, Poweradmin also supports custom header and footer templates. See [Custom Header and Footer](#custom-header-and-footer) section at the end of this document for details.
+
 ## UI Element Positioning
 
 ### Form Element Positioning
@@ -104,3 +108,111 @@ return [
     ],
 ];
 ```
+
+## Custom Header and Footer
+
+Poweradmin allows you to personalize the header (logo and title) and footer sections by creating custom template files. This is useful for branding your installation or adding custom navigation elements.
+
+### Configuration
+
+First, you need to enable custom header/footer in the settings file. Create or edit the file `config/settings.php` with the following configuration:
+
+```php
+<?php
+return [
+    // Other existing settings...
+    
+    /**
+     * Interface Settings
+     */
+    'interface' => [
+        // Other interface settings...
+        
+        // Custom header and footer settings
+        'custom_header' => true,  // Enable custom header
+        'custom_footer' => true,  // Enable custom footer
+        
+        // Other interface settings...
+    ],
+    
+    // Other existing settings...
+];
+```
+
+### Creating Custom Templates
+
+1. Create a directory named `custom` inside your `templates` folder:
+
+```
+mkdir -p templates/custom
+```
+
+2. Create the following files:
+
+#### Custom Header (templates/custom/header.html)
+
+```html
+<!-- Your custom header content goes here -->
+<img src="assets/your-logo.png" height="32">
+<span class="fs-4">Your Custom Title</span>
+```
+
+#### Custom Footer (templates/custom/footer.html)
+
+```html
+<!-- Your custom footer content goes here -->
+<p>© 2025 Your Organization - Powered by <strong>Poweradmin</strong></p>
+```
+
+Here are examples of custom templates in action:
+
+#### Custom Header File Structure
+![Custom Header Structure](../../screenshots/custom_header.png)
+
+#### Custom Footer Example
+![Custom Footer Example](../../screenshots/custom_footer.png)
+
+### Template Variables
+
+The following template variables are available in your custom templates:
+
+#### Header Template Variables
+
+- `{{ iface_title }}` - Title from configuration settings
+- `{{ iface_style }}` - Current theme style (ignite or spark)
+- `{{ file_version }}` - File version timestamp for cache busting
+
+#### Footer Template Variables
+
+- `{{ version }}` - Poweradmin version
+- `{{ iface_style }}` - Current theme style
+- `{{ file_version }}` - File version timestamp for cache busting
+
+### Examples
+
+#### Corporate Branding Header
+
+```html
+<img src="assets/corporate-logo.png" height="40">
+<span class="fs-4 ms-2">Corporate DNS Management Portal</span>
+```
+
+#### Extended Footer with Links
+
+```html
+<div class="d-flex flex-column">
+  <p class="mb-1">© 2025 Your Organization - DNS Management</p>
+  <p class="mb-0 small">
+    <a href="https://support.example.com" class="text-decoration-none">Support</a> |
+    <a href="https://docs.example.com" class="text-decoration-none">Documentation</a> |
+    <a href="mailto:dns-admin@example.com" class="text-decoration-none">Contact</a>
+  </p>
+</div>
+```
+
+### Notes
+
+- The custom templates use Twig templating engine
+- Bootstrap 5 classes are available for styling
+- Changes may be overwritten during updates - keep backups of your custom files
+- You can include custom JavaScript in your header/footer templates if needed

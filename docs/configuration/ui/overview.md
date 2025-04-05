@@ -50,5 +50,5 @@ return [
 See the specific documentation pages for more detailed information on each customization option:
 
 - [Themes](./themes.md)
-- [Layout](./layout.md)
+- [Layout](./layout.md) (includes custom header and footer setup)
 - [Custom CSS](./custom-css.md)
