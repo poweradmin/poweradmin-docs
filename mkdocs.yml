@@ -59,6 +59,7 @@ nav:
           - SQLite: database/sqlite.md
       - Manual Installation: installation/manual.md
       - Composer: installation/composer.md
+      - Remote Setup: installation/remote-setup-guide.md
 
   - Configuration:
       - Basic Configuration: configuration/basic.md
