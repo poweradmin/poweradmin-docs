@@ -104,17 +104,6 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 * Set appropriate permissions on configuration files
 * Remove the `install` directory after installation
 * Change the default admin password immediately after first login
-
-### 6. Optional: Migrating from Legacy Configuration
-
-If you're upgrading from an older version of Poweradmin, you can migrate your legacy configuration:
-
-```bash
-php scripts/migrate-config.php
-```
-
-This will convert your old `inc/config.inc.php` settings to the new `config/settings.php` format.
-
 ## Post-Installation Steps
 
 1. Configure web server permissions

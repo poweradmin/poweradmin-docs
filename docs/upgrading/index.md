@@ -26,6 +26,8 @@ When upgrading Poweradmin from any version to a newer one, follow these general 
 
 If you're upgrading across multiple major versions, it's often safest to upgrade incrementally through each major version rather than jumping directly to the latest version.
 
+For upgrading to version 4.0.0, see the [v4.0.0 upgrade guide](v4.0.0.md).
+
 ## Troubleshooting
 
 If you encounter issues during or after an upgrade:
