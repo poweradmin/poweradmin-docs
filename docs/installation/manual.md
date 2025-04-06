@@ -116,5 +116,3 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 ## Troubleshooting
 
 For common installation issues and solutions, see [Common Issues](../troubleshooting/common-issues.md).
-
-`
