@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/advanced/logging-config/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Log Configuration - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Log Configuration";
+        var mkdocs_page_input_path = "advanced/logging-config.md";
+        var mkdocs_page_url = "/advanced/logging-config/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >Logging</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Log Configuration</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#log-types-in-detail">Log Types in Detail</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#1-native-logging">1. Native Logging</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#2-null-logging">2. Null Logging</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#3-database-logging">3. Database Logging</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#4-syslog-logging">4. Syslog Logging</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#environment-specific-configurations">Environment-Specific Configurations</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#production-environment-configuration">Production Environment Configuration</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#development-environment-configuration">Development Environment Configuration</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#minimal-logging-configuration">Minimal Logging Configuration</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#best-practices">Best Practices</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#advanced-configuration">Advanced Configuration</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#custom-log-paths">Custom Log Paths</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#log-rotation">Log Rotation</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#database-log-tables">Database Log Tables</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Advanced Topics</li>
+          <li class="breadcrumb-item">Logging</li>
+      <li class="breadcrumb-item active">Log Configuration</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/advanced/logging-config.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="advanced-logging-configuration">Advanced Logging Configuration</h1>
+<p>This guide provides detailed information about PowerAdmin's advanced logging capabilities and configuration options. For basic logging setup, see the <a href="../../configuration/logging/">Basic Logging Configuration</a>.</p>
+<h2 id="log-types-in-detail">Log Types in Detail</h2>
+<p>PowerAdmin supports several logging methods that can be combined for comprehensive monitoring:</p>
+<h3 id="1-native-logging">1. Native Logging</h3>
+<p>Uses PHP's <code>error_log()</code> function to write logs to the configured PHP error log destination.</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'type' =&gt; 'native',
+    'level' =&gt; 'info',
+    // other settings...
+],
+</code></pre>
+<h3 id="2-null-logging">2. Null Logging</h3>
+<p>Disables all application logging (except database logging if enabled separately).</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'type' =&gt; 'null',
+    // other settings...
+],
+</code></pre>
+<h3 id="3-database-logging">3. Database Logging</h3>
+<p>Logs user actions and zone changes to the PowerAdmin database. This is independent of the main logger type.</p>
+<pre><code class="language-php">'logging' =&gt; [
+    // Can be combined with any type
+    'database_enabled' =&gt; true, 
+    // other settings...
+],
+</code></pre>
+<h3 id="4-syslog-logging">4. Syslog Logging</h3>
+<p>Logs authentication and security events to the system's syslog.</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'syslog_enabled' =&gt; true,
+    'syslog_identity' =&gt; 'poweradmin',    // Program identifier in syslog
+    'syslog_facility' =&gt; LOG_USER,        // Standard PHP syslog facility constant
+    // other settings...
+],
+</code></pre>
+<h2 id="environment-specific-configurations">Environment-Specific Configurations</h2>
+<h3 id="production-environment-configuration">Production Environment Configuration</h3>
+<p>For a standard production environment:</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'type' =&gt; 'native',
+    'level' =&gt; 'warning',        // Only log warning and above
+    'database_enabled' =&gt; true,  // Track user actions and zone changes
+    'syslog_enabled' =&gt; true,    // Log security events to syslog
+    'syslog_identity' =&gt; 'poweradmin',
+    'syslog_facility' =&gt; LOG_LOCAL0,
+],
+</code></pre>
+<h3 id="development-environment-configuration">Development Environment Configuration</h3>
+<p>For a development environment:</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'type' =&gt; 'native',
+    'level' =&gt; 'debug',         // Log everything including debug messages
+    'database_enabled' =&gt; true, // Track changes for debugging
+    'syslog_enabled' =&gt; false,  // Usually not needed in development
+],
+</code></pre>
+<h3 id="minimal-logging-configuration">Minimal Logging Configuration</h3>
+<p>For minimal performance impact:</p>
+<pre><code class="language-php">'logging' =&gt; [
+    'type' =&gt; 'null',            // Disable application logging
+    'database_enabled' =&gt; false, // Disable database logging
+    'syslog_enabled' =&gt; true,    // Keep security logging
+    'syslog_identity' =&gt; 'poweradmin',
+    'syslog_facility' =&gt; LOG_USER,
+],
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Production environments</strong>: Use <code>warning</code> or <code>error</code> levels to avoid excessive logging</li>
+<li><strong>Debug temporary issues</strong>: Temporarily enable <code>debug</code> level, then return to normal settings</li>
+<li><strong>Database logging</strong>: Useful for audit trails but may impact performance on high-traffic systems</li>
+<li><strong>Syslog logging</strong>: Recommended for security events to integrate with system monitoring</li>
+</ol>
+<h2 id="advanced-configuration">Advanced Configuration</h2>
+<h3 id="custom-log-paths">Custom Log Paths</h3>
+<p>If using <code>native</code> logging, you can control the log file location by configuring PHP's <code>error_log</code> setting in your php.ini file.</p>
+<h3 id="log-rotation">Log Rotation</h3>
+<p>For production systems, ensure log rotation is configured at the system level:
+- For syslog: Configure logrotate for your syslog files
+- For PHP error logs: Configure logrotate for your PHP error log files
+- For database logs: Implement periodic pruning of old log entries</p>
+<h3 id="database-log-tables">Database Log Tables</h3>
+<p>When <code>database_enabled</code> is true, logs are stored in:
+- <code>log_users</code> table: Authentication and user management events
+- <code>log_zones</code> table: DNS zone and record changes</p>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../user-guide/ddns/using-curl/" class="btn btn-neutral float-left" title="Using cURL"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../maintenance/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../../user-guide/ddns/using-curl/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../maintenance/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

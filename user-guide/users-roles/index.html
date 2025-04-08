@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/user-guide/users-roles/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Users and Roles - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Users and Roles";
+        var mkdocs_page_input_path = "user-guide/users-roles.md";
+        var mkdocs_page_url = "/user-guide/users-roles/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" >User Management</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Users and Roles</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#basics-of-user-management">Basics of User Management</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#permission-templates">Permission Templates</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#understanding-uberuser-status">Understanding Uberuser Status</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#zone-ownership">Zone Ownership</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#edit-access-and-zone-integrity">Edit Access and Zone Integrity</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#security-pitfalls">Security Pitfalls</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#additional-information">Additional Information</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">User Guide</li>
+          <li class="breadcrumb-item">User Management</li>
+      <li class="breadcrumb-item active">Users and Roles</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/user-guide/users-roles.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="users-and-roles">Users and Roles</h1>
+<p>This document provides an overview of user roles and the permission management system in Poweradmin.</p>
+<h2 id="basics-of-user-management">Basics of User Management</h2>
+<p>Poweradmin implements a permission-based user management system with two primary user levels:</p>
+<ol>
+<li><strong>Uberusers</strong> - Users that can do anything within the interface (administrators)</li>
+<li><strong>Limited users</strong> - Users with restricted permissions based on assigned templates</li>
+</ol>
+<h2 id="permission-templates">Permission Templates</h2>
+<p>Permission templates were introduced in version 2.0.0 and are built from a set of individual permissions. Each
+permission allows users to perform specific actions, such as viewing zone contents, editing zones, or creating
+supermasters. By adding or removing permissions to a template and assigning that template to users, you can control user
+access rights.</p>
+<h2 id="understanding-uberuser-status">Understanding Uberuser Status</h2>
+<p>The <code>user_is_ueberuser</code> permission overrules any other permission the user may or may not have been assigned. It grants
+full access to all features that would otherwise require specific permissions. This is typically reserved for
+administrators.</p>
+<h2 id="zone-ownership">Zone Ownership</h2>
+<p>Ownership is a designation that marks users as "owners" for specific zones. However, ownership alone doesn't grant any
+privileges for these zones. The actual abilities are determined by the permissions in the user's assigned template. For
+example, if a user owns zones but lacks the <code>zone_content_view_own</code> permission, they won't be able to see those zones.</p>
+<h2 id="edit-access-and-zone-integrity">Edit Access and Zone Integrity</h2>
+<p>Poweradmin assumes that users with edit permissions for a zone can be trusted with full access to that zone. This is
+because even partial edit access would allow a user to potentially break the zone's functionality. Therefore, if a user
+can edit a zone, they're also granted delete permissions.</p>
+<h2 id="security-pitfalls">Security Pitfalls</h2>
+<p>Be aware that granting any of these permissions can indirectly give users extensive rights:</p>
+<ul>
+<li><code>user_edit_templ_perm</code></li>
+<li><code>templ_perm_edit</code></li>
+<li><code>user_add_new</code></li>
+</ul>
+<p>Users with these permissions can potentially create or modify templates to grant themselves <code>user_is_ueberuser</code> rights.
+Additionally, anyone with root shell access to the server running Poweradmin or the PowerDNS database server effectively
+has uberuser rights.</p>
+<h2 id="additional-information">Additional Information</h2>
+<p>When configuring user permissions, keep the principle of least privilege in mind - only grant the permissions necessary
+for a user to perform their required functions.</p>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../configuration/security-policies/" class="btn btn-neutral float-left" title="Security Policies"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../permissions/" class="btn btn-neutral float-right" title="Permissions">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../../configuration/security-policies/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../permissions/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

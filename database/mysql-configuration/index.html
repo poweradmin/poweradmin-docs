@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/database/mysql-configuration/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>MySQL/MariaDB - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "MySQL/MariaDB";
+        var mkdocs_page_input_path = "database/mysql-configuration.md";
+        var mkdocs_page_url = "/database/mysql-configuration/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >Database Setup</a>
+    <ul class="current">
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">MySQL/MariaDB</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configuration-steps">Configuration Steps</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#database-creation">Database Creation</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#creating-the-database">Creating the Database</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#schema-installation">Schema Installation</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#optimization-guidelines">Optimization Guidelines</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#server-configuration">Server Configuration</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#innodb-migration">InnoDB Migration</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#performance-considerations">Performance Considerations</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#common-issues">Common Issues</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Installation</li>
+          <li class="breadcrumb-item">Database Setup</li>
+      <li class="breadcrumb-item active">MySQL/MariaDB</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/database/mysql-configuration.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="mysql-configuration-for-poweradmin">MySQL Configuration for PowerAdmin</h1>
+<h2 id="overview">Overview</h2>
+<p>This guide explains how to configure PowerAdmin to use MySQL or MariaDB as your database backend.</p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>MySQL 5.7+ or MariaDB 10.3+</li>
+<li>PHP with PDO MySQL extension enabled</li>
+<li>MySQL user with appropriate privileges</li>
+</ul>
+<h2 id="configuration-steps">Configuration Steps</h2>
+<ol>
+<li>Create a configuration file at <code>/config/settings.php</code> based on the example below:</li>
+</ol>
+<pre><code class="language-php">&lt;?php
+/**
+ * PowerAdmin MySQL Configuration
+ */
+return [
+    /**
+     * Database Settings
+     */
+    'database' =&gt; [
+        'type' =&gt; 'mysql',            // Set database type to MySQL
+        'host' =&gt; 'localhost',        // MySQL server hostname
+        'port' =&gt; '3306',             // Default MySQL port
+        'user' =&gt; 'poweradmin',       // Database username
+        'password' =&gt; 'your_password', // Database password (change this!)
+        'name' =&gt; 'powerdns',         // Database name
+        'charset' =&gt; 'utf8mb4',       // Recommended: utf8mb4 for full Unicode support
+        'file' =&gt; '',                 // Not used for MySQL
+        'debug' =&gt; false,             // Set to true to see SQL queries for debugging
+    ],
+
+    // Other configuration sections remain the same as in settings.defaults.php
+];
+</code></pre>
+<h2 id="database-creation">Database Creation</h2>
+<h3 id="creating-the-database">Creating the Database</h3>
+<pre><code class="language-sql">CREATE DATABASE powerdns CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE USER 'poweradmin'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON powerdns.* TO 'poweradmin'@'localhost';
+FLUSH PRIVILEGES;
+</code></pre>
+<h3 id="schema-installation">Schema Installation</h3>
+<p>The SQL schema files are located in the <code>sql/</code> directory:</p>
+<ul>
+<li>For a new installation: Use <code>sql/poweradmin-mysql-db-structure.sql</code></li>
+<li>For PowerDNS schema: Check the appropriate version in <code>sql/pdns/[version]/schema.mysql.sql</code></li>
+</ul>
+<pre><code class="language-bash">mysql -u poweradmin -p powerdns &lt; sql/poweradmin-mysql-db-structure.sql
+mysql -u poweradmin -p powerdns &lt; sql/pdns/[version]/schema.mysql.sql
+</code></pre>
+<h2 id="optimization-guidelines">Optimization Guidelines</h2>
+<h3 id="server-configuration">Server Configuration</h3>
+<p>For better performance with MySQL, consider these settings in your MySQL server configuration:</p>
+<pre><code class="language-ini"># my.cnf or my.ini
+[mysqld]
+innodb_buffer_pool_size = 128M       # Increase for better performance (adjust based on server RAM)
+max_connections = 100                # Maximum number of connections
+wait_timeout = 28800                 # Timeout for idle connections (in seconds)
+character_set_server = utf8mb4       # For complete Unicode support
+collation_server = utf8mb4_general_ci # Case-insensitive collation
+innodb_flush_log_at_trx_commit = 1   # 1 = Most durable but slower, 2 = Good compromise
+</code></pre>
+<h3 id="innodb-migration">InnoDB Migration</h3>
+<p>PowerAdmin works best with InnoDB tables. If you're using an older installation with MyISAM tables, consider migrating to InnoDB. See <code>sql/InnoDB-migration.md</code> for detailed migration steps.</p>
+<h2 id="performance-considerations">Performance Considerations</h2>
+<ol>
+<li>
+<p><strong>Indexes</strong>: Ensure indexes are properly set up, especially on frequently queried fields</p>
+</li>
+<li>
+<p><strong>Query optimization</strong>: When experiencing slow performance, enable debug mode to review and optimize SQL queries</p>
+</li>
+<li>
+<p><strong>Connection pooling</strong>: For high-traffic installations, consider implementing connection pooling</p>
+</li>
+<li>
+<p><strong>Regular maintenance</strong>: </p>
+</li>
+<li>Run <code>OPTIMIZE TABLE</code> periodically on tables with frequent deletions</li>
+<li>Consider setting up a maintenance plan for database backups</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<ol>
+<li>
+<p><strong>Connection errors</strong>: Verify the host, port, user and password settings</p>
+</li>
+<li>
+<p><strong>Character set issues</strong>: Make sure the charset in settings matches the database charset</p>
+</li>
+<li>
+<p><strong>Permission problems</strong>: Ensure the database user has appropriate privileges</p>
+</li>
+<li>
+<p><strong>Performance issues</strong>:</p>
+</li>
+<li>Increase buffer pool size</li>
+<li>Check slow query log</li>
+<li>Ensure proper indexing</li>
+</ol>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../../installation/centos/" class="btn btn-neutral float-left" title="CentOS/RHEL"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../postgresql-configuration/" class="btn btn-neutral float-right" title="PostgreSQL">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../../installation/centos/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../postgresql-configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

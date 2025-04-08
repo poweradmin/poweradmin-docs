@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/configuration/dns-settings/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>DNS Settings - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "DNS Settings";
+        var mkdocs_page_input_path = "configuration/dns-settings.md";
+        var mkdocs_page_url = "/configuration/dns-settings/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">DNS Settings</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#configuration-options">Configuration Options</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#soa-record-settings">SOA Record Settings</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modern-configuration-example">Modern Configuration Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#legacy-configuration-example">Legacy Configuration Example</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Configuration</li>
+      <li class="breadcrumb-item active">DNS Settings</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/configuration/dns-settings.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="dns-settings">DNS Settings</h1>
+<p>DNS settings in Poweradmin can be configured through the <code>config/settings.php</code> file under the <code>dns</code> section or through individual variables in the legacy configuration format.</p>
+<h2 id="configuration-options">Configuration Options</h2>
+<table>
+<thead>
+<tr>
+<th>Legacy variable</th>
+<th>Modern equivalent</th>
+<th>Default value</th>
+<th>Description</th>
+<th>Added in version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$dns_hostmaster</td>
+<td>dns.hostmaster</td>
+<td>no default</td>
+<td>The default email address to use for the SOA record (e.g., 'hostmaster.example.net').</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_ns1</td>
+<td>dns.ns1</td>
+<td>no default</td>
+<td>The default primary nameserver.</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_ns2</td>
+<td>dns.ns2</td>
+<td>no default</td>
+<td>The default secondary nameserver.</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_ns3</td>
+<td>dns.ns3</td>
+<td>no default</td>
+<td>The third nameserver.</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_ns4</td>
+<td>dns.ns4</td>
+<td>no default</td>
+<td>The fourth nameserver.</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_ttl</td>
+<td>dns.ttl</td>
+<td>86400</td>
+<td>The default TTL for records (in seconds).</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_soa</td>
+<td>(see below)</td>
+<td>28800 7200 604800 86400</td>
+<td>SOA settings for refresh, retry, expire and minimum</td>
+<td>2.2.3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>dns.soa_refresh</td>
+<td>28800</td>
+<td>SOA refresh time</td>
+<td>2.2.3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>dns.soa_retry</td>
+<td>7200</td>
+<td>SOA retry time</td>
+<td>2.2.3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>dns.soa_expire</td>
+<td>604800</td>
+<td>SOA expire time</td>
+<td>2.2.3</td>
+</tr>
+<tr>
+<td>-</td>
+<td>dns.soa_minimum</td>
+<td>86400</td>
+<td>SOA minimum TTL</td>
+<td>2.2.3</td>
+</tr>
+<tr>
+<td>$dns_strict_tld_check</td>
+<td>dns.strict_tld_check</td>
+<td>false</td>
+<td>If enabled (true), allow official TLDs only.</td>
+<td></td>
+</tr>
+<tr>
+<td>$dns_top_level_tld_check</td>
+<td>dns.top_level_tld_check</td>
+<td>false</td>
+<td>Don't allow creation of top-level TLDs when true.</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$dns_third_level_check</td>
+<td>dns.third_level_check</td>
+<td>false</td>
+<td>Don't allow creation of third-level domains when true.</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$dns_txt_auto_quote</td>
+<td>dns.txt_auto_quote</td>
+<td>false</td>
+<td>Automatically quote TXT records when true.</td>
+<td>3.9.2</td>
+</tr>
+<tr>
+<td>$iface_zone_type_default</td>
+<td>dns.zone_type_default</td>
+<td>MASTER</td>
+<td>Default zone type when creating new zones.</td>
+<td>2.1.9</td>
+</tr>
+</tbody>
+</table>
+<h2 id="soa-record-settings">SOA Record Settings</h2>
+<p>In the modern configuration format, the SOA settings are configured as individual parameters:</p>
+<ul>
+<li><strong>refresh</strong>: The time interval before the zone should be refreshed. Default: <code>28800</code> (8 hours)</li>
+<li><strong>retry</strong>: The time interval that should elapse before a failed refresh should be retried. Default: <code>7200</code> (2 hours)</li>
+<li><strong>expire</strong>: The upper limit on the time interval that can elapse before the zone is no longer authoritative. Default: <code>604800</code> (1 week)</li>
+<li><strong>minimum</strong>: The negative result TTL. Default: <code>86400</code> (24 hours)</li>
+</ul>
+<p>In the legacy format, these are combined in the <code>$dns_soa</code> variable as a space-separated string.</p>
+<h2 id="modern-configuration-example">Modern Configuration Example</h2>
+<pre><code class="language-php">return [
+    'dns' =&gt; [
+        'hostmaster' =&gt; 'hostmaster.example.com',
+        'ns1' =&gt; 'ns1.example.com',
+        'ns2' =&gt; 'ns2.example.com',
+        'ns3' =&gt; 'ns3.example.com',
+        'ns4' =&gt; 'ns4.example.com',
+        'ttl' =&gt; 86400,
+        // SOA settings
+        'soa_refresh' =&gt; 28800,
+        'soa_retry' =&gt; 7200,
+        'soa_expire' =&gt; 604800,
+        'soa_minimum' =&gt; 86400,
+        'zone_type_default' =&gt; 'MASTER',
+        'strict_tld_check' =&gt; false,
+        'top_level_tld_check' =&gt; false,
+        'third_level_check' =&gt; false,
+        'txt_auto_quote' =&gt; false,
+    ],
+];
+</code></pre>
+<h2 id="legacy-configuration-example">Legacy Configuration Example</h2>
+<pre><code class="language-php">&lt;?php
+// DNS settings
+$dns_hostmaster = 'hostmaster.example.com';
+$dns_ns1 = 'ns1.example.com';
+$dns_ns2 = 'ns2.example.com';
+$dns_ns3 = 'ns3.example.com';
+$dns_ns4 = 'ns4.example.com';
+$dns_ttl = 86400;
+$dns_soa = '28800 7200 604800 86400';
+$dns_strict_tld_check = false;
+$dns_top_level_tld_check = false;
+$dns_third_level_check = false;
+$dns_txt_auto_quote = false;
+$iface_zone_type_default = 'MASTER';
+</code></pre>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../basic/" class="btn btn-neutral float-left" title="Basic Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../database/" class="btn btn-neutral float-right" title="Database Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../basic/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../database/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

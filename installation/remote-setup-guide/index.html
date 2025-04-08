@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/installation/remote-setup-guide/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Remote Setup - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Remote Setup";
+        var mkdocs_page_input_path = "installation/remote-setup-guide.md";
+        var mkdocs_page_url = "/installation/remote-setup-guide/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Remote Setup</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#architecture-overview">Architecture Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-1-install-poweradmin-on-the-admin-server">Step 1: Install PowerAdmin on the Admin Server</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-2-configure-database-connection">Step 2: Configure Database Connection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-3-configure-powerdns-api-access">Step 3: Configure PowerDNS API Access</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-4-configure-dnssec-optional">Step 4: Configure DNSSEC (Optional)</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-5-network-security-considerations">Step 5: Network Security Considerations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#step-6-test-the-connection">Step 6: Test the Connection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#security-best-practices">Security Best Practices</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#conclusion">Conclusion</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Installation</li>
+      <li class="breadcrumb-item active">Remote Setup</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/installation/remote-setup-guide.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="remote-poweradmin-setup-guide">Remote PowerAdmin Setup Guide</h1>
+<p>This guide details how to set up PowerAdmin on a separate server from your PowerDNS installation, allowing you to
+maintain a dedicated admin interface without needing to install PowerDNS on the same machine.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>A server for PowerAdmin (referred to as "admin server")</li>
+<li>A server running PowerDNS (referred to as "DNS server")</li>
+<li>MySQL/MariaDB, PostgreSQL, or SQLite database access from the admin server to the PowerDNS database</li>
+<li>Network connectivity between both servers</li>
+<li>PHP 7.4+ with required extensions on the admin server</li>
+<li>Web server software (Apache, Nginx, etc.) on the admin server</li>
+</ul>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<p>In a remote setup:</p>
+<ol>
+<li>PowerAdmin is installed on the admin server</li>
+<li>PowerDNS runs on the DNS server</li>
+<li>PowerAdmin connects to the PowerDNS database remotely</li>
+<li>For DNSSEC operations, PowerAdmin uses the PowerDNS API</li>
+</ol>
+<pre><code>┌────────────────┐        ┌────────────────┐
+│                │        │                │
+│  Admin Server  │        │   DNS Server   │
+│                │        │                │
+│  ┌──────────┐  │        │  ┌──────────┐  │
+│  │PowerAdmin│  │◄──────►│  │ PowerDNS │  │
+│  └──────────┘  │  API   │  └──────────┘  │
+│                │        │                │
+└───────┬────────┘        └───────┬────────┘
+        │                         │
+        │    ┌──────────────┐     │
+        └───►│ PowerDNS DB  │◄────┘
+             └──────────────┘
+</code></pre>
+<h2 id="step-1-install-poweradmin-on-the-admin-server">Step 1: Install PowerAdmin on the Admin Server</h2>
+<ol>
+<li>Clone or download PowerAdmin:</li>
+</ol>
+<pre><code class="language-bash">git clone https://github.com/poweradmin/poweradmin.git
+cd poweradmin
+</code></pre>
+<ol>
+<li>Install dependencies:</li>
+</ol>
+<pre><code class="language-bash">composer install --no-dev
+</code></pre>
+<ol>
+<li>Configure your web server to serve PowerAdmin (directory configuration examples for Apache/Nginx not shown here).</li>
+</ol>
+<h2 id="step-2-configure-database-connection">Step 2: Configure Database Connection</h2>
+<ol>
+<li>Create a database user on your PowerDNS database server with appropriate permissions:</li>
+</ol>
+<pre><code class="language-sql">-- For MySQL/MariaDB (execute on DNS server's database)
+CREATE
+USER 'poweradmin'@'admin_server_ip' IDENTIFIED BY 'secure_password';
+GRANT
+SELECT,
+INSERT
+,
+UPDATE,
+DELETE
+ON powerdns.* TO 'poweradmin'@'admin_server_ip';
+FLUSH
+PRIVILEGES;
+</code></pre>
+<ol>
+<li>Configure PowerAdmin to connect to the remote database:<ul>
+<li>Copy <code>config/settings.defaults.php</code> to <code>config/settings.php</code></li>
+<li>Edit the database connection settings:</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-php">'database' =&gt; [
+    'host' =&gt; 'dns_server_ip',  // IP address of your PowerDNS server
+    'port' =&gt; '3306',           // Database port (MySQL default: 3306, PostgreSQL: 5432)
+    'user' =&gt; 'poweradmin',     // The database user created in step 1
+    'password' =&gt; 'secure_password',
+    'name' =&gt; 'powerdns',       // The PowerDNS database name
+    'type' =&gt; 'mysql',          // mysql, pgsql, or sqlite
+],
+</code></pre>
+<h2 id="step-3-configure-powerdns-api-access">Step 3: Configure PowerDNS API Access</h2>
+<p>For DNSSEC management and certain operations, PowerAdmin requires access to the PowerDNS API:</p>
+<ol>
+<li>
+<p>Enable the API on your PowerDNS server by editing <code>/etc/powerdns/pdns.conf</code>:
+   <code>api=yes
+   api-key=your_secure_api_key
+   webserver=yes
+   webserver-address=0.0.0.0  # Or restrict to admin_server_ip
+   webserver-port=8081
+   webserver-allow-from=admin_server_ip/32</code></p>
+</li>
+<li>
+<p>Configure PowerAdmin to use the API by editing your <code>settings.php</code>:</p>
+</li>
+</ol>
+<pre><code class="language-php">'pdns_api' =&gt; [
+    'url' =&gt; 'http://dns_server_ip:8081',  // PowerDNS API URL
+    'key' =&gt; 'your_secure_api_key',        // PowerDNS API key
+],
+</code></pre>
+<h2 id="step-4-configure-dnssec-optional">Step 4: Configure DNSSEC (Optional)</h2>
+<p>If you're using DNSSEC, enable it in your settings:</p>
+<pre><code class="language-php">'dnssec' =&gt; [
+    'enabled' =&gt; true,
+    'debug' =&gt; false,  // Set to true for troubleshooting
+],
+</code></pre>
+<p>Note: The PowerDNS API method is strongly recommended over the legacy pdnsutil method. When configured with the API
+settings above, Poweradmin will automatically use the API for DNSSEC operations.</p>
+<h2 id="step-5-network-security-considerations">Step 5: Network Security Considerations</h2>
+<p>Since you're running PowerAdmin on a separate server:</p>
+<ol>
+<li>PowerDNS Server Configuration:<ul>
+<li>Edit your PowerDNS configuration to allow external connections:</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-conf"># In /etc/powerdns/pdns.conf
+webserver-address=0.0.0.0  # Allow connections from any IP (consider restricting to admin_server_ip)
+webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
+</code></pre>
+<ul>
+<li>
+<p>By default, PowerDNS API only binds to localhost (127.0.0.1), so this change is necessary</p>
+</li>
+<li>
+<p>Firewall Configuration:</p>
+<ul>
+<li>Allow connections from the admin server to the DNS server on:<ul>
+<li>Database port (MySQL: 3306, PostgreSQL: 5432)</li>
+<li>PowerDNS API port (typically 8081)</li>
+</ul>
+</li>
+<li>Consider using SSH tunneling or VPN for additional security</li>
+<li>Example with UFW (Ubuntu):</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-bash"># On PowerDNS server
+sudo ufw allow from admin_server_ip to any port 8081 proto tcp
+sudo ufw allow from admin_server_ip to any port 3306 proto tcp
+</code></pre>
+<ol>
+<li>TLS/SSL:<ul>
+<li>Consider using SSL/TLS for database connections</li>
+<li>Use HTTPS for PowerAdmin's web interface</li>
+<li>Consider using HTTPS for the PowerDNS API</li>
+</ul>
+</li>
+</ol>
+<h2 id="step-6-test-the-connection">Step 6: Test the Connection</h2>
+<ol>
+<li>Complete the PowerAdmin installation wizard if running for the first time</li>
+<li>Log in to PowerAdmin</li>
+<li>Verify you can view and modify zones</li>
+<li>Test DNSSEC operations if enabled</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>If you encounter connection issues:</p>
+<ol>
+<li>
+<p>Database Connection Problems:</p>
+<ul>
+<li>Verify database credentials</li>
+<li>Check that the remote database user has proper permissions</li>
+<li>Confirm the database server allows remote connections</li>
+<li>Check for firewall restrictions</li>
+</ul>
+</li>
+<li>
+<p>For MySQL, verify that the user is allowed to connect from the admin server's IP:</p>
+</li>
+</ol>
+<pre><code class="language-sql">-- Check and update permissions if needed
+SELECT user, host
+FROM mysql.user
+WHERE user = 'poweradmin';
+-- If needed, create a new user with the correct host
+CREATE
+USER 'poweradmin'@'admin_server_ip' IDENTIFIED BY 'secure_password';
+GRANT
+SELECT,
+INSERT
+,
+UPDATE,
+DELETE
+ON powerdns.* TO 'poweradmin'@'admin_server_ip';
+</code></pre>
+<ol>
+<li>API Connection Problems:<ul>
+<li>Verify API credentials</li>
+<li>Ensure the PowerDNS API is enabled and accessible</li>
+<li>Check for firewall restrictions on the API port</li>
+<li>Verify that PowerDNS is listening on the correct network interface:</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-bash"># Check if PowerDNS API is listening on the correct interface
+ss -lntp | grep 8081
+</code></pre>
+<ul>
+<li>If the API is only listening on 127.0.0.1, update the PowerDNS configuration:</li>
+</ul>
+<pre><code class="language-conf">webserver-address=0.0.0.0  # Allow connections from any IP
+webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
+</code></pre>
+<ol>
+<li>DNSSEC Issues:<ul>
+<li>Verify API credentials are correct</li>
+<li>Ensure the PowerDNS version supports DNSSEC</li>
+<li>Check PowerDNS logs for API-related errors</li>
+<li>Enable debug mode in your PowerAdmin configuration:</li>
+</ul>
+</li>
+</ol>
+<pre><code class="language-php">'dnssec' =&gt; [
+   'enabled' =&gt; true,
+   'debug' =&gt; true,  // Enable debug mode
+],
+</code></pre>
+<h2 id="limitations">Limitations</h2>
+<p>When running PowerAdmin remotely, be aware of these limitations:</p>
+<ol>
+<li>Increased latency for database operations</li>
+<li>Network dependency (if the network connection fails, PowerAdmin cannot manage zones)</li>
+<li>Some advanced operations may be slower due to API calls</li>
+<li>Limited to features available through the PowerDNS API and database</li>
+</ol>
+<h2 id="security-best-practices">Security Best Practices</h2>
+<ol>
+<li>Use a dedicated database user with minimum required permissions</li>
+<li>Implement IP restrictions for database and API access</li>
+<li>Use strong, unique passwords for all components</li>
+<li>Consider using a VPN or SSH tunneling for connections between servers</li>
+<li>Keep both PowerAdmin and PowerDNS updated to the latest versions</li>
+<li>Regularly audit access logs on both servers</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Running PowerAdmin on a separate server from PowerDNS is fully supported and offers advantages in terms of separation of
+concerns and security. By following proper configuration steps and security practices, you can create a robust remote
+management setup for your DNS infrastructure.</p>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../composer/" class="btn btn-neutral float-left" title="Composer"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../../configuration/basic/" class="btn btn-neutral float-right" title="Basic Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../composer/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../../configuration/basic/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/user-guide/reverse-dns/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>Reverse DNS (PTR) - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Reverse DNS (PTR)";
+        var mkdocs_page_input_path = "user-guide/reverse-dns.md";
+        var mkdocs_page_url = "/user-guide/reverse-dns/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/ldap/">LDAP Integration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../configuration/ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../configuration/security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" >DNS Management</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="#">Reverse DNS (PTR)</a>
+    <ul class="current">
+    <li class="toctree-l3"><a class="reference internal" href="#what-are-ptr-records">What are PTR Records?</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prerequisites">Prerequisites</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#method-1-adding-individual-ptr-records">Method 1: Adding Individual PTR Records</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#method-2-using-batch-ptr-records-feature">Method 2: Using Batch PTR Records Feature</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#tips-for-batch-ptr-records">Tips for Batch PTR Records</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#permissions-and-access-control">Permissions and Access Control</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#best-practices">Best Practices</a>
+    </li>
+    </ul>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">User Guide</li>
+          <li class="breadcrumb-item">DNS Management</li>
+      <li class="breadcrumb-item active">Reverse DNS (PTR)</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/user-guide/reverse-dns.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="reverse-dns-ptr-records-guide">Reverse DNS (PTR Records) Guide</h1>
+<p>This guide explains how to create and manage Reverse DNS (PTR) records in PowerAdmin for PowerDNS.</p>
+<h2 id="what-are-ptr-records">What are PTR Records?</h2>
+<p>PTR (Pointer) records provide reverse DNS resolution, mapping IP addresses to hostnames. They are used for:</p>
+<ul>
+<li>Email server verification</li>
+<li>Security controls and authentication</li>
+<li>Network troubleshooting</li>
+<li>Server identification</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before creating PTR records, you need:</p>
+<ol>
+<li>The appropriate reverse zone must exist in PowerDNS</li>
+<li>For IPv4: Create a zone like <code>1.168.192.in-addr.arpa</code> for the 192.168.1.0/24 network</li>
+<li>
+<p>For IPv6: Create a zone like <code>0.0.0.0.0.0.0.0.8.b.d.0.1.0.0.2.ip6.arpa</code> for 2001:db8::/64</p>
+</li>
+<li>
+<p>Proper permissions to add records to these zones:</p>
+</li>
+<li>You need at least one of these permissions:<ul>
+<li><code>zone_content_edit_own</code> - To edit zones you own</li>
+<li><code>zone_content_edit_others</code> - To edit any zone</li>
+</ul>
+</li>
+<li>For creating reverse zones, you need:<ul>
+<li><code>zone_master_add</code> or <code>zone_slave_add</code> permissions</li>
+</ul>
+</li>
+</ol>
+<h2 id="method-1-adding-individual-ptr-records">Method 1: Adding Individual PTR Records</h2>
+<p>For single PTR records:</p>
+<ol>
+<li>Go to the reverse zone's record list (e.g., <code>1.168.192.in-addr.arpa</code>)</li>
+<li>Click "Add Record" at the top of the zone edit page</li>
+<li>Enter the information:</li>
+<li><strong>Name</strong>: The last octet of the IP address (e.g., <code>42</code> for 192.168.1.42)</li>
+<li><strong>Type</strong>: PTR</li>
+<li><strong>Content</strong>: The fully qualified domain name (FQDN) this IP should resolve to (e.g., <code>host42.example.com.</code>)</li>
+<li><strong>TTL</strong>: Time-to-live value (e.g., 86400 for 1 day)</li>
+<li>Click "Add Record"</li>
+</ol>
+<p><img alt="Adding an individual PTR record" src="../../screenshots/ptr-individual-record.png" /></p>
+<h2 id="method-2-using-batch-ptr-records-feature">Method 2: Using Batch PTR Records Feature</h2>
+<p>For creating multiple PTR records at once:</p>
+<ol>
+<li>Access the Batch PTR Records feature:</li>
+<li>From the top navigation: Zones → Batch PTR Records</li>
+<li>
+<p>From the dashboard: Click the "Batch PTR Records" card</p>
+</li>
+<li>
+<p>Complete the form:</p>
+</li>
+<li><strong>IP Version</strong>: Choose IPv4 or IPv6</li>
+<li><strong>Network Prefix</strong>: <ul>
+<li>For IPv4: The first three octets (e.g., <code>192.168.1</code>)</li>
+<li>For IPv6: The /64 prefix (e.g., <code>2001:db8:1:1</code>)</li>
+</ul>
+</li>
+<li><strong>Host Prefix</strong>: Base name for the hosts (e.g., <code>server</code>)</li>
+<li><strong>Domain</strong>: Domain suffix for PTR records (e.g., <code>example.com</code>)</li>
+<li><strong>Number of IPv6 Records</strong>: (IPv6 only) How many records to create</li>
+<li><strong>TTL</strong>: Time-to-live value</li>
+<li>
+<p><strong>Priority</strong>: Usually 0 for PTR records</p>
+</li>
+<li>
+<p>Click "Create PTR Records"</p>
+</li>
+</ol>
+<p><img alt="Batch PTR Records interface" src="../../screenshots/ptr-batch-interface.png" /></p>
+<h3 id="examples">Examples</h3>
+<h4 id="ipv4-example">IPv4 Example</h4>
+<ul>
+<li>Network Prefix: <code>192.168.1</code></li>
+<li>Host Prefix: <code>server</code></li>
+<li>Domain: <code>example.com</code></li>
+</ul>
+<p>This will create 256 PTR records:
+- <code>0.1.168.192.in-addr.arpa</code> → <code>server-0.example.com.</code>
+- <code>1.1.168.192.in-addr.arpa</code> → <code>server-1.example.com.</code>
+- ...through...
+- <code>255.1.168.192.in-addr.arpa</code> → <code>server-255.example.com.</code></p>
+<p><img alt="IPv4 Batch PTR Records example" src="../../screenshots/ptr-ipv4-example.png" /></p>
+<h4 id="ipv6-example">IPv6 Example</h4>
+<ul>
+<li>Network Prefix: <code>2001:db8:1:1</code></li>
+<li>Host Prefix: <code>vm</code></li>
+<li>Domain: <code>example.com</code></li>
+<li>Number of records: 100</li>
+</ul>
+<p>This will create 100 PTR records with hostnames like <code>vm-0.example.com</code> through <code>vm-99.example.com</code></p>
+<p><img alt="IPv6 Batch PTR Records example" src="../../screenshots/ptr-ipv6-example.png" /></p>
+<h2 id="tips-for-batch-ptr-records">Tips for Batch PTR Records</h2>
+<ul>
+<li><strong>Run Multiple Times Safely</strong>: You can run the batch tool multiple times - existing records will be skipped</li>
+<li><strong>Progress Reporting</strong>: The tool reports how many records were created, skipped, or failed</li>
+<li><strong>Reverse Zone Required</strong>: The appropriate reverse zone must exist before using this feature</li>
+<li><strong>Automated Creation</strong>: All hostnames are generated automatically based on the pattern <code>{prefix}-{number}.{domain}</code></li>
+</ul>
+<h2 id="permissions-and-access-control">Permissions and Access Control</h2>
+<p>The Batch PTR Records feature follows PowerAdmin's permission system:</p>
+<ol>
+<li><strong>Required Feature Flag</strong>:</li>
+<li>
+<p>The <code>add_reverse_record</code> option must be enabled in the PowerAdmin configuration</p>
+</li>
+<li>
+<p><strong>Required User Permissions</strong>:</p>
+</li>
+<li>Either the <code>zone_content_edit_own</code> or <code>zone_content_edit_others</code> permission is required to access this feature</li>
+<li>
+<p>When accessed from a specific zone page, you also need ownership of that zone (if using <code>zone_content_edit_own</code>)</p>
+</li>
+<li>
+<p><strong>Permission Hierarchy</strong>:</p>
+</li>
+<li><code>zone_content_edit_others</code> gives access to all zones</li>
+<li><code>zone_content_edit_own</code> limits access to zones you own</li>
+<li>
+<p>No edit permissions means no access to batch PTR records</p>
+</li>
+<li>
+<p><strong>Administrative Setup</strong>:</p>
+</li>
+<li>Administrators can assign these permissions through permission templates</li>
+<li>Users who can only view zones will not see the Batch PTR Records option</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<ul>
+<li><strong>No matching reverse zone found</strong>: Create the appropriate reverse zone first</li>
+<li><strong>Permission denied</strong>: Ensure you have rights to add records to the reverse zone</li>
+<li><strong>No records created</strong>: Check if records already exist (they will be skipped)</li>
+<li><strong>Feature not visible</strong>: Check if you have the required permissions</li>
+</ul>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li>Use meaningful host prefixes that identify the purpose of the servers</li>
+<li>Use consistent TTL values across your reverse zones</li>
+<li>Ensure your forward (A/AAAA) and reverse (PTR) records match</li>
+<li>Consider using shorter TTLs during migration periods</li>
+</ol>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../record-types/" class="btn btn-neutral float-left" title="Record Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ddns/overview/" class="btn btn-neutral float-right" title="Overview">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../record-types/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ddns/overview/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

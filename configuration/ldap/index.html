@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://docs.poweradmin.org/configuration/ldap/" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>LDAP Integration - Poweradmin Documentation</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "LDAP Integration";
+        var mkdocs_page_input_path = "configuration/ldap.md";
+        var mkdocs_page_url = "/configuration/ldap/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/php.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../.." class="icon icon-home"> Poweradmin Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/overview/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/features/">Features</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Quick Evaluation</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../getting-started/docker-demo/">Docker Demo</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../getting-started/requirements/">System Requirements</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Installation</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Operating Systems</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/debian/">Debian</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/ubuntu/">Ubuntu</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../installation/centos/">CentOS/RHEL</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >Database Setup</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/mysql-configuration/">MySQL/MariaDB</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/postgresql-configuration/">PostgreSQL</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../database/sqlite/">SQLite</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/manual/">Manual Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/composer/">Composer</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../installation/remote-setup-guide/">Remote Setup</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Configuration</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../basic/">Basic Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dns-settings/">DNS Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../database/">Database Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../powerdns-api/">PowerDNS API</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../dnssec/">DNSSEC</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../logging/">Logging Setup</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">LDAP Integration</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#configuration-options">Configuration Options</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#modern-configuration-example">Modern Configuration Example</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ldap-search-filter-examples">LDAP Search Filter Examples</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#basic-setup">Basic Setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#advanced-configuration">Advanced Configuration</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#ssltls-connection">SSL/TLS Connection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#user-attribute-mapping">User Attribute Mapping</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example-directory-configurations">Example Directory Configurations</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#active-directory">Active Directory</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#openldap">OpenLDAP</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#security-considerations">Security Considerations</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-users-to-poweradmin">Adding Users to PowerAdmin</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../mail/">Mail Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../record-types/">Record Type Customization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >UI Customization</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/overview/">Overview</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/themes/">Themes</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/layout/">Layout</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ui/custom-css/">Custom CSS</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../password-policies/">Password Policies</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../security-policies/">Security Policies</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">User Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >User Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/users-roles/">Users and Roles</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/permissions/">Permissions</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" >DNS Management</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/record-types/">Record Types</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../user-guide/reverse-dns/">Reverse DNS (PTR)</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" >Dynamic DNS</a>
+    <ul>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/overview/">Overview</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/configuration/">Configuration</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/client-setup/">Client Setup</a>
+                </li>
+                <li class="toctree-l3"><a class="reference internal" href="../../user-guide/ddns/using-curl/">Using cURL</a>
+                </li>
+    </ul>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Advanced Topics</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" >Logging</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../advanced/logging-config/">Log Configuration</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Maintenance</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../maintenance/">Overview</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/">Overview</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v4.0.0/">v4.0.0</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.x.x/">v2.x.x</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.8/">v2.1.8</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.7/">v2.1.7</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.6/">v2.1.6</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.5/">v2.1.5</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../upgrading/v2.1.4/">v2.1.4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Troubleshooting</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/debugging/">Debugging</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributing</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/development/">Development Setup</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/coding-standards/">Coding Standards</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/testing/">Testing</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Poweradmin Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Configuration</li>
+      <li class="breadcrumb-item active">LDAP Integration</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/poweradmin/poweradmin-docs/edit/main/docs/configuration/ldap.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+  <div class="announcement">
+    Note: This documentation is still in progress, not reviewed properly, and might contain some errors or outdated images. It's intended for the upcoming 4.0.0 release, so configuration settings might be different from previous versions.
+  </div>
+  
+                <h1 id="ldap-integration">LDAP Integration</h1>
+<p>Poweradmin supports LDAP (Lightweight Directory Access Protocol) authentication, allowing you to integrate with your existing directory service such as Active Directory or OpenLDAP.</p>
+<h2 id="configuration-options">Configuration Options</h2>
+<p>LDAP settings can be configured in the <code>config/settings.php</code> file under the <code>ldap</code> section or through individual variables in the legacy configuration format.</p>
+<table>
+<thead>
+<tr>
+<th>Legacy variable</th>
+<th>Modern equivalent</th>
+<th>Default value</th>
+<th>Description</th>
+<th>Added in version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$ldap_use</td>
+<td>ldap.enabled</td>
+<td>false</td>
+<td>Enable LDAP authentication</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_debug</td>
+<td>ldap.debug</td>
+<td>false</td>
+<td>Enable debug for LDAP connection</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_uri</td>
+<td>ldap.uri</td>
+<td>ldap://domaincontroller.example.com</td>
+<td>LDAP server URI</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_basedn</td>
+<td>ldap.base_dn</td>
+<td>ou=users,dc=example,dc=com</td>
+<td>The top level of the LDAP directory tree</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_search_filter</td>
+<td>ldap.search_filter</td>
+<td>no default</td>
+<td>Filter for LDAP search</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_binddn</td>
+<td>ldap.bind_dn</td>
+<td>cn=admin,dc=example,dc=com</td>
+<td>LDAP user for binding</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_bindpw</td>
+<td>ldap.bind_password</td>
+<td>some_password</td>
+<td>Password for LDAP binding user</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_user_attribute</td>
+<td>ldap.user_attribute</td>
+<td>uid</td>
+<td>Username attribute used in LDAP search filter</td>
+<td>2.1.7</td>
+</tr>
+<tr>
+<td>$ldap_proto</td>
+<td>ldap.protocol_version</td>
+<td>3</td>
+<td>LDAP protocol version</td>
+<td>2.1.7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="modern-configuration-example">Modern Configuration Example</h2>
+<pre><code class="language-php">return [
+    'ldap' =&gt; [
+        'enabled' =&gt; true,
+        'debug' =&gt; false,
+        'uri' =&gt; 'ldap://domaincontroller.example.com',
+        'base_dn' =&gt; 'ou=users,dc=example,dc=com',
+        'bind_dn' =&gt; 'cn=admin,dc=example,dc=com',
+        'bind_password' =&gt; 'some_password',
+        'user_attribute' =&gt; 'uid',
+        'protocol_version' =&gt; 3,
+        'search_filter' =&gt; '(objectClass=account)',
+    ],
+];
+</code></pre>
+<h2 id="ldap-search-filter-examples">LDAP Search Filter Examples</h2>
+<p>The search filter is used to limit which LDAP accounts can authenticate to Poweradmin:</p>
+<pre><code class="language-php">// Only users that are members of the 'powerdns' group
+$ldap_search_filter = '(memberOf=cn=powerdns,ou=groups,dc=poweradmin,dc=org)';
+
+// All accounts
+$ldap_search_filter = '(objectClass=account)';
+
+// Users that are both persons and members of the 'admins' group
+$ldap_search_filter = '(objectClass=person)(memberOf=cn=admins,ou=groups,dc=poweradmin,dc=org)';
+
+// Users with 'admin' in their common name
+$ldap_search_filter = '(cn=*admin*)';
+</code></pre>
+<h2 id="basic-setup">Basic Setup</h2>
+<ol>
+<li>Enable LDAP authentication by setting <code>'enabled' =&gt; true</code> in the configuration array.</li>
+<li>Configure your LDAP server URI and base DN.</li>
+<li>Set appropriate search filters based on your directory structure.</li>
+<li>Set binding credentials if required.</li>
+<li>Specify the user attribute that matches your directory structure.</li>
+</ol>
+<h2 id="advanced-configuration">Advanced Configuration</h2>
+<h3 id="ssltls-connection">SSL/TLS Connection</h3>
+<p>For secure LDAP (LDAPS), use the following configuration:</p>
+<pre><code class="language-php">'uri' =&gt; 'ldaps://domaincontroller.example.com',
+</code></pre>
+<h3 id="user-attribute-mapping">User Attribute Mapping</h3>
+<p>Configure how Poweradmin maps LDAP attributes to user properties:</p>
+<ul>
+<li>For OpenLDAP: <code>'user_attribute' =&gt; 'uid'</code></li>
+<li>For Active Directory: <code>'user_attribute' =&gt; 'sAMAccountName'</code></li>
+</ul>
+<h2 id="example-directory-configurations">Example Directory Configurations</h2>
+<h3 id="active-directory">Active Directory</h3>
+<pre><code class="language-php">return [
+    'ldap' =&gt; [
+        'enabled' =&gt; true,
+        'uri' =&gt; 'ldap://ad.company.com',
+        'base_dn' =&gt; 'DC=company,DC=com',
+        'bind_dn' =&gt; 'CN=ServiceAccount,OU=Users,DC=company,DC=com',
+        'bind_password' =&gt; 'password',
+        'user_attribute' =&gt; 'sAMAccountName',
+        'search_filter' =&gt; '(&amp;(objectClass=user)(sAMAccountName=%s))',
+    ],
+];
+</code></pre>
+<h3 id="openldap">OpenLDAP</h3>
+<pre><code class="language-php">return [
+    'ldap' =&gt; [
+        'enabled' =&gt; true,
+        'uri' =&gt; 'ldap://ldap.company.com',
+        'base_dn' =&gt; 'ou=users,dc=company,dc=com',
+        'bind_dn' =&gt; 'cn=admin,dc=company,dc=com',
+        'bind_password' =&gt; 'password',
+        'user_attribute' =&gt; 'uid',
+        'search_filter' =&gt; '(&amp;(objectClass=posixAccount)(uid=%s))',
+    ],
+];
+</code></pre>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>Common LDAP issues and solutions:</p>
+<ul>
+<li><strong>Connection Failed</strong>: Verify server URI and firewall settings</li>
+<li><strong>Binding Failed</strong>: Check bind DN and password</li>
+<li><strong>User Not Found</strong>: Verify search filter and user attribute</li>
+<li><strong>SSL Certificate Issues</strong>: Ensure proper CA certificates are installed</li>
+</ul>
+<h2 id="security-considerations">Security Considerations</h2>
+<ul>
+<li>Always use LDAPS (LDAP over SSL/TLS) in production environments</li>
+<li>Implement least privilege access for binding</li>
+<li>Regularly rotate LDAP binding credentials</li>
+<li>Consider implementing connection timeout settings</li>
+<li>Monitor failed authentication attempts</li>
+</ul>
+<h2 id="adding-users-to-poweradmin">Adding Users to PowerAdmin</h2>
+<p>Add a user to Poweradmin:</p>
+<p><img alt="PowerAdmin LDAP User" src="../../screenshots/pwa_ldap.png" /></p>
+<p>The same user should exist in the LDAP schema:</p>
+<p><img alt="OpenLDAP User" src="../../screenshots/openldap.png" /></p>
+              
+
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../logging/" class="btn btn-neutral float-left" title="Logging Setup"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../mail/" class="btn btn-neutral float-right" title="Mail Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/poweradmin/poweradmin-docs" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../logging/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../mail/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../..";</script>
+    <script src="../../js/theme_extra.js"></script>
+    <script src="../../js/theme.js"></script>
+      <script src="../../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
