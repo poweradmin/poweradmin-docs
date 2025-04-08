@@ -70,6 +70,7 @@ nav:
       - Logging Setup: configuration/logging.md
       - LDAP Integration: configuration/ldap.md
       - Mail Configuration: configuration/mail.md
+      - Record Type Customization: configuration/record-types.md
       - UI Customization:
           - Overview: configuration/ui/overview.md
           - Themes: configuration/ui/themes.md
@@ -84,7 +85,7 @@ nav:
           - Permissions: user-guide/permissions.md
       - DNS Management:
 #          - Domains: user-guide/domains.md
-#          - Record Types: user-guide/record-types.md
+          - Record Types: user-guide/record-types.md
 #          - Zone Management: user-guide/zones.md
 #          - Templates: user-guide/templates.md
 #          - Bulk Operations: user-guide/bulk-operations.md
