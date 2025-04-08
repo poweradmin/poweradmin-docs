@@ -85,7 +85,6 @@ nav:
           - Permissions: user-guide/permissions.md
       - DNS Management:
 #          - Domains: user-guide/domains.md
-          - Record Types: user-guide/record-types.md
 #          - Zone Management: user-guide/zones.md
 #          - Templates: user-guide/templates.md
 #          - Bulk Operations: user-guide/bulk-operations.md
