@@ -1,6 +1,6 @@
-# PowerAdmin Features
+# Poweradmin Features
 
-PowerAdmin provides comprehensive DNS management and administration capabilities. Here's an overview of the key features:
+Poweradmin provides comprehensive DNS management and administration capabilities. Here's an overview of the key features:
 
 ## Zone & Record Management
 

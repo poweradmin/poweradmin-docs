@@ -1,8 +1,8 @@
-# PostgreSQL Configuration for PowerAdmin
+# PostgreSQL Configuration for Poweradmin
 
 ## Overview
 
-This guide explains how to configure PowerAdmin to use PostgreSQL as your database backend.
+This guide explains how to configure Poweradmin to use PostgreSQL as your database backend.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ This guide explains how to configure PowerAdmin to use PostgreSQL as your databa
 ```php
 <?php
 /**
- * PowerAdmin PostgreSQL Configuration
+ * Poweradmin PostgreSQL Configuration
  */
 return [
     /**
@@ -92,7 +92,7 @@ SELECT setval('sequence_name', (SELECT MAX(id) FROM table_name));
 
 ### Case Sensitivity
 
-PostgreSQL is case-sensitive for identifiers unless quoted. All table and column names in PowerAdmin should be accessed in lowercase.
+PostgreSQL is case-sensitive for identifiers unless quoted. All table and column names in Poweradmin should be accessed in lowercase.
 
 ### Performance Tuning
 
@@ -121,7 +121,7 @@ PostgreSQL is case-sensitive for identifiers unless quoted. All table and column
 
 ## SQL Compatibility Notes
 
-When developing custom queries or extensions for PowerAdmin with PostgreSQL, note these differences from MySQL:
+When developing custom queries or extensions for Poweradmin with PostgreSQL, note these differences from MySQL:
 
 1. PostgreSQL uses `SERIAL` instead of `AUTO_INCREMENT`
 2. String concatenation uses `||` instead of `CONCAT()` or `+`

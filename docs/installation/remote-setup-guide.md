@@ -1,11 +1,11 @@
-# Remote PowerAdmin Setup Guide
+# Remote Poweradmin Setup Guide
 
-This guide details how to set up PowerAdmin on a separate server from your PowerDNS installation, allowing you to
+This guide details how to set up Poweradmin on a separate server from your PowerDNS installation, allowing you to
 maintain a dedicated admin interface without needing to install PowerDNS on the same machine.
 
 ## Prerequisites
 
-- A server for PowerAdmin (referred to as "admin server")
+- A server for Poweradmin (referred to as "admin server")
 - A server running PowerDNS (referred to as "DNS server")
 - MySQL/MariaDB, PostgreSQL, or SQLite database access from the admin server to the PowerDNS database
 - Network connectivity between both servers
@@ -16,10 +16,10 @@ maintain a dedicated admin interface without needing to install PowerDNS on the 
 
 In a remote setup:
 
-1. PowerAdmin is installed on the admin server
+1. Poweradmin is installed on the admin server
 2. PowerDNS runs on the DNS server
-3. PowerAdmin connects to the PowerDNS database remotely
-4. For DNSSEC operations, PowerAdmin uses the PowerDNS API
+3. Poweradmin connects to the PowerDNS database remotely
+4. For DNSSEC operations, Poweradmin uses the PowerDNS API
 
 ```
 ┌────────────────┐        ┌────────────────┐
@@ -27,7 +27,7 @@ In a remote setup:
 │  Admin Server  │        │   DNS Server   │
 │                │        │                │
 │  ┌──────────┐  │        │  ┌──────────┐  │
-│  │PowerAdmin│  │◄──────►│  │ PowerDNS │  │
+│  │Poweradmin│  │◄──────►│  │ PowerDNS │  │
 │  └──────────┘  │  API   │  └──────────┘  │
 │                │        │                │
 └───────┬────────┘        └───────┬────────┘
@@ -37,9 +37,9 @@ In a remote setup:
              └──────────────┘
 ```
 
-## Step 1: Install PowerAdmin on the Admin Server
+## Step 1: Install Poweradmin on the Admin Server
 
-1. Clone or download PowerAdmin:
+1. Clone or download Poweradmin:
 
 ```bash
 git clone https://github.com/poweradmin/poweradmin.git
@@ -52,7 +52,7 @@ cd poweradmin
 composer install --no-dev
 ```
 
-3. Configure your web server to serve PowerAdmin (directory configuration examples for Apache/Nginx not shown here).
+3. Configure your web server to serve Poweradmin (directory configuration examples for Apache/Nginx not shown here).
 
 ## Step 2: Configure Database Connection
 
@@ -73,7 +73,7 @@ FLUSH
 PRIVILEGES;
 ```
 
-2. Configure PowerAdmin to connect to the remote database:
+2. Configure Poweradmin to connect to the remote database:
     - Copy `config/settings.defaults.php` to `config/settings.php`
     - Edit the database connection settings:
 
@@ -90,7 +90,7 @@ PRIVILEGES;
 
 ## Step 3: Configure PowerDNS API Access
 
-For DNSSEC management and certain operations, PowerAdmin requires access to the PowerDNS API:
+For DNSSEC management and certain operations, Poweradmin requires access to the PowerDNS API:
 
 1. Enable the API on your PowerDNS server by editing `/etc/powerdns/pdns.conf`:
    ```
@@ -102,7 +102,7 @@ For DNSSEC management and certain operations, PowerAdmin requires access to the 
    webserver-allow-from=admin_server_ip/32
    ```
 
-2. Configure PowerAdmin to use the API by editing your `settings.php`:
+2. Configure Poweradmin to use the API by editing your `settings.php`:
 
 ```php
 'pdns_api' => [
@@ -127,7 +127,7 @@ settings above, Poweradmin will automatically use the API for DNSSEC operations.
 
 ## Step 5: Network Security Considerations
 
-Since you're running PowerAdmin on a separate server:
+Since you're running Poweradmin on a separate server:
 
 1. PowerDNS Server Configuration:
     - Edit your PowerDNS configuration to allow external connections:
@@ -155,13 +155,13 @@ sudo ufw allow from admin_server_ip to any port 3306 proto tcp
 
 3. TLS/SSL:
     - Consider using SSL/TLS for database connections
-    - Use HTTPS for PowerAdmin's web interface
+    - Use HTTPS for Poweradmin's web interface
     - Consider using HTTPS for the PowerDNS API
 
 ## Step 6: Test the Connection
 
-1. Complete the PowerAdmin installation wizard if running for the first time
-2. Log in to PowerAdmin
+1. Complete the Poweradmin installation wizard if running for the first time
+2. Log in to Poweradmin
 3. Verify you can view and modify zones
 4. Test DNSSEC operations if enabled
 
@@ -216,7 +216,7 @@ webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
     - Verify API credentials are correct
     - Ensure the PowerDNS version supports DNSSEC
     - Check PowerDNS logs for API-related errors
-    - Enable debug mode in your PowerAdmin configuration:
+    - Enable debug mode in your Poweradmin configuration:
 
 ```php
 'dnssec' => [
@@ -227,10 +227,10 @@ webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
 
 ## Limitations
 
-When running PowerAdmin remotely, be aware of these limitations:
+When running Poweradmin remotely, be aware of these limitations:
 
 1. Increased latency for database operations
-2. Network dependency (if the network connection fails, PowerAdmin cannot manage zones)
+2. Network dependency (if the network connection fails, Poweradmin cannot manage zones)
 3. Some advanced operations may be slower due to API calls
 4. Limited to features available through the PowerDNS API and database
 
@@ -240,11 +240,11 @@ When running PowerAdmin remotely, be aware of these limitations:
 2. Implement IP restrictions for database and API access
 3. Use strong, unique passwords for all components
 4. Consider using a VPN or SSH tunneling for connections between servers
-5. Keep both PowerAdmin and PowerDNS updated to the latest versions
+5. Keep both Poweradmin and PowerDNS updated to the latest versions
 6. Regularly audit access logs on both servers
 
 ## Conclusion
 
-Running PowerAdmin on a separate server from PowerDNS is fully supported and offers advantages in terms of separation of
+Running Poweradmin on a separate server from PowerDNS is fully supported and offers advantages in terms of separation of
 concerns and security. By following proper configuration steps and security practices, you can create a robust remote
 management setup for your DNS infrastructure.

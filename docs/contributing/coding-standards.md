@@ -1,6 +1,6 @@
-# PowerAdmin Coding Standards
+# Poweradmin Coding Standards
 
-PowerAdmin follows a set of coding standards based on PSR-12 with some project-specific modifications. This document outlines these standards and how to enforce them.
+Poweradmin follows a set of coding standards based on PSR-12 with some project-specific modifications. This document outlines these standards and how to enforce them.
 
 ## Standards Overview
 
@@ -12,7 +12,7 @@ PowerAdmin follows a set of coding standards based on PSR-12 with some project-s
 
 ## Code Quality Tools
 
-PowerAdmin uses several tools to maintain code quality:
+Poweradmin uses several tools to maintain code quality:
 
 ### PHP_CodeSniffer (PHPCS/PHPCBF)
 - Checks for coding standard violations

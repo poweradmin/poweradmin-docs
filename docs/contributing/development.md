@@ -1,4 +1,4 @@
-# PowerAdmin Development Guide
+# Poweradmin Development Guide
 
 ## Development Environment Setup
 
@@ -61,14 +61,14 @@ The documentation will be generated in the `docs` directory.
 
 ## Testing
 
-PowerAdmin has comprehensive testing support including unit tests, integration tests, and end-to-end tests. For detailed information on testing methodologies, frameworks, and running tests, please see the [Testing Guide](testing.md).
+Poweradmin has comprehensive testing support including unit tests, integration tests, and end-to-end tests. For detailed information on testing methodologies, frameworks, and running tests, please see the [Testing Guide](testing.md).
 
 ## Continuous Integration
 - The project uses GitHub Actions for CI/CD
 - Ensure all tests pass before submitting pull requests
 
 ## Coding Standards
-PowerAdmin follows PSR-12 with project-specific modifications. For detailed information on coding standards, tools for code quality, and how to enforce them, see the [Coding Standards Guide](coding-standards.md).
+Poweradmin follows PSR-12 with project-specific modifications. For detailed information on coding standards, tools for code quality, and how to enforce them, see the [Coding Standards Guide](coding-standards.md).
 
 ## Database Migrations
 - Database migrations are managed with Phinx

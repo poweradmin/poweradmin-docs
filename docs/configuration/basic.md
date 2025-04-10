@@ -68,6 +68,10 @@ The modern configuration format is organized into logical sections:
 - **interface**: UI and display preferences
 - **logging**: Logging configuration
 - **pdns_api**: PowerDNS API integration settings
+- **mail**: Email configuration for notifications
+- **dnssec**: DNSSEC functionality settings
+- **ldap**: LDAP authentication settings
+- **misc**: Miscellaneous settings like timezone and edit conflict handling
 
 ## Configuration Variables
 
@@ -86,7 +90,7 @@ The following configuration variables are available in the legacy format, with t
 | $db_charset | database.charset | no default | The charset set which is used for communication with database (for example - 'utf8' for MySQL) | 2.1.8 |
 | $db_file | database.file | no default | Used only for SQLite, provide full path to database file | 2.1.6 |
 | $db_debug | database.debug | false | Show all executed SQL queries (if true) | 2.1.6 |
-| $pdns_db_name | database.pdns_name | powerdns | Used for a separate database for PowerDNS (experimental feature) | 3.8.0 |
+| $pdns_db_name | database.pdns_db_name | powerdns | Used for a separate database for PowerDNS | 3.8.0 |
 
 ### API Settings
 
@@ -199,9 +203,13 @@ $ldap_search_filter = '(cn=*admin*)';
 
 | Legacy variable | Modern equivalent | Default value | Description | Added in version |
 |----------------|-------------------|---------------|-------------|-----------------|
-| $display_stats | display_stats | false | Displays the memory consumption and execution time of an application | |
-| $experimental_edit_conflict_resolution | edit_conflict_resolution | last_writer_wins | Controls how concurrent updates are handled (last_writer_wins, only_latest_version, 3_way_merge) | |
-| $record_comments_sync | record_comments_sync | false | Enable bidirectional comment synchronization between A and PTR records | 3.9.0 |
+| $display_stats | misc.display_stats | false | Displays the memory consumption and execution time of an application | |
+| $experimental_edit_conflict_resolution | misc.edit_conflict_resolution | last_writer_wins | Controls how concurrent updates are handled (last_writer_wins, only_latest_version, 3_way_merge) | |
+| $record_comments_sync | misc.record_comments_sync | false | Enable bidirectional comment synchronization between A and PTR records | 3.9.0 |
+| N/A | misc.timezone | UTC | Default timezone for the application | |
+| N/A | dns.txt_auto_quote | false | Automatically quote TXT records | 3.9.2 |
+| N/A | dns.domain_record_types | null | Customizes which record types are shown for domain zones | 4.0.0 |
+| N/A | dns.reverse_record_types | null | Customizes which record types are shown for reverse zones | 4.0.0 |
 
 For detailed information about specific settings, see:
 

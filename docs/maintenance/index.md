@@ -1,12 +1,12 @@
 # Maintenance Guide
 
-This section provides guidance on maintaining your PowerAdmin installation and ensuring its long-term performance and security.
+This section provides guidance on maintaining your Poweradmin installation and ensuring its long-term performance and security.
 
 ## Regular Maintenance Tasks
 
 ### Database Maintenance
 
-Regular database maintenance helps keep your PowerAdmin installation running smoothly:
+Regular database maintenance helps keep your Poweradmin installation running smoothly:
 
 #### MySQL/MariaDB
 ```sql
@@ -48,7 +48,7 @@ VACUUM;
 
 To prevent logs from consuming excessive disk space:
 
-1. **Database Logs**: Implement a log rotation strategy for PowerAdmin's database logs:
+1. **Database Logs**: Implement a log rotation strategy for Poweradmin's database logs:
    ```sql
    -- Example log cleanup (retain only the last 90 days)
    DELETE FROM log_users WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
@@ -88,7 +88,7 @@ sqlite3 poweradmin.sqlite .dump > poweradmin_$(date +%Y%m%d).sql
 
 #### Configuration Backup
 
-Back up your PowerAdmin configuration files:
+Back up your Poweradmin configuration files:
 
 ```bash
 # Create a compressed archive of configuration files
@@ -97,7 +97,7 @@ tar -czf poweradmin_config_$(date +%Y%m%d).tar.gz /path/to/poweradmin/inc/config
 
 ### Security Updates
 
-1. **PowerAdmin Updates**: Regularly check for and apply updates to PowerAdmin
+1. **Poweradmin Updates**: Regularly check for and apply updates to Poweradmin
 2. **Dependency Updates**: Keep PHP, web server, and other components updated
 3. **Security Scans**: Periodically scan for vulnerabilities using tools like OWASP ZAP
 
@@ -116,7 +116,7 @@ Monitor system resource usage:
 Regularly check error logs for issues:
 
 ```bash
-# Check PowerAdmin-related PHP errors
+# Check Poweradmin-related PHP errors
 grep -i "poweradmin" /var/log/php/error.log
 
 # Check web server errors
@@ -139,6 +139,6 @@ Prepare for potential system failures:
 
 1. **Recovery Plan**: Document step-by-step recovery procedures
 2. **Test Restores**: Regularly test your backup and restore procedures
-3. **Alternate Access**: Ensure DNS records can be managed directly via PowerDNS if PowerAdmin becomes unavailable
+3. **Alternate Access**: Ensure DNS records can be managed directly via PowerDNS if Poweradmin becomes unavailable
 
 For more detailed guidance on specific maintenance tasks, refer to the other sections in this documentation.

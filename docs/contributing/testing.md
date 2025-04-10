@@ -1,14 +1,14 @@
-# PowerAdmin Testing Guide
+# Poweradmin Testing Guide
 
 ## Overview
-This document outlines the testing strategy and implementation details for the PowerAdmin project.
+This document outlines the testing strategy and implementation details for the Poweradmin project.
 
 ## Test Frameworks & Tools
 
 - **PHPUnit**: Primary testing framework for PHP code
 - **Cypress**: End-to-end testing framework for UI testing
 
-In addition to these testing frameworks, PowerAdmin uses various code quality tools that are described in detail in the [Coding Standards Guide](coding-standards.md), including PHPStan, PHP_CodeSniffer, Psalm, PHPMD, and PHP-CS-Fixer.
+In addition to these testing frameworks, Poweradmin uses various code quality tools that are described in detail in the [Coding Standards Guide](coding-standards.md), including PHPStan, PHP_CodeSniffer, Psalm, PHPMD, and PHP-CS-Fixer.
 
 ## Test Directory Structure
 
@@ -60,7 +60,7 @@ A complete test plan for UI testing is available in `tests/plans/cypress-ui-test
 ### Manual Test Plans
 Documentation in `/tests/plans` outlining test procedures for:
 - UI testing (`tests/plans/cypress-ui-test-plan.md`)
-- Installer testing (`tests/plans/installer-test-plan.md`) - Covers both regular installation flows and corner cases for properly testing the PowerAdmin installation process
+- Installer testing (`tests/plans/installer-test-plan.md`) - Covers both regular installation flows and corner cases for properly testing the Poweradmin installation process
 
 ## Running Tests
 

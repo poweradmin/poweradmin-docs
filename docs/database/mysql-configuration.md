@@ -1,8 +1,8 @@
-# MySQL Configuration for PowerAdmin
+# MySQL Configuration for Poweradmin
 
 ## Overview
 
-This guide explains how to configure PowerAdmin to use MySQL or MariaDB as your database backend.
+This guide explains how to configure Poweradmin to use MySQL or MariaDB as your database backend.
 
 ## Requirements
 
@@ -17,7 +17,7 @@ This guide explains how to configure PowerAdmin to use MySQL or MariaDB as your 
 ```php
 <?php
 /**
- * PowerAdmin MySQL Configuration
+ * Poweradmin MySQL Configuration
  */
 return [
     /**
@@ -81,7 +81,7 @@ innodb_flush_log_at_trx_commit = 1   # 1 = Most durable but slower, 2 = Good com
 
 ### InnoDB Migration
 
-PowerAdmin works best with InnoDB tables. If you're using an older installation with MyISAM tables, consider migrating to InnoDB. See `sql/InnoDB-migration.md` for detailed migration steps.
+Poweradmin works best with InnoDB tables. If you're using an older installation with MyISAM tables, consider migrating to InnoDB. See `sql/InnoDB-migration.md` for detailed migration steps.
 
 ## Performance Considerations
 

@@ -1,8 +1,8 @@
-# PowerAdmin System Requirements
+# Poweradmin System Requirements
 
 ## Overview
 
-PowerAdmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well
+Poweradmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well
 as those that are not supported due to PHP version constraints. For the best experience, ensure your system meets or
 exceeds the recommended requirements.
 
@@ -48,7 +48,7 @@ exceeds the recommended requirements.
 
 ## BSD Operating Systems
 
-PowerAdmin is compatible with BSD operating systems that meet the PHP 8.1+ requirement. While not extensively tested, it
+Poweradmin is compatible with BSD operating systems that meet the PHP 8.1+ requirement. While not extensively tested, it
 should work as long as the environment is properly configured.
 
 ---
@@ -75,7 +75,7 @@ should work as long as the environment is properly configured.
 
 ## Tested Environments
 
-PowerAdmin has been tested with the following software combinations:
+Poweradmin has been tested with the following software combinations:
 
 | Poweradmin | PHP            | PowerDNS | MariaDB  | MySQL  | PostgreSQL | SQLite |
 |------------|----------------|----------|----------|--------|------------|--------|

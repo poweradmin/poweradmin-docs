@@ -26,7 +26,25 @@ When upgrading Poweradmin from any version to a newer one, follow these general 
 
 If you're upgrading across multiple major versions, it's often safest to upgrade incrementally through each major version rather than jumping directly to the latest version.
 
-For upgrading to version 4.0.0, see the [v4.0.0 upgrade guide](v4.0.0.md).
+### Recommended Path from 2.0.0 to 4.0.0
+
+If you're upgrading from a very old version (e.g., 2.0.0) to the latest 4.0.0, we recommend the following path:
+
+1. 2.0.0 → 2.1.4 (Important database structure changes)
+2. 2.1.4 → 2.2.2 (API integration changes)
+3. 2.2.2 → 3.2.0 (DNSSEC implementation)
+4. 3.2.0 → 3.9.2 (Security improvements)
+5. 3.9.2 → 4.0.0 (Complete architecture overhaul)
+
+### Critical Versions with SQL Migrations
+
+The following versions include important database structure changes:
+
+- [v2.1.4](v2.1.4.md) - Added supermasters and domainmetadata tables
+- [v3.0.0](v3.0.0.md) - Added cryptokeys table for DNSSEC
+- [v3.2.0](v3.2.0.md) - Schema updates for PowerDNS API integration
+- [v3.4.0](v3.4.0.md) - Added tsigkeys table
+- [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
 
 ## Troubleshooting
 

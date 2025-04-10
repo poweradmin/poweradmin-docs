@@ -1,6 +1,6 @@
 site_name: Poweradmin Documentation
 site_url: https://docs.poweradmin.org
-site_description: Documentation for PowerAdmin - PowerDNS Web Administration Tool
+site_description: Documentation for Poweradmin - PowerDNS Web Administration Tool
 
 repo_url: https://github.com/poweradmin/poweradmin-docs
 edit_uri: edit/main/docs/

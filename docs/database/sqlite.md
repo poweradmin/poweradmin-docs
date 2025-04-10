@@ -1,8 +1,8 @@
-# SQLite Configuration Guide for PowerAdmin
+# SQLite Configuration Guide for Poweradmin
 
 ## Overview
 
-This guide explains how to configure PowerAdmin to use SQLite as your database backend.
+This guide explains how to configure Poweradmin to use SQLite as your database backend.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ This guide explains how to configure PowerAdmin to use SQLite as your database b
 ```php
 <?php
 /**
- * PowerAdmin SQLite Configuration
+ * Poweradmin SQLite Configuration
  */
 return [
     /**
@@ -66,12 +66,12 @@ sqlite3 /path/to/your/poweradmin.sqlite < /path/to/poweradmin/sql/poweradmin-sql
 
 ### Option 2: Using the Automated Script
 
-You can use the provided script from the PowerAdmin repository:
+You can use the provided script from the Poweradmin repository:
 https://github.com/poweradmin/poweradmin-scripts/blob/master/create_sqlite_db.sh
 
 ### Running the Installer
 
-After creating your SQLite database, run the PowerAdmin installer and select SQLite as the database type, then provide
+After creating your SQLite database, run the Poweradmin installer and select SQLite as the database type, then provide
 the full path to your database file:
 
 ![Select SQLite in installer](../screenshots/sqlite_step03.png)

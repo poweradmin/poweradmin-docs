@@ -1,10 +1,10 @@
 # Advanced Logging Configuration
 
-This guide provides detailed information about PowerAdmin's advanced logging capabilities and configuration options. For basic logging setup, see the [Basic Logging Configuration](../configuration/logging.md).
+This guide provides detailed information about Poweradmin's advanced logging capabilities and configuration options. For basic logging setup, see the [Basic Logging Configuration](../configuration/logging.md).
 
 ## Log Types in Detail
 
-PowerAdmin supports several logging methods that can be combined for comprehensive monitoring:
+Poweradmin supports several logging methods that can be combined for comprehensive monitoring:
 
 ### 1. Native Logging
 
@@ -31,7 +31,7 @@ Disables all application logging (except database logging if enabled separately)
 
 ### 3. Database Logging
 
-Logs user actions and zone changes to the PowerAdmin database. This is independent of the main logger type.
+Logs user actions and zone changes to the Poweradmin database. This is independent of the main logger type.
 
 ```php
 'logging' => [

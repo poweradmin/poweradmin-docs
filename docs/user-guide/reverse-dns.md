@@ -1,6 +1,6 @@
 # Reverse DNS (PTR Records) Guide
 
-This guide explains how to create and manage Reverse DNS (PTR) records in PowerAdmin for PowerDNS.
+This guide explains how to create and manage Reverse DNS (PTR) records in Poweradmin for PowerDNS.
 
 ## What are PTR Records?
 
@@ -100,10 +100,10 @@ This will create 100 PTR records with hostnames like `vm-0.example.com` through 
 
 ## Permissions and Access Control
 
-The Batch PTR Records feature follows PowerAdmin's permission system:
+The Batch PTR Records feature follows Poweradmin's permission system:
 
 1. **Required Feature Flag**:
-   - The `add_reverse_record` option must be enabled in the PowerAdmin configuration
+   - The `add_reverse_record` option must be enabled in the Poweradmin configuration
 
 2. **Required User Permissions**:
    - Either the `zone_content_edit_own` or `zone_content_edit_others` permission is required to access this feature

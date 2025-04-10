@@ -2,7 +2,7 @@
 
 ## Overview
 
-PowerAdmin provides comprehensive support for DNSSEC (Domain Name System Security Extensions) through a well-structured implementation that follows domain-driven design principles. The system offers two implementation methods:
+Poweradmin provides comprehensive support for DNSSEC (Domain Name System Security Extensions) through a well-structured implementation that follows domain-driven design principles. The system offers two implementation methods:
 
 1. **PowerDNS API Integration** (Recommended): Uses the PowerDNS REST API for DNSSEC operations
 2. **pdnsutil Command-line Tool** (Legacy): Uses the pdnsutil command-line utility 
@@ -44,7 +44,7 @@ DNSSEC settings can be configured in the `config/settings.php` file under the `d
 To enable DNSSEC using the PowerDNS API:
 
 1. Configure your PowerDNS server with API access
-2. Update your PowerAdmin configuration file with the following settings:
+2. Update your Poweradmin configuration file with the following settings:
 
 ```php
 return [
@@ -135,7 +135,7 @@ Common issues:
 If you're currently using the pdnsutil method, it's recommended to migrate to the API method:
 
 1. Configure the PowerDNS API (see PowerDNS documentation)
-2. Update your PowerAdmin configuration with API settings
+2. Update your Poweradmin configuration with API settings
 3. No data migration is needed - the same DNSSEC keys will be accessible through both methods
 
 ## More Information

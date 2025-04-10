@@ -130,11 +130,11 @@ Common LDAP issues and solutions:
 - Consider implementing connection timeout settings
 - Monitor failed authentication attempts
 
-## Adding Users to PowerAdmin
+## Adding Users to Poweradmin
 
 Add a user to Poweradmin:
 
-![PowerAdmin LDAP User](../../screenshots/pwa_ldap.png)
+![Poweradmin LDAP User](../../screenshots/pwa_ldap.png)
 
 The same user should exist in the LDAP schema:
 
