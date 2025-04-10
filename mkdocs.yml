@@ -115,11 +115,36 @@ nav:
   - Upgrading:
       - Overview: upgrading/index.md
       - v4.0.0: upgrading/v4.0.0.md
+      - v3.9.2: upgrading/v3.9.2.md
+      - v3.9.1: upgrading/v3.9.1.md
+      - v3.9.0: upgrading/v3.9.0.md
+      - v3.8.1: upgrading/v3.8.1.md
+      - v3.8.0: upgrading/v3.8.0.md
+      - v3.7.0: upgrading/v3.7.0.md
+      - v3.6.1: upgrading/v3.6.1.md
+      - v3.6.0: upgrading/v3.6.0.md
+      - v3.5.1: upgrading/v3.5.1.md
+      - v3.5.0: upgrading/v3.5.0.md
+      - v3.4.2: upgrading/v3.4.2.md
+      - v3.4.1: upgrading/v3.4.1.md
+      - v3.4.0: upgrading/v3.4.0.md
+      - v3.3.0: upgrading/v3.3.0.md
+      - v3.2.0: upgrading/v3.2.0.md
+      - v3.1.0: upgrading/v3.1.0.md
+      - v3.0.0: upgrading/v3.0.0.md
+      - v2.2.2: upgrading/v2.2.2.md
+      - v2.2.1: upgrading/v2.2.1.md
+      - v2.2.0: upgrading/v2.2.0.md
+      - v2.1.9: upgrading/v2.1.9.md
       - v2.1.8: upgrading/v2.1.8.md
       - v2.1.7: upgrading/v2.1.7.md
       - v2.1.6: upgrading/v2.1.6.md
       - v2.1.5: upgrading/v2.1.5.md
       - v2.1.4: upgrading/v2.1.4.md
+      - v2.1.3: upgrading/v2.1.3.md
+      - v2.1.2: upgrading/v2.1.2.md
+      - v2.1.1: upgrading/v2.1.1.md
+      - v2.1.0: upgrading/v2.1.0.md
 
   - Troubleshooting:
 #      - Common Issues: troubleshooting/common-issues.md
