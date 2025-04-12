@@ -62,39 +62,6 @@ mysql -u poweradmin -p powerdns < sql/poweradmin-mysql-db-structure.sql
 mysql -u poweradmin -p powerdns < sql/pdns/[version]/schema.mysql.sql
 ```
 
-## Optimization Guidelines
-
-### Server Configuration
-
-For better performance with MySQL, consider these settings in your MySQL server configuration:
-
-```ini
-# my.cnf or my.ini
-[mysqld]
-innodb_buffer_pool_size = 128M       # Increase for better performance (adjust based on server RAM)
-max_connections = 100                # Maximum number of connections
-wait_timeout = 28800                 # Timeout for idle connections (in seconds)
-character_set_server = utf8mb4       # For complete Unicode support
-collation_server = utf8mb4_general_ci # Case-insensitive collation
-innodb_flush_log_at_trx_commit = 1   # 1 = Most durable but slower, 2 = Good compromise
-```
-
-### InnoDB Migration
-
-Poweradmin works best with InnoDB tables. If you're using an older installation with MyISAM tables, consider migrating to InnoDB. See `sql/InnoDB-migration.md` for detailed migration steps.
-
-## Performance Considerations
-
-1. **Indexes**: Ensure indexes are properly set up, especially on frequently queried fields
-
-2. **Query optimization**: When experiencing slow performance, enable debug mode to review and optimize SQL queries
-
-3. **Connection pooling**: For high-traffic installations, consider implementing connection pooling
-
-4. **Regular maintenance**: 
-   - Run `OPTIMIZE TABLE` periodically on tables with frequent deletions
-   - Consider setting up a maintenance plan for database backups
-
 ## Troubleshooting
 
 ### Common Issues
@@ -105,7 +72,3 @@ Poweradmin works best with InnoDB tables. If you're using an older installation 
 
 3. **Permission problems**: Ensure the database user has appropriate privileges
 
-4. **Performance issues**:
-   - Increase buffer pool size
-   - Check slow query log
-   - Ensure proper indexing

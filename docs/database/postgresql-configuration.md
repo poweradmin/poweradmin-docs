@@ -63,23 +63,6 @@ psql -U poweradmin -d powerdns -f sql/poweradmin-pgsql-db-structure.sql
 psql -U poweradmin -d powerdns -f sql/pdns/[version]/schema.pgsql.sql
 ```
 
-## Optimization Guidelines
-
-### Server Configuration
-
-For better performance with PostgreSQL, consider these settings in your PostgreSQL server configuration:
-
-```ini
-# postgresql.conf
-max_connections = 100                # Maximum number of connections
-shared_buffers = 128MB               # Start with 25% of RAM for small servers
-effective_cache_size = 4GB           # Set to about 50-75% of available RAM
-work_mem = 4MB                       # Memory for query operations
-maintenance_work_mem = 64MB          # Memory for maintenance operations
-random_page_cost = 4                 # Lower for SSD (1.1-2.0), higher for HDD
-timezone = 'UTC'                     # Database timezone
-```
-
 ## PostgreSQL-Specific Considerations
 
 ### Sequences
@@ -113,11 +96,6 @@ PostgreSQL is case-sensitive for identifiers unless quoted. All table and column
 2. **Permission problems**: 
    - Ensure the database user has appropriate privileges
    - Check both database and schema-level permissions
-
-3. **Performance issues**:
-   - Run EXPLAIN ANALYZE on slow queries
-   - Check for missing indexes
-   - Ensure autovacuum is properly configured
 
 ## SQL Compatibility Notes
 

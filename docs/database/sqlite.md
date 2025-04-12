@@ -80,21 +80,6 @@ When the installation is complete, copy the generated configuration to inc.confi
 
 ![Copy configuration](../screenshots/sqlite_step06.png)
 
-## Performance Considerations
-
-- Enable SQLite's WAL (Write-Ahead Logging) mode for better concurrency:
-```php
-// Can be added to your application initialization code
-$pdo->exec('PRAGMA journal_mode=WAL;');
-```
-
-- Regularly perform VACUUM operations to optimize database size:
-```sql
-VACUUM;
-```
-
-- For larger deployments, consider using MySQL or PostgreSQL instead
-
 ## Troubleshooting
 
 - Check file permissions if you encounter "unable to open database file" errors
