@@ -2,49 +2,43 @@
 
 Poweradmin uses built-in themes for its user interface styling. Currently, the application does not support custom CSS files for styling customization.
 
-## Available Themes
+## Available Styles
 
-Poweradmin comes with the following themes, which can be selected in the configuration file:
+Poweradmin comes with the following styles, which can be selected in the configuration file:
 
-- **ignite** (default): A clean, light theme with modern design elements
-- **spark**: A dark theme optimized for reduced eye strain in low-light environments
+- **light** (default): A clean, bright interface style
+- **dark**: A darker interface style that reduces eye strain in low-light environments
 
-## Theme Configuration
+## Style Configuration
 
-To change the theme, update the `theme` setting in the `config/settings.php` file under the `interface` section:
+To change the style, update the `style` setting in the `settings.php` file under the `interface` section:
 
 ```php
 return [
     'interface' => [
-        'theme' => 'ignite',  // Options: 'ignite', 'spark'
+        'theme' => 'default',  // The theme to use (default, custom)
+        'style' => 'dark',     // Options: 'light', 'dark'
     ],
 ];
 ```
 
-## Screenshots
+## Theme and Style Relationship
 
-### Ignite Theme (Light)
-![Ignite Theme](/screenshots/ignite_zone_list.png)
+In Poweradmin, the visual appearance is controlled by two settings:
 
-### Spark Theme (Dark)
-![Spark Theme](/screenshots/spark_zone_list.png)
+1. **theme**: Controls the template structure
+2. **style**: Controls the color scheme and visual appearance
 
-## Theme Features
+This separation allows for maximum flexibility in customizing the interface.
 
-Each theme provides consistent styling for:
+## UI Customization Options
 
-- Navigation menus
-- Form elements
-- Buttons and controls
-- Tables and data views
-- Modals and dialogs
-- Notifications and alerts
+Without custom CSS, you can still customize the UI using:
 
-For more information about themes, see the [Themes documentation](./themes.md).
+1. **Custom themes**: Create custom templates in your theme directory
+2. **Style selection**: Choose between light and dark styles
+3. **Layout settings**: Configure which UI elements are shown and their positioning
 
-## Future Development
-
-Custom CSS support may be implemented in future versions of Poweradmin. If you need UI customization beyond the available themes, consider:
-
-1. Contributing to the Poweradmin project
-2. Requesting the feature in the project's issue tracker
+For more information about UI customization, see:
+- [Themes documentation](./themes.md)
+- [Layout documentation](./layout.md) (includes custom header and footer setup)

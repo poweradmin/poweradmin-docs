@@ -6,36 +6,32 @@ Poweradmin includes built-in themes that can be selected through the configurati
 
 Poweradmin comes with the following themes:
 
-- **ignite** (default): A clean, light theme with modern design elements
-- **spark**: A dark theme optimized for reduced eye strain in low-light environments
+- **default**: The standard theme
+- **custom**: For custom theme templates
 
 ## Theme Configuration
 
-Configure your preferred theme in the `config/settings.php` file under the `interface` section:
+Configure your preferred theme in the `settings.php` file under the `interface` section:
 
 ```php
 return [
     'interface' => [
-        'theme' => 'ignite',  // Options: 'ignite', 'spark'
+        'theme' => 'default',  // Options: 'default', 'custom', etc.
+        'style' => 'light',    // Options: 'light', 'dark'
+        'theme_base_path' => 'templates', // Base path for theme templates
     ],
 ];
 ```
 
 ## Theme Screenshots
 
-### Ignite Theme (Light)
+### Light Style
+![Light Theme](/screenshots/modern.png)
 
-The default light theme with a clean, professional interface.
+### Dark Style
+![Dark Theme](/screenshots/punk.png)
 
-![Ignite Theme](/screenshots/ignite_zone_list.png)
-
-### Spark Theme (Dark)
-
-A dark theme that reduces eye strain in low-light environments.
-
-![Spark Theme](/screenshots/spark_zone_list.png)
-
-## Theme Features
+## Theme Components
 
 Each theme includes consistent styling for:
 
@@ -46,18 +42,24 @@ Each theme includes consistent styling for:
 - Modals and dialogs
 - Notifications and alerts
 
-## Theme Customization
+## Creating Custom Themes
 
-While Poweradmin doesn't currently support custom theme creation, you can use [Custom CSS](./custom-css.md) to modify the appearance of the built-in themes.
+Poweradmin supports custom themes through the theme templates system. To create a custom theme:
 
-For example, to change the primary color in the ignite theme:
-
-```css
-/* Custom color overrides for ignite theme */
-.btn-primary {
-    background-color: #3c8dbc;
-    border-color: #367fa9;
-}
+1. Set the theme to `custom` in your settings
+2. Create a directory structure in your theme base path:
+```
+templates/
+└── custom/
+    ├── header.html
+    ├── footer.html
+    └── other template files...
 ```
 
-For more advanced customization, see the [Custom CSS](./custom-css.md) documentation.
+3. Customize the template files to match your organization's branding
+
+## Theme Customization
+
+For more information on customizing themes, see:
+- [Custom UI Layout](./layout.md) (includes custom header and footer setup)
+- [Custom CSS](./custom-css.md) (for additional style customization)
