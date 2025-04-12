@@ -11,16 +11,16 @@ The easiest way to evaluate Poweradmin without actually connecting to PowerDNS i
     - Navigate to the directory where the files are located.
 
 3. **Build the Docker Image**
-    - Run the following command to build the Docker image:
-      ```sh
-      docker build --no-cache -t poweradmin .
-      ```
+- Run the following command to build the Docker image:
+```sh
+docker build --no-cache -t poweradmin .
+```
 
 4. **Run the Docker Container**
-    - Execute the following command to run the Docker container:
-      ```sh
-      docker run -d --name poweradmin -p 8080:80 poweradmin
-      ```
+- Execute the following command to run the Docker container:
+```sh
+docker run -d --name poweradmin -p 8080:80 poweradmin
+```
 
 5. **Access Poweradmin**
     - Open your browser and go to [http://localhost:8080](http://localhost:8080).

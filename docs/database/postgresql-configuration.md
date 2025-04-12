@@ -96,13 +96,3 @@ PostgreSQL is case-sensitive for identifiers unless quoted. All table and column
 2. **Permission problems**: 
    - Ensure the database user has appropriate privileges
    - Check both database and schema-level permissions
-
-## SQL Compatibility Notes
-
-When developing custom queries or extensions for Poweradmin with PostgreSQL, note these differences from MySQL:
-
-1. PostgreSQL uses `SERIAL` instead of `AUTO_INCREMENT`
-2. String concatenation uses `||` instead of `CONCAT()` or `+`
-3. Use `IS NULL` and `IS NOT NULL` instead of `= NULL` or `!= NULL`
-4. Date functions differ significantly between MySQL and PostgreSQL
-5. PostgreSQL is generally stricter about SQL syntax and type casting
