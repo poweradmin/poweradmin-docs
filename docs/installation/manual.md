@@ -104,6 +104,84 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 * Set appropriate permissions on configuration files
 * Remove the `install` directory after installation
 * Change the default admin password immediately after first login
+
+## Web Server Configuration
+
+### Apache Configuration
+For a basic Apache configuration, you can use the following settings:
+
+```apache
+<VirtualHost *:80>
+    ServerName your-domain.com
+    DocumentRoot /path/to/poweradmin
+
+    <Directory /path/to/poweradmin>
+        Options -Indexes +FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    # For DDNS update functionality
+    RewriteEngine On
+    RewriteRule ^/update(.*)$ /dynamic_update.php [L]
+    RewriteRule ^/nic/update(.*)$ /dynamic_update.php [L]
+</VirtualHost>
+```
+
+### Nginx Configuration
+For Nginx servers, use the following configuration:
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    root /path/to/poweradmin;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # For DDNS update functionality
+    location ~ ^/update {
+        rewrite ^/update(.*)$ /dynamic_update.php last;
+    }
+    
+    location ~ ^/nic/update {
+        rewrite ^/nic/update(.*)$ /dynamic_update.php last;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+    }
+}
+```
+
+### Caddy Configuration
+The following Caddy configuration has been suggested by community members. Note that this configuration is not actively used by the maintainers but has been reported to work:
+
+```caddy
+:80 {
+    log {
+        output file /var/log/caddy/caddy.log {
+        }
+    }
+
+    # Set this path to your site's directory.
+    root * /srv/www
+
+    rewrite /update /dynamic_update.php
+    rewrite /nic/update /dynamic_update.php
+
+    php_fastcgi * unix//run/php/php-fpm.sock {
+    }
+
+    file_server * {
+    }
+}
+```
+
 ## Post-Installation Steps
 
 1. Configure web server permissions
