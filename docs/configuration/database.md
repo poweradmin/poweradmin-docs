@@ -42,6 +42,41 @@ Poweradmin supports multiple database backends:
 - **PostgreSQL**: Provides advanced features and strict SQL standard compliance
 - **SQLite**: Lightweight option for small deployments or testing
 
+Poweradmin uses PowerDNS's own database tables for zones and records. It directly queries the PowerDNS tables like domains and records, while maintaining its own tables for user permissions and metadata. The system will display all zones in the PowerDNS database, regardless of how they were created (through Poweradmin UI or via REST API).
+
+```
+┌─────────────────────┐            ┌─────────────────────┐
+│                     │            │                     │
+│    Poweradmin       │            │     PowerDNS        │
+│    Application      │            │     Server          │
+│                     │            │                     │
+└──────────┬──────────┘            └──────────┬──────────┘
+           │                                  │
+           │                                  │
+           │                                  │
+           │      ┌────────────────────┐      │
+           │      │                    │      │
+           └─────►│ Database Server    │◄─────┘
+                  │                    │
+                  │ ┌──────────────┐   │
+                  │ │ PowerDNS     │   │
+                  │ │ Tables       │   │
+                  │ │ - domains    │   │
+                  │ │ - records    │   │
+                  │ │ - ...        │   │
+                  │ └──────────────┘   │
+                  │                    │
+                  │ ┌──────────────┐   │
+                  │ │ Poweradmin   │   │
+                  │ │ Tables       │   │
+                  │ │ - users      │   │
+                  │ │ - permissions│   │
+                  │ │ - ...        │   │
+                  │ └──────────────┘   │
+                  │                    │
+                  └────────────────────┘
+```
+
 ## Database-Specific Setup Guides
 
 For detailed setup instructions for each database type, including schema creation, permissions, and optimization tips, see:
