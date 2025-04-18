@@ -24,7 +24,7 @@ PowerDNS API settings can be configured in the `config/settings.php` file under 
 ```php
 return [
     'pdns_api' => [
-        'url' => 'http://localhost:8081/api/v1',
+        'url' => 'http://localhost:8081',
         'key' => 'YOUR_API_KEY',
     ],
 ];
@@ -35,7 +35,7 @@ return [
 ```php
 <?php
 // PowerDNS API settings
-$pdns_api_url = 'http://localhost:8081/api/v1';
+$pdns_api_url = 'http://localhost:8081';
 $pdns_api_key = 'YOUR_API_KEY';
 ```
 
