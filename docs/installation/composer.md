@@ -19,8 +19,8 @@ composer create-project --no-dev poweradmin/poweradmin
 ```
 
 This command will create a poweradmin folder in the current directory, download, and set up Poweradmin without
-development dependencies. After running the Composer command, you need to create a simple configuration file at
-`inc/config.inc.php` with basic database settings.
+development dependencies. After running the Composer command, you need to create or modify the configuration file at
+`config/settings.php` with your database and application settings.
 
 ## Directory Structure
 
@@ -29,8 +29,9 @@ After installation, you should have the following structure:
 ```
 poweradmin/
 ├── ...
-├── inc/
-│ └── config.inc.php
+├── config/
+│ ├── settings.defaults.php
+│ └── settings.php
 ├── lib/
 ├── ...
 ├── vendor/
@@ -40,28 +41,52 @@ poweradmin/
 
 ## Basic Configuration
 
-Here is an example of what the `inc/config.inc.php` file should look like:
+Here is an example of what the `config/settings.php` file should look like:
 
 ```php
 <?php
-// Database settings
-$db_host = 'localhost';
-$db_name = 'your_db_name';
-$db_user = 'your_db_user';
-$db_pass = 'your_db_password';
-$db_type = 'mysql'; // or 'pgsql'
+
+return [
+    /**
+     * Database Settings
+     */
+    'database' => [
+        'host' => 'localhost',
+        'name' => 'your_db_name',
+        'user' => 'your_db_user',
+        'password' => 'your_db_password',
+        'type' => 'mysql', // or 'pgsql', 'sqlite'
+    ],
+
+    /**
+     * Security Settings
+     */
+    'security' => [
+        'session_key' => 'generate_a_strong_random_key_here',
+    ],
+
+    /**
+     * DNS Settings
+     */
+    'dns' => [
+        'hostmaster' => 'hostmaster.example.com',
+        'ns1' => 'ns1.example.com',
+        'ns2' => 'ns2.example.com',
+    ],
+];
 ```
 
 See [Basic Configuration](../configuration/basic.md) for all available options.
 
 ## SQLite Database Settings
 
-If you are using SQLite, uncomment the following lines in the `inc/config.inc.php` file:
+If you are using SQLite, modify the database section in the `config/settings.php` file:
 
 ```php
-// Database settings for SQLite
-$db_type = 'sqlite';
-$db_file = '/path/to/your/sqlite.db';
+'database' => [
+    'type' => 'sqlite',
+    'file' => '/path/to/your/sqlite.db',
+],
 ```
 
 **Important:** Ensure proper file permissions and directory location for the SQLite database file.
