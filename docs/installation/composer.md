@@ -118,11 +118,70 @@ just like when you initially installed the project.
 
 ## Post-Installation Steps
 
-1. Set up the database schema (see [MySQL/MariaDB](../database/mysql.md), [PostgreSQL](../database/postgresql.md),
+1. Set up the database schema (see [MySQL/MariaDB](../database/mysql-configuration.md), [PostgreSQL](../database/postgresql-configuration.md),
    or [SQLite](../database/sqlite.md) setup)
 2. Configure web server permissions
-3. Set up initial admin user
+3. Set up initial admin user (see instructions below)
 4. Configure PowerDNS connection
+
+## Creating the Initial Admin User Manually
+
+If you're not using the web installer or prefer to set up your admin user directly in the database, follow these steps:
+
+### 1. Generate a password hash
+
+You'll need to create a secure password hash. You can use PHP from the command line to generate one:
+
+```sh
+php -r 'echo password_hash("your_secure_password", PASSWORD_DEFAULT) . "\n";'
+```
+
+Copy the resulting hash which will look something like:
+```
+$2y$10$abcdefghijklmnopqrstuOzxLkPHAUXTCg9vRMf/Q4WrCQI3K.0jK
+```
+
+### 2. Insert the admin user into the database
+
+#### For MySQL/MariaDB:
+
+```sql
+INSERT INTO users 
+(username, password, fullname, email, description, perm_templ, active, use_ldap) 
+VALUES 
+('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
+
+-- Make the user a super-admin
+INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
+```
+
+#### For PostgreSQL:
+
+```sql
+INSERT INTO users 
+(username, password, fullname, email, description, perm_templ, active, use_ldap) 
+VALUES 
+('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
+
+-- Make the user a super-admin
+INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
+```
+
+#### For SQLite:
+
+```sql
+INSERT INTO users 
+(username, password, fullname, email, description, perm_templ, active, use_ldap) 
+VALUES 
+('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
+
+-- Make the user a super-admin
+INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
+```
+
+### 3. Verify user creation
+
+You should now be able to log in to the PowerAdmin interface with the username 'admin' and the password you created.
 
 ## Troubleshooting
 
