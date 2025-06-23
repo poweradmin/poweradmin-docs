@@ -30,31 +30,31 @@ dnf install -y php-sqlite3
 ### Apache
 
 1. Install Apache if not already installed:
-   ```bash
-   dnf install -y httpd
-   ```
+```bash
+dnf install -y httpd
+```
 
 2. Enable and start the Apache service:
-   ```bash
-   systemctl enable httpd
-   systemctl start httpd
-   ```
+```bash
+systemctl enable httpd
+systemctl start httpd
+```
 
 3. Configure SELinux if it's enabled:
-   ```bash
-   # Allow Apache to connect to the database
-   setsebool -P httpd_can_network_connect_db 1
-   
-   # If using a non-standard directory, set the correct context
-   semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
-   restorecon -Rv /path/to/poweradmin
-   ```
+```bash
+# Allow Apache to connect to the database
+setsebool -P httpd_can_network_connect_db 1
+
+# If using a non-standard directory, set the correct context
+semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
+restorecon -Rv /path/to/poweradmin
+```
 
 4. Configure your firewall:
-   ```bash
-   firewall-cmd --permanent --add-service=http
-   firewall-cmd --permanent --add-service=https  # If using HTTPS
-   firewall-cmd --reload
+```bash
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https  # If using HTTPS
+firewall-cmd --reload
    ```
 
 ### Nginx Configuration
@@ -62,9 +62,9 @@ dnf install -y php-sqlite3
 If you prefer Nginx:
 
 1. Install Nginx:
-   ```bash
-   dnf install -y nginx
-   ```
+```bash
+dnf install -y nginx
+```
 
 2. Create a configuration file for Poweradmin:
 
@@ -97,10 +97,10 @@ server {
 3. Save this file to `/etc/nginx/conf.d/poweradmin.conf`
 
 4. Enable and start Nginx and PHP-FPM:
-   ```bash
-   systemctl enable nginx php-fpm
-   systemctl start nginx php-fpm
-   ```
+```bash
+systemctl enable nginx php-fpm
+systemctl start nginx php-fpm
+```
 
 5. Configure SELinux and firewall as with Apache.
 
