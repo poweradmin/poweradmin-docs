@@ -40,12 +40,12 @@ Poweradmin maintains a database table (`records_zone_templ`) that tracks which D
 
 ### Methods to Apply Template Changes
 
-1. **Individual Zone Update**:
+**Individual Zone Update**:
    - Go to Edit Zone page
    - Change the template dropdown (even to the same template)
    - Save changes - this triggers a template refresh
 
-2. **Bulk Zone Update**:
+**Bulk Zone Update**:
    - Go to Edit Template page
    - Click "Update Zones" button
    - This updates ALL zones currently using that template
