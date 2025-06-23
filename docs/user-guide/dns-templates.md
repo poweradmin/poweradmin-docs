@@ -1,10 +1,10 @@
 # DNS Templates
 
-DNS templates in PowerAdmin allow you to create standardized sets of DNS records that can be applied to multiple zones, streamlining zone management and ensuring consistency across domains.
+DNS templates in Poweradmin allow you to create standardized sets of DNS records that can be applied to multiple zones, streamlining zone management and ensuring consistency across domains.
 
 ## Template Management
 
-Templates are managed through the PowerAdmin interface and stored in the database. Each template can contain multiple DNS records of various types (A, CNAME, MX, etc.) that will be applied when the template is used.
+Templates are managed through the Poweradmin interface and stored in the database. Each template can contain multiple DNS records of various types (A, CNAME, MX, etc.) that will be applied when the template is used.
 
 Templates support placeholders that are automatically substituted:
 
@@ -24,9 +24,9 @@ When you change a zone's template on the edit page:
 - **Changes are immediate** - template application happens instantly when you save the change
 - **SOA records are handled specially** - existing serial numbers are preserved and incremented appropriately
 
-### How PowerAdmin Tracks Template Records
+### How Poweradmin Tracks Template Records
 
-PowerAdmin maintains a database table (`records_zone_templ`) that tracks which DNS records were created from templates. This allows the system to:
+Poweradmin maintains a database table (`records_zone_templ`) that tracks which DNS records were created from templates. This allows the system to:
 
 - Identify which records can be safely replaced during template updates
 - Preserve manually added records during template changes
@@ -52,7 +52,7 @@ PowerAdmin maintains a database table (`records_zone_templ`) that tracks which D
 
 ### No Automatic Sync Indicators
 
-PowerAdmin does not currently provide interface indicators showing which zones are "out of sync" with their templates. Administrators must manually track when template changes need to be applied to existing zones.
+Poweradmin does not currently provide interface indicators showing which zones are "out of sync" with their templates. Administrators must manually track when template changes need to be applied to existing zones.
 
 ## Permissions
 
@@ -73,7 +73,7 @@ Different template operations require different permissions:
 
 ### Permission Templates
 
-PowerAdmin also supports permission templates (different from zone templates):
+Poweradmin also supports permission templates (different from zone templates):
 
 - **Adding permission templates**: Requires `templ_perm_add` permission
 - **Editing permission templates**: Requires `templ_perm_edit` permission
