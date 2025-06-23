@@ -18,14 +18,18 @@ PowerDNS API settings can be configured in the `config/settings.php` file under 
 |----------------|-------------------|---------------|-------------|-----------------|
 | $pdns_api_url | pdns_api.url | no default | The endpoint for establishing a connection to the PowerDNS API | 3.7.0 |
 | $pdns_api_key | pdns_api.key | no default | The authentication key required for establishing a connection with the PowerDNS API | 3.7.0 |
+| - | pdns_api.display_name | PowerDNS | PowerDNS name to identify server in the interface | 4.0.0 |
+| - | pdns_api.server_name | localhost | PowerDNS server name used in API calls | 4.0.0 |
 
 ## Modern Configuration Example
 
 ```php
 return [
     'pdns_api' => [
+        'display_name' => 'Production PowerDNS',
         'url' => 'http://localhost:8081',
         'key' => 'YOUR_API_KEY',
+        'server_name' => 'localhost',
     ],
 ];
 ```

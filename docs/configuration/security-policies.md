@@ -46,6 +46,27 @@ return [
             'whitelist_ip_addresses' => ['192.168.1.0/24', '10.0.0.*'],
             'blacklist_ip_addresses' => ['1.2.3.4', '5.6.7.0/24'],
         ],
+        'mfa' => [
+            'enabled' => true,
+            'app_enabled' => true,
+            'email_enabled' => true,
+            'recovery_codes' => 8,
+            'recovery_code_length' => 10,
+        ],
+        'password_reset' => [
+            'enabled' => true,
+            'token_lifetime' => 3600,
+            'rate_limit_attempts' => 5,
+            'rate_limit_window' => 3600,
+            'min_time_between_requests' => 60,
+        ],
+        'recaptcha' => [
+            'enabled' => true,
+            'site_key' => 'your_site_key_here',
+            'secret_key' => 'your_secret_key_here',
+            'version' => 'v3',
+            'v3_threshold' => 0.5,
+        ],
     ],
 ];
 ```
@@ -59,5 +80,53 @@ return [
 5. Enable both login and global token validation to prevent CSRF attacks
 6. Use HTTPS for all production deployments
 7. Regularly update Poweradmin to get the latest security fixes
+
+## Multi-Factor Authentication (MFA)
+
+Poweradmin supports multi-factor authentication to add an extra layer of security:
+
+- **enabled**: Enable MFA functionality. Default: `false`
+- **app_enabled**: Enable authenticator app option (TOTP). Default: `true`
+- **email_enabled**: Enable email verification option. Default: `true`
+- **recovery_codes**: Number of recovery codes to generate. Default: `8`
+- **recovery_code_length**: Length of recovery codes. Default: `10`
+
+## Password Reset
+
+Secure password reset functionality with rate limiting:
+
+- **enabled**: Enable/disable password reset functionality. Default: `false`
+- **token_lifetime**: Token validity in seconds. Default: `3600` (1 hour)
+- **rate_limit_attempts**: Maximum reset attempts per time window. Default: `5`
+- **rate_limit_window**: Rate limit window in seconds. Default: `3600` (1 hour)
+- **min_time_between_requests**: Minimum seconds between requests. Default: `60` (1 minute)
+
+## Google reCAPTCHA
+
+Protect login forms from automated attacks using Google reCAPTCHA:
+
+- **enabled**: Enable reCAPTCHA on login form. Default: `false`
+- **site_key**: Your reCAPTCHA site key (public key). Default: `''`
+- **secret_key**: Your reCAPTCHA secret key (private key). Default: `''`
+- **version**: reCAPTCHA version: 'v2' or 'v3'. Default: `'v3'`
+- **v3_threshold**: Score threshold for v3 (0.0 - 1.0). Default: `0.5`
+
+### Setting up Google reCAPTCHA
+
+1. Visit [Google reCAPTCHA Admin Console](https://www.google.com/recaptcha/admin)
+2. Create a new site and get your site key and secret key
+3. Configure the keys in your settings:
+
+```php
+'security' => [
+    'recaptcha' => [
+        'enabled' => true,
+        'site_key' => 'your_site_key_here',
+        'secret_key' => 'your_secret_key_here',
+        'version' => 'v3',
+        'v3_threshold' => 0.5,
+    ],
+],
+```
 
 For more information about password policies, see the [Password Policies documentation](./password-policies.md).

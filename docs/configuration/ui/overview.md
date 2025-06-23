@@ -25,7 +25,12 @@ The following settings control the user interface appearance and behavior:
 - **show_record_comments**: Show or hide record comments. Default: `false`
 - **display_serial_in_zone_list**: Display serial number in zone list. Default: `false`
 - **display_template_in_zone_list**: Display template information in zone list. Default: `false`
+- **display_fullname_in_zone_list**: Show user's full name instead of username in zone lists. Default: `false`
 - **search_group_records**: Group records by name and content in search results. Default: `false`
+- **reverse_zone_sort**: Reverse zone sorting algorithm. Options: 'natural' (default), 'hierarchical' (experimental). Default: `natural`
+- **show_pdns_status**: Show PowerDNS server status page and dashboard card. Default: `false`
+- **display_hostname_only**: Display only hostname part in zone edit form (strips zone suffix). Default: `false`
+- **enable_consistency_checks**: Enable database consistency checks page. Default: `false`
 
 ### Zone Editing Features
 

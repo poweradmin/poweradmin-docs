@@ -78,6 +78,10 @@ nav:
           - Custom CSS: configuration/ui/custom-css.md
       - Password Policies: configuration/password-policies.md
       - Security Policies: configuration/security-policies.md
+      - API Configuration: configuration/api.md
+      - WHOIS Configuration: configuration/whois.md
+      - RDAP Configuration: configuration/rdap.md
+      - User Agreements: configuration/user-agreements.md
 
   - User Guide:
       - User Management:

@@ -22,6 +22,9 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $dns_third_level_check | dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |
 | $dns_txt_auto_quote | dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
 | $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
+| - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
+| - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
+| - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
 
 ## SOA Record Settings
 
@@ -33,6 +36,21 @@ In the modern configuration format, the SOA settings are configured as individua
 - **minimum**: The negative result TTL. Default: `86400` (24 hours)
 
 In the legacy format, these are combined in the `$dns_soa` variable as a space-separated string.
+
+## Record Type Configuration
+
+You can customize which record types are available in the zone editing interface:
+
+- **domain_record_types**: Array of record types for domain zones. Set to `null` to use defaults.
+- **reverse_record_types**: Array of record types for reverse zones. Set to `null` to use defaults.
+
+Example custom configuration:
+```php
+'dns' => [
+    'domain_record_types' => ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'SOA', 'TXT', 'SRV', 'CAA'],
+    'reverse_record_types' => ['PTR', 'NS', 'SOA', 'TXT', 'CNAME'],
+],
+```
 
 ## Modern Configuration Example
 
@@ -55,6 +73,9 @@ return [
         'top_level_tld_check' => false,
         'third_level_check' => false,
         'txt_auto_quote' => false,
+        'prevent_duplicate_ptr' => true,
+        'domain_record_types' => null, // Uses default types
+        'reverse_record_types' => null, // Uses default types
     ],
 ];
 ```

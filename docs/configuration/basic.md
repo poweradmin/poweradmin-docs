@@ -71,6 +71,10 @@ The modern configuration format is organized into logical sections:
 - **mail**: Email configuration for notifications
 - **dnssec**: DNSSEC functionality settings
 - **ldap**: LDAP authentication settings
+- **whois**: WHOIS lookup functionality settings
+- **rdap**: RDAP (Registration Data Access Protocol) settings
+- **api**: REST API configuration
+- **user_agreement**: User agreement system settings
 - **misc**: Miscellaneous settings like timezone and edit conflict handling
 
 ## Configuration Variables
@@ -207,9 +211,8 @@ $ldap_search_filter = '(cn=*admin*)';
 | $experimental_edit_conflict_resolution | misc.edit_conflict_resolution | last_writer_wins | Controls how concurrent updates are handled (last_writer_wins, only_latest_version, 3_way_merge) | |
 | $record_comments_sync | misc.record_comments_sync | false | Enable bidirectional comment synchronization between A and PTR records | 3.9.0 |
 | N/A | misc.timezone | UTC | Default timezone for the application | |
-| N/A | dns.txt_auto_quote | false | Automatically quote TXT records | 3.9.2 |
-| N/A | dns.domain_record_types | null | Customizes which record types are shown for domain zones | 4.0.0 |
-| N/A | dns.reverse_record_types | null | Customizes which record types are shown for reverse zones | 4.0.0 |
+| N/A | misc.display_errors | false | Display PHP errors (false for production) | 4.0.0 |
+| N/A | misc.show_generated_passwords | true | Show generated passwords on user creation | 4.0.0 |
 
 For detailed information about specific settings, see:
 
@@ -219,6 +222,10 @@ For detailed information about specific settings, see:
 - [PowerDNS API](powerdns-api.md)
 - [LDAP Integration](ldap.md)
 - [Logging Setup](logging.md)
+- [WHOIS Configuration](whois.md)
+- [RDAP Configuration](rdap.md)
+- [API Configuration](api.md)
+- [User Agreements](user-agreements.md)
 
 ## Important Notes
 
