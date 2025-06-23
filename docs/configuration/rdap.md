@@ -95,21 +95,6 @@ RDAP uses a bootstrap mechanism to determine the correct server for each TLD:
 2. **Cached mappings** - Server mappings are cached for performance
 3. **Fallback servers** - Default server used if bootstrap fails
 
-## Troubleshooting
-
-### Common Issues
-
-1. **SSL certificate errors**: Verify RDAP server certificates
-2. **Timeout issues**: Increase `request_timeout` value
-3. **Access denied**: Check administrator privileges
-4. **Server not found**: Verify TLD supports RDAP
-
-### Network Requirements
-
-- Outbound HTTPS connections (port 443)
-- DNS resolution for RDAP servers
-- Valid SSL/TLS certificates
-
 ## Performance Optimization
 
 - **Caching**: RDAP responses can be cached

@@ -51,20 +51,6 @@ The WHOIS functionality supports lookups for:
 - **Timeout settings**: Adjust socket timeout based on your network conditions
 - **Logging**: WHOIS queries may be logged depending on your logging configuration
 
-## Troubleshooting
-
-### Common Issues
-
-1. **Connection timeouts**: Increase `socket_timeout` value
-2. **Access denied**: Verify user has administrator privileges
-3. **No results**: Check if domain exists and WHOIS server is correct
-
-### Network Requirements
-
-- Outbound connections on port 43 (WHOIS protocol)
-- DNS resolution for WHOIS servers
-- Firewall rules allowing WHOIS traffic
-
 ## Performance Considerations
 
 - WHOIS queries are network-dependent and may be slow

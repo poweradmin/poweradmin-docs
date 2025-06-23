@@ -37,9 +37,8 @@ return [
 API keys provide secure, token-based authentication:
 
 1. **Generate API keys** - Create keys for each application
-2. **Rate limiting** - Control request rates per key
-3. **Permissions** - Restrict access to specific operations
-4. **Revocation** - Easily revoke compromised keys
+2. **Permissions** - Restrict access to specific operations
+3. **Revocation** - Easily revoke compromised keys
 
 #### Using API Keys
 
@@ -111,10 +110,9 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 
 1. **Use HTTPS only** - Never expose API over HTTP
 2. **API key rotation** - Regularly rotate API keys
-3. **Rate limiting** - Implement request rate limits
-4. **Input validation** - Validate all API inputs
-5. **Access control** - Restrict API access by IP if possible
-6. **Audit logging** - Log all API requests and responses
+3. **Input validation** - Validate all API inputs
+4. **Access control** - Restrict API access by IP if possible
+5. **Audit logging** - Log all API requests and responses
 
 ## Request/Response Format
 
@@ -162,37 +160,13 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 }
 ```
 
-## Rate Limiting
-
-API requests are subject to rate limiting:
-
-- **Default limits**: 1000 requests per hour per API key
-- **Burst limits**: 100 requests per minute
-- **Headers**: Rate limit information in response headers
-
-```
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1640995200
-```
-
-## Client Libraries
-
-Official and community client libraries:
-
-- **PHP**: Poweradmin PHP SDK
-- **Python**: python-poweradmin
-- **JavaScript**: poweradmin-js
-- **Go**: go-poweradmin
-
 ## Troubleshooting
 
 ### Common Issues
 
 1. **401 Unauthorized**: Invalid API key or credentials
 2. **403 Forbidden**: Insufficient permissions
-3. **429 Too Many Requests**: Rate limit exceeded
-4. **500 Internal Server Error**: Server configuration issue
+3. **500 Internal Server Error**: Server configuration issue
 
 ### Debugging
 
