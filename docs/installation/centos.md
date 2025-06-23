@@ -108,11 +108,11 @@ server {
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release (v3.9.2) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release (v3.9.3) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
 
 ```bash
-curl -Lo v3.9.2.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.2.zip
-unzip v3.9.2.zip
+curl -Lo v3.9.3.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.3.zip
+unzip v3.9.3.zip
 ```
 
 If you don't have curl or unzip installed:
@@ -127,11 +127,11 @@ Move the Poweradmin files to your web server's document root:
 
 ```bash
 # For Apache (default directory)
-cp -r poweradmin-3.9.2/* /var/www/html/
+cp -r poweradmin-3.9.3/* /var/www/html/
 chown -R apache:apache /var/www/html/
 
 # For Nginx (if using a different directory)
-cp -r poweradmin-3.9.2/* /usr/share/nginx/html/
+cp -r poweradmin-3.9.3/* /usr/share/nginx/html/
 chown -R nginx:nginx /usr/share/nginx/html/
 ```
 

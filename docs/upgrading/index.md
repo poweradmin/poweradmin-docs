@@ -33,8 +33,8 @@ If you're upgrading from a very old version (e.g., 2.0.0) to the latest 4.0.0, w
 1. 2.0.0 → 2.1.4 (Important database structure changes)
 2. 2.1.4 → 2.2.2 (API integration changes)
 3. 2.2.2 → 3.2.0 (DNSSEC implementation)
-4. 3.2.0 → 3.9.2 (Security improvements)
-5. 3.9.2 → 4.0.0 (Complete architecture overhaul)
+4. 3.2.0 → 3.9.3 (Security improvements)
+5. 3.9.3 → 4.0.0 (Complete architecture overhaul)
 
 ### Critical Versions with SQL Migrations
 

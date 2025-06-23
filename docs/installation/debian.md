@@ -34,9 +34,9 @@ apt install php-sqlite3
 Apache is usually pre-installed and configured on Debian systems. You'll need to:
 
 1. Enable the required Apache modules:
-   ```bash
-   a2enmod rewrite
-   ```
+```bash
+a2enmod rewrite
+```
 
 2. Either place Poweradmin in the default webroot (`/var/www/html/`) or create a virtual host configuration.
 
@@ -82,11 +82,11 @@ systemctl reload nginx
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release (v3.9.2) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release (v3.9.3) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
 
 ```bash
-wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.2.zip
-unzip v3.9.2.zip
+wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.3.zip
+unzip v3.9.3.zip
 ```
 
 Or download directly from your browser and transfer the files to your server.
@@ -96,7 +96,7 @@ Or download directly from your browser and transfer the files to your server.
 Move the Poweradmin files to your web server's document root:
 
 ```bash
-cp -r poweradmin-3.9.2/* /var/www/html/
+cp -r poweradmin-3.9.3/* /var/www/html/
 chown -R www-data:www-data /var/www/html/
 ```
 
