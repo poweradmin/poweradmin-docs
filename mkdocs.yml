@@ -86,7 +86,7 @@ nav:
       - DNS Management:
 #          - Domains: user-guide/domains.md
 #          - Zone Management: user-guide/zones.md
-#          - Templates: user-guide/templates.md
+          - DNS Templates: user-guide/dns-templates.md
 #          - Bulk Operations: user-guide/bulk-operations.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
           - Dynamic DNS:
