@@ -93,14 +93,14 @@ PRIVILEGES;
 For DNSSEC management and certain operations, Poweradmin requires access to the PowerDNS API:
 
 1. Enable the API on your PowerDNS server by editing `/etc/powerdns/pdns.conf`:
-   ```
-   api=yes
-   api-key=your_secure_api_key
-   webserver=yes
-   webserver-address=0.0.0.0  # Or restrict to admin_server_ip
-   webserver-port=8081
-   webserver-allow-from=admin_server_ip/32
-   ```
+```
+api=yes
+api-key=your_secure_api_key
+webserver=yes
+webserver-address=0.0.0.0  # Or restrict to admin_server_ip
+webserver-port=8081
+webserver-allow-from=admin_server_ip/32
+```
 
 2. Configure Poweradmin to use the API by editing your `settings.php`:
 

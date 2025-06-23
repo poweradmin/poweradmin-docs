@@ -55,7 +55,7 @@ restorecon -Rv /path/to/poweradmin
 firewall-cmd --permanent --add-service=http
 firewall-cmd --permanent --add-service=https  # If using HTTPS
 firewall-cmd --reload
-   ```
+```
 
 ### Nginx Configuration
 

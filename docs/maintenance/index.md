@@ -49,25 +49,25 @@ VACUUM;
 To prevent logs from consuming excessive disk space:
 
 1. **Database Logs**: Implement a log rotation strategy for Poweradmin's database logs:
-   ```sql
-   -- Example log cleanup (retain only the last 90 days)
-   DELETE FROM log_users WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
-   DELETE FROM log_zones WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
-   ```
+```sql
+-- Example log cleanup (retain only the last 90 days)
+DELETE FROM log_users WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_zones WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
+```
 
 2. **System Logs**: Configure log rotation for your web server and PHP logs:
-   ```
-   # Example logrotate configuration (/etc/logrotate.d/poweradmin)
-   /var/log/apache2/poweradmin-*.log {
-       rotate 14
-       daily
-       compress
-       delaycompress
-       missingok
-       notifempty
-       create 640 www-data adm
-   }
-   ```
+```
+# Example logrotate configuration (/etc/logrotate.d/poweradmin)
+/var/log/apache2/poweradmin-*.log {
+    rotate 14
+    daily
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 640 www-data adm
+}
+```
 
 ### Backup Procedures
 
