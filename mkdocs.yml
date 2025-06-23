@@ -118,6 +118,7 @@ nav:
           - v4.0.0: upgrading/v4.0.0.md
       - v3.x Series:
           - v3.9.x:
+              - v3.9.3: upgrading/v3.9.3.md
               - v3.9.2: upgrading/v3.9.2.md
               - v3.9.1: upgrading/v3.9.1.md
               - v3.9.0: upgrading/v3.9.0.md
