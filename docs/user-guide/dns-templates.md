@@ -56,10 +56,27 @@ PowerAdmin does not currently provide interface indicators showing which zones a
 
 ## Permissions
 
-Template management requires specific permissions:
+### Zone Template Operations
 
-- **Zone template operations** require `zone_master_add` permission
-- **Changing zone templates** requires `zone_meta_edit_own` along with `zone_master_add` and `zone_content_edit_own` permissions
+Different template operations require different permissions:
+
+- **Creating zone templates**: Requires `zone_master_add` permission
+- **Listing zone templates**: Requires `zone_master_add` permission
+- **Editing/deleting zone templates**: Requires `user_is_ueberuser` OR (`zone_master_add` AND template ownership)
+- **Adding/editing template records**: Requires `user_is_ueberuser` OR (`zone_master_add` AND template ownership)
+
+### Applying Templates to Zones
+
+- **Creating zones with templates**: Requires `zone_master_add` OR `zone_slave_add` permission
+- **Changing existing zone templates**: Requires zone editing permissions (`zone_content_edit_own` for owned zones or `zone_content_edit_others` for other zones)
+
+### Permission Templates
+
+PowerAdmin also supports permission templates (different from zone templates):
+
+- **Adding permission templates**: Requires `templ_perm_add` permission
+- **Editing permission templates**: Requires `templ_perm_edit` permission
+- **Deleting permission templates**: Requires `user_edit_templ_perm` permission
 
 ## Configuration
 
