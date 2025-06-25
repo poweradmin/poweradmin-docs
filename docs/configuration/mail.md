@@ -17,6 +17,7 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 - **enabled**: Enable email functionality. Default: `false`
 - **from**: Default "from" email address. Default: `poweradmin@example.com`
 - **from_name**: Default "from" name. Default: empty
+- **return_path**: Default "Return-Path" address for bounce handling. Default: `poweradmin@example.com`
 - **transport**: Transport method. Options: 'smtp', 'sendmail', 'php'. Default: `smtp`
 
 ### SMTP Settings
@@ -44,10 +45,11 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 return [
     'mail' => [
         'enabled' => true,
-        'from' => 'dns@company.com',
+        'from' => 'dns@example.com',
         'from_name' => 'DNS Administrator',
+        'return_path' => 'dns@example.com',
         'transport' => 'smtp',
-        'host' => 'smtp.company.com',
+        'host' => 'smtp.example.com',
         'port' => 587,
         'username' => 'smtp_user',
         'password' => 'smtp_password',
