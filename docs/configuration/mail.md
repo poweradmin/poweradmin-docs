@@ -14,11 +14,11 @@ Poweradmin supports sending emails for various purposes:
 
 The mail settings are configured in the `config/settings.php` file under the `mail` section:
 
-- **enabled**: Enable email functionality. Default: `false`
+- **enabled**: Enable email functionality. Default: `true`
 - **from**: Default "from" email address. Default: `poweradmin@example.com`
 - **from_name**: Default "from" name. Default: empty
 - **return_path**: Default "Return-Path" address for bounce handling. Default: `poweradmin@example.com`
-- **transport**: Transport method. Options: 'smtp', 'sendmail', 'php'. Default: `smtp`
+- **transport**: Transport method. Options: 'smtp', 'sendmail', 'php'. Default: `php`
 
 ### SMTP Settings
 
@@ -33,11 +33,6 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 
 - **sendmail_path**: Path to sendmail binary. Default: `/usr/sbin/sendmail -bs`
 
-### Email Templates
-
-- **password_email_subject**: Subject for password reset emails. Default: `Your new account information`
-- **email_signature**: Signature added to emails. Default: `DNS Admin`
-- **email_title**: Title used in email templates. Default: `Your DNS Account Information`
 
 ## Example Configuration
 
