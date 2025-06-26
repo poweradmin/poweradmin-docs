@@ -54,27 +54,3 @@ return [
 ];
 ```
 
-## Testing Mail Configuration
-
-After configuring the mail settings, you can test your configuration by:
-
-1. Going to Administration → System Settings
-2. Clicking "Test Mail Configuration"
-3. Entering a test email address
-4. Clicking "Send Test Email"
-
-## Troubleshooting
-
-Common email issues and solutions:
-
-- **Emails not sending**: Verify SMTP credentials and server settings
-- **SSL/TLS errors**: Check encryption settings and port numbers
-- **Authentication failures**: Verify username and password
-- **Delayed delivery**: Review mail server queue and spam settings
-
-## Security Considerations
-
-- Use TLS encryption when possible
-- Use dedicated email accounts for the application
-- Regularly rotate SMTP credentials
-- Be cautious with email content to avoid potential phishing concerns
