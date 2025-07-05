@@ -111,3 +111,34 @@ return [
 ```
 
 By enabling these settings, you can gain more insight into the application's behavior and troubleshoot issues more effectively.
+
+## Common Configuration Issues
+
+### Password Character Issues
+
+If you experience PHP syntax errors when generating configuration files during installation, check your passwords for problematic characters:
+
+**Symptoms:**
+- Installation fails with PHP parse errors
+- Configuration file cannot be parsed
+- "Access denied for user" errors after successful installation test
+
+**Solution:**
+Avoid these characters in database, LDAP, and SMTP passwords:
+- Single quotes (`'`)
+- Double quotes (`"`)
+- Backslashes (`\`)
+- Line breaks
+
+**Example Error:**
+```
+Parse error: syntax error, unexpected 'password' in config/settings.php on line 42
+```
+
+**Debugging Steps:**
+1. Check your password for the problematic characters listed above
+2. Use `var_dump((new AppConfiguration())->getAll())` to inspect parsed configuration values
+3. Look for missing quotes or escape characters in the output
+4. Change the password to use only alphanumeric characters and basic symbols
+
+This issue occurs because the configuration file generator does not properly escape special PHP characters in password values during installation.

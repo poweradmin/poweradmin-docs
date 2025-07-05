@@ -60,6 +60,16 @@ sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 
 Create a `config/settings.php` file using the template below. A full list of configuration options can be found in `config/settings.defaults.php`.
 
+!!! warning "Password Character Restrictions"
+    When creating passwords for database, LDAP, or SMTP authentication, avoid using the following characters:
+    
+    * Single quotes (`'`)
+    * Double quotes (`"`) 
+    * Backslashes (`\`)
+    * Line breaks
+    
+    These characters can cause configuration file generation to fail during installation with cryptic PHP syntax errors.
+
 ```php
 <?php
 /**
