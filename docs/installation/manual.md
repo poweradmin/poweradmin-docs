@@ -138,35 +138,33 @@ For a basic Apache configuration, you can use the following settings:
 </VirtualHost>
 ```
 
-### Nginx Configuration
-For Nginx servers, use the following configuration:
-
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
-    root /path/to/poweradmin;
-    index index.php index.html;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-
-    # For DDNS update functionality
-    location ~ ^/update {
-        rewrite ^/update(.*)$ /dynamic_update.php last;
-    }
+!!! important "Apache .htaccess File"
+    The [.htaccess file](https://github.com/poweradmin/poweradmin/blob/master/.htaccess) in the root directory is **essential** for the API to work properly. This file contains:
     
-    location ~ ^/nic/update {
-        rewrite ^/nic/update(.*)$ /dynamic_update.php last;
-    }
+    - URL rewriting rules for RESTful API endpoints
+    - Security configurations protecting sensitive directories and files
+    - CORS headers for API access
+    
+    Ensure that `AllowOverride All` is set in your Apache configuration to allow the .htaccess file to function properly.
 
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
-    }
-}
-```
+### Nginx Configuration
+For Nginx servers, use the complete configuration example provided in the Poweradmin repository:
+
+**[nginx.conf.example](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example)**
+
+This configuration includes:
+- Complete RESTful API routing for users, zones, and records
+- API documentation endpoints  
+- CORS headers for API access
+- Enhanced security restrictions
+- Static asset caching
+- PHP 8.2 FPM configuration
+- HTTP Authorization header forwarding for API authentication
+
+Make sure to adjust the following settings for your environment:
+- `server_name` - Set to your domain name
+- `root` - Set to your Poweradmin installation path
+- `fastcgi_pass` - Adjust PHP-FPM socket/TCP configuration as needed
 
 ### Caddy Configuration
 The following Caddy configuration has been suggested by community members. Note that this configuration is not actively used by the maintainers but has been reported to work:
