@@ -165,86 +165,10 @@ sudo ufw allow from admin_server_ip to any port 3306 proto tcp
 3. Verify you can view and modify zones
 4. Test DNSSEC operations if enabled
 
-## Troubleshooting
-
-If you encounter connection issues:
-
-1. Database Connection Problems:
-    - Verify database credentials
-    - Check that the remote database user has proper permissions
-    - Confirm the database server allows remote connections
-    - Check for firewall restrictions
-
-- For MySQL, verify that the user is allowed to connect from the admin server's IP:
-
-```sql
--- Check and update permissions if needed
-SELECT user, host
-FROM mysql.user
-WHERE user = 'poweradmin';
--- If needed, create a new user with the correct host
-CREATE
-USER 'poweradmin'@'admin_server_ip' IDENTIFIED BY 'secure_password';
-GRANT
-SELECT,
-INSERT
-,
-UPDATE,
-DELETE
-ON powerdns.* TO 'poweradmin'@'admin_server_ip';
-```
-
-2. API Connection Problems:
-    - Verify API credentials
-    - Ensure the PowerDNS API is enabled and accessible
-    - Check for firewall restrictions on the API port
-    - Verify that PowerDNS is listening on the correct network interface:
-
-```bash
-# Check if PowerDNS API is listening on the correct interface
-ss -lntp | grep 8081
-```
-
-- If the API is only listening on 127.0.0.1, update the PowerDNS configuration:
-
-```conf
-webserver-address=0.0.0.0  # Allow connections from any IP
-webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
-```
-
-3. DNSSEC Issues:
-    - Verify API credentials are correct
-    - Ensure the PowerDNS version supports DNSSEC
-    - Check PowerDNS logs for API-related errors
-    - Enable debug mode in your Poweradmin configuration:
-
-```php
-'dnssec' => [
-   'enabled' => true,
-   'debug' => true,  // Enable debug mode
-],
-```
-
-## Limitations
-
-When running Poweradmin remotely, be aware of these limitations:
-
-1. Increased latency for database operations
-2. Network dependency (if the network connection fails, Poweradmin cannot manage zones)
-3. Some advanced operations may be slower due to API calls
-4. Limited to features available through the PowerDNS API and database
-
 ## Security Best Practices
 
 1. Use a dedicated database user with minimum required permissions
 2. Implement IP restrictions for database and API access
 3. Use strong, unique passwords for all components
-4. Consider using a VPN or SSH tunneling for connections between servers
-5. Keep both Poweradmin and PowerDNS updated to the latest versions
-6. Regularly audit access logs on both servers
-
-## Conclusion
-
-Running Poweradmin on a separate server from PowerDNS is fully supported and offers advantages in terms of separation of
-concerns and security. By following proper configuration steps and security practices, you can create a robust remote
-management setup for your DNS infrastructure.
+4. Keep both Poweradmin and PowerDNS updated to the latest versions
+5. Regularly audit access logs on both servers

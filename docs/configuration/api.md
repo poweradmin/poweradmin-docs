@@ -110,9 +110,8 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 
 1. **Use HTTPS only** - Never expose API over HTTP
 2. **API key rotation** - Regularly rotate API keys
-3. **Input validation** - Validate all API inputs
-4. **Access control** - Restrict API access by IP if possible
-5. **Audit logging** - Log all API requests and responses
+3. **Access control** - Restrict API access by IP if possible
+4. **Audit logging** - Log all API requests and responses
 
 ## Request/Response Format
 

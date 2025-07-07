@@ -113,15 +113,6 @@ return [
 ];
 ```
 
-## Troubleshooting
-
-Common LDAP issues and solutions:
-
-- **Connection Failed**: Verify server URI and firewall settings
-- **Binding Failed**: Check bind DN and password
-- **User Not Found**: Verify search filter and user attribute
-- **SSL Certificate Issues**: Ensure proper CA certificates are installed
-
 ## Security Considerations
 
 - Always use LDAPS (LDAP over SSL/TLS) in production environments

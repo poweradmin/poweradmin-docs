@@ -84,15 +84,3 @@ PostgreSQL is case-sensitive for identifiers unless quoted. All table and column
 2. **Indexing**: Consider additional indexes for query patterns specific to your installation
 
 3. **Statement Timeout**: For web applications, consider setting `statement_timeout` to prevent long-running queries
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Connection errors**: 
-   - Verify the host, port, user and password settings
-   - Check pg_hba.conf for client authorization settings
-
-2. **Permission problems**: 
-   - Ensure the database user has appropriate privileges
-   - Check both database and schema-level permissions

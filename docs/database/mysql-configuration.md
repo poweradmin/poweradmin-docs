@@ -61,14 +61,3 @@ The SQL schema files are located in the `sql/` directory:
 mysql -u poweradmin -p powerdns < sql/poweradmin-mysql-db-structure.sql
 mysql -u poweradmin -p powerdns < sql/pdns/[version]/schema.mysql.sql
 ```
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Connection errors**: Verify the host, port, user and password settings
-
-2. **Character set issues**: Make sure the charset in settings matches the database charset
-
-3. **Permission problems**: Ensure the database user has appropriate privileges
-

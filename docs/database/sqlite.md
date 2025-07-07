@@ -79,10 +79,3 @@ the full path to your database file:
 When the installation is complete, copy the generated configuration to inc.config.php:
 
 ![Copy configuration](../screenshots/sqlite_step06.png)
-
-## Troubleshooting
-
-- Check file permissions if you encounter "unable to open database file" errors
-- Verify that the PHP PDO SQLite extension is enabled with `php -m | grep pdo_sqlite`
-- Ensure the path to the SQLite file is absolute and accessible to the web server user
-- Check PHP error logs for detailed error messages

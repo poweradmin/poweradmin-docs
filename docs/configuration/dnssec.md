@@ -114,22 +114,6 @@ Check DNSSEC status using:
 dig +dnssec example.com SOA
 ```
 
-## Troubleshooting
-
-Common issues:
-
-1. **API connection problems**: Ensure the API URL is correct and the API key has the necessary permissions
-
-2. **pdnsutil permission errors**: Check that the web server user can access pdns.conf and has permission to execute pdnsutil
-
-3. **DNSSEC operations failing**: Check the PowerDNS logs for detailed error messages
-
-4. Check that both PowerDNS API and DNSSEC are enabled
-
-5. Verify the pdnsutil command path is correct
-
-6. Enable debug mode temporarily to get more detailed logs
-
 ## Migration
 
 If you're currently using the pdnsutil method, it's recommended to migrate to the API method:
