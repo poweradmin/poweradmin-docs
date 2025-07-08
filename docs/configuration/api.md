@@ -84,6 +84,28 @@ curl -u username:password \
 - `PUT /api/v1/users/{id}` - Update user
 - `DELETE /api/v1/users/{id}` - Delete user (admin only)
 
+### Permission Management
+
+- `GET /api/v1/permissions` - List available permissions
+- `GET /api/v1/permissions/{id}` - Get permission details
+
+### Permission Templates
+
+- `GET /api/v1/permission-templates` - List permission templates
+- `GET /api/v1/permission-templates/{id}` - Get permission template details
+- `POST /api/v1/permission-templates` - Create permission template
+- `PUT /api/v1/permission-templates/{id}` - Update permission template
+- `DELETE /api/v1/permission-templates/{id}` - Delete permission template
+
+### Internal API Endpoints
+
+The following endpoints are available for internal use (session-based authentication):
+
+- `GET /api/internal/zones/{id}/validate` - Validate zone configuration
+- `GET /api/internal/users/{id}/preferences` - Get user preferences
+- `PUT /api/internal/users/{id}/preferences` - Update user preferences
+- `POST /api/internal/validation` - Validate various data types
+
 ## API Documentation
 
 When `docs_enabled` is true, interactive API documentation is available at `/api/docs`. This provides:
