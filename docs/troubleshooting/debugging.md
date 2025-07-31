@@ -7,7 +7,7 @@ To help diagnose issues, you can enable various debug settings in your Poweradmi
 Debugging settings should be added to your `config/settings.php` file. If you're still using the legacy configuration in `inc/config.inc.php`, consider migrating to the new configuration format using the provided script:
 
 ```bash
-php scripts/migrate-config.php
+php config/migrate-config.php
 ```
 
 ## Available Debug Settings
