@@ -17,6 +17,7 @@ exceeds the recommended requirements.
     - `openssl`
     - `filter`
     - `tokenizer`
+    - `xml`
     - `pdo`
     - One of:
         - `pdo-mysql`

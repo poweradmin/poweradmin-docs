@@ -7,7 +7,7 @@ This guide will help you install Poweradmin on CentOS, RHEL, and other RHEL-base
 Ensure you have the following PHP extensions installed:
 
 ```bash
-dnf install -y php php-intl php-gettext php-pdo php-fpm
+dnf install -y php php-intl php-gettext php-pdo php-xml php-fpm
 ```
 
 ### Database Support

@@ -7,7 +7,7 @@ This guide will help you install Poweradmin on Ubuntu systems.
 Ensure you have the following PHP extensions installed:
 
 ```bash
-apt install php php-intl php-php-gettext php-tokenizer php-fpm
+apt install php php-intl php-php-gettext php-tokenizer php-xml php-fpm
 ```
 
 ### Database Support
