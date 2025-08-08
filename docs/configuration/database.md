@@ -22,7 +22,7 @@ return [
     'database' => [
         'host' => 'localhost',
         'port' => '3306',
-        'name' => 'powerdns',
+        'name' => 'poweradmin',
         'user' => 'poweradmin',
         'password' => 'your_secure_password',
         'type' => 'mysql',
