@@ -118,7 +118,7 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 ## Web Server Configuration
 
 ### Apache Configuration
-For a basic Apache configuration, you can use the following settings:
+For a basic Apache configuration (without API support), you can use the following settings:
 
 ```apache
 <VirtualHost *:80>
@@ -129,7 +129,7 @@ For a basic Apache configuration, you can use the following settings:
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
-    </Directory>
+    </Directory>    
     
     # For DDNS update functionality
     RewriteEngine On
@@ -138,14 +138,20 @@ For a basic Apache configuration, you can use the following settings:
 </VirtualHost>
 ```
 
-!!! important "Apache .htaccess File"
-    The [.htaccess file](https://github.com/poweradmin/poweradmin/blob/master/.htaccess) in the root directory is **essential** for the API to work properly. This file contains:
-    
-    - URL rewriting rules for RESTful API endpoints
-    - Security configurations protecting sensitive directories and files
-    - CORS headers for API access
-    
-    Ensure that `AllowOverride All` is set in your Apache configuration to allow the .htaccess file to function properly.
+### Important: Apache .htaccess File
+
+The `.htaccess` file in the root directory is **essential** for the API to work properly. This file contains:
+
+- URL rewriting rules for RESTful API endpoints
+- Security configurations protecting sensitive directories and files
+- CORS headers for API access
+
+**Version-specific .htaccess files:**
+
+- **For Poweradmin 4.0.x with API support**: Use the [.htaccess from release/4.0.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/.htaccess)
+- **For other Poweradmin 4.x versions**: Use the latest [.htaccess from master branch](https://github.com/poweradmin/poweradmin/blob/master/.htaccess)
+
+Ensure that `AllowOverride All` is set in your Apache configuration to allow the .htaccess file to function properly.
 
 ### Nginx Configuration
 For Nginx servers, use the complete configuration example provided in the Poweradmin repository:
