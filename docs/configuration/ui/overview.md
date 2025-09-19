@@ -36,7 +36,6 @@ The following settings control the user interface appearance and behavior:
 
 - **add_reverse_record**: Enable checkbox to add PTR record from regular zone view. Default: `true`
 - **add_domain_record**: Enable checkbox to add A/AAAA record from reverse zone view. Default: `true`
-- **show_migrations**: Show migrations menu item. Default: `false` (experimental)
 
 ## Example Configuration
 
