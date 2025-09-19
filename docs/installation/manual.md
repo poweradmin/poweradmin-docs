@@ -154,13 +154,16 @@ The `.htaccess` file in the root directory is **essential** for the API to work 
 Ensure that `AllowOverride All` is set in your Apache configuration to allow the .htaccess file to function properly.
 
 ### Nginx Configuration
-For Nginx servers, use the complete configuration example provided in the Poweradmin repository:
+For Nginx servers, use the complete configuration example provided in the Poweradmin repository.
 
-**[nginx.conf.example](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example)**
+**Version-specific nginx configuration files:**
 
-This configuration includes:
+- **For Poweradmin 4.0.x with API support**: Use the [nginx.conf.example from release/4.0.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/nginx.conf.example)
+- **For other Poweradmin 4.x versions**: Use the latest [nginx.conf.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example)
+
+These configuration files include:
 - Complete RESTful API routing for users, zones, and records
-- API documentation endpoints  
+- API documentation endpoints
 - CORS headers for API access
 - Enhanced security restrictions
 - Static asset caching
