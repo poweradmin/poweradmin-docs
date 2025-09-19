@@ -34,23 +34,28 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Email-based verification
     * Recovery codes for account recovery
     * Configurable recovery code generation
+
 * **Advanced Account Lockout**:
     * Login attempt tracking with database support
     * Configurable lockout attempts and duration
     * IP address-based tracking and lockouts
     * Whitelist and blacklist support (supports IPs, CIDRs, wildcards)
+
 * **Password Reset System**:
     * Secure password reset via email
     * Configurable token lifetime and rate limiting
     * Protection against brute force attacks
+
 * **Google reCAPTCHA Integration**:
     * Support for reCAPTCHA v2 and v3
     * Configurable score thresholds for v3
     * Login form protection
+
 * **Enhanced Password Policies**:
     * Configurable minimum length requirements
     * Character type requirements (uppercase, lowercase, numbers, special)
     * Custom special character sets
+
 * **Traditional Security Features**:
     * LDAP/Active Directory integration with custom filter
     * CSRF prevention
@@ -65,9 +70,11 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * SQLite support
     * Optimized for large databases (tested with 15,000+ zones and 150,000+ records)
     * Configurable connections
+
 * Email notifications:
     * Multiple transport methods
     * Template customization
+
 * Configuration:
     * Default settings
     * Environment-specific overrides
@@ -78,24 +85,29 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Bootstrap-based responsive interface
     * Mobile-friendly design
     * Customizable elements
+
 * **Theming System**:
     * Light and dark mode support
     * Customizable theme base paths
     * Theme selection per user preference
+
 * **Multi-language Support**:
     * 15 supported languages
     * Gettext-based translations
     * Right-to-left language support
+
 * **User Preferences**:
     * Personalized user settings storage
     * Individual user customization options
     * Per-user theme preferences
+
 * **Enhanced Interface Options**:
     * Display full names instead of usernames in zone lists
     * Improved reverse zone sorting (natural or hierarchical)
     * PowerDNS server status integration
     * Database consistency checks page
     * Email template previews
+
 * **Error Management**:
     * Development mode
     * Production mode
@@ -118,6 +130,7 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Key-based authentication for API endpoints
     * Request logging and monitoring
     * API documentation endpoints
+
 * **RESTful API Endpoints**:
     * Zone management (create, read, update, delete)
     * DNS record management
@@ -132,6 +145,7 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Configurable WHOIS servers
     * Socket timeout controls
     * Admin-only access controls
+
 * **RDAP Lookup**:
     * Registration Data Access Protocol support
     * HTTP-based domain information queries
@@ -144,10 +158,12 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Automatic synchronization of zone templates
     * Template change tracking
     * Batch operations support
+
 * **User Agreements System**:
     * Version-controlled user agreements
     * Automatic re-acceptance on version changes
     * Compliance tracking
+
 * **DNS Record Type Customization**:
     * Customize which record types are available
     * Separate configuration for forward and reverse zones

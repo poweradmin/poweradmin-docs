@@ -44,6 +44,7 @@ npm install
   - **unit/**: Unit tests
   - **integration/**: Integration tests
   - **plans/**: Test plans
+
 - **cypress/**: End-to-end tests
 
 ## Documentation

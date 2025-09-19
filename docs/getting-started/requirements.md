@@ -72,6 +72,7 @@ should work as long as the environment is properly configured.
 
 - Distributions listed as unsupported can potentially be configured manually with a custom PHP build, but this is not
   officially supported.
+
 - Upgrade paths are recommended for unsupported distributions to maintain security and compatibility.
 
 ## Tested Environments

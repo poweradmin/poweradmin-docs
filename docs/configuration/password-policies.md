@@ -20,6 +20,7 @@ The following additional security settings are available in the `security` secti
 
 - **password_encryption**: Choose the password hashing algorithm. Options: 'md5', 'md5salt', 'bcrypt', 'argon2i', '
   argon2id'. Default: `bcrypt`.
+
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`.
 
 ## Password Expiration

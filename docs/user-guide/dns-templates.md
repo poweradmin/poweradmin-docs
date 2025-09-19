@@ -87,5 +87,5 @@ Template display in zone listings can be controlled via the `interface.zonelist_
 
 ## See Also
 
-* [Permissions](permissions.md) - For detailed permission requirements
-* [Basic Configuration](../configuration/basic.md) - For template-related settings
+- [Permissions](permissions.md) - For detailed permission requirements
+- [Basic Configuration](../configuration/basic.md) - For template-related settings

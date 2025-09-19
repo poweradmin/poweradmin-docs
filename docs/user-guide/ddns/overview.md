@@ -13,59 +13,59 @@ Poweradmin's Dynamic DNS implementation offers a flexible API that can be integr
 
 Before setting up Dynamic DNS, ensure you have:
 
-* PowerDNS server with Poweradmin interface
-* User account with appropriate permissions
-* One of the following clients:
-    * Bash shell environment
-    * Python 3.x with requests module
-    * Perl with LWP::UserAgent module
-    * cURL or any HTTP client tool
+- PowerDNS server with Poweradmin interface
+- User account with appropriate permissions
+- One of the following clients:
+    - Bash shell environment
+    - Python 3.x with requests module
+    - Perl with LWP::UserAgent module
+    - cURL or any HTTP client tool
 
 ## Features
 
-* **IPv4 and IPv6 support** (dual-stack)
-* **Multiple IP management**:
-    * Support for comma-separated IP lists
-    * Simultaneous management of multiple A/AAAA records
-    * Selective record type updating
-* **Intelligent record synchronization**:
-    * Automatic cleanup of outdated records
-    * Database and DNS zone consistency maintenance
-    * Optional full sync with dual-stack support
-* **Automatic SOA serial updates**
-* **Flexible authentication** (Basic HTTP Authentication and query parameters)
-* **TTL management** (default 60 seconds)
-* **Debugging support** with verbose response mode
-* **Backward compatibility** with legacy clients
+- **IPv4 and IPv6 support** (dual-stack)
+- **Multiple IP management**:
+    - Support for comma-separated IP lists
+    - Simultaneous management of multiple A/AAAA records
+    - Selective record type updating
+- **Intelligent record synchronization**:
+    - Automatic cleanup of outdated records
+    - Database and DNS zone consistency maintenance
+    - Optional full sync with dual-stack support
+- **Automatic SOA serial updates**
+- **Flexible authentication** (Basic HTTP Authentication and query parameters)
+- **TTL management** (default 60 seconds)
+- **Debugging support** with verbose response mode
+- **Backward compatibility** with legacy clients
 
 ## Implementation Components
 
 ### Server-Side Components
 
-* `dynamic_update.php` - Main script for processing DNS updates, supporting:
-    * Single or multiple IPv4/IPv6 addresses
-    * Automatic IP detection using 'whatismyip'
-    * Comma-separated IP lists
-    * Dual-stack updates
-* `addons/clientip.php` - Script that provides the client's public IP address
+- `dynamic_update.php` - Main script for processing DNS updates, supporting:
+    - Single or multiple IPv4/IPv6 addresses
+    - Automatic IP detection using 'whatismyip'
+    - Comma-separated IP lists
+    - Dual-stack updates
+- `addons/clientip.php` - Script that provides the client's public IP address
 
 ### Client-Side Tools
 
 Official client scripts:
 
-* `addons/dynamic_dns_client.sh` - Bash client script
-* `addons/dynamic_dns_client.py` - Python client script
-* `addons/dynamic_dns_client.pl` - Perl client script
+- `addons/dynamic_dns_client.sh` - Bash client script
+- `addons/dynamic_dns_client.py` - Python client script
+- `addons/dynamic_dns_client.pl` - Perl client script
 
 You can also use cURL or any HTTP client to update DNS records. See the [Using cURL](using-curl.md) guide for examples.
 
 ## Security Features
 
-* Basic HTTP Authentication
-* Permission-based access control
-* User activity validation
-* IP address validation
-* Domain ownership verification
+- Basic HTTP Authentication
+- Permission-based access control
+- User activity validation
+- IP address validation
+- Domain ownership verification
 
 ## Getting Started
 
