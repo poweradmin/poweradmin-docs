@@ -162,6 +162,7 @@ For Nginx servers, use the complete configuration example provided in the Powera
 - **For other Poweradmin 4.x versions**: Use the latest [nginx.conf.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example)
 
 These configuration files include:
+
 - Complete RESTful API routing for users, zones, and records
 - API documentation endpoints
 - CORS headers for API access
@@ -171,6 +172,7 @@ These configuration files include:
 - HTTP Authorization header forwarding for API authentication
 
 Make sure to adjust the following settings for your environment:
+
 - `server_name` - Set to your domain name
 - `root` - Set to your Poweradmin installation path
 - `fastcgi_pass` - Adjust PHP-FPM socket/TCP configuration as needed
@@ -179,6 +181,7 @@ Make sure to adjust the following settings for your environment:
 For Caddy servers, use the comprehensive configuration example provided in the Poweradmin repository. This configuration is actively used in the production Docker image and includes advanced security, API support, and performance optimizations.
 
 Use the [caddy.conf.example from the repository](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) which includes:
+
 - Complete RESTful API routing for users, zones, and records
 - CORS headers for API access
 - Enhanced security restrictions
@@ -187,6 +190,7 @@ Use the [caddy.conf.example from the repository](https://github.com/poweradmin/p
 - HTTP Authorization header forwarding for API authentication
 
 Make sure to adjust the following settings for your environment:
+
 - Replace `:80` with your domain name for automatic HTTPS
 - `root` - Set to your Poweradmin installation path
 - `php_fastcgi` - Adjust PHP-FPM socket/TCP configuration as needed
