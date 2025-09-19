@@ -140,11 +140,7 @@ For a basic Apache configuration (without API support), you can use the followin
 
 ### Important: Apache .htaccess File
 
-The `.htaccess` file in the root directory is **essential** for the API to work properly. This file contains:
-
-- URL rewriting rules for RESTful API endpoints
-- Security configurations protecting sensitive directories and files
-- CORS headers for API access
+The `.htaccess` file in the root directory is **essential** for the API to work properly.
 
 **Version-specific .htaccess files:**
 
@@ -161,15 +157,6 @@ For Nginx servers, use the complete configuration example provided in the Powera
 - **For Poweradmin 4.0.x with API support**: Use the [nginx.conf.example from release/4.0.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/nginx.conf.example)
 - **For other Poweradmin 4.x versions**: Use the latest [nginx.conf.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example)
 
-These configuration files include:
-
-- Complete RESTful API routing for users, zones, and records
-- API documentation endpoints
-- CORS headers for API access
-- Enhanced security restrictions
-- Static asset caching
-- PHP 8.2 FPM configuration
-- HTTP Authorization header forwarding for API authentication
 
 Make sure to adjust the following settings for your environment:
 
@@ -180,14 +167,7 @@ Make sure to adjust the following settings for your environment:
 ### Caddy Configuration
 For Caddy servers, use the comprehensive configuration example provided in the Poweradmin repository. This configuration is actively used in the production Docker image and includes advanced security, API support, and performance optimizations.
 
-Use the [caddy.conf.example from the repository](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) which includes:
-
-- Complete RESTful API routing for users, zones, and records
-- CORS headers for API access
-- Enhanced security restrictions
-- Static asset caching with proper expiration headers
-- DDNS update endpoint routing
-- HTTP Authorization header forwarding for API authentication
+Use the [caddy.conf.example from the repository](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example).
 
 Make sure to adjust the following settings for your environment:
 
