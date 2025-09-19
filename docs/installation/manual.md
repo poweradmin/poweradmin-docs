@@ -111,9 +111,9 @@ For detailed configuration options, see [Basic Configuration](../configuration/b
 
 ### 5. Secure the Installation
 
-* Set appropriate permissions on configuration files
-* Remove the `install` directory after installation
-* Change the default admin password immediately after first login
+- Set appropriate permissions on configuration files
+- Remove the `install` directory after installation
+- Change the default admin password immediately after first login
 
 ## Web Server Configuration
 
