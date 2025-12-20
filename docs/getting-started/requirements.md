@@ -25,7 +25,7 @@ exceeds the recommended requirements.
         - `pdo-sqlite`
     - `ldap` (optional)
 - **Database**: MySQL 5.7.x/8.x, MariaDB, PostgreSQL, or SQLite
-- **PowerDNS**: PowerDNS authoritative server 4.0.0+
+- **PowerDNS**: PowerDNS authoritative server 4.0.0+ (including 4.x and 5.x series)
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
@@ -81,10 +81,47 @@ Poweradmin has been tested with the following software combinations:
 
 | Poweradmin | PHP            | PowerDNS | MariaDB  | MySQL  | PostgreSQL | SQLite |
 |------------|----------------|----------|----------|--------|------------|--------|
-| 4.0.x      | 8.1.31         | 4.7.4    | 10.11.10 | 9.1.0  | 16.3       | 3.45.3 |
+| 4.0.x      | 8.2.29         | 4.9.5    | 10.11.15 | -      | 16.3       | 3.51.1 |
 | 3.9.x      | 8.1.31         | 4.7.4    | 10.11.10 | 9.1.0  | 16.3       | 3.45.3 |
 | 3.8.x      | 8.1.28         | 4.5.5    | 10.11.8  | -      | 16.3       | 3.45.3 |
 | 3.7.x      | 8.1.2          | 4.5.3    | 11.1.2   | 8.2.0  | 16.0       | 3.40.1 |
 | 3.6.x      | 8.1.2          | 4.5.3    | 11.1.2   | 8.1.0  | 16.0       | 3.40.1 |
 | 3.5.x      | 8.1.17         | 4.5.3    | 10.11.2  | 8.0.32 | 15.2       | 3.34.1 |
 | 3.4.x      | 7.4.3 / 8.1.12 | 4.2.1    | 10.10.2  | 8.0.31 | 15.1       | 3.34.1 |
+
+---
+
+## PowerDNS Compatibility
+
+### Supported PowerDNS Versions
+
+Poweradmin officially supports **PowerDNS Authoritative Server 4.0.0 and newer**, including:
+
+- **PowerDNS 4.x series** (4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9)
+- **PowerDNS 5.x series** (5.0 and newer)
+
+### Community-Reported Compatibility
+
+While official testing is conducted with PowerDNS 4.7.4, community users have successfully reported using Poweradmin with:
+
+- PowerDNS 4.8.x
+- PowerDNS 4.9.x
+- PowerDNS 5.0.x and newer
+
+### Why Poweradmin Has Broad PowerDNS Compatibility
+
+Poweradmin maintains compatibility across PowerDNS versions due to its architectural design:
+
+- **Database-level operations**: Most Poweradmin operations work directly with the PowerDNS database schema, which remains relatively stable across versions
+- **PowerDNS API integration**: The PowerDNS API is used specifically for DNSSEC operations, providing modern functionality while maintaining backward compatibility
+- **Minimal version-specific dependencies**: The core DNS management features don't rely on version-specific PowerDNS features
+
+### PowerDNS Version Recommendations
+
+For production environments, consider:
+
+- **PowerDNS 4.8.x**: Supported until March 2025 (critical fixes only)
+- **PowerDNS 4.9.x**: Supported until September 2025 (critical fixes only)
+- **PowerDNS 5.0.x and newer**: Current stable branch with active support
+
+Refer to the [PowerDNS End of Life (EOL) schedule](https://doc.powerdns.com/authoritative/appendices/EOL.html) for the latest support information.
