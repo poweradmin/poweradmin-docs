@@ -200,3 +200,116 @@ Enable request logging for troubleshooting:
 ```
 
 Check logs in your configured logging destination for detailed request/response information.
+
+## PowerDNS Metrics API *(v4.0.3+)*
+
+Poweradmin can integrate with PowerDNS metrics endpoints for monitoring and status information.
+
+### Configuration
+
+```php
+'pdns' => [
+    'api_url' => 'http://localhost:8081/api/v1',
+    'api_key' => 'your-powerdns-api-key',
+    'server_id' => 'localhost',
+    'metrics' => [
+        'enabled' => true,
+        'basic_auth' => [
+            'username' => 'admin',
+            'password' => 'your-password',
+        ],
+    ],
+],
+```
+
+### Basic Authentication for Metrics *(v4.0.3+)*
+
+Starting with v4.0.3, Poweradmin supports Basic Authentication for accessing PowerDNS metrics endpoints (issue #800). This is useful when your PowerDNS API is protected with Basic Auth in addition to API keys.
+
+**Example configuration:**
+
+```php
+'pdns' => [
+    'metrics' => [
+        'enabled' => true,
+        'basic_auth' => [
+            'username' => 'metrics_user',
+            'password' => 'secure_password',
+        ],
+    ],
+],
+```
+
+## Pagination *(v4.0.1+)*
+
+### Optional Pagination Parameters
+
+Starting with v4.0.1, pagination is optional for zones and users endpoints (issue #803). You can now request all records without pagination limits.
+
+**Without pagination (returns all results):**
+```bash
+GET /api/v1/zones
+GET /api/v1/users
+```
+
+**With pagination:**
+```bash
+GET /api/v1/zones?page=1&limit=50
+GET /api/v1/users?page=2&limit=25
+```
+
+### Pagination Response
+
+```json
+{
+    "success": true,
+    "data": [...],
+    "pagination": {
+        "total": 150,
+        "page": 1,
+        "limit": 50,
+        "pages": 3
+    }
+}
+```
+
+## Version History
+
+### v4.1.0
+- Improved API stability and error handling
+
+### v4.0.4
+- **Fixed:** Basic Auth TypeError when LDAP authentication is enabled (issue #799)
+  - Resolves compatibility issues between Basic Auth and LDAP
+  - Properly handles authentication context
+
+### v4.0.3
+- **Added:** Basic Auth support for PowerDNS metrics endpoint (issue #800)
+  - Enables authentication for metrics API calls
+  - Supports username/password in addition to API keys
+
+### v4.0.2
+- **Fixed:** Routing and method validation issues (issue #767)
+- **Fixed:** Graceful handling of missing optional fields (issue #818)
+
+### v4.0.1
+- **Added:** Optional pagination for zones and users endpoints (issue #803)
+  - Can now request all records without pagination
+  - Backward compatible with paginated requests
+- **Fixed:** SOA serial updates on all record operations (issue #804)
+  - Ensures zone serial increments properly
+  - Maintains DNS propagation consistency
+
+### v4.0.0
+- Initial API implementation
+- API key management system
+- RESTful endpoints for zones, records, users
+- Permission template management
+- Interactive API documentation
+- Request logging and audit trails
+
+## Related Documentation
+
+- [Security Policies](security-policies.md) - API authentication and authorization
+- [PowerDNS Integration](powerdns-integration.md) - PowerDNS API configuration
+- [Logging Configuration](logging.md) - API request logging setup
