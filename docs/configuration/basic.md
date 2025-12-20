@@ -125,7 +125,7 @@ The following configuration variables are available in the legacy format, with t
 | $iface_expire | interface.expire | 1800 | Session time-out in seconds. After this timeout, you are automagically logged out. | |
 | $iface_zonelist_serial | interface.zonelist_serial | false | Enable (true) or disable (false) display of zone's serial in the zone listing. | |
 | $iface_zonelist_template | interface.zonelist_template | false | Enable (true) or disable (false) display of zone's template in the zone listing. | |
-| $iface_title | interface.title | Poweradmin | The title which is showed in header | 2.1.5 |
+| $iface_title | interface.title | Poweradmin | Application title displayed in browser tab and header logo. Useful for distinguishing multiple server instances. | 2.1.5 |
 | $iface_add_reverse_record | interface.add_reverse_record | true | Displays a checkbox for adding a reverse record | 2.1.7 |
 | $iface_add_domain_record | interface.add_domain_record | true | Displays a checkbox for adding an A/AAAA record from the reverse zone view | |
 | $iface_zone_type_default | interface.zone_type_default | MASTER | Default zone type when creating new zones | 2.1.9 |

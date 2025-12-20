@@ -16,9 +16,12 @@ return [
         'theme' => 'custom',  // Set to 'custom' to use your custom templates
         'style' => 'light',   // Options: 'light', 'dark'
         'theme_base_path' => 'templates', // Base path for theme templates
+        'title' => 'DNS Server 1', // Custom title to distinguish multiple server instances
     ],
 ];
 ```
+
+**Tip**: If you manage multiple DNS servers, customize the `title` setting to easily distinguish between them. For example, use server names like "Production DNS", "ns1.example.com", or "DNS Server - East Coast" to quickly identify which server you're managing.
 
 ### Creating Custom Templates
 
@@ -63,7 +66,7 @@ The following template variables are available in your custom templates:
 
 #### Header Template Variables
 
-- `{{ iface_title }}` - Title from configuration settings
+- `{{ iface_title }}` - Application title from configuration settings (appears in browser tab and header)
 - `{{ iface_style }}` - Current theme style (light or dark)
 - `{{ file_version }}` - File version timestamp for cache busting
 

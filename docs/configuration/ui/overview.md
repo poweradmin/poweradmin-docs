@@ -11,7 +11,7 @@ The following settings control the user interface appearance and behavior:
 - **theme**: UI theme name. Options: `default`, `custom`. Default: `default`
 - **style**: UI style. Options: `light`, `dark`. Default: `light`
 - **theme_base_path**: Base path for theme templates. Default: `templates`
-- **title**: Title displayed in the browser. Default: `Poweradmin`
+- **title**: Application title displayed in browser tab and header logo. Useful for distinguishing multiple server instances. Default: `Poweradmin`
 - **session_timeout**: Session timeout in seconds. Default: `1800` (30 minutes)
 - **rows_per_page**: Number of items to display per page. Default: `10`
 - **index_display**: Display mode for the index page. Options: `cards`, `list`. Default: `cards`
