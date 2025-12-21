@@ -13,6 +13,45 @@ When upgrading Poweradmin from any version to a newer one, follow these general 
 5. **Update database structure** - If required by the specific version upgrade
 6. **Test functionality** - Verify all features work correctly after upgrade
 
+## Patch Version Upgrades (e.g., 4.0.x → 4.0.y)
+
+For patch releases within the same minor version (e.g., 4.0.0 → 4.0.3, or 4.0.3 → 4.0.4), the upgrade process is straightforward:
+
+1. **Backup your database and files** - Always a good practice
+2. **Replace all application files** - Extract the new release over your existing installation
+3. **Preserve your configuration** - Your `config/settings.php` (or `inc/config.inc.php` for older versions) remains unchanged
+4. **Check release notes for SQL updates** - Only run database migration scripts if explicitly mentioned in the release notes for that version
+5. **Clear PHP opcache** - If your environment uses opcache, restart PHP-FPM or your web server to clear cached bytecode:
+   ```bash
+   sudo systemctl restart php-fpm
+   # or
+   sudo systemctl restart apache2
+   ```
+6. **Verify functionality** - Test login and basic operations
+
+**Key points for patch releases:**
+
+- Patch releases maintain backward compatibility - no breaking changes
+- Configuration format remains the same
+- Database schema changes are rare in patch releases (but always check release notes)
+- The same file replacement process applies as major upgrades
+
+**Alternative: Symlink Strategy**
+
+For easier rollbacks, consider using symlinks:
+```bash
+# Extract new version to versioned directory
+tar -xzf poweradmin-4.0.4.tar.gz -C /var/www/
+
+# Update symlink to point to new version
+ln -sfn /var/www/poweradmin-4.0.4 /var/www/poweradmin
+
+# Keep config outside versioned directories
+ln -s /etc/poweradmin/settings.php /var/www/poweradmin/config/settings.php
+```
+
+This allows quick rollback by simply changing the symlink back to the previous version.
+
 ## Important Considerations
 
 - Always read the release notes for the version you're upgrading to and any intermediate versions
