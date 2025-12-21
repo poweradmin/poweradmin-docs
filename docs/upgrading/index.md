@@ -22,11 +22,13 @@ For patch releases within the same minor version (e.g., 4.0.0 → 4.0.3, or 4.0.
 3. **Preserve your configuration** - Your `config/settings.php` (or `inc/config.inc.php` for older versions) remains unchanged
 4. **Check release notes for SQL updates** - Only run database migration scripts if explicitly mentioned in the release notes for that version
 5. **Clear PHP opcache** - If your environment uses opcache, restart PHP-FPM or your web server to clear cached bytecode:
-   ```bash
-   sudo systemctl restart php-fpm
-   # or
-   sudo systemctl restart apache2
-   ```
+
+    ```bash
+    sudo systemctl restart php-fpm
+    # or
+    sudo systemctl restart apache2
+    ```
+
 6. **Verify functionality** - Test login and basic operations
 
 **Key points for patch releases:**
