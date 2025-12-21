@@ -35,9 +35,9 @@ Apache is usually pre-installed and configured on Debian systems. You'll need to
 
 1. Enable the required Apache modules:
 
-    ```bash
-    a2enmod rewrite
-    ```
+```bash
+a2enmod rewrite
+```
 
 2. Either place Poweradmin in the default webroot (`/var/www/html/`) or create a virtual host configuration.
 
