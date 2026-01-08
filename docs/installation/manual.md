@@ -186,4 +186,4 @@ Make sure to adjust the following settings for your environment:
 
 ## Troubleshooting
 
-For common installation issues and solutions, see [Common Issues](../troubleshooting/common-issues.md).
+For common installation issues and solutions, see [Debugging](../troubleshooting/debugging.md).

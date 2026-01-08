@@ -151,7 +151,7 @@ Visit [http://localhost/api/docs](http://localhost/api/docs) to explore the API 
 
 After evaluating the demo:
 
-1. **Production Deployment**: See [Docker Deployment Guide](../deployment/docker.md) for production configurations
+1. **Production Deployment**: See [Docker Installation Guide](../installation/docker.md) for production configurations
 2. **Manual Installation**: Follow [Manual Installation](../installation/manual.md) for traditional setups
 3. **Configuration**: Learn about [Configuration Options](../configuration/basic.md)
 

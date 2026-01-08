@@ -185,4 +185,4 @@ You should now be able to log in to the PowerAdmin interface with the username '
 
 ## Troubleshooting
 
-For common installation issues and solutions, see [Common Issues](../troubleshooting/common-issues.md).
+For common installation issues and solutions, see [Debugging](../troubleshooting/debugging.md).

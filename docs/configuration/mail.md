@@ -179,7 +179,6 @@ telnet smtp.example.com 587
 
 ## Related Documentation
 
-- [Password Reset Configuration](password-reset.md) - Password reset email settings
-- [Security Policies](security-policies.md) - MFA email verification
+- [Security Policies](security-policies.md) - Password reset and MFA email settings
 - [User Agreements](user-agreements.md) - Agreement acceptance notifications
 

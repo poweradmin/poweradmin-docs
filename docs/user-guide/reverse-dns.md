@@ -39,7 +39,7 @@ For single PTR records:
    - **TTL**: Time-to-live value (e.g., 86400 for 1 day)
 4. Click "Add Record"
 
-![Adding an individual PTR record](../../screenshots/ptr-individual-record.png)
+![Adding an individual PTR record](../screenshots/ptr-individual-record.png)
 
 ## Method 2: Using Batch PTR Records Feature
 
@@ -62,7 +62,7 @@ For creating multiple PTR records at once:
    
 3. Click "Create PTR Records"
 
-![Batch PTR Records interface](../../screenshots/ptr-batch-interface.png)
+![Batch PTR Records interface](../screenshots/ptr-batch-interface.png)
 
 ### Examples
 
@@ -78,7 +78,7 @@ This will create 256 PTR records:
 - ...through...
 - `255.1.168.192.in-addr.arpa` → `server-255.example.com.`
 
-![IPv4 Batch PTR Records example](../../screenshots/ptr-ipv4-example.png)
+![IPv4 Batch PTR Records example](../screenshots/ptr-ipv4-example.png)
 
 #### IPv6 Example
 
@@ -89,7 +89,7 @@ This will create 256 PTR records:
 
 This will create 100 PTR records with hostnames like `vm-0.example.com` through `vm-99.example.com`
 
-![IPv6 Batch PTR Records example](../../screenshots/ptr-ipv6-example.png)
+![IPv6 Batch PTR Records example](../screenshots/ptr-ipv6-example.png)
 
 ## Tips for Batch PTR Records
 

@@ -44,11 +44,9 @@ nav:
 
   - Installation:
       - Overview: installation/index.md
-#      - Quick Start: installation/quickstart.md
-#      - Docker:
-#          - Installation: installation/docker.md
-#          - Docker Compose: installation/docker-compose.md
-#          - Production Setup: installation/docker-production.md
+      - Docker:
+          - Docker Installation: installation/docker.md
+          - Docker Secrets: installation/docker-secrets.md
       - Operating Systems:
           - Debian: installation/debian.md
           - Ubuntu: installation/ubuntu.md
@@ -57,6 +55,7 @@ nav:
           - MySQL/MariaDB: database/mysql-configuration.md
           - PostgreSQL: database/postgresql-configuration.md
           - SQLite: database/sqlite.md
+          - Database Schema: database/schema.md
       - Manual Installation: installation/manual.md
       - Composer: installation/composer.md
       - Remote Setup: installation/remote-setup-guide.md
@@ -70,6 +69,8 @@ nav:
       - DNSSEC: configuration/dnssec.md
       - Logging Setup: configuration/logging.md
       - LDAP Integration: configuration/ldap.md
+      - OIDC Authentication: configuration/oidc.md
+      - SAML Authentication: configuration/saml.md
       - Mail Configuration: configuration/mail.md
       - Record Type Customization: configuration/record-types.md
       - UI Customization:
@@ -83,6 +84,10 @@ nav:
       - WHOIS Configuration: configuration/whois.md
       - RDAP Configuration: configuration/rdap.md
       - User Agreements: configuration/user-agreements.md
+      - Username Recovery: configuration/username-recovery.md
+      - Avatar System: configuration/avatars.md
+      - Database Logging: configuration/database-logging.md
+      - Legacy Configuration (v3.x): configuration/legacy-configuration.md
 
   - User Guide:
       - User Management:

@@ -36,6 +36,33 @@ When enabled, WHOIS lookups can be performed from:
 2. **Domain search results** - Quick WHOIS lookup for search results
 3. **Administrative tools** - Bulk domain verification
 
+### How to Use WHOIS Lookup
+
+1. Navigate to any zone in Poweradmin
+2. Click the **WHOIS** button or icon next to the domain name
+3. View the registration information returned by the WHOIS server
+
+### WHOIS Information Displayed
+
+The WHOIS lookup returns information including:
+
+- **Registrar**: The domain registrar
+- **Registration dates**: Created, updated, expiration dates
+- **Name servers**: Configured DNS servers
+- **Registrant info**: Contact information (if not privacy-protected)
+- **Status**: Domain status codes (e.g., clientTransferProhibited)
+
+### When to Use WHOIS vs RDAP
+
+| Feature | WHOIS | RDAP |
+|---------|-------|------|
+| Protocol | Legacy text-based | Modern JSON/REST |
+| Format | Unstructured text | Structured JSON |
+| Internationalization | Limited | Full Unicode support |
+| Use case | Quick lookups | Programmatic access |
+
+For structured data and better internationalization support, consider using [RDAP](rdap.md) instead.
+
 ## Supported TLDs
 
 The WHOIS functionality supports lookups for:

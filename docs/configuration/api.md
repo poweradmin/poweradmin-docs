@@ -15,6 +15,7 @@ API settings can be configured in the `config/settings.php` file under the `api`
 | `basic_auth_realm` | `Poweradmin API` | Realm name for HTTP Basic Authentication |
 | `log_requests` | `false` | Log all API requests |
 | `docs_enabled` | `false` | Enable API documentation at /api/docs endpoint |
+| `max_keys_per_user` | `5` | Maximum API keys per user (admin users unlimited) |
 
 ## Configuration Example
 
@@ -26,6 +27,7 @@ return [
         'basic_auth_realm' => 'DNS Management API',
         'log_requests' => true,
         'docs_enabled' => true,
+        'max_keys_per_user' => 5,  // Admin users have no limit
     ],
 ];
 ```
@@ -311,5 +313,5 @@ GET /api/v1/users?page=2&limit=25
 ## Related Documentation
 
 - [Security Policies](security-policies.md) - API authentication and authorization
-- [PowerDNS Integration](powerdns-integration.md) - PowerDNS API configuration
+- [PowerDNS API](powerdns-api.md) - PowerDNS API configuration
 - [Logging Configuration](logging.md) - API request logging setup

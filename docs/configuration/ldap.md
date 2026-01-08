@@ -17,6 +17,7 @@ LDAP settings can be configured in the `config/settings.php` file under the `lda
 | $ldap_bindpw | ldap.bind_password | some_password | Password for LDAP binding user | 2.1.7 |
 | $ldap_user_attribute | ldap.user_attribute | uid | Username attribute used in LDAP search filter | 2.1.7 |
 | $ldap_proto | ldap.protocol_version | 3 | LDAP protocol version | 2.1.7 |
+| N/A | ldap.session_cache_timeout | 300 | Cache LDAP validation results (seconds, 0 = disabled) | 4.1.0 |
 
 ## Modern Configuration Example
 
@@ -32,6 +33,7 @@ return [
         'user_attribute' => 'uid',
         'protocol_version' => 3,
         'search_filter' => '(objectClass=account)',
+        'session_cache_timeout' => 300,  // Cache for 5 minutes (v4.1.0+)
     ],
 ];
 ```
@@ -125,8 +127,8 @@ return [
 
 Add a user to Poweradmin:
 
-![Poweradmin LDAP User](../../screenshots/pwa_ldap.png)
+![Poweradmin LDAP User](../screenshots/pwa_ldap.png)
 
 The same user should exist in the LDAP schema:
 
-![OpenLDAP User](../../screenshots/openldap.png)
+![OpenLDAP User](../screenshots/openldap.png)

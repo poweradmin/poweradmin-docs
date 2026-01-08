@@ -48,6 +48,37 @@ When enabled, RDAP lookups provide:
 3. **Better performance** - HTTP-based protocol with caching support
 4. **Internationalization** - Full Unicode domain support
 
+### How to Use RDAP Lookup
+
+1. Navigate to any zone in Poweradmin
+2. Click the **RDAP** button or icon next to the domain name
+3. View the structured registration data
+
+### RDAP Response Data
+
+RDAP returns structured information including:
+
+- **Handle**: Registry-assigned identifier
+- **Status**: Domain status (active, inactive, etc.)
+- **Events**: Registration, expiration, last update dates
+- **Entities**: Registrant, admin, tech contacts with roles
+- **Nameservers**: Configured DNS servers with their details
+- **Links**: References to related resources
+- **Remarks**: Additional notes from the registry
+
+### Choosing Between WHOIS and RDAP
+
+Use **RDAP** when you need:
+- Machine-readable data for automation
+- International domain names (IDN)
+- Structured contact information
+- OAuth2-protected queries
+
+Use **WHOIS** when you need:
+- Quick manual lookups
+- Legacy system compatibility
+- Simple text output
+
 ## Supported TLDs
 
 RDAP supports lookups for:

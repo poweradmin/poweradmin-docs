@@ -176,6 +176,6 @@ Poweradmin provides comprehensive DNS management and administration capabilities
 * [DNS Configuration](../configuration/dns-settings.md)
 * [Logging Options](../configuration/logging.md)
 * [API Configuration](../configuration/api.md)
-* [Multi-Factor Authentication](../configuration/security-policies.md#multi-factor-authentication)
+* [Multi-Factor Authentication](../configuration/security-policies.md#multi-factor-authentication-mfa)
 * [WHOIS Configuration](../configuration/whois.md)
 * [RDAP Configuration](../configuration/rdap.md)
