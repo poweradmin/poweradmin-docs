@@ -34,13 +34,23 @@ Poweradmin is a friendly web interface for managing PowerDNS. It allows you to m
 - **[Troubleshooting](troubleshooting/debugging.md)**: Solutions for common issues
 - **[Contributing](contributing/development.md)**: How to contribute to the project
 
-## Community and Support
+## Get Involved
 
-Join our community for support and discussions:
+Poweradmin is an independently funded open-source project. Your support helps keep the project alive and growing.
 
-- [GitHub Repository](https://github.com/poweradmin/poweradmin-docs)
-- [Issue Tracker](https://github.com/poweradmin/poweradmin-docs/issues)
-- [Discussions](https://github.com/poweradmin/poweradmin/discussions)
+- [GitHub Repository](https://github.com/poweradmin/poweradmin) - source code and releases
+- [Issue Tracker](https://github.com/poweradmin/poweradmin/issues) - bug reports and feature requests
+- [Discussions](https://github.com/poweradmin/poweradmin/discussions) - community support and ideas
+
+### Support the Project
+
+If you find Poweradmin valuable, consider supporting its development:
+
+- [GitHub Sponsors](https://github.com/sponsors/edmondas)
+- [Open Collective](https://opencollective.com/poweradmin)
+- [PayPal](https://paypal.me/egirkantas)
+
+Thanks to everyone who has contributed over the years!
 
 ## License and Disclaimer
 
