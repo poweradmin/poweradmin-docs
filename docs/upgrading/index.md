@@ -86,8 +86,27 @@ The following versions include important database structure changes:
 - [v3.0.0](v3.0.0.md) - Added cryptokeys table for DNSSEC
 - [v3.2.0](v3.2.0.md) - Schema updates for PowerDNS API integration
 - [v3.4.0](v3.4.0.md) - Added tsigkeys table
+- [v3.9.7](v3.9.7.md) - Performance indexes on zones table
 - [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
 - [v4.1.0](v4.1.0.md) - Migration system removal and cleanup
+
+### Recent Patch Releases
+
+The following releases are bug fix updates with no special upgrade steps required. Simply replace files and preserve your configuration:
+
+**v4.0.x Series:**
+
+- **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
+- **v4.0.3** (Oct 2024) - SOA serial updates on record operations, API pagination, dark mode fixes
+- **v4.0.2** (Oct 2024) - MySQL strict mode compatibility, SPF validation, SMTP fixes
+- **v4.0.1** (Aug 2024) - Docker MySQL config, v3.9.2→v4.0.0 migration fixes, LDAP form restoration
+
+**v3.9.x Series (LTS):**
+
+- **v3.9.8** (Jan 2025) - CSRF protection, PostgreSQL fixes, API error handling improvements
+- **v3.9.6** (Oct 2024) - CAA record validation support
+- **v3.9.5** (Jul 2024) - MySQL ONLY_FULL_GROUP_BY compatibility fix
+- **v3.9.4** (Jul 2024) - Configurable pagination rows per page
 
 ## Troubleshooting
 
