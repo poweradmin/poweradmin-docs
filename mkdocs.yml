@@ -64,6 +64,7 @@ nav:
   - Configuration:
       - Basic Configuration: configuration/basic.md
       - DNS Settings: configuration/dns-settings.md
+      - DNS Wizards: configuration/dns-wizards.md
       - Database Configuration: configuration/database.md
       - PowerDNS API: configuration/powerdns-api.md
       - DNSSEC: configuration/dnssec.md

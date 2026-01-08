@@ -25,6 +25,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
+| - | dns.custom_tlds | [] | Custom TLDs to allow in CNAME targets (e.g., `['dn42', 'home']`). | 3.x |
 
 ## SOA Record Settings
 
@@ -52,6 +53,22 @@ Example custom configuration:
 ],
 ```
 
+## Custom TLD Whitelist
+
+By default, CNAME targets are validated to ensure they have a valid top-level domain (alphabetic characters only). This can cause issues in experimental networks like DN42 that use custom TLDs containing numbers (e.g., `.dn42`).
+
+The `custom_tlds` option allows you to whitelist custom TLDs that bypass the standard validation:
+
+```php
+'dns' => [
+    'custom_tlds' => ['dn42', 'home', 'internal', 'lan'],
+],
+```
+
+With this configuration, CNAME targets like `ns1.example.dn42` will pass validation. The matching is case-insensitive.
+
+**Note**: Standard alphabetic TLDs (like `.com`, `.org`, `.net`) always work regardless of this setting.
+
 ## Modern Configuration Example
 
 ```php
@@ -76,6 +93,7 @@ return [
         'prevent_duplicate_ptr' => true,
         'domain_record_types' => null, // Uses default types
         'reverse_record_types' => null, // Uses default types
+        'custom_tlds' => [], // Custom TLDs for CNAME validation
     ],
 ];
 ```
