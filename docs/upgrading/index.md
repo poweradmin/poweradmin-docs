@@ -110,6 +110,44 @@ The following releases are bug fix updates with no special upgrade steps require
 - **v3.9.5** (Jul 2024) - MySQL ONLY_FULL_GROUP_BY compatibility fix
 - **v3.9.4** (Jul 2024) - Configurable pagination rows per page
 
+## Long-Term Support (LTS)
+
+### 3.x LTS Branch
+
+Starting with version 3.9.8, the 3.x branch has entered **Long-Term Support (LTS)** status. This means:
+
+- **Security updates and bug fixes until December 2027**
+- **No new features** - only maintenance and critical fixes
+- **Stable API** - no breaking changes to existing functionality
+- **PHP compatibility** - supports PHP 8.1, 8.2, 8.3, 8.4, and 8.5
+
+**Who should use 3.x LTS?**
+
+- Organizations that prefer stability over new features
+- Environments where upgrading to 4.x requires significant planning
+- Users who want to migrate to 4.x at their own pace while maintaining security coverage
+
+**When to upgrade to 4.x?**
+
+The 4.x series offers significant improvements including:
+
+- Modern architecture with Domain-Driven Design
+- RESTful API for automation and integration
+- Enhanced security features (MFA, API keys)
+- Improved UI with better accessibility
+- Docker support with FrankenPHP
+
+We recommend planning your migration to 4.x when your schedule allows, while the 3.x LTS branch keeps your current installation secure.
+
+### Version Support Timeline
+
+| Branch | Status | Support Until | PHP Versions |
+|--------|--------|---------------|--------------|
+| **4.1.x** | Current | Active development | 8.1 - 8.5 |
+| **4.0.x** | Stable | Active maintenance | 8.1 - 8.5 |
+| **3.9.x** | LTS | December 2027 | 8.1 - 8.5 |
+| **3.8.x and older** | EOL | No longer supported | - |
+
 ## Troubleshooting
 
 If you encounter issues during or after an upgrade:
