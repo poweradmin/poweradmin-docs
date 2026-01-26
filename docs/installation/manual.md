@@ -167,13 +167,16 @@ Make sure to adjust the following settings for your environment:
 ### Caddy Configuration
 For Caddy servers, use the comprehensive configuration example provided in the Poweradmin repository. This configuration is actively used in the production Docker image and includes advanced security, API support, and performance optimizations.
 
-Use the [caddy.conf.example from the repository](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example).
+**Version-specific Caddy configuration files:**
+
+- **For Poweradmin 4.0.x with API support**: Use the [Caddyfile.example from release/4.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- **For other Poweradmin 4.x versions**: Use the latest [Caddyfile.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/Caddyfile.example)
 
 Make sure to adjust the following settings for your environment:
 
-- Replace `:80` with your domain name for automatic HTTPS
+- Replace `your-domain.com` with your actual domain name for automatic HTTPS
 - `root` - Set to your Poweradmin installation path
-- `php_fastcgi` - Adjust PHP-FPM socket/TCP configuration as needed
+- `php_fastcgi` - Adjust PHP-FPM socket/TCP configuration as needed (default: `localhost:9000`)
 
 ## Post-Installation Steps
 
