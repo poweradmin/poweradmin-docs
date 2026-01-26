@@ -32,6 +32,65 @@ return [
 ];
 ```
 
+## Web Server Requirements
+
+The API requires proper web server configuration to function correctly. The PHP router handles API path parsing from `REQUEST_URI`, so explicit per-endpoint rewrite rules are not needed—just route all `/api/*` requests to `index.php`.
+
+### Key Requirements
+
+| Requirement | Description |
+|-------------|-------------|
+| **CORS Headers** | Required for cross-origin API requests from browsers |
+| **Authorization Header** | Must be forwarded to PHP for API key authentication |
+| **Clean URL Routing** | Route non-file requests to `index.php` |
+
+### Configuration Examples
+
+Use the web server configuration examples from the Poweradmin repository:
+
+**Apache:**
+
+- The included `.htaccess` file handles everything automatically
+- Ensure `AllowOverride All` and `mod_rewrite` are enabled
+- Version links: [4.0.x .htaccess](https://github.com/poweradmin/poweradmin/blob/release/4.x/.htaccess) | [4.1.x+ .htaccess](https://github.com/poweradmin/poweradmin/blob/master/.htaccess)
+
+**Nginx:**
+
+- [nginx.conf.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
+- [nginx.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) — includes subfolder deployment support
+
+**Caddy:**
+
+- [Caddyfile.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- [caddy.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) — includes subfolder deployment support
+
+### Minimal Nginx Example
+
+If you need a minimal configuration, ensure these key elements are present:
+
+```nginx
+# CORS and API routing
+location ~ ^/api {
+    add_header Access-Control-Allow-Origin "*" always;
+    add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS" always;
+    add_header Access-Control-Allow-Headers "Content-Type, Authorization, X-API-Key" always;
+
+    if ($request_method = 'OPTIONS') {
+        return 204;
+    }
+
+    try_files $uri $uri/ /index.php$is_args$args;
+}
+
+# PHP handling - ensure Authorization header is forwarded
+location ~ \.php$ {
+    fastcgi_pass unix:/var/run/php/php-fpm.sock;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_param HTTP_AUTHORIZATION $http_authorization;
+    include fastcgi_params;
+}
+```
+
 ## Authentication Methods
 
 ### API Key Authentication

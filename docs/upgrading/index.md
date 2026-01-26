@@ -88,6 +88,7 @@ The following versions include important database structure changes:
 - [v3.4.0](v3.4.0.md) - Added tsigkeys table
 - [v3.9.7](v3.9.7.md) - Performance indexes on zones table
 - [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
+- [v4.0.5](v4.0.5.md) - Primary key on records_zone_templ, PostgreSQL sequence fixes
 - [v4.1.0](v4.1.0.md) - Migration system removal and cleanup
 
 ### Recent Patch Releases
@@ -96,6 +97,7 @@ The following releases are bug fix updates with no special upgrade steps require
 
 **v4.0.x Series:**
 
+- **[v4.0.5](v4.0.5.md)** (Jan 2025) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
 - **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
 - **v4.0.3** (Oct 2024) - SOA serial updates on record operations, API pagination, dark mode fixes
 - **v4.0.2** (Oct 2024) - MySQL strict mode compatibility, SPF validation, SMTP fixes

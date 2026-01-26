@@ -126,6 +126,7 @@ nav:
       - Overview: upgrading/index.md
       - v4.x Series:
           - v4.1.0: upgrading/v4.1.0.md
+          - v4.0.5: upgrading/v4.0.5.md
           - v4.0.0: upgrading/v4.0.0.md
       - v3.x Series:
           - v3.9.x:

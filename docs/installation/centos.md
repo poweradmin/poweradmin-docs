@@ -57,44 +57,29 @@ firewall-cmd --permanent --add-service=https  # If using HTTPS
 firewall-cmd --reload
 ```
 
+5. Ensure `AllowOverride All` is set in your Apache configuration to allow the `.htaccess` file to function properly. The `.htaccess` file handles URL routing, API support, and security rules automatically.
+
 ### Nginx Configuration
 
-If you prefer Nginx:
+If you prefer Nginx, use the configuration example provided in the Poweradmin repository. The configuration includes API routing, CORS support, security rules, and clean URL handling.
 
 1. Install Nginx:
 ```bash
 dnf install -y nginx
 ```
 
-2. Create a configuration file for Poweradmin:
+2. Download the appropriate configuration file:
 
-```nginx
-server {
-    listen 80;
-    server_name localhost; # Replace with your domain
+**Version-specific configuration files:**
 
-    root /var/www/html; # Path to Poweradmin files
-    index index.php index.html index.htm;
+- **Poweradmin 4.0.x**: Use [nginx.conf.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
+- **Poweradmin 4.1.x+**: Use [nginx.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) (includes subfolder deployment support)
 
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
+3. Save the configuration to `/etc/nginx/conf.d/poweradmin.conf` and adjust:
 
-    location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php-fpm/www.sock;  # RHEL/CentOS path
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-        fastcgi_index index.php;
-    }
-
-    # Deny access to .htaccess and .htpasswd files for security reasons
-    location ~ /\.ht {
-        deny all;
-    }
-}
-```
-
-3. Save this file to `/etc/nginx/conf.d/poweradmin.conf`
+- `server_name` - Set to your domain name
+- `root` - Set to your Poweradmin installation path
+- `fastcgi_pass` - Use `unix:/var/run/php-fpm/www.sock` for RHEL/CentOS
 
 4. Enable and start Nginx and PHP-FPM:
 ```bash
@@ -104,15 +89,23 @@ systemctl start nginx php-fpm
 
 5. Configure SELinux and firewall as with Apache.
 
+### Caddy Configuration
+
+For Caddy servers, use the configuration example from the repository:
+
+- **Poweradmin 4.0.x**: Use [Caddyfile.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- **Poweradmin 4.1.x+**: Use [caddy.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) (includes subfolder deployment support)
+
 ## Installing Poweradmin
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release (v3.9.3) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
 
 ```bash
-curl -Lo v3.9.3.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.3.zip
-unzip v3.9.3.zip
+# For latest 4.0.x stable release
+curl -Lo v4.0.5.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v4.0.5.zip
+unzip v4.0.5.zip
 ```
 
 If you don't have curl or unzip installed:
@@ -127,11 +120,11 @@ Move the Poweradmin files to your web server's document root:
 
 ```bash
 # For Apache (default directory)
-cp -r poweradmin-3.9.3/* /var/www/html/
+cp -r poweradmin-4.0.5/* /var/www/html/
 chown -R apache:apache /var/www/html/
 
 # For Nginx (if using a different directory)
-cp -r poweradmin-3.9.3/* /usr/share/nginx/html/
+cp -r poweradmin-4.0.5/* /usr/share/nginx/html/
 chown -R nginx:nginx /usr/share/nginx/html/
 ```
 
@@ -146,8 +139,9 @@ chown -R nginx:nginx /usr/share/nginx/html/
 
 If you encounter issues:
 
-- Check PHP error logs: `/var/log/php-fpm/www-error.log` 
+- Check PHP error logs: `/var/log/php-fpm/www-error.log`
 - Check web server logs: `/var/log/httpd/error_log` or `/var/log/nginx/error.log`
 - Ensure SELinux permissions are properly set if SELinux is enabled
 - Verify all required PHP extensions are installed and enabled
 - Check that file permissions are correct for your web server user
+- For API issues, ensure CORS headers and Authorization header forwarding are configured (see the example configs)

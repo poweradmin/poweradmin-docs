@@ -36,10 +36,14 @@ Apache is usually pre-installed and configured on Ubuntu systems. You'll need to
 1. Enable the required Apache modules:
 
 ```bash
-a2enmod rewrite
+a2enmod rewrite headers
 ```
 
 2. Either place Poweradmin in the default webroot (`/var/www/html/`) or create a virtual host configuration.
+
+3. Ensure `AllowOverride All` is set in your Apache configuration to allow the `.htaccess` file to function properly.
+
+The `.htaccess` file included with Poweradmin handles URL routing, API support, and security rules automatically.
 
 ### Nginx Configuration
 
@@ -49,35 +53,20 @@ If you prefer Nginx, first install it:
 apt install nginx
 ```
 
-Then create a configuration file like this:
+Then use the configuration example provided in the Poweradmin repository. The configuration includes API routing, CORS support, security rules, and clean URL handling.
 
-```nginx
-server {
-    listen 80;
-    server_name localhost; # Replace with your domain
+**Version-specific configuration files:**
 
-    root /var/www/html; # Path to Poweradmin files
-    index index.php index.html index.htm;
+- **Poweradmin 4.0.x**: Use [nginx.conf.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
+- **Poweradmin 4.1.x+**: Use [nginx.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) (includes subfolder deployment support)
 
-    location / {
-        try_files $uri $uri/ /index.php?$args;
-    }
+Save the configuration to `/etc/nginx/sites-available/poweradmin` and adjust:
 
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
+- `server_name` - Set to your domain name
+- `root` - Set to your Poweradmin installation path
+- `fastcgi_pass` - Adjust PHP-FPM socket path as needed (e.g., `unix:/var/run/php/php8.2-fpm.sock`)
 
-    # Deny access to .htaccess and .htpasswd files for security reasons
-    location ~ /\.ht {
-        deny all;
-    }
-}
-```
-
-Save this configuration to `/etc/nginx/sites-available/poweradmin` and enable it:
+Then enable the site:
 
 ```bash
 ln -s /etc/nginx/sites-available/poweradmin /etc/nginx/sites-enabled/
@@ -85,15 +74,23 @@ nginx -t  # Test the configuration
 systemctl reload nginx
 ```
 
+### Caddy Configuration
+
+For Caddy servers, use the configuration example from the repository:
+
+- **Poweradmin 4.0.x**: Use [Caddyfile.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- **Poweradmin 4.1.x+**: Use [caddy.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) (includes subfolder deployment support)
+
 ## Installing Poweradmin
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release (v3.9.3) from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
 
 ```bash
-wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v3.9.3.zip
-unzip v3.9.3.zip
+# For latest 4.0.x stable release
+wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v4.0.5.zip
+unzip v4.0.5.zip
 ```
 
 Or download directly from your browser and transfer the files to your server.
@@ -103,7 +100,7 @@ Or download directly from your browser and transfer the files to your server.
 Move the Poweradmin files to your web server's document root:
 
 ```bash
-cp -r poweradmin-3.9.3/* /var/www/html/
+cp -r poweradmin-4.0.5/* /var/www/html/
 chown -R www-data:www-data /var/www/html/
 ```
 
@@ -123,3 +120,4 @@ If you encounter issues:
 - Check PHP error logs: `/var/log/apache2/error.log` or `/var/log/nginx/error.log`
 - Ensure all required PHP extensions are installed and enabled
 - Verify file permissions are set correctly for your web server user
+- For API issues, ensure CORS headers and Authorization header forwarding are configured (see the example configs)
