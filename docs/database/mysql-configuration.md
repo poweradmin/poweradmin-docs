@@ -33,8 +33,15 @@ return [
         'charset' => 'utf8mb4',       // Recommended: utf8mb4 for full Unicode support
         'file' => '',                 // Not used for MySQL
         'debug' => false,             // Set to true to see SQL queries for debugging
+
+        // SSL/TLS Settings (optional, added in 4.1.0)
+        'ssl' => false,               // Enable SSL/TLS connection
+        'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
+        'ssl_ca' => '',               // Path to CA certificate file
+        'ssl_key' => '',              // Path to client private key (for mTLS)
+        'ssl_cert' => '',             // Path to client certificate (for mTLS)
     ],
-    
+
     // Other configuration sections remain the same as in settings.defaults.php
 ];
 ```
@@ -61,3 +68,56 @@ The SQL schema files are located in the `sql/` directory:
 mysql -u poweradmin -p powerdns < sql/poweradmin-mysql-db-structure.sql
 mysql -u poweradmin -p powerdns < sql/pdns/[version]/schema.mysql.sql
 ```
+
+## SSL/TLS Configuration
+
+*Added in version 4.1.0*
+
+Poweradmin supports SSL/TLS encrypted connections to MySQL/MariaDB servers.
+
+### SSL Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `ssl` | Enable SSL/TLS connection | `false` |
+| `ssl_verify` | Verify server certificate (requires `ssl=true`) | `false` |
+| `ssl_ca` | Path to CA certificate file | Empty |
+| `ssl_key` | Path to client private key (for mutual TLS) | Empty |
+| `ssl_cert` | Path to client certificate (for mutual TLS) | Empty |
+
+### Example: SSL with Certificate Verification
+
+```php
+'database' => [
+    'type' => 'mysql',
+    'host' => 'mysql.example.com',
+    'port' => '3306',
+    'user' => 'poweradmin',
+    'password' => 'your_password',
+    'name' => 'powerdns',
+    'charset' => 'utf8mb4',
+    'ssl' => true,
+    'ssl_verify' => true,
+    'ssl_ca' => '/path/to/ca-cert.pem',
+],
+```
+
+### Example: SSL without Verification (Self-Signed Certificates)
+
+```php
+'database' => [
+    'type' => 'mysql',
+    'host' => 'mysql.example.com',
+    'port' => '3306',
+    'user' => 'poweradmin',
+    'password' => 'your_password',
+    'name' => 'powerdns',
+    'charset' => 'utf8mb4',
+    'ssl' => true,
+    'ssl_verify' => false,
+],
+```
+
+### Backwards Compatibility Note
+
+By default (`ssl=false`), Poweradmin disables SSL certificate verification to maintain backwards compatibility with servers that don't use SSL or use self-signed certificates. This addresses issues with newer MariaDB connector libraries that enforce SSL verification by default.

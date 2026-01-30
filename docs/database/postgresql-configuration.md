@@ -33,8 +33,15 @@ return [
         'charset' => 'UTF8',          // PostgreSQL uses uppercase charset names
         'file' => '',                 // Not used for PostgreSQL
         'debug' => false,             // Set to true to see SQL queries for debugging
+
+        // SSL/TLS Settings (optional, added in 4.1.0)
+        'ssl' => false,               // Enable SSL/TLS connection
+        'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
+        'ssl_ca' => '',               // Path to CA certificate file (sslrootcert)
+        'ssl_key' => '',              // Path to client private key (sslkey)
+        'ssl_cert' => '',             // Path to client certificate (sslcert)
     ],
-    
+
     // Other configuration sections remain the same as in settings.defaults.php
 ];
 ```
@@ -84,3 +91,64 @@ PostgreSQL is case-sensitive for identifiers unless quoted. All table and column
 2. **Indexing**: Consider additional indexes for query patterns specific to your installation
 
 3. **Statement Timeout**: For web applications, consider setting `statement_timeout` to prevent long-running queries
+
+## SSL/TLS Configuration
+
+*Added in version 4.1.0*
+
+Poweradmin supports SSL/TLS encrypted connections to PostgreSQL servers using the `sslmode` DSN parameter.
+
+### SSL Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| `ssl` | Enable SSL/TLS connection | `false` |
+| `ssl_verify` | Verify server certificate (requires `ssl=true`) | `false` |
+| `ssl_ca` | Path to CA certificate file (sslrootcert) | Empty |
+| `ssl_key` | Path to client private key (sslkey) | Empty |
+| `ssl_cert` | Path to client certificate (sslcert) | Empty |
+
+### SSL Mode Mapping
+
+Poweradmin maps the settings to PostgreSQL `sslmode` values:
+
+| ssl | ssl_verify | PostgreSQL sslmode |
+|-----|------------|-------------------|
+| `false` | - | `prefer` (try SSL, fall back to non-SSL) |
+| `true` | `false` | `require` (require SSL, no cert verification) |
+| `true` | `true` | `verify-full` (require SSL + verify cert + hostname) |
+
+### Example: SSL with Certificate Verification
+
+```php
+'database' => [
+    'type' => 'pgsql',
+    'host' => 'postgres.example.com',
+    'port' => '5432',
+    'user' => 'poweradmin',
+    'password' => 'your_password',
+    'name' => 'powerdns',
+    'ssl' => true,
+    'ssl_verify' => true,
+    'ssl_ca' => '/path/to/ca-cert.pem',
+],
+```
+
+### Example: SSL without Verification
+
+```php
+'database' => [
+    'type' => 'pgsql',
+    'host' => 'postgres.example.com',
+    'port' => '5432',
+    'user' => 'poweradmin',
+    'password' => 'your_password',
+    'name' => 'powerdns',
+    'ssl' => true,
+    'ssl_verify' => false,
+],
+```
+
+### Backwards Compatibility Note
+
+By default (`ssl=false`), Poweradmin uses `sslmode=prefer`, which attempts SSL connections but falls back to non-SSL if the server doesn't support it. This maintains backwards compatibility with existing configurations.
