@@ -97,6 +97,7 @@ The following releases are bug fix updates with no special upgrade steps require
 
 **v4.0.x Series:**
 
+- **v4.0.6** (Jan 2025) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
 - **[v4.0.5](v4.0.5.md)** (Jan 2025) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
 - **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
 - **v4.0.3** (Oct 2024) - SOA serial updates on record operations, API pagination, dark mode fixes
@@ -105,6 +106,7 @@ The following releases are bug fix updates with no special upgrade steps require
 
 **v3.9.x Series (LTS):**
 
+- **v3.9.9** (Jan 2025) - Allow HTML characters in TXT records, fix record name handling
 - **v3.9.8** (Jan 2025) - CSRF protection, PostgreSQL fixes, API error handling improvements
 - **v3.9.6** (Oct 2024) - CAA record validation support
 - **v3.9.5** (Jul 2024) - MySQL ONLY_FULL_GROUP_BY compatibility fix
