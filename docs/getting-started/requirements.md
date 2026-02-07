@@ -11,6 +11,8 @@ exceeds the recommended requirements.
 ## Minimum Requirements
 
 - **PHP**: 8.1 or higher (including 8.2, 8.3, 8.4, etc.)
+
+> **PHP 8.1 Deprecation Notice:** Poweradmin **4.1.x will be the last version to support PHP 8.1**. Starting with version 4.2.x, the minimum required PHP version will be **8.2**. Users on PHP 8.1 should plan their PHP upgrade accordingly.
 - **PHP Extensions**:
     - `intl`
     - `gettext`
@@ -81,6 +83,7 @@ Poweradmin has been tested with the following software combinations:
 
 | Poweradmin | PHP            | PowerDNS | MariaDB  | MySQL  | PostgreSQL | SQLite |
 |------------|----------------|----------|----------|--------|------------|--------|
+| 4.1.x      | 8.2            | 4.9.12   | 10.11    | -      | 16.11      | -      |
 | 4.0.x      | 8.2.29         | 4.9.5    | 10.11.15 | -      | 16.3       | 3.51.1 |
 | 3.9.x      | 8.1.31         | 4.7.4    | 10.11.10 | 9.1.0  | 16.3       | 3.45.3 |
 | 3.8.x      | 8.1.28         | 4.5.5    | 10.11.8  | -      | 16.3       | 3.45.3 |
