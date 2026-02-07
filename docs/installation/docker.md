@@ -193,6 +193,7 @@ docker logs poweradmin | grep -i password
 |----------|---------|-------------|
 | `DB_TYPE` | sqlite | Database type: sqlite, mysql, pgsql |
 | `DB_HOST` | - | Database hostname |
+| `DB_PORT` | - | Database port (3306 for MySQL, 5432 for PostgreSQL) |
 | `DB_USER` | - | Database username |
 | `DB_PASS` | - | Database password |
 | `DB_NAME` | - | Database name |
