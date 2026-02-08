@@ -13,7 +13,7 @@ Official images are available at:
 
 | Tag | Description |
 |-----|-------------|
-| `stable` | Stable release from `release/4.x` (recommended for production) |
+| `stable` | Stable release from `release/4.0.x` (recommended for production) |
 | `next` | Upcoming release from `release/4.1.x` (stabilizing) |
 | `latest` | Latest release from master branch |
 | `lts` | Long-term support from `release/3.x` |

@@ -169,8 +169,8 @@ For Caddy servers, use the comprehensive configuration example provided in the P
 
 **Version-specific Caddy configuration files:**
 
-- **For Poweradmin 4.0.x with API support**: Use the [Caddyfile.example from release/4.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
-- **For other Poweradmin 4.x versions**: Use the latest [Caddyfile.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/Caddyfile.example)
+- **For Poweradmin 4.0.x with API support**: Use the [Caddyfile.example from release/4.0.x branch](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/Caddyfile.example)
+- **For Poweradmin 4.1.x+**: Use the latest [Caddyfile.example from master branch](https://github.com/poweradmin/poweradmin/blob/master/Caddyfile.example)
 
 Make sure to adjust the following settings for your environment:
 

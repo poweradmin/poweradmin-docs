@@ -52,16 +52,16 @@ Use the web server configuration examples from the Poweradmin repository:
 
 - The included `.htaccess` file handles everything automatically
 - Ensure `AllowOverride All` and `mod_rewrite` are enabled
-- Version links: [4.0.x .htaccess](https://github.com/poweradmin/poweradmin/blob/release/4.x/.htaccess) | [4.1.x+ .htaccess](https://github.com/poweradmin/poweradmin/blob/master/.htaccess)
+- Version links: [4.0.x .htaccess](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/.htaccess) | [4.1.x+ .htaccess](https://github.com/poweradmin/poweradmin/blob/master/.htaccess)
 
 **Nginx:**
 
-- [nginx.conf.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
+- [nginx.conf.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/nginx.conf.example)
 - [nginx.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) — includes subfolder deployment support
 
 **Caddy:**
 
-- [Caddyfile.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- [Caddyfile.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/Caddyfile.example)
 - [caddy.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) — includes subfolder deployment support
 
 ### Minimal Nginx Example

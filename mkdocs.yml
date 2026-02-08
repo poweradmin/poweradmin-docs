@@ -23,7 +23,7 @@ extra_css:
   - css/extra.css
 
 extra:
-  announcement: "This documentation covers Poweradmin 4.x. Some sections are still being expanded."
+  announcement: "This documentation covers Poweradmin 4.0.x and 4.1.x. Some sections are still being expanded."
 
 validation:
   links:

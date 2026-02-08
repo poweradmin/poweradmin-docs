@@ -77,7 +77,7 @@ dnf install -y nginx
 
 **Version-specific configuration files:**
 
-- **Poweradmin 4.0.x**: Use [nginx.conf.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
+- **Poweradmin 4.0.x**: Use [nginx.conf.example from release/4.0.x](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/nginx.conf.example)
 - **Poweradmin 4.1.x+**: Use [nginx.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) (includes subfolder deployment support)
 
 **3.** Save the configuration to `/etc/nginx/conf.d/poweradmin.conf` and adjust:
@@ -99,7 +99,7 @@ systemctl start nginx php-fpm
 
 For Caddy servers, use the configuration example from the repository:
 
-- **Poweradmin 4.0.x**: Use [Caddyfile.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/Caddyfile.example)
+- **Poweradmin 4.0.x**: Use [Caddyfile.example from release/4.0.x](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/Caddyfile.example)
 - **Poweradmin 4.1.x+**: Use [caddy.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) (includes subfolder deployment support)
 
 ## Installing Poweradmin
