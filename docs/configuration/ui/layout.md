@@ -25,17 +25,16 @@ return [
 
 ### Creating Custom Templates
 
-1. Create a directory structure for your custom theme:
+1. Create a directory structure for your custom theme (see below)
+2. Create the following files (see sections below)
 
-    ```
-    templates/
-    └── custom/
-        ├── header.html
-        ├── footer.html
-        └── other template files...
-    ```
-
-2. Create the following files:
+```
+templates/
+└── custom/
+    ├── header.html
+    ├── footer.html
+    └── other template files...
+```
 
 #### Custom Header (templates/custom/header.html)
 

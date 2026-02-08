@@ -10,23 +10,25 @@
 - PowerDNS server (for testing)
 
 ### Installation for Development
-1. Clone the repository
 
-    ```
-    git clone https://github.com/poweradmin/poweradmin.git
-    cd poweradmin
-    ```
+**1. Clone the repository:**
 
-2. Install dependencies
+```
+git clone https://github.com/poweradmin/poweradmin.git
+cd poweradmin
+```
 
-    ```
-    composer install
-    npm install
-    ```
+**2. Install dependencies:**
 
-3. Configure the application
-   - Copy `config/settings.defaults.php` to a new file in the same directory
-   - Modify the settings according to your environment
+```
+composer install
+npm install
+```
+
+**3. Configure the application:**
+
+- Copy `config/settings.defaults.php` to a new file in the same directory
+- Modify the settings according to your environment
 
 ## Project Structure
 
@@ -74,13 +76,14 @@ Poweradmin has comprehensive testing support including unit tests, integration t
 Poweradmin follows PSR-12 with project-specific modifications. For detailed information on coding standards, tools for code quality, and how to enforce them, see the [Coding Standards Guide](coding-standards.md).
 
 ## Database Migrations
+
 - Database migrations are managed with Phinx
 - See `db/migrations/` for existing migrations
 - Create new migrations with:
 
-    ```
-    ./vendor/bin/phinx create MyNewMigration
-    ```
+```
+./vendor/bin/phinx create MyNewMigration
+```
 
 ## Contributing
 1. Fork the repository

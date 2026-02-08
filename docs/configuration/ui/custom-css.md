@@ -15,22 +15,15 @@ Each theme includes support for custom CSS extension files that are automaticall
 
 ## Quick Start
 
-1. Navigate to your theme's style directory:
-
-    ```
-    templates/default/style/
-    ```
-
-2. Copy the example files:
-
-    ```bash
-    cp custom_light.css.example custom_light.css
-    cp custom_dark.css.example custom_dark.css
-    ```
-
+1. Navigate to your theme's style directory: `templates/default/style/`
+2. Copy the example files (see below)
 3. Edit the CSS files to match your preferences
-
 4. Refresh your browser - custom styles are automatically loaded
+
+```bash
+cp custom_light.css.example custom_light.css
+cp custom_dark.css.example custom_dark.css
+```
 
 ## How It Works
 

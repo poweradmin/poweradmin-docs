@@ -29,71 +29,71 @@ dnf install -y php-sqlite3
 
 ### Apache
 
-1. Install Apache if not already installed:
+**1. Install Apache if not already installed:**
 
-    ```bash
-    dnf install -y httpd
-    ```
+```bash
+dnf install -y httpd
+```
 
-2. Enable and start the Apache service:
+**2. Enable and start the Apache service:**
 
-    ```bash
-    systemctl enable httpd
-    systemctl start httpd
-    ```
+```bash
+systemctl enable httpd
+systemctl start httpd
+```
 
-3. Configure SELinux if it's enabled:
+**3. Configure SELinux if it's enabled:**
 
-    ```bash
-    # Allow Apache to connect to the database
-    setsebool -P httpd_can_network_connect_db 1
+```bash
+# Allow Apache to connect to the database
+setsebool -P httpd_can_network_connect_db 1
 
-    # If using a non-standard directory, set the correct context
-    semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
-    restorecon -Rv /path/to/poweradmin
-    ```
+# If using a non-standard directory, set the correct context
+semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
+restorecon -Rv /path/to/poweradmin
+```
 
-4. Configure your firewall:
+**4. Configure your firewall:**
 
-    ```bash
-    firewall-cmd --permanent --add-service=http
-    firewall-cmd --permanent --add-service=https  # If using HTTPS
-    firewall-cmd --reload
-    ```
+```bash
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https  # If using HTTPS
+firewall-cmd --reload
+```
 
-5. Ensure `AllowOverride All` is set in your Apache configuration to allow the `.htaccess` file to function properly. The `.htaccess` file handles URL routing, API support, and security rules automatically.
+**5.** Ensure `AllowOverride All` is set in your Apache configuration to allow the `.htaccess` file to function properly. The `.htaccess` file handles URL routing, API support, and security rules automatically.
 
 ### Nginx Configuration
 
 If you prefer Nginx, use the configuration example provided in the Poweradmin repository. The configuration includes API routing, CORS support, security rules, and clean URL handling.
 
-1. Install Nginx:
+**1. Install Nginx:**
 
-    ```bash
-    dnf install -y nginx
-    ```
+```bash
+dnf install -y nginx
+```
 
-2. Download the appropriate configuration file:
+**2.** Download the appropriate configuration file:
 
 **Version-specific configuration files:**
 
 - **Poweradmin 4.0.x**: Use [nginx.conf.example from release/4.x](https://github.com/poweradmin/poweradmin/blob/release/4.x/nginx.conf.example)
 - **Poweradmin 4.1.x+**: Use [nginx.conf.example from master](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) (includes subfolder deployment support)
 
-3. Save the configuration to `/etc/nginx/conf.d/poweradmin.conf` and adjust:
+**3.** Save the configuration to `/etc/nginx/conf.d/poweradmin.conf` and adjust:
 
 - `server_name` - Set to your domain name
 - `root` - Set to your Poweradmin installation path
 - `fastcgi_pass` - Use `unix:/var/run/php-fpm/www.sock` for RHEL/CentOS
 
-4. Enable and start Nginx and PHP-FPM:
+**4. Enable and start Nginx and PHP-FPM:**
 
-    ```bash
-    systemctl enable nginx php-fpm
-    systemctl start nginx php-fpm
-    ```
+```bash
+systemctl enable nginx php-fpm
+systemctl start nginx php-fpm
+```
 
-5. Configure SELinux and firewall as with Apache.
+**5.** Configure SELinux and firewall as with Apache.
 
 ### Caddy Configuration
 

@@ -47,17 +47,16 @@ Each theme includes consistent styling for:
 Poweradmin supports custom themes through the theme templates system. To create a custom theme:
 
 1. Set the theme to `custom` in your settings
-2. Create a directory structure in your theme base path:
-
-    ```
-    templates/
-    └── custom/
-        ├── header.html
-        ├── footer.html
-        └── other template files...
-    ```
-
+2. Create a directory structure in your theme base path (see below)
 3. Customize the template files to match your organization's branding
+
+```
+templates/
+└── custom/
+    ├── header.html
+    ├── footer.html
+    └── other template files...
+```
 
 ## Theme Customization
 
