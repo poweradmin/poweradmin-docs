@@ -93,6 +93,7 @@ PRIVILEGES;
 For DNSSEC management and certain operations, Poweradmin requires access to the PowerDNS API:
 
 1. Enable the API on your PowerDNS server by editing `/etc/powerdns/pdns.conf`:
+
 ```
 api=yes
 api-key=your_secure_api_key

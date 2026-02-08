@@ -182,18 +182,18 @@ chmod 600 ./secrets/*
 
 2. **Read-only mounts**: Mount secrets as read-only
 
-```yaml
-volumes:
-  - ./secrets/db_password.txt:/run/secrets/db_password:ro
-```
+   ```yaml
+   volumes:
+     - ./secrets/db_password.txt:/run/secrets/db_password:ro
+   ```
 
 3. **Exclude from version control**: Add secrets to `.gitignore`
 
-```
-secrets/
-*.key
-*.pem
-```
+   ```
+   secrets/
+   *.key
+   *.pem
+   ```
 
 4. **Use external secrets in production**: For Swarm deployments, use external secrets managed outside of compose files
 

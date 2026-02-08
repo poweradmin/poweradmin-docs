@@ -11,12 +11,14 @@
 
 ### Installation for Development
 1. Clone the repository
+
 ```
 git clone https://github.com/poweradmin/poweradmin.git
 cd poweradmin
 ```
 
 2. Install dependencies
+
 ```
 composer install
 npm install
@@ -75,6 +77,7 @@ Poweradmin follows PSR-12 with project-specific modifications. For detailed info
 - Database migrations are managed with Phinx
 - See `db/migrations/` for existing migrations
 - Create new migrations with:
+
 ```
 ./vendor/bin/phinx create MyNewMigration
 ```
