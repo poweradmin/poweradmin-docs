@@ -76,7 +76,7 @@ If you're upgrading from a very old version (e.g., 2.0.0) to the latest 4.1.0, w
 3. 2.2.2 → 3.2.0 (DNSSEC implementation)
 4. 3.2.0 → 3.9.3 (Security improvements)
 5. 3.9.3 → 4.0.0 (Complete architecture overhaul)
-6. 4.0.0 → 4.1.0 (Migration system removal and modernization)
+6. 4.0.0 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
 
 ### Critical Versions with SQL Migrations
 
@@ -89,7 +89,7 @@ The following versions include important database structure changes:
 - [v3.9.7](v3.9.7.md) - Performance indexes on zones table
 - [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
 - [v4.0.5](v4.0.5.md) - Primary key on records_zone_templ, PostgreSQL sequence fixes
-- [v4.1.0](v4.1.0.md) - Migration system removal and cleanup
+- [v4.1.0](v4.1.0.md) - OIDC/SAML authentication, DNS wizards, zone deletion permissions, permission templates
 
 ### Recent Patch Releases
 
@@ -97,7 +97,8 @@ The following releases are bug fix updates with no special upgrade steps require
 
 **v4.0.x Series:**
 
-- **v4.0.6** (Jan 2025) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
+- **v4.0.7** (Feb 2026) - SQL migration fixes, API response type fixes
+- **v4.0.6** (Jan 2026) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
 - **[v4.0.5](v4.0.5.md)** (Jan 2025) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
 - **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
 - **v4.0.3** (Oct 2024) - SOA serial updates on record operations, API pagination, dark mode fixes

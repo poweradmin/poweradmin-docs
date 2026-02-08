@@ -13,11 +13,12 @@ Official images are available at:
 
 | Tag | Description |
 |-----|-------------|
-| `stable` | Stable release (recommended for production) |
+| `stable` | Stable release from `release/4.x` (recommended for production) |
+| `next` | Upcoming release from `release/4.1.x` (stabilizing) |
 | `latest` | Latest release from master branch |
-| `lts` | Long-term support (v3.x) |
+| `lts` | Long-term support from `release/3.x` |
 | `dev` | Development version (not for production) |
-| `v*` | Specific version (e.g., `v4.0.0`) |
+| `v*` | Specific version (e.g., `v4.0.0`, `v4.1.0`) |
 
 ## Quick Start
 
