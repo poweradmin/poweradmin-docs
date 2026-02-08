@@ -31,35 +31,35 @@ dnf install -y php-sqlite3
 
 1. Install Apache if not already installed:
 
-```bash
-dnf install -y httpd
-```
+    ```bash
+    dnf install -y httpd
+    ```
 
 2. Enable and start the Apache service:
 
-```bash
-systemctl enable httpd
-systemctl start httpd
-```
+    ```bash
+    systemctl enable httpd
+    systemctl start httpd
+    ```
 
 3. Configure SELinux if it's enabled:
 
-```bash
-# Allow Apache to connect to the database
-setsebool -P httpd_can_network_connect_db 1
+    ```bash
+    # Allow Apache to connect to the database
+    setsebool -P httpd_can_network_connect_db 1
 
-# If using a non-standard directory, set the correct context
-semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
-restorecon -Rv /path/to/poweradmin
-```
+    # If using a non-standard directory, set the correct context
+    semanage fcontext -a -t httpd_sys_content_t "/path/to/poweradmin(/.*)?"
+    restorecon -Rv /path/to/poweradmin
+    ```
 
 4. Configure your firewall:
 
-```bash
-firewall-cmd --permanent --add-service=http
-firewall-cmd --permanent --add-service=https  # If using HTTPS
-firewall-cmd --reload
-```
+    ```bash
+    firewall-cmd --permanent --add-service=http
+    firewall-cmd --permanent --add-service=https  # If using HTTPS
+    firewall-cmd --reload
+    ```
 
 5. Ensure `AllowOverride All` is set in your Apache configuration to allow the `.htaccess` file to function properly. The `.htaccess` file handles URL routing, API support, and security rules automatically.
 
@@ -69,9 +69,9 @@ If you prefer Nginx, use the configuration example provided in the Poweradmin re
 
 1. Install Nginx:
 
-```bash
-dnf install -y nginx
-```
+    ```bash
+    dnf install -y nginx
+    ```
 
 2. Download the appropriate configuration file:
 
@@ -88,10 +88,10 @@ dnf install -y nginx
 
 4. Enable and start Nginx and PHP-FPM:
 
-```bash
-systemctl enable nginx php-fpm
-systemctl start nginx php-fpm
-```
+    ```bash
+    systemctl enable nginx php-fpm
+    systemctl start nginx php-fpm
+    ```
 
 5. Configure SELinux and firewall as with Apache.
 

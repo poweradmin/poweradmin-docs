@@ -12,17 +12,17 @@
 ### Installation for Development
 1. Clone the repository
 
-```
-git clone https://github.com/poweradmin/poweradmin.git
-cd poweradmin
-```
+    ```
+    git clone https://github.com/poweradmin/poweradmin.git
+    cd poweradmin
+    ```
 
 2. Install dependencies
 
-```
-composer install
-npm install
-```
+    ```
+    composer install
+    npm install
+    ```
 
 3. Configure the application
    - Copy `config/settings.defaults.php` to a new file in the same directory
@@ -78,9 +78,9 @@ Poweradmin follows PSR-12 with project-specific modifications. For detailed info
 - See `db/migrations/` for existing migrations
 - Create new migrations with:
 
-```
-./vendor/bin/phinx create MyNewMigration
-```
+    ```
+    ./vendor/bin/phinx create MyNewMigration
+    ```
 
 ## Contributing
 1. Fork the repository

@@ -27,13 +27,13 @@ return [
 
 1. Create a directory structure for your custom theme:
 
-```
-templates/
-└── custom/
-    ├── header.html
-    ├── footer.html
-    └── other template files...
-```
+    ```
+    templates/
+    └── custom/
+        ├── header.html
+        ├── footer.html
+        └── other template files...
+    ```
 
 2. Create the following files:
 
