@@ -46,8 +46,7 @@ Starting with Poweradmin 4.1.0, URL rewriting is **required** for all web server
 
 The included `.htaccess` file handles routing automatically for Apache. For Nginx and Caddy, use the example configuration files from the repository.
 
-!!! warning "404 errors on clean URLs"
-    If you see 404 errors when accessing pages like `/login` or `/zones`, your web server is not routing requests to `index.php`. For Apache, ensure `mod_rewrite` is enabled and `AllowOverride All` is set. For Nginx/Caddy, verify your configuration matches the provided examples.
+> **Warning:** If you see 404 errors when accessing pages like `/login` or `/zones`, your web server is not routing requests to `index.php`. For Apache, ensure `mod_rewrite` is enabled and `AllowOverride All` is set. For Nginx/Caddy, verify your configuration matches the provided examples.
 
 > **Note:** Poweradmin 4.0.x and earlier do not require URL rewriting for basic functionality, only for API support.
 

@@ -115,8 +115,7 @@ For password policies and MFA settings, see [Security Policies](security-policie
 
 \* Default languages: cs_CZ, de_DE, en_EN, fr_FR, it_IT, ja_JP, lt_LT, nb_NO, nl_NL, pl_PL, ru_RU, tr_TR, zh_CN
 
-!!! tip "Performance Tip"
-    If you experience slow loading or timeout errors on the reverse zones page, set `show_forward_zone_associations` to `false`. This disables the lookup of associated forward zones which can be slow with many PTR records.
+> **Tip:** If you experience slow loading or timeout errors on the reverse zones page, set `show_forward_zone_associations` to `false`. This disables the lookup of associated forward zones which can be slow with many PTR records.
 
 For UI customization, see [UI Customization](ui/overview.md).
 

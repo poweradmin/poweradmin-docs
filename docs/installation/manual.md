@@ -48,27 +48,13 @@ psql -U postgres -d powerdns -f sql/poweradmin-pgsql-db-structure.sql
 sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 ```
 
-!!! danger "Default Credentials"
-    The default login credentials are:
-    
-    * Username: `admin`
-    * Password: `admin`
-    
-    You **must** change these credentials immediately after your first login for security reasons.
+> **Warning:** The default login credentials are `admin` / `admin`. You **must** change these credentials immediately after your first login for security reasons.
 
 ### 4. Create Configuration File
 
 Create a `config/settings.php` file using the template below. A full list of configuration options can be found in `config/settings.defaults.php`.
 
-!!! warning "Password Character Restrictions"
-    When creating passwords for database, LDAP, or SMTP authentication, avoid using the following characters:
-    
-    * Single quotes (`'`)
-    * Double quotes (`"`) 
-    * Backslashes (`\`)
-    * Line breaks
-    
-    These characters can cause configuration file generation to fail during installation with cryptic PHP syntax errors.
+> **Warning:** When creating passwords for database, LDAP, or SMTP authentication, avoid using single quotes (`'`), double quotes (`"`), backslashes (`\`), and line breaks. These characters can cause configuration file generation to fail during installation with cryptic PHP syntax errors.
 
 ```php
 <?php
@@ -147,12 +133,7 @@ a2enmod rewrite headers
 </VirtualHost>
 ```
 
-!!! warning "404 errors after installation or upgrade"
-    If you see 404 errors when accessing Poweradmin (e.g., on `/login`), check that:
-
-    1. `mod_rewrite` is enabled: `a2enmod rewrite && systemctl restart apache2`
-    2. `AllowOverride All` is set in your VirtualHost or Apache configuration
-    3. The `.htaccess` file is present in the Poweradmin root directory
+> **Warning:** If you see 404 errors when accessing Poweradmin (e.g., on `/login`), check that: (1) `mod_rewrite` is enabled: `a2enmod rewrite && systemctl restart apache2`, (2) `AllowOverride All` is set in your VirtualHost or Apache configuration, (3) The `.htaccess` file is present in the Poweradmin root directory.
 
     You can verify `mod_rewrite` is loaded with: `apache2ctl -M | grep rewrite`
 
