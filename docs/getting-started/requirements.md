@@ -34,6 +34,23 @@ exceeds the recommended requirements.
 > **Note**: Other web server software, such as Caddy, might also be supported. However, these are usually not tested by
 > the maintainer and may only work with help from the community.
 
+### Web Server URL Rewriting
+
+Starting with Poweradmin 4.1.0, URL rewriting is **required** for all web servers. Poweradmin uses clean URLs (e.g., `/login` instead of `index.php?page=login`), which require the web server to route all requests through `index.php`.
+
+| Web Server | Requirement | How to Enable |
+|------------|-------------|---------------|
+| **Apache** | `mod_rewrite` enabled + `AllowOverride All` | `a2enmod rewrite` and set `AllowOverride All` in VirtualHost |
+| **Nginx** | `try_files` directive | Use the provided [nginx.conf.example](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) |
+| **Caddy** | `try_files` directive | Use the provided [caddy.conf.example](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) |
+
+The included `.htaccess` file handles routing automatically for Apache. For Nginx and Caddy, use the example configuration files from the repository.
+
+!!! warning "404 errors on clean URLs"
+    If you see 404 errors when accessing pages like `/login` or `/zones`, your web server is not routing requests to `index.php`. For Apache, ensure `mod_rewrite` is enabled and `AllowOverride All` is set. For Nginx/Caddy, verify your configuration matches the provided examples.
+
+> **Note:** Poweradmin 4.0.x and earlier do not require URL rewriting for basic functionality, only for API support.
+
 ---
 
 ## Supported Distributions
