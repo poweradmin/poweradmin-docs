@@ -95,9 +95,13 @@ The following versions include important database structure changes:
 
 The following releases are bug fix updates with no special upgrade steps required. Simply replace files and preserve your configuration:
 
+**v4.1.x Series:**
+
+- **v4.1.1** (Feb 2026) - DNSSEC fix for RFC 2317 reverse zones, login routing fix, IPv6 supermaster validation, LUA record handling, CSRF token fix, zone apex (`@`) symbol fix in multi-record form
+
 **v4.0.x Series:**
 
-- **v4.0.7** (Feb 2026) - SQL migration fixes, API response type fixes
+- **v4.0.7** (Feb 2026) - CSRF token fix for DNSSEC key deletion, MFA TOTP secret reuse fix, IPv6 supermaster validation, LUA record handling, zone apex (`@`) symbol fix
 - **v4.0.6** (Jan 2026) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
 - **[v4.0.5](v4.0.5.md)** (Jan 2025) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
 - **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
