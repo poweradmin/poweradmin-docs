@@ -92,7 +92,7 @@ Poweradmin provides comprehensive DNS management and administration capabilities
     * Theme selection per user preference
 
 * **Multi-language Support**:
-    * 15 supported languages
+    * 20 supported languages
     * Gettext-based translations
     * Right-to-left language support
 

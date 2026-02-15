@@ -111,6 +111,7 @@ If you notice your contribution hasn't been acknowledged in the release notes, p
 ## Internationalization
 - Translation files are in the `locale/` directory
 - New strings should be wrapped in `_()` for translation
+- See the [Translations Guide](translations.md) for details on contributing translations
 
 ## Security Considerations
 - Always validate user input

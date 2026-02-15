@@ -7,7 +7,7 @@ Poweradmin provides several ways to customize the user interface to match your o
 The following settings control the user interface appearance and behavior:
 
 - **language**: Default language for the interface. Default: `en_EN`
-- **enabled_languages**: Comma-separated list of available languages. Default: `cs_CZ,de_DE,en_EN,es_ES,fr_FR,it_IT,ja_JP,lt_LT,nb_NO,nl_NL,pl_PL,pt_PT,ru_RU,tr_TR,zh_CN`
+- **enabled_languages**: Comma-separated list of available languages. Default: `cs_CZ,de_DE,en_EN,es_ES,fr_FR,id_ID,it_IT,ja_JP,ko_KR,lt_LT,nb_NO,nl_NL,pl_PL,pt_PT,ru_RU,sv_SE,tr_TR,uk_UA,vi_VN,zh_CN`
 - **theme**: UI theme name. Options: `default`, `custom`. Default: `default`
 - **style**: UI style. Options: `light`, `dark`. Default: `light`
 - **theme_base_path**: Base path for theme templates. Default: `templates`

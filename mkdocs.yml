@@ -189,6 +189,7 @@ nav:
       - Development Setup: contributing/development.md
       - Coding Standards: contributing/coding-standards.md
       - Testing: contributing/testing.md
+      - Translations: contributing/translations.md
 
 plugins:
   - search
