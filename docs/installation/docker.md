@@ -248,6 +248,8 @@ docker logs poweradmin | grep -i password
 | `PA_LOGGING_LEVEL` | info | Log level (debug, info, warning, error, etc.) |
 | `PA_LOGGING_DATABASE_ENABLED` | false | Log zone/record changes to database |
 | `PA_LOGGING_SYSLOG_ENABLED` | false | Log auth attempts to syslog |
+| `PA_LOGGING_SYSLOG_IDENTITY` | poweradmin | Syslog program identity |
+| `PA_LOGGING_SYSLOG_FACILITY` | LOG_USER | Syslog facility (`LOG_USER`, `LOG_LOCAL0`-`LOG_LOCAL7`) |
 
 For complete environment variable reference, see the [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md) in the source repository.
 
