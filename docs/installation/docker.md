@@ -240,6 +240,15 @@ docker logs poweradmin | grep -i password
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
 
+### Logging
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_LOGGING_TYPE` | null | Logger type: `null` or `native` |
+| `PA_LOGGING_LEVEL` | info | Log level (debug, info, warning, error, etc.) |
+| `PA_LOGGING_DATABASE_ENABLED` | false | Log zone/record changes to database |
+| `PA_LOGGING_SYSLOG_ENABLED` | false | Log auth attempts to syslog |
+
 For complete environment variable reference, see the [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md) in the source repository.
 
 ## Volumes
