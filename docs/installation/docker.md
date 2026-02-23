@@ -213,8 +213,18 @@ docker logs poweradmin | grep -i password
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PA_SESSION_KEY` | (auto) | Session encryption key |
+| `PA_PASSWORD_ENCRYPTION` | bcrypt | Password hashing: `bcrypt`, `argon2i`, `argon2id` |
+| `PA_LOGIN_TOKEN_VALIDATION` | true | Enable CSRF token validation for login |
+| `PA_GLOBAL_TOKEN_VALIDATION` | true | Enable CSRF token validation for all forms |
 | `PA_MFA_ENABLED` | false | Enable multi-factor authentication |
+| `PA_MFA_ENFORCED` | false | Enforce MFA for users with enforce permission |
 | `PA_RECAPTCHA_ENABLED` | false | Enable reCAPTCHA on login |
+| `PA_RECAPTCHA_VERSION` | v3 | reCAPTCHA version: `v2` or `v3` |
+| `PA_LOCKOUT_ENABLED` | false | Enable account lockout after failed logins |
+| `PA_LOCKOUT_ATTEMPTS` | 5 | Failed attempts before lockout |
+| `PA_LOCKOUT_DURATION` | 15 | Lockout duration in minutes |
+| `PA_PASSWORD_RESET_ENABLED` | false | Enable password reset functionality |
+| `PA_USERNAME_RECOVERY_ENABLED` | false | Enable username recovery functionality |
 
 ### Interface
 
