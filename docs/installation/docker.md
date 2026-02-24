@@ -247,8 +247,17 @@ docker logs poweradmin | grep -i password
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PA_LDAP_ENABLED` | false | Enable LDAP authentication |
+| `PA_LDAP_USER_ATTRIBUTE` | uid | User attribute (`uid` for OpenLDAP, `sAMAccountName` for AD) |
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
+
+### Miscellaneous
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_TIMEZONE` | UTC | Default timezone |
+| `PA_EDIT_CONFLICT_RESOLUTION` | last_writer_wins | Edit conflict resolution strategy |
+| `PA_DNS_CUSTOM_TLDS` | - | Comma-separated custom TLDs (e.g., `dn42,home`) |
 
 ### Logging
 
