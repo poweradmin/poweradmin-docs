@@ -47,6 +47,7 @@ nav:
       - Docker:
           - Docker Installation: installation/docker.md
           - Docker Secrets: installation/docker-secrets.md
+          - Reverse Proxy: installation/reverse-proxy.md
       - Operating Systems:
           - Debian: installation/debian.md
           - Ubuntu: installation/ubuntu.md
