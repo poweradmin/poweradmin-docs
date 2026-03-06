@@ -1,15 +1,14 @@
 # Database Logging
 
-Poweradmin can log zone and record changes to the database for auditing and tracking purposes.
+Poweradmin can log operations to the database for auditing and tracking purposes.
 
 ## Overview
 
-Database logging records all modifications to DNS zones and records, including:
+Database logging records operations across three log tables:
 
-- Zone creation, modification, and deletion
-- Record creation, modification, and deletion
-- User who made the change
-- Timestamp of the change
+- **User events** (`log_users`): login/logout, user creation/editing/deletion
+- **Zone events** (`log_zones`): zone and record creation, modification, and deletion
+- **Group events** (`log_groups`): group creation/editing/deletion, membership and zone assignment changes
 
 ## Configuration
 
@@ -41,36 +40,56 @@ environment:
   PA_LOGGING_DATABASE_ENABLED: "true"
 ```
 
-## Log Table Structure
+## Log Tables
 
-Changes are stored in the `log_changes` table:
+### log_users
 
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | int | Auto-increment ID |
-| `user_id` | int | User who made the change |
+| `event` | text | Description of the event |
+| `priority` | int | Syslog priority level |
+| `created_at` | timestamp | When the event occurred |
+
+### log_zones
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Auto-increment ID |
 | `zone_id` | int | Affected zone ID |
-| `record_id` | int | Affected record ID (if applicable) |
-| `action` | varchar | Action type (create, update, delete) |
-| `old_value` | text | Previous value (for updates) |
-| `new_value` | text | New value |
-| `created_at` | timestamp | When the change occurred |
+| `event` | text | Description of the event |
+| `priority` | int | Syslog priority level |
+| `created_at` | timestamp | When the event occurred |
+
+### log_groups
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Auto-increment ID |
+| `group_id` | int | Affected group ID |
+| `event` | text | Description of the event |
+| `priority` | int | Syslog priority level |
+| `created_at` | timestamp | When the event occurred |
 
 ## What Gets Logged
 
-### Zone Changes
+### User Events
+
+- Login and logout
+- User creation, editing, and deletion
+
+### Zone Events
 
 - Zone creation with initial settings
 - Zone type changes (MASTER, NATIVE, SLAVE)
 - Zone deletion
-- Zone template assignments
+- Record creation, modification, and deletion
 
-### Record Changes
+### Group Events
 
-- New record creation
-- Record content modifications
-- TTL changes
-- Record deletion
+- Group creation, editing, and deletion
+- User membership additions and removals
+- Zone assignment additions and removals
 
 ## Viewing Logs
 
@@ -85,23 +104,28 @@ Administrators can view the change log through the web interface:
 You can query logs directly from the database:
 
 ```sql
--- Recent changes
-SELECT * FROM log_changes
+-- Recent user events
+SELECT * FROM log_users
 ORDER BY created_at DESC
 LIMIT 100;
 
--- Changes by user
-SELECT * FROM log_changes
-WHERE user_id = 1
-ORDER BY created_at DESC;
+-- Recent zone events
+SELECT * FROM log_zones
+ORDER BY created_at DESC
+LIMIT 100;
 
--- Changes to specific zone
-SELECT * FROM log_changes
+-- Events for a specific zone
+SELECT * FROM log_zones
 WHERE zone_id = 42
 ORDER BY created_at DESC;
 
--- Changes in date range
-SELECT * FROM log_changes
+-- Recent group events
+SELECT * FROM log_groups
+ORDER BY created_at DESC
+LIMIT 100;
+
+-- Events in date range
+SELECT * FROM log_users
 WHERE created_at BETWEEN '2025-01-01' AND '2025-01-31';
 ```
 
@@ -111,15 +135,16 @@ Database logs can grow large over time. Consider implementing a retention policy
 
 ```sql
 -- Delete logs older than 90 days
-DELETE FROM log_changes
-WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 ```
 
 You can automate this with a cron job or scheduled task.
 
 ## Performance Considerations
 
-1. **Index optimization**: Ensure indexes on `zone_id`, `user_id`, and `created_at`
+1. **Index optimization**: Ensure indexes on `zone_id`, `group_id`, and `created_at` columns
 2. **Log rotation**: Implement retention policies for large deployments
 3. **Disk space**: Monitor database size, especially with high change volume
 
@@ -130,11 +155,9 @@ For comprehensive auditing, combine database logging with syslog:
 ```php
 'logging' => [
     'database_enabled' => true,
-    'syslog' => [
-        'use' => true,
-        'ident' => 'poweradmin',
-        'facility' => LOG_USER,
-    ],
+    'syslog_enabled' => true,
+    'syslog_identity' => 'poweradmin',
+    'syslog_facility' => LOG_USER,
 ],
 ```
 

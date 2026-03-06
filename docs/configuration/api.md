@@ -13,7 +13,6 @@ API settings can be configured in the `config/settings.php` file under the `api`
 | `enabled` | `false` | Enable API functionality (including API keys) |
 | `basic_auth_enabled` | `false` | Enable HTTP Basic Authentication for public API endpoints |
 | `basic_auth_realm` | `Poweradmin API` | Realm name for HTTP Basic Authentication |
-| `log_requests` | `false` | Log all API requests |
 | `docs_enabled` | `false` | Enable API documentation at /api/docs endpoint |
 | `max_keys_per_user` | `5` | Maximum API keys per user (admin users unlimited) |
 
@@ -25,7 +24,6 @@ return [
         'enabled' => true,
         'basic_auth_enabled' => true,
         'basic_auth_realm' => 'DNS Management API',
-        'log_requests' => true,
         'docs_enabled' => true,
         'max_keys_per_user' => 5,  // Admin users have no limit
     ],
@@ -184,10 +182,12 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 'api' => [
     'enabled' => true,
     'basic_auth_enabled' => false, // Use API keys only
-    'log_requests' => true,        // Enable audit logging
     'docs_enabled' => false,       // Disable docs in production
 ],
 ```
+
+!!! tip
+    To enable audit logging for API operations, use the [audit logging settings](logging.md) (`logging.database_enabled` and `logging.syslog_enabled`) instead.
 
 ### Security Best Practices
 
@@ -252,15 +252,16 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 
 ### Debugging
 
-Enable request logging for troubleshooting:
+Enable diagnostic logging for troubleshooting:
 
 ```php
-'api' => [
-    'log_requests' => true,
+'logging' => [
+    'type' => 'native',
+    'level' => 'debug',
 ],
 ```
 
-Check logs in your configured logging destination for detailed request/response information.
+This writes diagnostic messages to PHP's `error_log`. For audit logging of API operations, enable `logging.database_enabled` and/or `logging.syslog_enabled` - see [Logging Configuration](logging.md).
 
 ## PowerDNS Metrics API *(v4.0.3+)*
 

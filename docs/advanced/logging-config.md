@@ -123,3 +123,4 @@ For production systems, ensure log rotation is configured at the system level:
 When `database_enabled` is true, logs are stored in:
 - `log_users` table: Authentication and user management events
 - `log_zones` table: DNS zone and record changes
+- `log_groups` table: Group management and membership changes
