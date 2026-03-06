@@ -251,6 +251,21 @@ docker logs poweradmin | grep -i password
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
 
+### Custom CA Certificate
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `TRUSTED_CA_FILE` | - | Path to a custom CA certificate file inside the container |
+
+Use this when connecting to services (OIDC, SAML, LDAP, PowerDNS API) that use self-signed or internal CA certificates:
+
+```bash
+docker run -d --name poweradmin -p 80:80 \
+  -e TRUSTED_CA_FILE=/certs/my-ca.crt \
+  -v /path/to/my-ca.crt:/certs/my-ca.crt:ro \
+  poweradmin/poweradmin
+```
+
 ### Miscellaneous
 
 | Variable | Default | Description |
