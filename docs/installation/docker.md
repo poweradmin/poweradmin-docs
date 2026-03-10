@@ -242,6 +242,23 @@ docker logs poweradmin | grep -i password
 | `PA_PDNS_API_URL` | - | PowerDNS API URL |
 | `PA_PDNS_API_KEY` | - | PowerDNS API key |
 
+### Modules
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_MODULE_CSV_EXPORT_ENABLED` | true | Enable CSV export module |
+| `PA_MODULE_ZONE_IMPORT_EXPORT_ENABLED` | false | Enable zone import/export module |
+| `PA_MODULE_ZONE_IMPORT_EXPORT_AUTO_TTL` | 300 | Default TTL for imported records (seconds) |
+| `PA_MODULE_ZONE_IMPORT_EXPORT_MAX_FILE_SIZE` | 1048576 | Max upload file size in bytes |
+| `PA_MODULE_WHOIS_ENABLED` | false | Enable WHOIS lookup module |
+| `PA_MODULE_WHOIS_RESTRICT_TO_ADMIN` | true | Restrict WHOIS to administrators |
+| `PA_MODULE_RDAP_ENABLED` | false | Enable RDAP lookup module |
+| `PA_MODULE_RDAP_RESTRICT_TO_ADMIN` | true | Restrict RDAP to administrators |
+| `PA_MODULE_EMAIL_PREVIEWS_RESTRICT_TO_ADMIN` | true | Restrict email previews to administrators |
+| `PA_MODULE_DNS_WIZARDS_TYPES` | DMARC,SPF,DKIM,CAA,TLSA,SRV | Comma-separated list of DNS wizard types |
+
+For detailed module configuration, see the [Configuration](../configuration/zone-import-export.md) section.
+
 ### Authentication
 
 | Variable | Default | Description |

@@ -84,6 +84,7 @@ nav:
       - API Configuration: configuration/api.md
       - WHOIS Configuration: configuration/whois.md
       - RDAP Configuration: configuration/rdap.md
+      - Zone Import/Export: configuration/zone-import-export.md
       - User Agreements: configuration/user-agreements.md
       - Username Recovery: configuration/username-recovery.md
       - Avatar System: configuration/avatars.md
