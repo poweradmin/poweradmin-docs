@@ -27,20 +27,133 @@ Key features:
 
 ## Permission Template Mapping
 
-Map OIDC groups to Poweradmin permission templates for automatic role assignment:
+Map OIDC groups to Poweradmin permission templates for automatic role assignment. This connects the group/role names from your OIDC token to Poweradmin's permission system.
+
+**How it works:**
+
+1. When a user logs in via OIDC, Poweradmin reads their groups from the token claim specified by `user_mapping.groups` (defaults to `groups`)
+2. Each group name is checked against the keys in `permission_template_mapping`
+3. The **first match** determines the user's permission template
+4. If no groups match and the user's template was previously assigned via SSO group mapping, it is revoked and replaced with `default_permission_template`
+5. If no groups match and the template was manually assigned by an admin, it is preserved
+6. The `default_permission_template` is only applied to **new** users during initial provisioning, not on every login
+
+> **Note:** Matching is **case-sensitive** and **exact** - the group name in the token must match the mapping key exactly.
 
 ```php
 'oidc' => [
     'enabled' => true,
+    'default_permission_template' => 'Guest',
     'permission_template_mapping' => [
         'poweradmin-admins' => 'Administrator',
-        'dns-operators' => 'DNS Operator',
-        'dns-viewers' => 'Read Only',
+        'dns-operators' => 'Viewer',
+        'dns-viewers' => 'Guest',
     ],
 ],
 ```
 
-When a user logs in, their OIDC groups are matched against this mapping. The first match determines their permission template.
+In this example, a user whose OIDC token contains the group `poweradmin-admins` receives the "Administrator" permission template. A user with no matching groups receives the "Guest" template.
+
+Predefined permission templates:
+
+- **Administrator** - Full administrative rights
+- **Viewer** - Read-only access to own zones
+- **Guest** - Temporary access with no permissions (awaiting approval)
+
+### Using custom group claim names
+
+By default, Poweradmin reads groups from the `groups` claim in the OIDC token. If your identity provider uses a different claim name (e.g., `roles`, `realm_roles`, or `memberOf`), configure it in `user_mapping.groups`:
+
+```php
+'providers' => [
+    'keycloak' => [
+        // ... other settings ...
+        'user_mapping' => [
+            // ... other mappings ...
+            'groups' => 'roles',  // Read groups from the 'roles' claim instead
+        ],
+    ],
+],
+```
+
+For Docker deployments using the generic provider, set `PA_OIDC_GENERIC_GROUPS_ATTR`:
+
+```yaml
+environment:
+  PA_OIDC_GENERIC_GROUPS_ATTR: "roles"
+```
+
+### End-to-end example: Keycloak with roles
+
+Suppose your Keycloak access token includes a `roles` claim:
+
+```json
+{
+  "sub": "user-uuid",
+  "email": "user@example.com",
+  "roles": ["dns-admin", "dns-viewer"]
+}
+```
+
+To map `dns-admin` to the "Administrator" template:
+
+```php
+'oidc' => [
+    'enabled' => true,
+    'default_permission_template' => 'Guest',
+    'permission_template_mapping' => [
+        'dns-admin' => 'Administrator',
+        'dns-viewer' => 'Viewer',
+    ],
+    'providers' => [
+        'keycloak' => [
+            // ... other settings ...
+            'user_mapping' => [
+                'username' => 'preferred_username',
+                'email' => 'email',
+                'first_name' => 'given_name',
+                'last_name' => 'family_name',
+                'display_name' => 'name',
+                'groups' => 'roles',  // Tell Poweradmin to read the 'roles' claim
+            ],
+        ],
+    ],
+],
+```
+
+Since the user has both `dns-admin` and `dns-viewer`, the **first match** in the mapping order wins - they get the "Administrator" template.
+
+## Group Membership Mapping
+
+Separate from permission templates, you can also map OIDC groups to Poweradmin groups. This controls zone ownership and access through group membership.
+
+Key differences from permission template mapping:
+
+- `permission_template_mapping` assigns **one** permission template per user
+- `group_mapping` assigns **multiple** Poweradmin groups per user
+
+```php
+'oidc' => [
+    'enabled' => true,
+    'group_mapping' => [
+        'external-admins' => 'Administrators',
+        'dns-managers' => 'Zone Managers',
+        'dns-editors' => 'Editors',
+        'dns-viewers' => 'Viewers',
+        'dns-guests' => 'Guests',
+    ],
+],
+```
+
+Predefined Poweradmin groups:
+
+- **Administrators** - Full administrative access to all system functions
+- **Zone Managers** - Full zone management including creation, editing, and deletion
+- **Editors** - Edit zone records but cannot modify SOA and NS records
+- **Viewers** - Read-only access to zones with search capability
+- **Guests** - Temporary group with no permissions (awaiting approval)
+
+> **Note:** Both `permission_template_mapping` and `group_mapping` read from the same token claim specified by `user_mapping.groups`. Group memberships are also re-evaluated on every login.
 
 ## Provider Configuration
 
@@ -314,11 +427,28 @@ Use environment variables with the `PA_OIDC_` prefix:
 environment:
   PA_OIDC_ENABLED: "true"
   PA_OIDC_AUTO_PROVISION: "true"
+  PA_OIDC_DEFAULT_PERMISSION_TEMPLATE: "Guest"
   PA_OIDC_KEYCLOAK_CLIENT_ID: "poweradmin"
   PA_OIDC_KEYCLOAK_CLIENT_SECRET: "your-secret"
   PA_OIDC_KEYCLOAK_BASE_URL: "https://keycloak.example.com"
   PA_OIDC_KEYCLOAK_REALM: "master"
 ```
+
+To change the groups claim name for the generic OIDC provider, use `PA_OIDC_GENERIC_GROUPS_ATTR`:
+
+```yaml
+environment:
+  PA_OIDC_GENERIC_GROUPS_ATTR: "roles"  # Default: "groups"
+```
+
+> **Note:** The `permission_template_mapping` and `group_mapping` settings can be configured via environment variables using the `=` delimiter and comma-separated entries:
+>
+> ```yaml
+> PA_OIDC_PERMISSION_TEMPLATE_MAPPING: "admins=Administrator,editors=Viewer"
+> PA_OIDC_GROUP_MAPPING: "admins=Administrators,editors=Editors"
+> ```
+>
+> Group names containing colons (e.g., SAML URNs) are supported. Whitespace around commas and delimiters is trimmed automatically.
 
 For secrets, use the `__FILE` suffix:
 
@@ -377,10 +507,13 @@ You can configure multiple OIDC providers. Users will see all enabled providers 
 
 ### Groups not mapped
 
-- Ensure the `groups` scope is requested
-- Verify your provider returns groups in the expected claim
-- Check the `user_mapping.groups` matches your provider's claim name
+- Ensure the `groups` scope is requested (some providers require it explicitly)
+- Verify your provider returns groups in the expected claim - decode your token at [jwt.io](https://jwt.io) to inspect the actual claim names and values
+- Check that `user_mapping.groups` matches your provider's claim name exactly (e.g., `roles` instead of `groups` for some Keycloak configurations)
+- Verify that the group names in `permission_template_mapping` match the token values exactly (matching is case-sensitive)
+- Poweradmin checks both the userinfo endpoint and the ID token for groups - if your provider only includes groups in the ID token (common with Azure AD), this is handled automatically
 - In Azure AD, configure Group claims in Token configuration
+- In Keycloak, if using realm roles instead of groups, create a protocol mapper to include roles in the token under a custom claim name, then set `user_mapping.groups` to that claim name
 
 ### "Invalid state" error
 
