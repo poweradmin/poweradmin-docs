@@ -144,15 +144,18 @@ Links permission templates to specific permissions.
 | `perm_id` | int | Foreign key to perm_items.id |
 
 ### `zones`
-Links zones to users for permission management.
+Links zones to users for permission management. In API backend mode, also caches zone metadata from the PowerDNS API.
 
 | Column | Type | Description |
 |--------|------|-------------|
 | `id` | int | Primary key |
-| `domain_id` | int | Foreign key to domains.id |
+| `domain_id` | int | Foreign key to domains.id (nullable in API mode) |
 | `owner` | int | Foreign key to users.id |
 | `comment` | varchar(1024) | Zone comment |
 | `zone_templ_id` | int | Zone template ID |
+| `zone_name` | varchar(255) | Zone name (cached from PowerDNS API, v4.3.0+) |
+| `zone_type` | varchar(8) | Zone type: Master, Slave, Native (cached, v4.3.0+) |
+| `zone_master` | varchar(255) | Master server for slave zones (cached, v4.3.0+) |
 
 ### `zone_templ`
 Defines zone templates for bulk zone creation.
@@ -347,6 +350,26 @@ Logs zone-related activities.
 | `priority` | int | Log priority level |
 | `zone_id` | int | Related zone ID |
 
+## Record Comment Tables
+
+### `record_comments`
+Stores comments for individual DNS records.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `comment` | text | Comment text |
+
+### `record_comment_links`
+Links record comments to specific records.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `domain_id` | int | Foreign key to domains.id |
+| `record_id` | varchar | Record identifier (int for SQL mode, encoded string for API mode) |
+| `comment_id` | int | Foreign key to record_comments.id |
+
 ## Default Permission Templates
 
 Poweradmin includes default permission templates:
@@ -378,6 +401,7 @@ Poweradmin includes default permission templates:
 
 | Version | Changes |
 |---------|---------|
+| 4.3.0 | Added `zone_name`, `zone_type`, `zone_master` to zones; Widened `record_comment_links.record_id` to VARCHAR; Added `record_comments`, `record_comment_links` |
 | 4.2.0 | Added `oidc_user_links`, `saml_user_links`, `username_recovery_requests`; Added `auth_method` to users; Added zone deletion permissions |
 | 4.1.0 | Performance indexes added |
 | 4.0.0 | Added `login_attempts`, `api_keys`, `user_mfa`, `user_preferences`, `zone_template_sync`, `password_reset_tokens`, `user_agreements` |
