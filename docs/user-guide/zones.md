@@ -2,6 +2,8 @@
 
 Zones are the core objects in Poweradmin. Each zone corresponds to a DNS domain (or reverse network) managed by PowerDNS. This guide covers creating, editing, and managing zones.
 
+![Zone List](/screenshots/zone-list.png)
+
 ## Zone Types
 
 PowerDNS supports three zone types. Choose the type based on your DNS architecture:
@@ -15,6 +17,8 @@ PowerDNS supports three zone types. Choose the type based on your DNS architectu
 ## Creating Zones
 
 ### Adding a Master Zone
+
+![Add Master Zone](/screenshots/zone-add-master.png)
 
 1. Navigate to **Zones** and click **Add master zone**
 2. Enter the **Zone name** (e.g., `example.com`)
@@ -40,6 +44,8 @@ Slave zones are populated automatically by PowerDNS through zone transfers from 
 Zone templates let you define a standard set of records that are added when creating a new zone. This is useful for ensuring every zone starts with consistent SOA values, nameserver records, and common entries like MX or SPF records. See [DNS Templates](dns-templates.md) for details on creating and managing templates.
 
 ## Zone Editor
+
+![Zone Editor](/screenshots/zone-editor.png)
 
 The zone editor is where you view and modify a zone's DNS records. It shows all records in a table with columns for name, type, content, TTL, and priority.
 

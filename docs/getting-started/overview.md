@@ -4,6 +4,8 @@ Welcome to the Poweradmin documentation! This section will help you get started 
 administration tool for PowerDNS. Here, you will find an introduction to the tool, its features, and how to navigate
 through the documentation.
 
+![Poweradmin Dashboard](/screenshots/dashboard.png)
+
 ## Quick Evaluation
 
 If you want to quickly evaluate Poweradmin, follow these guides:

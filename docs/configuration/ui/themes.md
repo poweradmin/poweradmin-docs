@@ -26,10 +26,10 @@ return [
 ## Theme Screenshots
 
 ### Light Style
-![Light Theme](/screenshots/modern.png)
+![Light Theme](/screenshots/theme-light.png)
 
 ### Dark Style
-![Dark Theme](/screenshots/punk.png)
+![Dark Theme](/screenshots/theme-dark.png)
 
 ## Theme Components
 

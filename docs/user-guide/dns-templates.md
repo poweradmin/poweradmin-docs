@@ -4,6 +4,8 @@ DNS templates in Poweradmin allow you to create standardized sets of DNS records
 
 ## Template Management
 
+![Template List](/screenshots/template-list.png)
+
 Templates are managed through the Poweradmin interface and stored in the database. Each template can contain multiple DNS records of various types (A, CNAME, MX, etc.) that will be applied when the template is used.
 
 Templates support placeholders that are automatically substituted:
@@ -12,6 +14,8 @@ Templates support placeholders that are automatically substituted:
 - `[SERIAL]` - replaced with current date + sequence (YYYYMMDD00)
 - `[NS1]`, `[NS2]`, etc. - replaced with configured nameservers
 - `[HOSTMASTER]` - replaced with configured hostmaster email
+
+![Template Editor](/screenshots/template-editor.png)
 
 ## Zone Template Application
 

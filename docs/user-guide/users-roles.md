@@ -2,6 +2,8 @@
 
 This document provides an overview of user roles and the permission management system in Poweradmin.
 
+![User List](/screenshots/user-list.png)
+
 ## Basics of User Management
 
 Poweradmin implements a permission-based user management system with two primary user levels:
