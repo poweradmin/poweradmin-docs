@@ -61,6 +61,18 @@ This document provides detailed explanations of all user permissions available i
 - Limited permission for users who should only modify certain record types
 - Provides restricted zone management capabilities
 
+### zone_delete_own
+
+- Allows the user to delete zones they own
+- Separates deletion from edit permissions for finer access control
+- Added in v4.1.0
+
+### zone_delete_others
+
+- Allows the user to delete zones owned by other users
+- Administrative permission for managing all zones
+- Added in v4.1.0
+
 ## Search Permissions
 
 ### search
