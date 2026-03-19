@@ -177,6 +177,48 @@ Make sure to adjust the following settings for your environment:
 - `root` - Set to your Poweradmin installation path
 - `php_fastcgi` - Adjust PHP-FPM socket/TCP configuration as needed (default: `localhost:9000`)
 
+## Web Installer Wizard
+
+As an alternative to manual installation, Poweradmin includes a web-based installer wizard that guides you through the setup process in 8 steps.
+
+To use the wizard, navigate to your Poweradmin URL with the `/install/` path (e.g., `http://your-server/install/`). The wizard will walk you through:
+
+### Step 1: Language Selection
+
+Choose your preferred language for the installation process.
+
+![Language selection](../screenshots/install-step1-language.png)
+
+### Step 2: System Requirements
+
+The installer checks that your server meets all requirements, including PHP version, required extensions, and database drivers.
+
+![System requirements check](../screenshots/install-step2-requirements.png)
+
+### Step 4: Database Configuration
+
+Configure your database connection, select the database type (MySQL, PostgreSQL, or SQLite), and set the administrator password.
+
+![Database configuration](../screenshots/install-step4-database.png)
+
+### Step 5: Account & Nameservers
+
+Configure the database user for runtime access and set up default DNS settings (hostmaster, nameservers).
+
+![Account and nameserver setup](../screenshots/install-step5-nameservers.png)
+
+### Step 7: Configuration File
+
+The installer generates the `config/settings.php` file content. Copy this to your server.
+
+![Generated configuration](../screenshots/install-step7-config.png)
+
+### Step 8: Installation Complete
+
+After creating the configuration file, the installation is complete. Remove the `install/` directory for security.
+
+![Installation complete](../screenshots/install-step8-complete.png)
+
 ## Post-Installation Steps
 
 1. Configure web server permissions

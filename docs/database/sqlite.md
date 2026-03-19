@@ -71,11 +71,10 @@ https://github.com/poweradmin/poweradmin-scripts/blob/master/create_sqlite_db.sh
 
 ### Running the Installer
 
-After creating your SQLite database, run the Poweradmin installer and select SQLite as the database type, then provide
-the full path to your database file:
+After creating your SQLite database, run the Poweradmin installer and select SQLite as the database type in step 4, then provide the full path to your database file:
 
-![Select SQLite in installer](../screenshots/sqlite_step03.png)
+![Database configuration step](../screenshots/install-step4-database.png)
 
-When the installation is complete, copy the generated configuration to inc.config.php:
+When the installation is complete, the installer will generate the configuration file content. Create the `config/settings.php` file with the provided content:
 
-![Copy configuration](../screenshots/sqlite_step06.png)
+![Generated configuration file](../screenshots/install-step7-config.png)
