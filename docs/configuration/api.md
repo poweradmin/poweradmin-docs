@@ -119,51 +119,98 @@ curl -u username:password \
 
 ## API Endpoints
 
-### Zone Management
+Poweradmin provides two API versions. API v2 (introduced in v4.1.0) is recommended for all new integrations. API v1 remains available for backward compatibility.
 
-- `GET /api/v1/zones` - List all zones
-- `GET /api/v1/zones/{id}` - Get zone details
-- `POST /api/v1/zones` - Create new zone
-- `PUT /api/v1/zones/{id}` - Update zone
-- `DELETE /api/v1/zones/{id}` - Delete zone
+### API v2 Endpoints *(v4.1.0+)*
 
-### Record Management
+#### Zone Management
 
-- `GET /api/v1/zones/{id}/records` - List zone records
-- `GET /api/v1/records/{id}` - Get record details
-- `POST /api/v1/zones/{id}/records` - Create record
-- `PUT /api/v1/records/{id}` - Update record
-- `DELETE /api/v1/records/{id}` - Delete record
+- `GET /api/v2/zones` - List all zones
+- `GET /api/v2/zones/{id}` - Get zone details
+- `POST /api/v2/zones` - Create new zone
+- `PUT /api/v2/zones/{id}` - Update zone
+- `DELETE /api/v2/zones/{id}` - Delete zone
 
-### User Management
+#### Zone Owners *(v4.2.0+)*
 
-- `GET /api/v1/users` - List users (admin only)
-- `GET /api/v1/users/{id}` - Get user details
-- `POST /api/v1/users` - Create user (admin only)
-- `PUT /api/v1/users/{id}` - Update user
-- `DELETE /api/v1/users/{id}` - Delete user (admin only)
+- `GET /api/v2/zones/{id}/owners` - List zone owners
+- `POST /api/v2/zones/{id}/owners` - Add zone owner (supports batch assignment via `user_ids` array)
+- `DELETE /api/v2/zones/{id}/owners/{user_id}` - Remove zone owner
 
-### Permission Management
+#### Record Management
 
-- `GET /api/v1/permissions` - List available permissions
+- `GET /api/v2/zones/{id}/records` - List zone records
+- `POST /api/v2/zones/{id}/records` - Create record
+- `PUT /api/v2/zones/{id}/records/{record_id}` - Update record
+- `DELETE /api/v2/zones/{id}/records/{record_id}` - Delete record
+- `POST /api/v2/zones/{id}/records/bulk` - Bulk create records
+
+#### RRset Management
+
+- `GET /api/v2/zones/{id}/rrsets` - List all RRsets in a zone
+- `GET /api/v2/zones/{id}/rrsets/{name}/{type}` - Get specific RRset
+
+#### User Management
+
+- `GET /api/v2/users` - List users
+- `GET /api/v2/users/{id}` - Get user details
+- `POST /api/v2/users` - Create user
+- `PUT /api/v2/users/{id}` - Update user
+- `DELETE /api/v2/users/{id}` - Delete user
+
+#### Permission Management
+
+- `GET /api/v2/permissions` - List available permissions
+- `GET /api/v2/permissions/{id}` - Get permission details
+
+#### Permission Templates
+
+- `GET /api/v2/permission-templates` - List permission templates
+- `GET /api/v2/permission-templates/{id}` - Get permission template details
+- `POST /api/v2/permission-templates` - Create permission template
+- `PUT /api/v2/permission-templates/{id}` - Update permission template
+- `DELETE /api/v2/permission-templates/{id}` - Delete permission template
+
+#### Zone Templates *(v4.2.0+)*
+
+- `GET /api/v2/zone-templates` - List zone templates
+- `GET /api/v2/zone-templates/{id}` - Get zone template details
+- `POST /api/v2/zone-templates` - Create zone template
+- `PUT /api/v2/zone-templates/{id}` - Update zone template
+- `DELETE /api/v2/zone-templates/{id}` - Delete zone template
+- `GET /api/v2/zone-templates/{id}/records` - List template records
+- `POST /api/v2/zone-templates/{id}/records` - Add template record
+- `PUT /api/v2/zone-templates/{template_id}/records/{id}` - Update template record
+- `DELETE /api/v2/zone-templates/{template_id}/records/{id}` - Delete template record
+
+#### Group Management *(v4.2.0+)*
+
+- `GET /api/v2/groups` - List groups
+- `GET /api/v2/groups/{id}` - Get group details
+- `POST /api/v2/groups` - Create group
+- `PUT /api/v2/groups/{id}` - Update group
+- `DELETE /api/v2/groups/{id}` - Delete group
+- `GET /api/v2/groups/{id}/members` - List group members
+- `POST /api/v2/groups/{id}/members` - Add member to group
+- `DELETE /api/v2/groups/{id}/members/{user_id}` - Remove member from group
+- `GET /api/v2/groups/{id}/zones` - List group zones
+- `POST /api/v2/groups/{id}/zones` - Assign zone to group
+- `DELETE /api/v2/groups/{id}/zones/{zone_id}` - Remove zone from group
+
+### API v1 Endpoints (Legacy)
+
+API v1 is available for backward compatibility. Consider migrating to v2 for new integrations.
+
+- `GET/POST /api/v1/zones` - List / create zones
+- `GET/PUT/DELETE /api/v1/zones/{id}` - Get / update / delete zone
+- `GET/POST /api/v1/zones/{id}/records` - List / create records
+- `PUT/DELETE /api/v1/zones/{id}/records/{record_id}` - Update / delete record
+- `GET/POST /api/v1/users` - List / create users
+- `GET/PUT/DELETE /api/v1/users/{id}` - Get / update / delete user
+- `GET/POST /api/v1/permission-templates` - List / create templates
+- `GET/PUT/DELETE /api/v1/permission-templates/{id}` - Get / update / delete template
+- `GET /api/v1/permissions` - List permissions
 - `GET /api/v1/permissions/{id}` - Get permission details
-
-### Permission Templates
-
-- `GET /api/v1/permission-templates` - List permission templates
-- `GET /api/v1/permission-templates/{id}` - Get permission template details
-- `POST /api/v1/permission-templates` - Create permission template
-- `PUT /api/v1/permission-templates/{id}` - Update permission template
-- `DELETE /api/v1/permission-templates/{id}` - Delete permission template
-
-### Internal API Endpoints
-
-The following endpoints are available for internal use (session-based authentication):
-
-- `GET /api/internal/zones/{id}/validate` - Validate zone configuration
-- `GET /api/internal/users/{id}/preferences` - Get user preferences
-- `PUT /api/internal/users/{id}/preferences` - Update user preferences
-- `POST /api/internal/validation` - Validate various data types
 
 ## API Documentation
 
@@ -186,8 +233,7 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 ],
 ```
 
-!!! tip
-    To enable audit logging for API operations, use the [audit logging settings](logging.md) (`logging.database_enabled` and `logging.syslog_enabled`) instead.
+> **Tip:** To enable audit logging for API operations, use the [audit logging settings](logging.md) (`logging.database_enabled` and `logging.syslog_enabled`) instead.
 
 ### Security Best Practices
 
@@ -337,8 +383,16 @@ GET /api/v1/users?page=2&limit=25
 
 ## Version History
 
+### v4.2.0
+- **Added:** Zone template CRUD endpoints (API v2)
+- **Added:** Zone owners endpoints with batch assignment (API v2)
+- **Added:** Group management endpoints - members and zones (API v2)
+- **Added:** RRset endpoints (API v2)
+- **Added:** Bulk record creation endpoint (API v2)
+
 ### v4.1.0
-- Improved API stability and error handling
+- **Added:** API v2 with consistent response wrapping
+- **Added:** Permission validation for API endpoints
 
 ### v4.0.4
 - **Fixed:** Basic Auth TypeError when LDAP authentication is enabled (issue #799)
