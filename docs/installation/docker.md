@@ -328,6 +328,63 @@ services:
       - db_password
 ```
 
+## Non-Root / Rootless Deployment
+
+The Poweradmin image supports running as a non-root user for restricted Kubernetes clusters and OpenShift. No separate image variant is needed - the entrypoint adapts automatically.
+
+### Behavior
+
+| Start mode | Port | Privileges | Use case |
+|------------|------|------------|----------|
+| Root (default) | 80 | Drops to www-data after setup | Standard Docker, unrestricted K8s |
+| Non-root | 8080 (auto) | No chown/chmod/CA install | Restricted K8s, OpenShift |
+
+### Docker (Non-Root)
+
+```bash
+docker run --rm --user 82:82 -p 8080:8080 \
+  -e DB_TYPE=sqlite \
+  poweradmin/poweradmin:stable
+```
+
+### Kubernetes (Restricted)
+
+```yaml
+spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 82
+    runAsGroup: 82
+    fsGroup: 82
+  containers:
+    - name: poweradmin
+      image: poweradmin/poweradmin:stable
+      ports:
+        - containerPort: 8080
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]
+      env:
+        - name: DB_TYPE
+          value: sqlite
+```
+
+`fsGroup: 82` ensures volumes are group-writable for `www-data` (GID 82).
+
+### Custom Port
+
+Override the auto-detected port with `SERVER_PORT`:
+
+```bash
+docker run --rm -e SERVER_PORT=9090 -p 9090:9090 poweradmin/poweradmin
+```
+
+### Limitations (Non-Root)
+
+- `TRUSTED_CA_FILE` requires root - a warning is logged if set in non-root mode
+- Volumes must be pre-configured as writable (use `fsGroup` or host permissions)
+
 ## Troubleshooting
 
 ### Check container logs
