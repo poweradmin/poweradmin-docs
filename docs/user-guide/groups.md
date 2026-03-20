@@ -84,7 +84,7 @@ If you use OIDC or SAML authentication, you can automatically assign users to gr
 
 ## MFA Enforcement
 
-Groups support MFA enforcement. When enabled on a group, all members will be required to set up two-factor authentication on their next login. This is configured through the group's settings.
+Groups can enforce MFA for all their members. This is done by adding the `user_enforce_mfa` permission to the group's access template. When this permission is present, all group members are required to set up two-factor authentication on their next login. See [MFA Enforcement](mfa.md) for details.
 
 ## Deleting a Group
 

@@ -40,6 +40,38 @@ Map SAML groups/roles to Poweradmin permission templates:
 ],
 ```
 
+## Group Membership Mapping
+
+Separate from permission templates, you can also map SAML groups to Poweradmin groups. This controls zone ownership and access through group membership.
+
+Key differences from permission template mapping:
+
+- `permission_template_mapping` assigns **one** permission template per user
+- `group_mapping` assigns **multiple** Poweradmin groups per user
+
+```php
+'saml' => [
+    'enabled' => true,
+    'group_mapping' => [
+        'external-admins' => 'Administrators',
+        'dns-managers' => 'Zone Managers',
+        'dns-editors' => 'Editors',
+        'dns-viewers' => 'Viewers',
+        'dns-guests' => 'Guests',
+    ],
+],
+```
+
+Predefined Poweradmin groups:
+
+- **Administrators** - Full administrative access to all system functions
+- **Zone Managers** - Full zone management including creation, editing, and deletion
+- **Editors** - Edit zone records but cannot modify SOA and NS records
+- **Viewers** - Read-only access to zones with search capability
+- **Guests** - Temporary group with no permissions (awaiting approval)
+
+> **Note:** Both `permission_template_mapping` and `group_mapping` read from the same SAML attribute specified by `user_mapping.groups`. Group memberships are re-evaluated on every login - users are added to or removed from mapped groups based on their current SAML assertion.
+
 ## Service Provider (SP) Configuration
 
 Poweradmin acts as a SAML Service Provider. Configure SP settings in the `sp` section:
@@ -331,6 +363,15 @@ environment:
   PA_SAML_AZURE_ENTITY_ID: "https://sts.windows.net/tenant-id/"
   PA_SAML_AZURE_SSO_URL: "https://login.microsoftonline.com/tenant-id/saml2"
 ```
+
+> **Note:** The `permission_template_mapping` and `group_mapping` settings can be configured via environment variables using the `=` delimiter and comma-separated entries:
+>
+> ```yaml
+> PA_SAML_PERMISSION_TEMPLATE_MAPPING: "admins=Administrator,editors=Viewer"
+> PA_SAML_GROUP_MAPPING: "admins=Administrators,editors=Editors"
+> ```
+>
+> Group names containing colons (e.g., SAML URNs) are supported. Whitespace around commas and delimiters is trimmed automatically.
 
 For certificates and keys, use Docker secrets:
 
