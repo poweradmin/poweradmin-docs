@@ -79,6 +79,7 @@ nav:
           - Themes: configuration/ui/themes.md
           - Layout: configuration/ui/layout.md
           - Custom CSS: configuration/ui/custom-css.md
+      - Permissions: configuration/permissions.md
       - Password Policies: configuration/password-policies.md
       - Security Policies: configuration/security-policies.md
       - API Configuration: configuration/api.md

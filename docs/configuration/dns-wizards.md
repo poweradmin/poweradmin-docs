@@ -96,3 +96,17 @@ The following providers are included by default:
     ],
 ],
 ```
+
+## Docker Configuration
+
+To enable DNS wizards in Docker, set the environment variable:
+
+```
+PA_MODULE_DNS_WIZARDS_ENABLED=true
+```
+
+To customize available wizard types:
+
+```
+PA_MODULE_DNS_WIZARDS_TYPES=SPF,DMARC,CAA
+```
