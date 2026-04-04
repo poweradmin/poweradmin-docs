@@ -13,12 +13,14 @@ Official images are available at:
 
 | Tag | Description |
 |-----|-------------|
-| `stable` | Stable release from `release/4.0.x` (recommended for production) |
-| `next` | Upcoming release from `release/4.1.x` (stabilizing) |
-| `latest` | Latest release from master branch |
+| `stable` | Stable release from `release/4.2.x` (recommended for production) |
+| `latest` | Latest release from `master` branch |
+| `dev` | Development version from `develop` branch (not for production) |
 | `lts` | Long-term support from `release/3.x` |
-| `dev` | Development version (not for production) |
-| `v*` | Specific version (e.g., `v4.0.0`, `v4.1.0`) |
+| `v*` | Specific version (e.g., `v4.2.1`) |
+
+!!! note
+    The `next` tag has been removed. The `stable` tag now tracks `release/4.2.x` instead of the retired `release/4.0.x`.
 
 ## Quick Start
 
