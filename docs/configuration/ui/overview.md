@@ -29,6 +29,7 @@ The following settings control the user interface appearance and behavior:
 - **search_group_records**: Group records by name and content in search results. Default: `false`
 - **reverse_zone_sort**: Reverse zone sorting algorithm. Options: 'natural' (default), 'hierarchical' (experimental). Default: `natural`
 - **show_pdns_status**: Show PowerDNS server status page and dashboard card. Default: `false`
+- **show_dashboard_stats**: Show zone, record, user, and group counts on the dashboard for admin users. Default: `true`
 - **display_hostname_only**: Display only hostname part in zone edit form (strips zone suffix). Default: `false`
 - **enable_consistency_checks**: Enable database consistency checks page. Default: `false`
 
