@@ -18,8 +18,7 @@ configurations, including password policies, are now configured in a single `con
 
 The following additional security settings are available in the `security` section:
 
-- **password_encryption**: Choose the password hashing algorithm. Options: 'md5', 'md5salt', 'bcrypt', 'argon2i', '
-  argon2id'. Default: `bcrypt`.
+- **password_encryption**: Choose the password hashing algorithm. Options: 'bcrypt', 'argon2i', 'argon2id'. Default: `bcrypt`. Note: 'md5' and 'md5salt' were removed in 4.3.0. Existing legacy hashes are still verified and automatically upgraded on login.
 
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`.
 

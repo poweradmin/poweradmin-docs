@@ -43,7 +43,7 @@ $dns_ns2 = 'ns2.example.net';
 | Variable | Default | Description | Added |
 |----------|---------|-------------|-------|
 | `$session_key` | p0w3r4dm1n | Session encryption key | 2.1.6 |
-| `$password_encryption` | bcrypt | Password hash: md5, md5salt, bcrypt, argon2i, argon2id | 2.1.6 |
+| `$password_encryption` | bcrypt | Password hash: bcrypt, argon2i, argon2id (md5/md5salt removed in 4.3.0) | 2.1.6 |
 | `$password_encryption_cost` | 12 | Bcrypt cost parameter | 2.1.8 |
 | `$login_token_validation` | true | Enable login token validation | 3.9.0 |
 | `$global_token_validation` | true | Enable global token validation | 3.9.0 |

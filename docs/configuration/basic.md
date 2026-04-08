@@ -83,7 +83,7 @@ The configuration is organized into logical sections:
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `security.session_key` | p0w3r4dm1n | Session encryption key (change this!) |
-| `security.password_encryption` | bcrypt | Hash algorithm: md5, md5salt, bcrypt, argon2i, argon2id |
+| `security.password_encryption` | bcrypt | Hash algorithm: bcrypt, argon2i, argon2id |
 | `security.password_encryption_cost` | 12 | Bcrypt cost parameter |
 | `security.login_token_validation` | true | CSRF protection for login |
 | `security.global_token_validation` | true | CSRF protection globally |
@@ -141,7 +141,7 @@ For more DNS options, see [DNS Settings](dns-settings.md).
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `misc.timezone` | UTC | Application timezone |
+| `misc.timezone` | UTC | Application timezone, used for SOA serial generation (e.g. `Europe/Berlin`, `Asia/Shanghai`) |
 | `misc.display_stats` | false | Show memory/execution stats |
 | `misc.display_errors` | false | Show PHP errors (disable in production) |
 | `misc.show_generated_passwords` | true | Display generated passwords |

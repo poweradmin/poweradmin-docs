@@ -5,7 +5,7 @@ Poweradmin offers various security features to protect your DNS management syste
 ## General Security Settings
 
 - **session_key**: A unique key used for session security. Default: `change_this_key` (you should always change this)
-- **password_encryption**: Password hashing algorithm. Options: 'md5', 'md5salt', 'bcrypt', 'argon2i', 'argon2id'. Default: `bcrypt`
+- **password_encryption**: Password hashing algorithm. Options: 'bcrypt', 'argon2i', 'argon2id'. Default: `bcrypt`. Note: 'md5' and 'md5salt' were removed in 4.3.0
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`
 - **login_token_validation**: Enable token validation for login form. Default: `true`
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
