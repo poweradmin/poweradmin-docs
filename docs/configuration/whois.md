@@ -12,6 +12,7 @@ WHOIS settings can be configured in the `config/settings.php` file under the `wh
 |---------|---------|-------------|
 | `enabled` | `false` | Enable WHOIS lookup functionality |
 | `default_server` | `''` | Optional default WHOIS server (empty to use server from WHOIS database) |
+| `custom_servers` | `[]` | Custom TLD-to-server mapping for TLDs not in the built-in database |
 | `socket_timeout` | `10` | Socket timeout in seconds for WHOIS queries |
 | `restrict_to_admin` | `true` | Only allow administrators (user_is_ueberuser) to use WHOIS functionality |
 
@@ -21,12 +22,39 @@ WHOIS settings can be configured in the `config/settings.php` file under the `wh
 return [
     'whois' => [
         'enabled' => true,
-        'default_server' => 'whois.internic.net',
+        'default_server' => '',
+        'custom_servers' => [
+            'za' => 'whois.registry.net.za',
+            'co.za' => 'whois.registry.net.za',
+        ],
         'socket_timeout' => 15,
         'restrict_to_admin' => true,
     ],
 ];
 ```
+
+### Custom Server Mapping
+
+The `custom_servers` option allows you to define WHOIS servers for specific TLDs that may not be in the built-in database. Custom servers take priority over the built-in server list.
+
+```php
+'custom_servers' => [
+    'za' => 'whois.registry.net.za',    // South Africa
+    'co.za' => 'whois.registry.net.za', // South African SLD
+],
+```
+
+**Docker environment variable:**
+
+```
+PA_MODULE_WHOIS_CUSTOM_SERVERS=za=whois.registry.net.za,co.za=whois.registry.net.za
+```
+
+**Lookup priority:**
+
+1. Custom servers (from `custom_servers` config)
+2. Built-in WHOIS server database
+3. `default_server` (global fallback, if set)
 
 ## Usage
 

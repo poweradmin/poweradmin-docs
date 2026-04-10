@@ -12,6 +12,7 @@ RDAP settings can be configured in the `config/settings.php` file under the `rda
 |---------|---------|-------------|
 | `enabled` | `false` | Enable RDAP lookup functionality |
 | `default_server` | `''` | Optional default RDAP server URL (empty to use server from RDAP database) |
+| `custom_servers` | `[]` | Custom TLD-to-server mapping for TLDs not in the built-in database |
 | `request_timeout` | `10` | HTTP request timeout in seconds for RDAP queries |
 | `restrict_to_admin` | `true` | Only allow administrators (user_is_ueberuser) to use RDAP functionality |
 
@@ -21,12 +22,37 @@ RDAP settings can be configured in the `config/settings.php` file under the `rda
 return [
     'rdap' => [
         'enabled' => true,
-        'default_server' => 'https://rdap.verisign.com/com/v1/',
+        'default_server' => '',
+        'custom_servers' => [
+            'za' => 'https://rdap.example.com/za/',
+        ],
         'request_timeout' => 15,
         'restrict_to_admin' => true,
     ],
 ];
 ```
+
+### Custom Server Mapping
+
+The `custom_servers` option allows you to define RDAP servers for specific TLDs that may not be in the built-in database. Custom servers take priority over the built-in server list.
+
+```php
+'custom_servers' => [
+    'za' => 'https://rdap.registry.net.za/',
+],
+```
+
+**Docker environment variable:**
+
+```
+PA_MODULE_RDAP_CUSTOM_SERVERS=za=https://rdap.registry.net.za/
+```
+
+**Lookup priority:**
+
+1. Custom servers (from `custom_servers` config)
+2. Built-in RDAP server database
+3. `default_server` (global fallback, if set)
 
 ## RDAP vs WHOIS
 
