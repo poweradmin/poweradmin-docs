@@ -4,9 +4,10 @@ Poweradmin can log operations to the database for auditing and tracking purposes
 
 ## Overview
 
-Database logging records operations across three log tables:
+Database logging records operations across four log tables:
 
-- **User events** (`log_users`): login/logout, user creation/editing/deletion
+- **User events** (`log_users`): login/logout, user creation/editing/deletion, MFA, password resets
+- **API events** (`log_api`): API key creation, editing, deletion, regeneration, and toggling
 - **Zone events** (`log_zones`): zone and record creation, modification, and deletion
 - **Group events** (`log_groups`): group creation/editing/deletion, membership and zone assignment changes
 
@@ -51,6 +52,15 @@ environment:
 | `priority` | int | Syslog priority level |
 | `created_at` | timestamp | When the event occurred |
 
+### log_api
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Auto-increment ID |
+| `event` | text | Description of the event |
+| `priority` | int | Syslog priority level |
+| `created_at` | timestamp | When the event occurred |
+
 ### log_zones
 
 | Column | Type | Description |
@@ -75,8 +85,16 @@ environment:
 
 ### User Events
 
-- Login and logout
+- Login and logout (includes `auth_method` - sql, ldap, oidc, saml)
 - User creation, editing, and deletion
+- MFA enable/disable/verify
+- Password changes and resets
+- Username recovery
+
+### API Events
+
+- API key creation, editing, and deletion
+- API key regeneration and toggling (enable/disable)
 
 ### Zone Events
 
@@ -93,11 +111,14 @@ environment:
 
 ## Viewing Logs
 
-Administrators can view the change log through the web interface:
+Administrators can view logs through the web interface:
 
-1. Navigate to **Logs** in the main menu
-2. Filter by zone, user, or date range
-3. Export logs if needed
+- **Users** > **User logs** - user and authentication events
+- **Tools** > **API Logs** - API key management events
+- **Zones** > **Zone logs** - zone and record events
+- **Groups** > **Group logs** - group membership and zone assignment events
+
+Each log page supports filtering by user, event type, and date range, with CSV/JSON export.
 
 ## Querying Logs
 
@@ -136,6 +157,7 @@ Database logs can grow large over time. Consider implementing a retention policy
 ```sql
 -- Delete logs older than 90 days
 DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_api WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 ```
