@@ -2,6 +2,24 @@
 
 Poweradmin works behind reverse proxies with no special configuration required. The Docker image uses FrankenPHP (Caddy-based) which handles URL routing internally.
 
+## Client IP Resolution
+
+When running behind a reverse proxy, the container sees the proxy's IP address instead of the real client IP. This affects both access logs (`docker logs`) and application audit logs.
+
+To fix this, set the `TRUSTED_PROXIES` environment variable so Caddy resolves the real client IP from proxy headers:
+
+```yaml
+services:
+  poweradmin:
+    image: poweradmin/poweradmin:stable
+    environment:
+      TRUSTED_PROXIES: private_ranges
+```
+
+The `private_ranges` value trusts all private IP ranges (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) and is recommended for most Docker deployments. For specific CIDRs, use a comma-separated list: `TRUSTED_PROXIES=172.17.0.0/16,10.0.0.0/8`.
+
+Both `X-Forwarded-For` and `X-Real-IP` headers are supported. Your reverse proxy must forward at least one of these headers - see the examples below for proxy-specific configuration.
+
 ## Traefik
 
 ### Basic Setup (HTTP only)
