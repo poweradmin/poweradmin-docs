@@ -134,6 +134,15 @@ return [
 ];
 ```
 
+**Required:** when `dns.backend` is `api`, both `pdns_api.url` and `pdns_api.key` must be set. Otherwise Poweradmin fails on the first DNS operation with:
+
+```
+dns.backend is set to "api" but pdns_api.url and/or pdns_api.key are not configured.
+Set both values or change dns.backend to "sql".
+```
+
+There is no SQL fallback, so writes can't bypass the API path by accident.
+
 ### New Installation with API Backend
 
 The installer (Step 4) offers a choice between "Database" and "API" backend. Selecting API will:
@@ -146,11 +155,16 @@ The installer (Step 4) offers a choice between "Database" and "API" backend. Sel
 
 1. Ensure the PowerDNS API is enabled and accessible
 2. Run the v4.3.0 database migration (adds required columns to `zones` table)
-3. Change `dns.backend` from `sql` to `api` in `config/settings.php`
-4. Add `pdns_api` settings if not already configured
+3. Add `pdns_api.url` and `pdns_api.key` to `config/settings.php` and verify the API is reachable (see Testing Connection above)
+4. Change `dns.backend` from `sql` to `api`
 5. Load any page - the zone sync service automatically populates cached zone metadata
 
 All existing zone ownership, group assignments, and permissions are preserved. The migration is reversible by changing `dns.backend` back to `sql`.
+
+**What changes at runtime:**
+
+- All zone and record writes go through the PowerDNS API, so NOTIFY, cache flush, and DNSSEC signing are triggered automatically. In SQL mode these required manual `pdns_control notify` or `pdns_control cache-flush` calls.
+- The Poweradmin app no longer needs credentials for the PowerDNS database. You can remove `pdns_db_*` settings and revoke the corresponding database grants.
 
 ### Zone Sync Service
 
