@@ -13,7 +13,7 @@ Poweradmin's database settings are configured in the `config/settings.php` file 
 - **charset**: Database character set. Options: 'latin1', 'utf8', 'utf8mb4'. Default: 'latin1'
 - **file**: SQLite database file path (only for SQLite)
 - **debug**: Enable SQL query debugging. Default: `false`
-- **pdns_db_name**: Separate database name for PowerDNS (added in v3.8.0). Default: same as 'name'
+- **pdns_db_name**: Separate database name for PowerDNS (added in v3.8.0). MySQL/MariaDB only - ignored (and rejected by config validation) on PostgreSQL and SQLite. Default: same as 'name'
 
 ## Example Configuration
 
@@ -29,7 +29,7 @@ return [
         'charset' => 'latin1',
         'file' => '',
         'debug' => false,
-        'pdns_db_name' => 'powerdns', // Optional: Use when PowerDNS tables are in a separate database
+        'pdns_db_name' => 'powerdns', // Optional, MySQL/MariaDB only: Use when PowerDNS tables are in a separate database
     ],
 ];
 ```

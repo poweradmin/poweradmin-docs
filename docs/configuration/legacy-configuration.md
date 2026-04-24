@@ -36,7 +36,7 @@ $dns_ns2 = 'ns2.example.net';
 | `$db_charset` | - | Database charset (e.g., utf8) | 2.1.8 |
 | `$db_file` | - | SQLite database file path | 2.1.6 |
 | `$db_debug` | false | Show executed SQL queries | 2.1.6 |
-| `$pdns_db_name` | powerdns | Separate PowerDNS database name | 3.8.0 |
+| `$pdns_db_name` | powerdns | Separate PowerDNS database name (MySQL/MariaDB only) | 3.8.0 |
 
 ## Security Settings
 

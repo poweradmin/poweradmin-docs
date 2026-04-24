@@ -76,7 +76,7 @@ The configuration is organized into logical sections:
 | `database.charset` | - | Connection charset (e.g., utf8) |
 | `database.file` | - | SQLite database file path |
 | `database.debug` | false | Log SQL queries |
-| `database.pdns_db_name` | powerdns | Separate PowerDNS database (v3.8.0+) |
+| `database.pdns_db_name` | powerdns | Separate PowerDNS database, MySQL/MariaDB only (v3.8.0+) |
 
 ## Security Settings
 
