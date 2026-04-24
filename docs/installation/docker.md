@@ -19,8 +19,7 @@ Official images are available at:
 | `lts` | Long-term support from `release/3.x` |
 | `v*` | Specific version (e.g., `v4.2.1`) |
 
-!!! note
-    The `next` tag has been removed. The `stable` tag now tracks `release/4.2.x` instead of the retired `release/4.0.x`.
+> **Note:** The `next` tag has been removed. The `stable` tag now tracks `release/4.2.x` instead of the retired `release/4.0.x`.
 
 ## Quick Start
 
