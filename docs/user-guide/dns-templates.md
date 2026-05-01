@@ -85,9 +85,47 @@ Poweradmin also supports permission templates (different from zone templates):
 - **Editing permission templates**: Requires `templ_perm_edit` permission
 - **Deleting permission templates**: Requires `user_edit_templ_perm` permission
 
+## Default Zone Template
+
+A global zone template can be marked as the default. The marked template is pre-selected on the **Add master zone** form (instead of "none") and shown with a "(default)" suffix in the dropdown, so users know which template will be applied if they don't change the selection.
+
+### Setting the default from the UI
+
+On the **Zone templates** list, ueberusers see a star button next to each global template:
+
+- An outline star icon - "Set as default": flags this template as the default. Any previously flagged template is cleared in the same operation.
+- A filled star icon - "Unset as default": clears the flag.
+
+A blue "default" badge marks the active row.
+
+Only **global** templates (Type: `global` in the list) can be marked default. If a template is later converted to private, the default flag is cleared automatically so it cannot become an orphan.
+
+### Setting the default via configuration
+
+If you cannot mark a default through the UI, set `dns.default_zone_template` in `config/settings.php`. The value is either the template id or its name:
+
+```php
+'dns' => [
+    'default_zone_template' => 'Standard',  // by name
+    // 'default_zone_template' => 7,        // or by id
+],
+```
+
+The DB-backed default (set via the UI) takes precedence over the config setting; the config setting is the fallback when no template is flagged in the database.
+
+When the configured template is the active default but no row carries the DB flag, the list view shows a "default (config)" badge - a hint that the value comes from `settings.php` and cannot be cleared from the UI.
+
+#### Edge cases
+
+- If the configured name resolves to multiple global templates (template names are not strictly unique in the database), the setting is ignored and a warning is logged. Either rename one of the duplicates or use the template id.
+- If the configured template no longer exists, the form silently falls back to "none" and a warning is logged. Update or remove the setting to clear the warning.
+- Personal templates cannot be the default. Setting `dns.default_zone_template` to a private template id has no effect.
+
 ## Configuration
 
 Template display in zone listings can be controlled via the `interface.zonelist_template` setting in your configuration file.
+
+The default zone template is configured via `dns.default_zone_template` (see [Default Zone Template](#default-zone-template) above).
 
 ## See Also
 

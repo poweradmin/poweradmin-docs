@@ -22,6 +22,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $dns_third_level_check | dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |
 | $dns_txt_auto_quote | dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
 | $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
+| - | dns.default_zone_template | null | Default zone template pre-selected on the add-zone form. Accepts a template id (int) or name (string). The DB-backed default (set in the template list UI) wins when both are present. | 4.4.0 |
 | - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
@@ -86,6 +87,7 @@ return [
         'soa_expire' => 604800,
         'soa_minimum' => 86400,
         'zone_type_default' => 'MASTER',
+        'default_zone_template' => null, // template id (int) or name (string); null for "none"
         'strict_tld_check' => false,
         'top_level_tld_check' => false,
         'third_level_check' => false,
