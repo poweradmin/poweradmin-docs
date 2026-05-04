@@ -23,6 +23,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $dns_txt_auto_quote | dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
 | $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
 | - | dns.default_zone_template | null | Default zone template pre-selected on the add-zone form. Accepts a template id (int) or name (string). The DB-backed default (set in the template list UI) wins when both are present. | 4.4.0 |
+| - | dns.zone_ownership_mode | both | Controls how zone ownership can be assigned on creation and ownership pages. Options: `both`, `users_only`, `groups_only`. | 4.4.0 |
 | - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
@@ -88,6 +89,7 @@ return [
         'soa_minimum' => 86400,
         'zone_type_default' => 'MASTER',
         'default_zone_template' => null, // template id (int) or name (string); null for "none"
+        'zone_ownership_mode' => 'both', // 'both', 'users_only', or 'groups_only'
         'strict_tld_check' => false,
         'top_level_tld_check' => false,
         'third_level_check' => false,

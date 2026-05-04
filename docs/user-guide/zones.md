@@ -105,6 +105,16 @@ A zone can have both individual user owners and group owners simultaneously. Per
 
 > **Note:** When creating a zone, you must select at least one owner. Administrators can reassign ownership later.
 
+### Restricting Ownership Assignment
+
+Starting in v4.4.0, the `dns.zone_ownership_mode` setting controls which ownership pickers are available on the zone creation form, the bulk registration form, the zone import form, and the zone ownership page:
+
+- `both` (default) - users and groups can both be assigned as owners
+- `users_only` - only individual users can be assigned; the group picker is hidden
+- `groups_only` - only groups can be assigned; the user picker is hidden, and group membership is the sole way to grant zone access
+
+Use `groups_only` to enforce group-based access management across the installation. The setting also applies to the API. API v2 supports group-only zones (pass `owner_user_id: null` together with `group_ids`); API v1 cannot create group-only zones and returns an error when `zone_ownership_mode` is set to `groups_only`.
+
 ## Disabled Records
 
 Starting in v4.1.0, you can disable individual records without deleting them:
