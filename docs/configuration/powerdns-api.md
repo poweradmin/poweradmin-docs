@@ -26,6 +26,7 @@ PowerDNS API settings can be configured in the `config/settings.php` file under 
 | $pdns_api_key | pdns_api.key | no default | The authentication key required for establishing a connection with the PowerDNS API | 3.7.0 |
 | - | pdns_api.display_name | PowerDNS | PowerDNS name to identify server in the interface | 4.0.0 |
 | - | pdns_api.server_name | localhost | PowerDNS server name used in API calls | 4.0.0 |
+| - | pdns_api.timeout | 10 | PowerDNS API request timeout in seconds. GET requests are retried once on transient failures; writes are not retried. | 4.4.0 |
 | - | dns.backend | sql | Backend mode: `sql` (database) or `api` (API only) | 4.3.0 |
 
 ## Modern Configuration Example
@@ -189,6 +190,20 @@ In API backend mode, a sync service keeps the local `zones` table in sync with P
 - **Adds** zones created directly in PowerDNS (assigned no owner - admin must assign access)
 - **Removes** local entries for zones deleted from PowerDNS
 - **Updates** cached zone type and master when changed
+
+#### Manual Sync (v4.4.0+)
+
+If you've just created zones in PowerDNS through `pdnsutil` or another tool and don't want to wait for the next scheduled sync, the Forward Zones page now has a **Sync from PowerDNS** button. Clicking it triggers an immediate sync against the PowerDNS API.
+
+The action requires a CSRF-protected POST, so it's safe to expose to non-admin zone owners. The button respects the same throttle as the automatic sync internally - if a sync ran very recently, the manual press becomes a no-op rather than a double-reconciliation.
+
+#### What Happens When the API is Down
+
+If PowerDNS becomes unreachable, sync stops but the dashboard does not throw a stack trace at users. Instead:
+
+- The cached zone count from the last successful sync is kept on display, so you don't see "0 zones" during a transient outage.
+- Admin pages show an API-error banner with the HTTP status and a short hint at what to check next (network, credentials, capabilities endpoint).
+- Sync retries are not throttled during outages - once the API comes back, the next page load reconciles normally.
 
 ### Docker
 
