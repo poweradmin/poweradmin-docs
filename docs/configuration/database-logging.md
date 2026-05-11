@@ -102,6 +102,7 @@ environment:
 - Zone type changes (MASTER, NATIVE, SLAVE)
 - Zone deletion
 - Record creation, modification, and deletion
+- DNSSEC sign and unsign events (sign events added in v4.4.0; before that only unsign was recorded)
 
 ### Group Events
 
@@ -119,6 +120,8 @@ Administrators can view logs through the web interface:
 - **Groups** > **Group logs** - group membership and zone assignment events
 
 Each log page supports filtering by user, event type, and date range, with CSV/JSON export.
+
+From v4.4.0, zone owners can read the audit log for the zones they own (directly or via group ownership) without being administrators. They see only entries for their own zones - the filter is applied server-side. Administrators continue to see everything.
 
 ## Querying Logs
 
