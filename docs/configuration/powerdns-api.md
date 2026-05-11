@@ -151,6 +151,21 @@ The installer (Step 4) offers a choice between "Database" and "API" backend. Sel
 - Skip PowerDNS database configuration
 - Set `dns.backend` to `api` in the generated configuration
 
+### Installing Poweradmin on top of an existing PowerDNS
+
+If PowerDNS already has zones (e.g., you imported them via `mysqldump` or directly into the `domains` table), those zones will **not** appear in Poweradmin immediately after installation.
+
+This is expected behavior. The installer creates Poweradmin's schema and initial configuration - it does not import or reconcile existing PowerDNS zones. Poweradmin stores ownership and metadata in its own `zones` table, one row per PowerDNS domain, and those rows are added by the zone sync service at runtime.
+
+**To populate existing zones after a fresh install:**
+
+1. Log in as an administrator.
+2. Navigate to **Forward Zones** (not the dashboard). Sync runs on that page load.
+3. All zones from PowerDNS will appear with no owner assigned.
+4. Assign owners (or zone-group access) as needed.
+
+The dashboard may report "0 zones" until the sync has run at least once in API mode. Visiting Forward Zones triggers the sync.
+
 ### Migrating from SQL to API Backend
 
 1. Ensure the PowerDNS API is enabled and accessible
