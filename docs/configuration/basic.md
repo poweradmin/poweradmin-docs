@@ -112,8 +112,9 @@ For password policies and MFA settings, see [Security Policies](security-policie
 | `interface.edit_add_record_top` | false | Add record form at top |
 | `interface.edit_save_changes_top` | false | Save button at top |
 | `interface.show_forward_zone_associations` | true | Show associated forward zones in reverse zone list (v4.0.5+) |
+| `interface.display_hostname_only` | false | Show only hostname part in zone edit form (strips zone suffix). Site-wide default; from v4.4.0 each user can override this in their account preferences. |
 
-\* Default languages: cs_CZ, de_DE, en_EN, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, lt_LT, nb_NO, nl_NL, pl_PL, pt_PT, ru_RU, sv_SE, tr_TR, uk_UA, vi_VN, zh_CN
+\* Default languages: cs_CZ, de_DE, en_EN, es_ES, et_EE, fi_FI, fr_FR, hr_HR, hu_HU, id_ID, it_IT, ja_JP, ko_KR, lt_LT, lv_LV, nb_NO, nl_NL, pl_PL, pt_PT, ro_RO, ru_RU, sk_SK, sr_RS, sv_SE, tr_TR, uk_UA, vi_VN, zh_CN (et_EE, fi_FI, hr_HR, hu_HU, lv_LV, ro_RO, sk_SK, sr_RS added in v4.4.0)
 
 > **Tip:** If you experience slow loading or timeout errors on the reverse zones page, set `show_forward_zone_associations` to `false`. This disables the lookup of associated forward zones which can be slow with many PTR records.
 
