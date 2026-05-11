@@ -521,6 +521,17 @@ You can configure multiple OIDC providers. Users will see all enabled providers 
 - Check session configuration in Poweradmin
 - Verify server time is synchronized (NTP)
 
+### Provider discovery fails behind a web proxy
+
+If your Poweradmin host can only reach the internet through an HTTP proxy, OIDC discovery (the `.well-known/openid-configuration` fetch) will time out unless the proxy is exported in the environment. From v4.4.0, the discovery client honors the standard `HTTPS_PROXY` / `http_proxy` variables. Set them where PHP can see them - typically in the systemd unit, the FPM pool, or the Docker environment:
+
+```bash
+HTTPS_PROXY=http://proxy.internal:3128
+NO_PROXY=localhost,127.0.0.1,.internal
+```
+
+Restart the web server (or `php-fpm`) so the new environment is picked up. Earlier versions ignored these variables and required a manual `cURL` build with proxy support.
+
 ## Related Documentation
 
 - [SAML Authentication](saml.md)
