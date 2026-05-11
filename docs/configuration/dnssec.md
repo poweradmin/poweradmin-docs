@@ -122,6 +122,38 @@ If you're currently using the pdnsutil method, it's recommended to migrate to th
 2. Update your Poweradmin configuration with API settings
 3. No data migration is needed - the same DNSSEC keys will be accessible through both methods
 
+## Importing and Exporting PEM Keys
+
+PowerDNS 4.7 and newer expose endpoints for importing PEM-encoded private keys into a zone and exporting the active ones back out. Poweradmin wires both into the zone's DNSSEC page so you can move signed zones between servers without dropping out to `pdnsutil`.
+
+The buttons only appear when the connected PowerDNS reports version 4.7 or newer. On older servers (or when capability detection couldn't reach the API), they stay hidden - you can still sign and unsign zones, but not import or export key material.
+
+### Importing a Key
+
+Open the zone's DNSSEC page and use the **Import key** form:
+
+1. Pick the key type - **KSK**, **ZSK**, or **CSK**.
+2. Pick the algorithm. The dropdown only shows algorithms the connected PowerDNS supports, so what you see is what will actually work. Common picks are `ecdsa256` and `ed25519`; legacy zones often use `rsasha256`.
+3. Paste the full PEM block, including the `-----BEGIN PRIVATE KEY-----` and `-----END PRIVATE KEY-----` lines.
+4. Submit.
+
+If PowerDNS rejects the format (wrong algorithm for the key, malformed PEM, etc.) the error from the API is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
+
+You need full edit permission on the zone to import. Read-only or content-only roles cannot.
+
+### Exporting a Key
+
+Each key row on the DNSSEC page now has an **Export** action. Clicking it returns the PEM block for the active private key so you can copy it into another server or store it offline. Treat the export the same way you would treat any private key - whoever holds it can sign records for the zone.
+
+There is no export-to-file download by default; the PEM is shown inline so you can paste it where you need it. If you want a file, save it from the page.
+
+### Notes
+
+- Imports and exports go through the PowerDNS API. The pdnsutil method does not currently expose PEM import/export through Poweradmin - if you're on the legacy method, switch the connection to API mode first.
+- DS and DNSKEY records on the same page can be copied to clipboard with a single click. This is handy when handing the DS record to a registrar.
+- The CSK guidance alert that used to sit on top of every DNSSEC page only appears on legacy pre-4.0 PowerDNS servers now. On 4.x+ the standard split-key advice no longer applies, and the alert was just adding noise.
+- Sign and unsign actions are both recorded in the zone activity feed (sign was missing before 4.4.0).
+
 ## More Information
 
 For more details on DNSSEC and PowerDNS:
