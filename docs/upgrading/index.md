@@ -90,10 +90,24 @@ The following versions include important database structure changes:
 - [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
 - [v4.0.5](v4.0.5.md) - Primary key on records_zone_templ, PostgreSQL sequence fixes
 - [v4.1.0](v4.1.0.md) - OIDC/SAML authentication, DNS wizards, zone deletion permissions, permission templates
+- [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, groups support, bulk record operations
+- [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
+- [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
 
 ### Recent Patch Releases
 
 The following releases are bug fix updates with no special upgrade steps required. Simply replace files and preserve your configuration:
+
+**v4.3.x Series:**
+
+- **v4.3.2** (May 2026) - API-mode zone handling (reverse zone owner display, DNSSEC status on forward zones, record counts from PowerDNS, zone kind sync), template fixes (correct sync column, preserved spaces, API-mode safe), `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, DNSSEC sign events in activity feed
+- **v4.3.1** (Apr 2026) - Patch release for 4.3.x line
+
+**v4.2.x Series:**
+
+- **v4.2.3** (May 2026) - `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, PostgreSQL `record_comment_links` strict-typing fix, bulk record CSV escaping, CNAME validator accepts numeric-string IDs, API record edits honor `zone_content_edit_own_as_client`, Users API `auth_method`/`use_ldap` sync, zone template column and content-listing fixes
+- **v4.2.2** (Apr 2026) - Patch release for 4.2.x line
+- **v4.2.1** (Apr 2026) - Patch release for 4.2.x line
 
 **v4.1.x Series:**
 
