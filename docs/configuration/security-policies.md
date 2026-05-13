@@ -101,6 +101,18 @@ Secure password reset functionality with rate limiting:
 - **rate_limit_window**: Rate limit window in seconds. Default: `3600` (1 hour)
 - **min_time_between_requests**: Minimum seconds between requests. Default: `60` (1 minute)
 
+### `interface.application_url` is required
+
+When password reset is enabled, `interface.application_url` must be set to the full public URL of the Poweradmin install, e.g. `https://dns.example.com/poweradmin`. The reset link in the email is built from this value only - request headers such as `Host` are never used. If `application_url` is empty, the password-reset endpoint accepts requests but does not send mail and logs an error: `Password reset email NOT sent: interface.application_url must be configured to build a trustworthy reset link`.
+
+```php
+return [
+    'interface' => [
+        'application_url' => 'https://dns.example.com/poweradmin',
+    ],
+];
+```
+
 ## Google reCAPTCHA
 
 Protect login forms from automated attacks using Google reCAPTCHA:
