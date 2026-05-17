@@ -116,7 +116,7 @@ Each provider requires IdP-specific configuration:
 | `entity_id` | Yes | IdP Entity ID |
 | `sso_url` | Yes | IdP Single Sign-On URL |
 | `slo_url` | No | IdP Single Logout URL |
-| `x509cert` | Yes | IdP X.509 certificate (without headers) |
+| `x509cert` | Yes | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks) |
 | `user_mapping` | Yes | Map SAML attributes to user fields |
 
 ### Azure AD (SAML)
@@ -138,7 +138,7 @@ Each provider requires IdP-specific configuration:
             'entity_id' => 'https://sts.windows.net/{tenant-id}/',
             'sso_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
             'slo_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
-            'x509cert' => 'MIICnTCCAYUCBgF...', // Certificate without BEGIN/END headers
+            'x509cert' => 'MIICnTCCAYUCBgF...', // Base64 cert body, or a full PEM string
             'user_mapping' => [
                 'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
                 'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
@@ -415,7 +415,6 @@ Configure multiple SAML providers:
 ### "Invalid signature" error
 
 - Verify the IdP certificate is correct and not expired
-- Ensure the certificate is without BEGIN/END headers
 - Check if your IdP rotated certificates
 
 ### User not created after login
@@ -443,9 +442,14 @@ Configure multiple SAML providers:
 
 ### Certificate errors
 
-- Certificates should be PEM format without headers
-- Remove `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----`
-- Ensure no extra whitespace or line breaks
+- Paste the certificate exactly as your IdP exports it (Base64 download from
+  Azure / Okta / Keycloak is fine). Both raw Base64 bodies and full PEM
+  strings (`-----BEGIN CERTIFICATE-----` ... `-----END CERTIFICATE-----`) are
+  accepted, with or without embedded line breaks.
+- If the login page logs *"x509cert is not a valid X.509 certificate"* the
+  pasted value cannot be parsed by `openssl_x509_read` - check for stray
+  characters, truncation, or that you copied the certificate body rather than
+  the metadata wrapper.
 
 ## Related Documentation
 
