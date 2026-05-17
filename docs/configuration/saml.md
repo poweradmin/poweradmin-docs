@@ -62,6 +62,16 @@ Key differences from permission template mapping:
 ],
 ```
 
+A single SAML group can also be mapped to multiple Poweradmin groups by giving an array as the value (added in 4.4.0). The user is added to every Poweradmin group listed:
+
+```php
+'group_mapping' => [
+    'team1' => ['Editors', 'Viewers'],
+    'team2' => ['Editors'],
+    'platform-admins' => 'Administrators', // single-value form still works
+],
+```
+
 Predefined Poweradmin groups:
 
 - **Administrators** - Full administrative access to all system functions
@@ -372,6 +382,12 @@ environment:
 > ```
 >
 > Group names containing colons (e.g., SAML URNs) are supported. Whitespace around commas and delimiters is trimmed automatically.
+>
+> For 1:n group mappings, separate the Poweradmin groups with a pipe (`|`) so one SAML group can grant access to several Poweradmin groups (added in 4.4.0):
+>
+> ```yaml
+> PA_SAML_GROUP_MAPPING: "team1=Editors|Viewers,team2=Administrators"
+> ```
 
 For certificates and keys, use Docker secrets:
 
