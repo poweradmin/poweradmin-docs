@@ -125,6 +125,17 @@ The Batch PTR Records feature follows Poweradmin's permission system:
 - **No records created**: Check if records already exist (they will be skipped)
 - **Feature not visible**: Check if you have the required permissions
 
+## Default TTL for PTR Records
+
+Set `dns.ttl_reverse` in `config/settings.php` to give PTR records a different default TTL than other record types. When configured, the value pre-fills the TTL field on the add-record form for reverse zones, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record. When unset (default), PTRs fall back to `dns.ttl`. The setting also applies server-side in the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard when the request body omits a `ttl` field (4.5.0). Originally added for the web UI in 4.4.0.
+
+```php
+'dns' => [
+    'ttl' => 86400,
+    'ttl_reverse' => 300, // 5 minutes for all PTR records
+],
+```
+
 ## Best Practices
 
 1. Use meaningful host prefixes that identify the purpose of the servers

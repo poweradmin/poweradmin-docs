@@ -145,6 +145,8 @@ Poweradmin provides two API versions. API v2 (introduced in v4.1.0) is recommend
 - `DELETE /api/v2/zones/{id}/records/{record_id}` - Delete record
 - `POST /api/v2/zones/{id}/records/bulk` - Bulk create records
 
+When a `POST` request to any of the create endpoints omits the `ttl` field, the server applies the configured default: `dns.ttl_reverse` for PTR records in reverse zones (when set), and `dns.ttl` otherwise. See [DNS settings](dns-settings.md#configuration-options) for details. (4.5.0)
+
 #### RRset Management
 
 - `GET /api/v2/zones/{id}/rrsets` - List all RRsets in a zone

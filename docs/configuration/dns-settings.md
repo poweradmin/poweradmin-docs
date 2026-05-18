@@ -12,6 +12,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $dns_ns3 | dns.ns3 | no default | The third nameserver. | |
 | $dns_ns4 | dns.ns4 | no default | The fourth nameserver. | |
 | $dns_ttl | dns.ttl | 86400 | The default TTL for records (in seconds). | |
+| - | dns.ttl_reverse | null | Default TTL for PTR records in reverse zones. When `null`, falls back to `dns.ttl`. When configured, the value pre-fills the TTL field on the reverse-zone add-record form, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record (the matched forward record's TTL is overridden). The same default is applied server-side by the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard when the request omits a `ttl` field. | 4.4.0 (UI), 4.5.0 (APIs + wizard) |
 | $dns_soa | (see below) | 28800 7200 604800 86400 | SOA settings for refresh, retry, expire and minimum | 2.2.3 |
 | - | dns.soa_refresh | 28800 | SOA refresh time | 2.2.3 |
 | - | dns.soa_retry | 7200 | SOA retry time | 2.2.3 |
@@ -27,6 +28,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
+| - | dns.top_record_types | null | Pin selected record types to the top of record type selectors, in the given order. Null = alphabetical only. | 4.4.0 |
 | - | dns.custom_tlds | [] | Custom TLDs to allow in CNAME targets (e.g., `['dn42', 'home']`). | 3.x |
 
 ## SOA Record Settings
@@ -46,12 +48,14 @@ You can customize which record types are available in the zone editing interface
 
 - **domain_record_types**: Array of record types for domain zones. Set to `null` to use defaults.
 - **reverse_record_types**: Array of record types for reverse zones. Set to `null` to use defaults.
+- **top_record_types** (4.4.0): Array of record types to pin to the top of record type selectors, in the given order. Remaining types follow alphabetically. Set to `null` to keep the original alphabetical order.
 
 Example custom configuration:
 ```php
 'dns' => [
     'domain_record_types' => ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'SOA', 'TXT', 'SRV', 'CAA'],
     'reverse_record_types' => ['PTR', 'NS', 'SOA', 'TXT', 'CNAME'],
+    'top_record_types' => ['A', 'AAAA', 'CNAME', 'TXT', 'MX'],
 ],
 ```
 
@@ -82,6 +86,7 @@ return [
         'ns3' => 'ns3.example.com',
         'ns4' => 'ns4.example.com',
         'ttl' => 86400,
+        'ttl_reverse' => null, // PTR-specific default; null falls back to dns.ttl (added in 4.4.0)
         // SOA settings
         'soa_refresh' => 28800,
         'soa_retry' => 7200,
