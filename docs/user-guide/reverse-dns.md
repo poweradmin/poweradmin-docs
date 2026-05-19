@@ -125,9 +125,19 @@ The Batch PTR Records feature follows Poweradmin's permission system:
 - **No records created**: Check if records already exist (they will be skipped)
 - **Feature not visible**: Check if you have the required permissions
 
-## Default TTL for PTR Records
+## Per-Record-Type Default TTLs (4.5.0)
 
-Set `dns.ttl_reverse` in `config/settings.php` to give PTR records a different default TTL than other record types. When configured, the value pre-fills the TTL field on the add-record form for reverse zones, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record. When unset (default), PTRs fall back to `dns.ttl`. The setting also applies server-side in the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard when the request body omits a `ttl` field (4.5.0). Originally added for the web UI in 4.4.0.
+Admins can configure default TTLs per record type from **Tools → TTL defaults** (`/tools/record-type-defaults`). Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
+
+The fallback chain (first non-null wins):
+
+1. `record_type_defaults` row for the submitted type (admin-managed via the UI above)
+2. `dns.ttl_reverse` for PTR records in reverse zones (legacy config)
+3. `dns.ttl`
+
+## Default TTL for PTR Records (legacy)
+
+`dns.ttl_reverse` in `config/settings.php` is the legacy config-file knob that predates the per-type table. It still works as a fallback when no per-type row is configured: when set, it pre-fills the TTL field on the add-record form for reverse zones, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record. When unset, PTRs fall back to `dns.ttl`. Originally added in 4.4.0; extended to the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard in 4.5.0.
 
 ```php
 'dns' => [
