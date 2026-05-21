@@ -60,6 +60,8 @@ This document provides detailed explanations of all user permissions available i
 - Allows the user to edit record content in zones they own, except SOA and NS records
 - Limited permission for users who should only modify certain record types
 - Provides restricted zone management capabilities
+- Common use case: tenant or end-customer self-service, where users can manage their own A/AAAA/CNAME/MX/TXT records but must not touch the zone's authority (SOA) or delegation (NS) records
+- Enforced uniformly in the web UI and across the v1/v2 record APIs (since 4.2.3); creating, editing, or deleting an SOA or NS record returns HTTP 403 for users limited to this permission
 
 ### zone_delete_own
 
