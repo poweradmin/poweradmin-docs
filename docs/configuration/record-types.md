@@ -44,6 +44,25 @@ Similarly, you can customize which record types are available when editing rever
 
 When editing zone templates, Poweradmin will automatically show the combined list of both `domain_record_types` and `reverse_record_types` to ensure all potential record types for template use are available.
 
+## Pinning Popular Record Types to the Top (4.4.0)
+
+By default, record types appear alphabetically in selectors. If you regularly create the same handful of record types, you can pin them to the top of every record type dropdown using `top_record_types`:
+
+```php
+'dns' => [
+    // Other DNS settings...
+    'top_record_types' => ['A', 'AAAA', 'CNAME', 'TXT', 'MX'],
+]
+```
+
+Pinned types appear first in the order you list them; all remaining types follow alphabetically. Leave the setting as `null` (the default) for the original alphabetical-only behavior.
+
+Notes:
+
+- Pinning composes with `domain_record_types` and `reverse_record_types`. If a pinned type isn't part of the visible set for a given zone (for example, `A` in a reverse zone), it is silently skipped.
+- Unknown record types in the list are silently ignored, so typos won't break the selector.
+- The setting applies to every record type selector in the UI (Add Record, Edit Record, Bulk Add, etc.).
+
 ## Supported Record Types
 
 Poweradmin supports the following DNS record types that can be included in your customized lists:
