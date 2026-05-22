@@ -54,6 +54,11 @@ Logs authentication and security events to the system's syslog.
 ],
 ```
 
+Authentication events use a fixed, parseable format
+(`client_ip:X user:Y operation:Z auth_method:W ...`) - see
+[fail2ban Integration](fail2ban.md) for the full event taxonomy and a
+ready-to-use filter.
+
 ## Environment-Specific Configurations
 
 ### Production Environment Configuration

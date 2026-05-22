@@ -116,6 +116,7 @@ nav:
 #          - Authentication Methods: advanced/authentication.md
       - Logging:
           - Log Configuration: advanced/logging-config.md
+          - fail2ban Integration: advanced/fail2ban.md
 #          - Log Analysis: advanced/log-analysis.md
 #      - Performance:
 #          - Optimization: advanced/optimization.md
