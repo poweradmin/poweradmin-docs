@@ -2,7 +2,7 @@
 
 ## Overview
 
-Poweradmin requires PHP 8.1 or higher to run. This document outlines the supported Linux and BSD distributions as well
+Poweradmin requires PHP 8.2 or higher to run. This document outlines the supported Linux and BSD distributions as well
 as those that are not supported due to PHP version constraints. For the best experience, ensure your system meets or
 exceeds the recommended requirements.
 
@@ -10,9 +10,7 @@ exceeds the recommended requirements.
 
 ## Minimum Requirements
 
-- **PHP**: 8.1 or higher (including 8.2, 8.3, 8.4, etc.)
-
-> **PHP 8.1 Deprecation Notice:** Poweradmin **4.1.x will be the last version to support PHP 8.1**. Starting with version 4.2.x, the minimum required PHP version will be **8.2**. Users on PHP 8.1 should plan their PHP upgrade accordingly.
+- **PHP**: 8.2 or higher (including 8.3, 8.4, 8.5)
 - **PHP Extensions**:
     - `intl`
     - `gettext`
@@ -52,6 +50,20 @@ The included `.htaccess` file handles routing automatically for Apache. For Ngin
 
 ---
 
+## PHP Version Policy
+
+Poweradmin tracks the [official PHP release lifecycle](https://www.php.net/supported-versions.php). Rather than maintain
+a static list of supported versions, the policy is simple:
+
+- **Actively supported** PHP versions (active or security-only) are supported by the current Poweradmin release.
+- **End-of-life** PHP versions are dropped from the next Poweradmin minor release after they reach EOL.
+- New PHP minor releases are added to compatibility testing (`composer compat:*`) shortly after their stable release.
+
+This means the supported range moves forward over time. Always consult [php.net/supported-versions.php](https://www.php.net/supported-versions.php)
+for the authoritative EOL calendar before planning a long-running deployment.
+
+---
+
 ## Supported Distributions
 
 | Distribution  | PHP Version | Notes                      |
@@ -67,7 +79,7 @@ The included `.htaccess` file handles routing automatically for Apache. For Ngin
 
 ## BSD Operating Systems
 
-Poweradmin is compatible with BSD operating systems that meet the PHP 8.1+ requirement. While not extensively tested, it
+Poweradmin is compatible with BSD operating systems that meet the PHP 8.2+ requirement. While not extensively tested, it
 should work as long as the environment is properly configured.
 
 ---

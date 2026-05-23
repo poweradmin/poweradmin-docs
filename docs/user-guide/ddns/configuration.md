@@ -4,7 +4,9 @@ This guide will walk you through the process of setting up Dynamic DNS (DDNS) in
 
 ## Setting Up User Permissions
 
-You'll need to create a user with specific permissions for DDNS updates:
+You'll need to create a **dedicated** user with specific permissions for DDNS updates:
+
+> Administrator (ueberuser) accounts are deliberately blocked from `dynamic_update.php`. DDNS credentials are typically stored in plaintext on routers, IoT devices, or `ddclient.conf` files - low-trust locations. Forcing a dedicated, narrowly-scoped account keeps admin credentials out of those files. If you authenticate with an admin account, the endpoint responds with `badauth2`.
 
 1. Create a permission template:
     - Navigate to `Users > Add permission template`
@@ -40,22 +42,20 @@ After creating a user with appropriate permissions:
 
 The Dynamic DNS functionality in Poweradmin is provided by the `dynamic_update.php` script, which handles DNS record updates when IP addresses change.
 
-### Configuration Options
+### Current Behaviour
 
-The main configuration is controlled through Poweradmin's settings:
+There are no dedicated configuration keys for DDNS. The endpoint is always available when the file is reachable, and the following values are fixed:
 
-```php
-return [
-    'dynamicdns' => [
-        'enabled' => true,             // Enable or disable DDNS functionality
-        'ttl' => 60,                   // Default TTL for dynamic records (in seconds)
-        'allow_auto_detect' => true,   // Allow automatic IP detection
-        'allow_ipv4' => true,          // Allow IPv4 updates
-        'allow_ipv6' => true,          // Allow IPv6 updates
-        'require_authentication' => true, // Require user authentication
-    ],
-];
-```
+- **TTL**: All A and AAAA records created or refreshed through `dynamic_update.php` are written with a TTL of 60 seconds. This is hard-coded.
+- **Authentication**: Always required (HTTP Basic Auth or `username` / `password` query parameters).
+- **IPv4 and IPv6**: Both are always allowed; you control which records exist by what you send.
+- **Automatic IP detection**: Always available via the special value `whatismyip` for `myip` / `myip6`.
+
+To restrict who can use the endpoint, control access at three layers:
+
+- **User permissions**: Only grant the DDNS permission template to accounts that should update records.
+- **Zone ownership**: A user can only update records in zones they (or one of their groups) own.
+- **Web server**: Restrict access to `/dynamic_update.php` and `/addons/clientip.php` by IP range or HTTPS-only if your update sources are predictable.
 
 ### Security Considerations
 
@@ -69,13 +69,16 @@ return [
 After setup, you can test your configuration using:
 
 ```bash
-curl -u username:password "https://yourserver.com/dynamic_update.php?hostname=host.yourdomain.com&myip=auto"
+curl -u username:password "https://yourserver.com/dynamic_update.php?hostname=host.yourdomain.com&myip=whatismyip&verbose=1"
 ```
 
-A successful response will look like:
+A successful response in verbose mode will look like:
+
 ```
-good 192.168.1.100
+Your hostname has been updated.
 ```
+
+Without `verbose=1` you will just receive `good\n` (or one of the short error codes documented in [Client Setup](client-setup.md)).
 
 ## Troubleshooting
 

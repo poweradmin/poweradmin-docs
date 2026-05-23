@@ -2,6 +2,8 @@
 
 cURL is a versatile command-line tool that can be used to update DNS records in Poweradmin. Here are various examples of using cURL with the Dynamic DNS update system.
 
+> When you are setting things up for the first time, append `&verbose=1` to any URL below. The server then returns a human-readable status message ("Your hostname has been updated.", "Invalid username or password...") instead of a two-letter code, which makes misconfiguration much easier to spot. Drop the parameter once your client is working.
+
 ## Basic Update Examples
 
 ### Update IPv4 Address
