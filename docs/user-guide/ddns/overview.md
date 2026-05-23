@@ -40,6 +40,40 @@ Before setting up Dynamic DNS, ensure you have:
 
 ## Implementation Components
 
+### Endpoints
+
+Two server endpoints accept dynamic updates:
+
+- **`/dynamic_update.php`** - dyndns2-compatible endpoint authenticated with the user's Poweradmin username and password (HTTP Basic Auth or query parameters). Designed for stock clients like `ddclient` and `inadyn`. See [Client Setup](client-setup.md).
+- **`POST /api/v2/dynamic-dns`** - JSON / form-encoded endpoint authenticated with an API key (`X-API-Key` header). Returns the result as a structured JSON document. Recommended for any client you control or any automation where storing a Poweradmin login password would be undesirable. Request body:
+
+    ```json
+    {
+      "hostname": "host.example.com",
+      "ipv4": "192.0.2.1",
+      "ipv6": "2001:db8::1",
+      "dualstack": false
+    }
+    ```
+
+    Successful response:
+
+    ```json
+    {
+      "success": true,
+      "message": "Dynamic DNS record updated",
+      "data": {
+        "hostname": "host.example.com",
+        "zone_id": 3,
+        "applied_ipv4": ["192.0.2.1"],
+        "applied_ipv6": [],
+        "changed": true
+      }
+    }
+    ```
+
+    The API endpoint enforces the same DDNS permission gate as `dynamic_update.php` (dedicated user with `zone_content_edit_own` or `zone_content_edit_own_as_client`). Administrator API keys are rejected with `403`.
+
 ### Server-Side Components
 
 - `dynamic_update.php` - Main script for processing DNS updates, supporting:

@@ -24,8 +24,7 @@ Without `verbose=1` the endpoint returns one of these short codes followed by a 
 
 | Code | Meaning |
 |------|---------|
-| `good <ip>` | Update applied. The applied IPv4 (or IPv6) address follows. |
-| `nochg <ip>` | No change required; the records already match. |
+| `good <ip>` | Update accepted. The applied IPv4 (or IPv6) address follows. Poweradmin returns `good` for both new updates and no-op updates against unchanged records (dyndns2's optional `nochg` code is not emitted separately). |
 | `nohost` | Hostname does not exist in any zone you own. |
 | `!yours` | You authenticated, but you do not own a zone containing this hostname. |
 | `notfqdn` | The supplied hostname is not a fully-qualified domain name. |
