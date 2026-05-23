@@ -201,6 +201,15 @@ Configure your database connection, select the database type (MySQL, PostgreSQL,
 
 ![Database configuration](../screenshots/install-step4-database.png)
 
+This step asks for two distinct sets of credentials. They are not interchangeable - confusing them is the most common cause of "I cannot log in after installation" reports.
+
+| Block on the form | What it is | Used for |
+|---|---|---|
+| **Database Connection Settings** (username / password) | A MySQL or PostgreSQL account with `CREATE TABLE` rights | One-time use by the installer to create Poweradmin's tables. Not used to log in to the web interface. |
+| **Poweradmin Account** (administrator password) | The password for the built-in **`admin`** user | Logging in to the Poweradmin web interface. The username is hard-coded as `admin` and cannot be changed here. |
+
+After the installer finishes, you log in at `/login` with username **`admin`** and the password you typed into the "Poweradmin Account" block - not the database username. You can then create additional Poweradmin users from `Users > Add user` in the web interface.
+
 ### Step 5: Account & Nameservers
 
 Configure the database user for runtime access and set up default DNS settings (hostmaster, nameservers).
