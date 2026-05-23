@@ -186,6 +186,7 @@ nav:
   - Troubleshooting:
 #      - Common Issues: troubleshooting/common-issues.md
       - Debugging: troubleshooting/debugging.md
+      - Reset Admin Password: troubleshooting/reset-admin-password.md
 #      - FAQ: troubleshooting/faq.md
 
 #  - API Reference:
