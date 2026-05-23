@@ -6,7 +6,7 @@ This guide explains how to configure Poweradmin to use PostgreSQL as your databa
 
 ## Requirements
 
-- PostgreSQL 10.0+
+- PostgreSQL 14 or newer (older versions have reached upstream end-of-life; see [postgresql.org/support/versioning](https://www.postgresql.org/support/versioning/))
 - PHP with PDO PostgreSQL extension enabled
 - PostgreSQL user with appropriate privileges
 
