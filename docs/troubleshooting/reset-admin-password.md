@@ -30,6 +30,24 @@ php -r 'echo password_hash("NewPassword123", PASSWORD_ARGON2ID) . "\n";'
 
 Copy the resulting hash (it begins with `$2y$`, `$argon2i$`, or `$argon2id$`).
 
+### Legacy versions (Poweradmin 3.x, or 4.2 and older)
+
+The 3.x LTS branch and pre-4.3 releases still accept `md5` and `md5salt` hashes. Use these only if `security.password_encryption` is set to one of those values; otherwise stick with the bcrypt/argon2 commands above.
+
+**md5** (the default on Poweradmin 2.x and on 3.x installs that were never reconfigured):
+
+```bash
+php -r 'echo md5("NewPassword123") . "\n";'
+```
+
+**md5salt** (`security.password_encryption = 'md5salt'`):
+
+```bash
+php -r '$salt = bin2hex(random_bytes(3)); echo md5($salt . "NewPassword123") . ":" . $salt . "\n";'
+```
+
+The stored format is `md5(salt + password) + ":" + salt`. Any printable salt works; the verifier splits on the `:`.
+
 ## 2. Update the User Record
 
 Open your database client and run the appropriate statement. The `users` table is the same on MySQL/MariaDB, PostgreSQL, and SQLite.
