@@ -84,7 +84,7 @@ The configuration is organized into logical sections:
 |---------|---------|-------------|
 | `security.session_key` | p0w3r4dm1n | Session encryption key (change this!) |
 | `security.password_encryption` | bcrypt | Hash algorithm: bcrypt, argon2i, argon2id |
-| `security.password_encryption_cost` | 12 | Bcrypt cost parameter |
+| `security.password_cost` | 12 | Bcrypt cost parameter |
 | `security.login_token_validation` | true | CSRF protection for login |
 | `security.global_token_validation` | true | CSRF protection globally |
 
@@ -94,9 +94,10 @@ For password policies and MFA settings, see [Security Policies](security-policie
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `interface.lang` | en_EN | Default language |
+| `interface.language` | en_EN | Default language |
 | `interface.enabled_languages` | multiple* | Available languages |
-| `interface.style` | ignite | Theme (ignite, spark for dark) |
+| `interface.theme` | default | Theme name (default, custom, etc.) |
+| `interface.style` | light | UI style: `light` or `dark` |
 | `interface.rowamount` | 10 | Records per page |
 | `interface.expire` | 1800 | Session timeout (seconds) |
 | `interface.title` | Poweradmin | Application title |

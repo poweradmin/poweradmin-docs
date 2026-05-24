@@ -6,9 +6,11 @@ This guide explains how to configure Poweradmin to use MySQL or MariaDB as your 
 
 ## Requirements
 
-- MySQL 5.7+ or MariaDB 10.3+
+- MariaDB 10.6+ (10.11 LTS is used in CI) or MySQL 8.x. MySQL 5.7 reached EOL in October 2023 and is no longer recommended.
 - PHP with PDO MySQL extension enabled
-- MySQL user with appropriate privileges
+- A MySQL/MariaDB user with appropriate privileges (see step 3 below)
+
+> **Note:** Recent Poweradmin releases are tested against MariaDB only (see the [tested environments table](../getting-started/requirements.md)). MySQL 8.x is expected to work but is not exercised in CI.
 
 ## Configuration Steps
 

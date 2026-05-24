@@ -111,7 +111,8 @@ Stores user accounts and authentication information.
 | `fullname` | varchar(255) | Full name |
 | `email` | varchar(255) | Email address |
 | `description` | varchar(1024) | User description |
-| `perm_templ` | int | Permission template ID |
+| `perm_templ` | int | Permission template ID (FK to `perm_templ.id`) |
+| `perm_templ_source` | varchar(20) | How `perm_templ` was assigned: `admin` (default; set by an administrator) or `sso` (assigned by OIDC/SAML provisioning) |
 | `active` | int | Active status |
 | `use_ldap` | int | Use LDAP authentication |
 | `auth_method` | varchar(20) | Authentication method (sql, ldap, oidc, saml) |
@@ -352,23 +353,13 @@ Logs zone-related activities.
 
 ## Record Comment Tables
 
-### `record_comments`
-Stores comments for individual DNS records.
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | int | Primary key |
-| `comment` | text | Comment text |
-
 ### `record_comment_links`
-Links record comments to specific records.
+Bridge table that maps a record identifier to a PowerDNS `comments.id`. Record-level comment **text** lives in PowerDNS's own `comments` table; Poweradmin only stores the link so that comments survive record edits in the UI / API.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | int | Primary key |
-| `domain_id` | int | Foreign key to domains.id |
-| `record_id` | varchar | Record identifier (int for SQL mode, encoded string for API mode) |
-| `comment_id` | int | Foreign key to record_comments.id |
+| Column        | Type                                                     | Description                                                          |
+|---------------|----------------------------------------------------------|----------------------------------------------------------------------|
+| `record_id`   | VARCHAR(3072) on MySQL / VARCHAR(4096) on PostgreSQL & SQLite | Record identifier (numeric `records.id` in SQL mode, encoded string in API mode). Primary key. |
+| `comment_id`  | int                                                      | Reference to PowerDNS `comments.id`. Unique.                         |
 
 ## Default Permission Templates
 
@@ -401,7 +392,7 @@ Poweradmin includes default permission templates:
 
 | Version | Changes |
 |---------|---------|
-| 4.3.0 | Added `zone_name`, `zone_type`, `zone_master` to zones; Widened `record_comment_links.record_id` to VARCHAR; Added `record_comments`, `record_comment_links` |
+| 4.3.0 | Added `zone_name`, `zone_type`, `zone_master` to zones; Widened `record_comment_links.record_id` to VARCHAR. (The `record_comment_links` bridge table itself was introduced earlier; comment text lives in PowerDNS's `comments` table.) |
 | 4.2.0 | Added `oidc_user_links`, `saml_user_links`, `username_recovery_requests`; Added `auth_method` to users; Added zone deletion permissions |
 | 4.1.0 | Performance indexes added |
 | 4.0.0 | Added `login_attempts`, `api_keys`, `user_mfa`, `user_preferences`, `zone_template_sync`, `password_reset_tokens`, `user_agreements` |

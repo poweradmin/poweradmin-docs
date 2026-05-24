@@ -6,29 +6,31 @@ Poweradmin includes WHOIS lookup functionality that allows administrators to que
 
 ## Configuration Options
 
-WHOIS settings can be configured in the `config/settings.php` file under the `whois` section.
+WHOIS settings live under `modules.whois` in `config/settings.php`.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `enabled` | `false` | Enable WHOIS lookup functionality |
-| `default_server` | `''` | Optional default WHOIS server (empty to use server from WHOIS database) |
-| `custom_servers` | `[]` | Custom TLD-to-server mapping for TLDs not in the built-in database |
-| `socket_timeout` | `10` | Socket timeout in seconds for WHOIS queries |
-| `restrict_to_admin` | `true` | Only allow administrators (user_is_ueberuser) to use WHOIS functionality |
+| Setting                            | Default  | Description                                                                          |
+|------------------------------------|----------|--------------------------------------------------------------------------------------|
+| `modules.whois.enabled`            | `false`  | Enable WHOIS lookup functionality                                                    |
+| `modules.whois.default_server`     | `''`     | Optional default WHOIS server (empty to use server from WHOIS database)              |
+| `modules.whois.custom_servers`     | `[]`     | Custom TLD-to-server mapping for TLDs not in the built-in database                   |
+| `modules.whois.socket_timeout`     | `10`     | Socket timeout in seconds for WHOIS queries                                          |
+| `modules.whois.restrict_to_admin`  | `true`   | Only allow administrators (user_is_ueberuser) to use WHOIS functionality             |
 
 ## Configuration Example
 
 ```php
 return [
-    'whois' => [
-        'enabled' => true,
-        'default_server' => '',
-        'custom_servers' => [
-            'za' => 'whois.registry.net.za',
-            'co.za' => 'whois.registry.net.za',
+    'modules' => [
+        'whois' => [
+            'enabled' => true,
+            'default_server' => '',
+            'custom_servers' => [
+                'za' => 'whois.registry.net.za',
+                'co.za' => 'whois.registry.net.za',
+            ],
+            'socket_timeout' => 15,
+            'restrict_to_admin' => true,
         ],
-        'socket_timeout' => 15,
-        'restrict_to_admin' => true,
     ],
 ];
 ```

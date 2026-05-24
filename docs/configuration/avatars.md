@@ -11,13 +11,13 @@ The avatar system displays user profile pictures in the interface. Avatars can b
 
 ## Configuration
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `interface.avatar_oauth_enabled` | true | Enable avatars from OAuth providers |
-| `interface.avatar_gravatar_enabled` | true | Enable Gravatar integration |
-| `interface.avatar_priority` | oauth | Priority: oauth or gravatar |
-| `interface.avatar_size` | 40 | Avatar size in pixels |
-| `interface.avatar_cache_ttl` | 3600 | Cache TTL in seconds |
+| Setting                              | Default | Description                          |
+|--------------------------------------|---------|--------------------------------------|
+| `interface.avatar_oauth_enabled`     | `false` | Enable avatars from OAuth providers  |
+| `interface.avatar_gravatar_enabled`  | `false` | Enable Gravatar integration          |
+| `interface.avatar_priority`          | `oauth` | Priority: `oauth` or `gravatar`      |
+| `interface.avatar_size`              | `40`    | Avatar size in pixels                |
+| `interface.avatar_cache_ttl`         | `3600`  | Cache TTL in seconds                 |
 
 ## Modern Configuration
 

@@ -22,13 +22,14 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 
 ### SMTP Settings
 
+SMTP settings live as flat keys under `mail` (they are not nested in an `smtp` subarray):
+
 - **host**: SMTP server hostname. Default: `smtp.example.com`
 - **port**: SMTP server port. Default: `587`
 - **username**: SMTP authentication username. Default: empty
 - **password**: SMTP authentication password. Default: empty
 - **encryption**: Encryption method. Options: 'tls', 'ssl', empty. Default: `tls`
 - **auth**: Whether SMTP requires authentication. Default: `false`
-- **debug**: Enable debug logging for email operations. Default: `false` *(Added in v4.0.3)*
 
 ### Sendmail Settings
 
@@ -45,38 +46,30 @@ return [
         'from_name' => 'DNS Administrator',
         'return_path' => 'dns@example.com',
         'transport' => 'smtp',
-        'smtp' => [
-            'host' => 'smtp.example.com',
-            'port' => 587,
-            'username' => 'smtp_user',
-            'password' => 'smtp_password',
-            'encryption' => 'tls',  // 'tls', 'ssl', or null
-            'auth' => true,
-        ],
-        'debug' => false,  // Set to true for detailed logging (v4.0.3+)
+        // SMTP settings (flat, not nested under 'smtp')
+        'host' => 'smtp.example.com',
+        'port' => 587,
+        'username' => 'smtp_user',
+        'password' => 'smtp_password',
+        'encryption' => 'tls',  // 'tls', 'ssl', or ''
+        'auth' => true,
     ],
 ];
 ```
 
 ## Troubleshooting
 
-### Email Debug Logging *(v4.0.3+)*
+### Email Debug Logging
 
-Enable detailed debug logging to troubleshoot email delivery issues:
+To troubleshoot email delivery without touching SMTP, set `transport` to `logger`. Outgoing messages are then written to the PHP error log and Poweradmin's application log instead of being sent over the network - useful for inspecting password reset content during development:
 
 ```php
 'mail' => [
-    'debug' => true,  // Enable comprehensive debug logging
+    'transport' => 'logger',
 ],
 ```
 
-When enabled, Poweradmin logs:
-- SMTP connection attempts and responses
-- Authentication process
-- Email composition and sending operations
-- Detailed error messages
-
-Check your web server error log or PHP error log for debug output.
+For server-side errors during real SMTP delivery, raise the global log level under `logging.level` (see [Logging](logging.md)) and check your web server error log or PHP error log for output from `MailService`.
 
 ### TLS/STARTTLS Issues *(Fixed in v4.1.0)*
 
@@ -126,7 +119,7 @@ telnet smtp.example.com 587
 ```
 
 3. **Check firewall rules:** Ensure outbound SMTP ports are open
-4. **Review server logs:** Enable `'debug' => true` for detailed logging
+4. **Review server logs:** Raise `logging.level` to `debug` (see [Logging](logging.md)) for detailed `MailService` output
 5. **Try alternative ports:** Test port 465 (SSL) or 25 if 587 fails
 
 ### Email Not Being Delivered
@@ -140,7 +133,7 @@ telnet smtp.example.com 587
 
 **Debugging steps:**
 
-1. Enable debug logging: `'debug' => true`
+1. Raise `logging.level` to `debug` and check the application log (see [Logging](logging.md))
 2. Check mail server logs
 3. Verify email appears in sent items (if using external SMTP)
 4. Test with a simple mail client using same credentials

@@ -6,19 +6,23 @@ DNS Wizards provide a guided interface for creating complex DNS records. Instead
 
 ## Configuration Options
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| dns_wizards.enabled | false | Enable DNS record wizards |
-| dns_wizards.available_types | ['DMARC', 'SPF', 'DKIM', 'CAA', 'TLSA', 'SRV'] | Which wizard types to show |
-| dns_wizards.caa_providers | (see below) | Certificate Authority providers for CAA wizard |
+DNS wizard settings live under `modules.dns_wizards`.
+
+| Setting                                  | Default                                           | Description                                  |
+|------------------------------------------|---------------------------------------------------|----------------------------------------------|
+| `modules.dns_wizards.enabled`            | `false`                                           | Enable DNS record wizards                    |
+| `modules.dns_wizards.available_types`    | `['DMARC', 'SPF', 'DKIM', 'CAA', 'TLSA', 'SRV']` | Which wizard types to show                   |
+| `modules.dns_wizards.caa_providers`      | (see below)                                       | Certificate Authority providers for CAA wizard |
 
 ## Enabling Wizards
 
 To enable DNS wizards, add the following to your `config/settings.php`:
 
 ```php
-'dns_wizards' => [
-    'enabled' => true,
+'modules' => [
+    'dns_wizards' => [
+        'enabled' => true,
+    ],
 ],
 ```
 
@@ -36,9 +40,11 @@ To enable DNS wizards, add the following to your `config/settings.php`:
 You can limit which wizards are available:
 
 ```php
-'dns_wizards' => [
-    'enabled' => true,
-    'available_types' => ['SPF', 'DMARC', 'CAA'],  // Only show these wizards
+'modules' => [
+    'dns_wizards' => [
+        'enabled' => true,
+        'available_types' => ['SPF', 'DMARC', 'CAA'],  // Only show these wizards
+    ],
 ],
 ```
 
@@ -47,13 +53,15 @@ You can limit which wizards are available:
 The CAA wizard includes a list of common Certificate Authorities. You can customize this list:
 
 ```php
-'dns_wizards' => [
-    'enabled' => true,
-    'caa_providers' => [
-        'letsencrypt.org' => "Let's Encrypt",
-        'digicert.com' => 'DigiCert',
-        'sectigo.com' => 'Sectigo (Comodo)',
-        // Add your preferred CAs
+'modules' => [
+    'dns_wizards' => [
+        'enabled' => true,
+        'caa_providers' => [
+            'letsencrypt.org' => "Let's Encrypt",
+            'digicert.com' => 'DigiCert',
+            'sectigo.com' => 'Sectigo (Comodo)',
+            // Add your preferred CAs
+        ],
     ],
 ],
 ```
@@ -84,15 +92,17 @@ The following providers are included by default:
 ## Full Configuration Example
 
 ```php
-'dns_wizards' => [
-    'enabled' => true,
-    'available_types' => ['DMARC', 'SPF', 'DKIM', 'CAA', 'TLSA', 'SRV'],
-    'caa_providers' => [
-        'letsencrypt.org' => "Let's Encrypt",
-        'digicert.com' => 'DigiCert',
-        'sectigo.com' => 'Sectigo (Comodo)',
-        'pki.goog' => 'Google Trust Services',
-        // Add custom CAs as needed
+'modules' => [
+    'dns_wizards' => [
+        'enabled' => true,
+        'available_types' => ['DMARC', 'SPF', 'DKIM', 'CAA', 'TLSA', 'SRV'],
+        'caa_providers' => [
+            'letsencrypt.org' => "Let's Encrypt",
+            'digicert.com' => 'DigiCert',
+            'sectigo.com' => 'Sectigo (Comodo)',
+            'pki.goog' => 'Google Trust Services',
+            // Add custom CAs as needed
+        ],
     ],
 ],
 ```

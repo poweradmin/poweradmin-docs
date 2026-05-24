@@ -6,28 +6,30 @@ RDAP (Registration Data Access Protocol) is the modern replacement for WHOIS. Po
 
 ## Configuration Options
 
-RDAP settings can be configured in the `config/settings.php` file under the `rdap` section.
+RDAP settings live under `modules.rdap` in `config/settings.php`.
 
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `enabled` | `false` | Enable RDAP lookup functionality |
-| `default_server` | `''` | Optional default RDAP server URL (empty to use server from RDAP database) |
-| `custom_servers` | `[]` | Custom TLD-to-server mapping for TLDs not in the built-in database |
-| `request_timeout` | `10` | HTTP request timeout in seconds for RDAP queries |
-| `restrict_to_admin` | `true` | Only allow administrators (user_is_ueberuser) to use RDAP functionality |
+| Setting                           | Default  | Description                                                                          |
+|-----------------------------------|----------|--------------------------------------------------------------------------------------|
+| `modules.rdap.enabled`            | `false`  | Enable RDAP lookup functionality                                                     |
+| `modules.rdap.default_server`     | `''`     | Optional default RDAP server URL (empty to use server from RDAP database)            |
+| `modules.rdap.custom_servers`     | `[]`     | Custom TLD-to-server mapping for TLDs not in the built-in database                   |
+| `modules.rdap.request_timeout`    | `10`     | HTTP request timeout in seconds for RDAP queries                                     |
+| `modules.rdap.restrict_to_admin`  | `true`   | Only allow administrators (user_is_ueberuser) to use RDAP functionality              |
 
 ## Configuration Example
 
 ```php
 return [
-    'rdap' => [
-        'enabled' => true,
-        'default_server' => '',
-        'custom_servers' => [
-            'za' => 'https://rdap.example.com/za/',
+    'modules' => [
+        'rdap' => [
+            'enabled' => true,
+            'default_server' => '',
+            'custom_servers' => [
+                'za' => 'https://rdap.example.com/za/',
+            ],
+            'request_timeout' => 15,
+            'restrict_to_admin' => true,
         ],
-        'request_timeout' => 15,
-        'restrict_to_admin' => true,
     ],
 ];
 ```
