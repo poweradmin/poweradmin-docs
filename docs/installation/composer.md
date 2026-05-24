@@ -4,11 +4,11 @@
 
 ## Prerequisites
 
-- PHP 8.1 or higher
-- Composer installed on your system
-- Required PHP extensions: pdo, pdo_mysql/pdo_pgsql/pdo_sqlite
+- PHP 8.2 or higher
+- Composer 2.x installed on your system
+- Required PHP extensions: `intl`, `gettext`, `openssl`, `filter`, `tokenizer`, `xml`, `pdo`, plus one of `pdo_mysql` / `pdo_pgsql` / `pdo_sqlite`
 
-See [System Requirements](../getting-started/requirements.md) for detailed requirements.
+See [System Requirements](../getting-started/requirements.md) for the full list.
 
 ## Installing Poweradmin
 
@@ -133,8 +133,10 @@ If you're not using the web installer or prefer to set up your admin user direct
 You'll need to create a secure password hash. You can use PHP from the command line to generate one:
 
 ```sh
-php -r 'echo password_hash("your_secure_password", PASSWORD_DEFAULT) . "\n";'
+php -r 'echo password_hash("your_secure_password", PASSWORD_BCRYPT, ["cost" => 12]) . "\n";'
 ```
+
+This matches what the web installer does (bcrypt with cost 12). The default cost is configurable via `security.password_cost` in `config/settings.php`.
 
 Copy the resulting hash which will look something like:
 ```
@@ -143,45 +145,20 @@ $2y$10$abcdefghijklmnopqrstuOzxLkPHAUXTCg9vRMf/Q4WrCQI3K.0jK
 
 ### 2. Insert the admin user into the database
 
-#### For MySQL/MariaDB:
+The same SQL works for MySQL/MariaDB, PostgreSQL, and SQLite:
 
 ```sql
-INSERT INTO users 
-(username, password, fullname, email, description, perm_templ, active, use_ldap) 
-VALUES 
-('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
-
--- Make the user a super-admin
-INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
+INSERT INTO users
+    (username, password, fullname, email, description, perm_templ, active, use_ldap, auth_method)
+VALUES
+    ('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0, 'sql');
 ```
 
-#### For PostgreSQL:
-
-```sql
-INSERT INTO users 
-(username, password, fullname, email, description, perm_templ, active, use_ldap) 
-VALUES 
-('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
-
--- Make the user a super-admin
-INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
-```
-
-#### For SQLite:
-
-```sql
-INSERT INTO users 
-(username, password, fullname, email, description, perm_templ, active, use_ldap) 
-VALUES 
-('admin', 'THE_PASSWORD_HASH_YOU_GENERATED', 'Administrator', 'admin@example.com', 'System Administrator', 1, 1, 0);
-
--- Make the user a super-admin
-INSERT INTO perm_items (user_id, perm_id) VALUES (1, 1);
-```
+> **Note:** Administrative rights come from the `perm_templ` column on the `users` row, not from a separate join table. Permission template `id = 1` is the seeded "Administrator template with full rights".
 
 ### 3. Verify user creation
 
-You should now be able to log in to the PowerAdmin interface with the username 'admin' and the password you created.
+You should now be able to log in to Poweradmin at `/login` with username `admin` and the password you hashed in step 1.
 
 ## Troubleshooting
 

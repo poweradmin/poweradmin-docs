@@ -11,15 +11,19 @@ Official images are available at:
 
 ### Image Tags
 
-| Tag | Description |
-|-----|-------------|
-| `stable` | Stable release from `release/4.2.x` (recommended for production) |
-| `latest` | Latest release from `master` branch |
-| `dev` | Development version from `develop` branch (not for production) |
-| `lts` | Long-term support from `release/3.x` |
-| `v*` | Specific version (e.g., `v4.2.1`) |
+The image tags published for production and development use are:
 
-> **Note:** The `next` tag has been removed. The `stable` tag now tracks `release/4.2.x` instead of the retired `release/4.0.x`.
+| Tag      | Source branch        | Description |
+|----------|----------------------|-------------|
+| `stable` | `release/4.2.x`      | Tracks the latest tagged release on the stable line - **recommended for production**. |
+| `4.2.x`  | `release/4.2.x`      | Stable line; updates on every commit to the branch (more frequent than `stable`). |
+| `4.3.x`  | `release/4.3.x`      | Newer release line, still stabilizing. |
+| `latest` | `master`             | Tracks `master`, which currently holds the next minor release in progress. |
+| `dev`    | `develop`            | Development tip - not for production. |
+| `lts`    | `release/3.x`        | Long-term support for the 3.x series. |
+| `v*`     | Tagged release       | Pin to a specific version (e.g. `v4.2.3`). |
+
+> **Note:** The `next` tag was removed when the release branch structure changed. The `stable` and per-version (`v*`) tags are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`) update on every push and may include unreleased fixes.
 
 ## Quick Start
 
