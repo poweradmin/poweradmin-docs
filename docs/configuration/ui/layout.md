@@ -4,7 +4,7 @@ Poweradmin allows you to customize various layout aspects to better fit your wor
 
 ## Customizing Header and Footer
 
-Poweradmin supports custom header and footer templates through the theme system.
+Poweradmin supports custom header and footer templates through the theme system. These templates replace the visible logo/title area at the top of the page and the footer line at the bottom. They do not inject content into the page `<head>` element (see [Injecting content into `<head>`](#injecting-content-into-head) below if you need that for analytics or custom meta tags).
 
 ### Configuration
 
@@ -186,4 +186,50 @@ return [
 
 - The custom templates use a simple templating system
 - Changes may be overwritten during updates - keep backups of your custom files
-- You can include custom JavaScript in your header/footer templates if needed
+- Custom header/footer templates render inside the page body (logo area / footer line). Scripts placed here run on every page but are not in `<head>`. For analytics tags, see the next section.
+
+## Injecting content into `<head>`
+
+Tracking snippets (Matomo, Plausible, Google Analytics), custom favicons, and additional meta tags need to live inside the page `<head>` element, not in the custom header template. Poweradmin does not expose a configuration setting for this - it gives you two supported paths instead.
+
+### Option 1: Fork the theme header template (simple, but upgrade-aware)
+
+1. Copy your active theme's header to a custom theme directory, e.g.:
+
+    ```bash
+    mkdir -p templates/custom
+    cp templates/default/header.html templates/custom/header.html
+    ```
+
+2. Set `theme: 'custom'` in `settings.php` (see the configuration block earlier on this page).
+
+3. Open `templates/custom/header.html` and paste your snippet immediately before `</head>`. For example, a Matomo `<noscript>` tracker:
+
+    ```html
+        <script type="text/javascript" src="{{ base_url_prefix }}/assets/userSettings.js?time={{ file_version }}"></script>
+        <noscript><p><img src="https://analytics.example.com/matomo.php?idsite=23" style="border:0;" alt="" /></p></noscript>
+    </head>
+    ```
+
+    The full JavaScript tracker from Matomo/GA/Plausible goes in the same place.
+
+4. Track the upstream `templates/default/header.html` (or `templates/modern/header.html`) on each Poweradmin upgrade. If it changes, re-apply your edit on top of the new version.
+
+### Option 2: Reverse-proxy injection (upgrade-safe)
+
+If Poweradmin sits behind Nginx or Apache, inject the snippet at the proxy layer so application updates never touch it. Example for Nginx with `ngx_http_sub_module`:
+
+```nginx
+location / {
+    proxy_pass http://poweradmin_upstream;
+    sub_filter '</head>' '<script src="https://analytics.example.com/matomo.js" async></script></head>';
+    sub_filter_once on;
+    sub_filter_types text/html;
+}
+```
+
+This is the recommended path for production deployments because it survives Poweradmin upgrades with no patching.
+
+### Why no configuration setting?
+
+A `custom_head_html` config value would mean pasting a multi-line HTML/JavaScript block into `config/settings.php`. The configuration file is intended for short scalar settings, so HTML injection lives in templates or at the proxy layer instead.
