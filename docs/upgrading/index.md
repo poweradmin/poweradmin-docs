@@ -162,15 +162,17 @@ We recommend planning your migration to 4.x when your schedule allows, while the
 
 ### Version Support Timeline
 
-| Branch | Status | Support Until | PHP Versions |
-|--------|--------|---------------|--------------|
-| **4.2.x** | Planned | - | 8.2 - 8.5 |
-| **4.1.x** | Current | Active development | 8.1 - 8.5 |
-| **4.0.x** | Stable | Active maintenance | 8.1 - 8.5 |
-| **3.9.x** | LTS | December 2027 | 8.1 - 8.5 |
-| **3.8.x and older** | EOL | No longer supported | - |
+| Branch | Status | PHP Versions |
+|--------|--------|--------------|
+| **4.4.x** | In progress (master) | 8.2 - 8.5 |
+| **4.3.x** | Newer line, stabilizing | 8.2 - 8.5 |
+| **4.2.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
+| **4.1.x** | Active maintenance | 8.1 - 8.5 |
+| **4.0.x** | Retired - upgrade to 4.2.x | 8.1 - 8.5 |
+| **3.9.x** | LTS | 8.1 - 8.5 |
+| **3.8.x and older** | EOL | - |
 
-> **PHP 8.1 Deprecation Notice:** Version **4.1.x is the last release to support PHP 8.1**. Starting with 4.2.x, the minimum required PHP version will be **8.2**. If you are running PHP 8.1, plan your PHP upgrade before moving to 4.2.x.
+> **PHP 8.1 Deprecation Notice:** Version **4.1.x is the last release to support PHP 8.1**. Starting with **4.2.x**, the minimum required PHP version is **8.2**. If you are running PHP 8.1, plan your PHP upgrade before moving to 4.2.x or newer.
 
 ## Troubleshooting
 

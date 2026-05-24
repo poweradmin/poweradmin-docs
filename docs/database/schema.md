@@ -351,6 +351,111 @@ Logs zone-related activities.
 | `priority` | int | Log priority level |
 | `zone_id` | int | Related zone ID |
 
+### `log_api`
+Logs API requests handled by the public API.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `event` | varchar(2048) | Event description |
+| `created_at` | timestamp | Event timestamp |
+| `priority` | int | Log priority level |
+
+### `log_groups`
+Logs user-group lifecycle events (create / rename / membership changes).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `event` | varchar(2048) | Event description |
+| `created_at` | timestamp | Event timestamp |
+| `priority` | int | Log priority level |
+| `group_id` | int | Related `user_groups.id` (nullable) |
+
+### `log_record_changes`
+Structured before/after snapshots for record mutations. Powers the diff-style change-log UI and email digests. Complements `log_zones` (which is a free-text activity feed) with machine-readable detail.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `zone_id` | int | Related zone (nullable) |
+| `record_id` | text | Record identifier (numeric for SQL mode, encoded for API mode) |
+| `action` | varchar(32) | `create`, `update`, `delete` |
+| `user_id` | int | Acting user (nullable) |
+| `username` | varchar(64) | Acting username (denormalized so log survives user deletion) |
+| `before_state` | text | JSON snapshot prior to mutation (null for creates) |
+| `after_state` | text | JSON snapshot after mutation (null for deletes) |
+| `client_ip` | varchar(64) | Source IP |
+| `created_at` | timestamp | Event timestamp |
+
+## Group Tables
+
+### `user_groups`
+Named groups that bundle a permission template and a set of members. Underpins group-based ownership of zones.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int unsigned | Primary key |
+| `name` | varchar(255) | Group name (unique) |
+| `description` | text | Free-form description |
+| `perm_templ` | int | FK to `perm_templ.id` - the permission template applied to members |
+| `created_by` | int | FK to `users.id` (nullable; `SET NULL` on user deletion) |
+| `created_at` | timestamp | Creation timestamp |
+| `updated_at` | timestamp | Last update timestamp |
+
+### `user_group_members`
+Membership join table between users and groups.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int unsigned | Primary key |
+| `group_id` | int unsigned | FK to `user_groups.id` (cascade delete) |
+| `user_id` | int | FK to `users.id` (cascade delete) |
+| `created_at` | timestamp | Membership added at |
+
+### `zones_groups`
+Maps zones to groups for group-based ownership. A zone can be owned directly via `zones.owner` and/or via one or more rows in this table.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int unsigned | Primary key |
+| `domain_id` | int | Zone identifier (matches PowerDNS `domains.id`) |
+| `group_id` | int unsigned | FK to `user_groups.id` (cascade delete) |
+| `created_at` | timestamp | Assignment timestamp |
+
+## Defaults and Application State
+
+### `record_type_defaults`
+Per-record-type default TTL values used when adding new records via the UI.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `record_type` | varchar(20) | DNS record type (e.g. `A`, `AAAA`, `MX`); primary key |
+| `ttl` | int | Default TTL in seconds |
+| `created_at` | timestamp | Created at |
+| `updated_at` | timestamp | Updated at |
+
+### `app_settings`
+Key/value store for settings that can be changed at runtime from the admin UI (without editing `config/settings.php`).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `setting_key` | varchar(128) | Setting identifier (primary key) |
+| `setting_value` | text | Stored value (always serialized to string) |
+| `value_type` | varchar(16) | One of `string`, `int`, `bool`, `array` - tells callers how to deserialize `setting_value` |
+| `created_at` | timestamp | Created at |
+| `updated_at` | timestamp | Updated at |
+
+### `records_zone_templ_api`
+API-mode equivalent of `records_zone_templ`. Tracks which template a record was created from when Poweradmin is talking to PowerDNS via the API (record identifiers are opaque strings, not numeric IDs).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `domain_id` | int | Zone identifier |
+| `record_id` | varchar(255) | API-mode record identifier |
+| `zone_templ_id` | int | FK to `zone_templ.id` |
+
 ## Record Comment Tables
 
 ### `record_comment_links`
@@ -377,25 +482,29 @@ Poweradmin includes default permission templates:
 
 ### Key Relationships
 
-1. **Zone Ownership**: `zones.domain_id` → `domains.id`, `zones.owner` → `users.id`
-2. **DNS Records**: `records.domain_id` → `domains.id`
-3. **User Permissions**: `users.perm_templ` → `perm_templ.id`
-4. **Permission Templates**: `perm_templ_items.templ_id` → `perm_templ.id`, `perm_templ_items.perm_id` → `perm_items.id`
-5. **Zone Templates**: `zone_templ_records.zone_templ_id` → `zone_templ.id`
-6. **API Keys**: `api_keys.created_by` → `users.id`
-7. **MFA**: `user_mfa.user_id` → `users.id`
-8. **User Preferences**: `user_preferences.user_id` → `users.id`
-9. **OIDC Links**: `oidc_user_links.user_id` → `users.id`
-10. **SAML Links**: `saml_user_links.user_id` → `users.id`
+1. **Direct zone ownership**: `zones.domain_id` → `domains.id`; `zones.owner` → `users.id`
+2. **Group zone ownership**: `zones_groups.domain_id` → `domains.id`; `zones_groups.group_id` → `user_groups.id`
+3. **Group membership**: `user_group_members.group_id` → `user_groups.id`; `user_group_members.user_id` → `users.id`
+4. **DNS records**: `records.domain_id` → `domains.id`
+5. **User permissions**: `users.perm_templ` → `perm_templ.id`; `user_groups.perm_templ` → `perm_templ.id`
+6. **Permission templates**: `perm_templ_items.templ_id` → `perm_templ.id`; `perm_templ_items.perm_id` → `perm_items.id`
+7. **Zone templates**: `zone_templ_records.zone_templ_id` → `zone_templ.id`; `records_zone_templ.zone_templ_id` → `zone_templ.id` (SQL mode); `records_zone_templ_api.zone_templ_id` → `zone_templ.id` (API mode)
+8. **API keys**: `api_keys.created_by` → `users.id`
+9. **MFA**: `user_mfa.user_id` → `users.id`
+10. **User preferences**: `user_preferences.user_id` → `users.id`
+11. **OIDC / SAML links**: `oidc_user_links.user_id` → `users.id`; `saml_user_links.user_id` → `users.id`
+12. **Comment bridge**: `record_comment_links.comment_id` → PowerDNS `comments.id`
 
 ## Version History
 
-| Version | Changes |
-|---------|---------|
-| 4.3.0 | Added `zone_name`, `zone_type`, `zone_master` to zones; Widened `record_comment_links.record_id` to VARCHAR. (The `record_comment_links` bridge table itself was introduced earlier; comment text lives in PowerDNS's `comments` table.) |
-| 4.2.0 | Added `oidc_user_links`, `saml_user_links`, `username_recovery_requests`; Added `auth_method` to users; Added zone deletion permissions |
-| 4.1.0 | Performance indexes added |
-| 4.0.0 | Added `login_attempts`, `api_keys`, `user_mfa`, `user_preferences`, `zone_template_sync`, `password_reset_tokens`, `user_agreements` |
+| Version            | Changes |
+|--------------------|---------|
+| 4.5.0 *(develop)*  | Added `log_record_changes` (structured before/after record snapshots), `records_zone_templ_api` (template tracking in API mode), `record_type_defaults` (per-type default TTLs), and `app_settings` (admin-managed runtime key/value store). `zones.zone_templ_id` now defaults to `0`. |
+| 4.4.0 *(master)*   | Added `is_default` to `zone_templ` for marking a system-wide default template. |
+| 4.3.0              | Added `log_api` and migrated API key log entries into it; added `zone_name`, `zone_type`, `zone_master` to `zones`; widened `record_comment_links.record_id` to VARCHAR. |
+| 4.2.0              | Introduced group-based ownership (`user_groups`, `user_group_members`, `zones_groups`, `log_groups`); added `template_type` to `perm_templ`; made `zones.owner` nullable. Introduced `record_comment_links`. Renamed default permission templates (DNS Editor → Editor, Read Only → Viewer, No Access → Guest). |
+| 4.1.0              | Added `oidc_user_links`, `saml_user_links`, `username_recovery_requests`; added `auth_method` to `users` (with backfill from `use_ldap`); performance indexes added. |
+| 4.0.0              | Major rework: added `login_attempts`, `api_keys`, `user_mfa`, `user_preferences`, `zone_template_sync`, `password_reset_tokens`, `user_agreements`. |
 
 ## Backup Considerations
 

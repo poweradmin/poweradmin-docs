@@ -123,7 +123,7 @@ When the configured template is the active default but no row carries the DB fla
 
 ## Configuration
 
-Template display in zone listings can be controlled via the `interface.zonelist_template` setting in your configuration file.
+Template display in zone listings can be controlled via the `interface.display_template_in_zone_list` setting in your configuration file.
 
 The default zone template is configured via `dns.default_zone_template` (see [Default Zone Template](#default-zone-template) above).
 
