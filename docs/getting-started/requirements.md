@@ -66,14 +66,20 @@ for the authoritative EOL calendar before planning a long-running deployment.
 
 ## Supported Distributions
 
-| Distribution  | PHP Version | Notes                      |
-|---------------|-------------|----------------------------|
-| Debian 12.7   | 8.2         |                            |
-| Ubuntu 22.04  | 8.1         |                            |
-| Ubuntu 24.04  | 8.3         |                            |
-| Fedora 40     | 8.3         | Apache included by default |
-| Fedora 41     | 8.3         | Apache included by default |
-| OpenSuse 15.6 | 8.2         |                            |
+Default PHP versions are taken from each distribution's official package repository as of May 2026.
+
+| Distribution                 | Default PHP | Notes                                                                                                                                                                                  |
+|------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Debian 13 (Trixie)           | 8.4         | Current stable; meets the minimum out of the box.                                                                                                                                      |
+| Debian 12 (Bookworm)         | 8.2         | Oldstable; meets the minimum out of the box.                                                                                                                                           |
+| Ubuntu 26.04 LTS             | 8.5         | Released April 2026; meets the minimum out of the box.                                                                                                                                 |
+| Ubuntu 24.04 LTS             | 8.3         | Meets the minimum out of the box.                                                                                                                                                      |
+| Ubuntu 22.04 LTS             | 8.1         | Below the 8.2 minimum - install PHP 8.2 or newer from the [ondrej/php PPA](https://launchpad.net/~ondrej/+archive/ubuntu/php). Standard support ends April 2027.                       |
+| Fedora 44                    | 8.5         | Apache included by default.                                                                                                                                                            |
+| Fedora 43                    | 8.4         | Apache included by default.                                                                                                                                                            |
+| Rocky Linux 10 / AlmaLinux 10 | 8.3        | RHEL 10 dropped modularity; PHP 8.3 ships directly from AppStream. Use the [Remi repository](https://rpms.remirepo.net/) for newer releases.                                           |
+| Rocky Linux 9 / AlmaLinux 9  | 8.0         | Below the 8.2 minimum - run `dnf module reset php && dnf module enable php:8.2` (or `php:8.3`) to enable a newer module stream, or install from Remi.                                  |
+| OpenSUSE Leap 15.6           | 8.2         | Meets the minimum out of the box.                                                                                                                                                      |
 
 ---
 
@@ -86,15 +92,13 @@ should work as long as the environment is properly configured.
 
 ## Unsupported Distributions
 
-| Distribution            | PHP Version | Reason for Lack of Support |
-|-------------------------|-------------|----------------------------|
-| Debian 11               | 7.4         | PHP below minimum version  |
-| Ubuntu 20.04            | 7.4         | PHP below minimum version  |
-| CentOS Stream release 9 | 8.0         | PHP below minimum version  |
-| Rocky 8.10              | 7.2         | PHP below minimum version  |
-| Rocky 9.4               | 8.0         | PHP below minimum version  |
-| Alma 8.10               | 7.2         | PHP below minimum version  |
-| Alma 9.4                | 8.0         | PHP below minimum version  |
+The following distributions are EOL or otherwise out of support and ship a PHP version below Poweradmin's 8.2 minimum. Distributions listed in "Supported" with a note about a third-party PPA or module stream are not repeated here.
+
+| Distribution        | Default PHP | Reason                                                         |
+|---------------------|-------------|----------------------------------------------------------------|
+| Debian 11 (Bullseye) | 7.4         | LTS support ended June 2026.                                  |
+| Ubuntu 20.04 LTS     | 7.4         | Standard support ended April 2025.                            |
+| Rocky/AlmaLinux 8.x  | 7.2         | PHP below minimum; consider upgrading to 9.x or 10.x.         |
 
 ---
 
@@ -151,10 +155,7 @@ Poweradmin maintains compatibility across PowerDNS versions due to its architect
 
 ### PowerDNS Version Recommendations
 
-For production environments, consider:
+For production environments, prefer a branch that is still receiving upstream fixes. PowerDNS publishes its own [End of Life (EOL) schedule](https://doc.powerdns.com/authoritative/appendices/EOL.html), which is the authoritative source - the dates below were correct at the time of writing but move forward with each release.
 
-- **PowerDNS 4.8.x**: Supported until March 2025 (critical fixes only)
-- **PowerDNS 4.9.x**: Supported until September 2025 (critical fixes only)
-- **PowerDNS 5.0.x and newer**: Current stable branch with active support
-
-Refer to the [PowerDNS End of Life (EOL) schedule](https://doc.powerdns.com/authoritative/appendices/EOL.html) for the latest support information.
+- **PowerDNS 4.8.x / 4.9.x**: EOL as of 2025. Plan an upgrade.
+- **PowerDNS 5.0.x and newer**: Current stable branch with active support.

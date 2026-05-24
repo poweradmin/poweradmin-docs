@@ -1,14 +1,22 @@
 # Debian Installation
 
-This guide will help you install Poweradmin on Debian systems (Debian 12 or later recommended).
+This guide will help you install Poweradmin on Debian systems. Debian 12 (PHP 8.2) is the recommended target.
 
 ## Prerequisites
 
-Ensure you have the following PHP extensions installed:
+### Install PowerDNS
+
+Poweradmin is a frontend for an existing PowerDNS authoritative server - it does not install or run PowerDNS itself. If you do not already have PowerDNS running, install it first and configure a database backend (MySQL/MariaDB, PostgreSQL, or SQLite). See the [PowerDNS installation guide](https://doc.powerdns.com/authoritative/installation.html) for details.
+
+### Install PHP and Extensions
+
+Install PHP and the extensions Poweradmin requires:
 
 ```bash
-apt install php php-intl php-php-gettext php-tokenizer php-xml php-fpm
+apt install php php-cli php-intl php-mbstring php-xml php-curl php-fpm
 ```
+
+> **Note:** `gettext` and `tokenizer` are built into `php-cli` on Debian and do not need separate packages. `php-fpm` is required only if you plan to use Nginx or choose not to use `mod_php` with Apache.
 
 ### Database Support
 
@@ -25,13 +33,17 @@ apt install php-pgsql
 apt install php-sqlite3
 ```
 
-> **Note:** `php-fpm` is required only if you plan to use Nginx or choose not to use `mod_php` with Apache.
-
 ## Web Server Configuration
 
-### Apache (Default on Debian)
+### Apache
 
-Apache is usually pre-installed and configured on Debian systems. You'll need to:
+Install Apache if it is not already present:
+
+```bash
+apt install apache2 libapache2-mod-php
+```
+
+Then:
 
 1. Enable the required Apache modules:
 
@@ -58,7 +70,7 @@ Save the configuration to `/etc/nginx/sites-available/poweradmin` and adjust:
 
 - `server_name` - Set to your domain name
 - `root` - Set to your Poweradmin installation path
-- `fastcgi_pass` - Adjust PHP-FPM socket path as needed (e.g., `unix:/var/run/php/php8.2-fpm.sock`)
+- `fastcgi_pass` - Adjust PHP-FPM socket path to match your installed PHP version (e.g., `unix:/var/run/php/php8.2-fpm.sock` on Debian 12)
 
 Then enable the site:
 
@@ -79,12 +91,12 @@ For Caddy servers, use the configuration example from the repository:
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases). Always check the releases page for the most recent version - the example below uses v4.3.2:
 
 ```bash
-# For latest 4.0.x stable release
-wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v4.0.5.zip
-unzip v4.0.5.zip
+VERSION=4.3.2
+wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v${VERSION}.zip
+unzip v${VERSION}.zip
 ```
 
 Or download directly from your browser and transfer the files to your server.
@@ -94,7 +106,7 @@ Or download directly from your browser and transfer the files to your server.
 Move the Poweradmin files to your web server's document root:
 
 ```bash
-cp -r poweradmin-4.0.5/* /var/www/html/
+cp -r poweradmin-${VERSION}/* /var/www/html/
 chown -R www-data:www-data /var/www/html/
 ```
 

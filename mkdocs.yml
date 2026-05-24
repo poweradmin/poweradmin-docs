@@ -57,6 +57,7 @@ nav:
           - PostgreSQL: database/postgresql-configuration.md
           - SQLite: database/sqlite.md
           - Database Schema: database/schema.md
+      - Web Installer Wizard: installation/wizard.md
       - Manual Installation: installation/manual.md
       - Composer: installation/composer.md
       - Remote Setup: installation/remote-setup-guide.md

@@ -1,13 +1,28 @@
 # CentOS/RHEL Installation
 
-This guide will help you install Poweradmin on CentOS, RHEL, and other RHEL-based distributions like Rocky Linux or AlmaLinux.
+This guide will help you install Poweradmin on RHEL-based distributions like Rocky Linux 9 or AlmaLinux 9. CentOS Stream 9 is also supported provided PHP 8.2 or newer is enabled.
 
 ## Prerequisites
 
-Ensure you have the following PHP extensions installed:
+### Install PowerDNS
+
+Poweradmin is a frontend for an existing PowerDNS authoritative server - it does not install or run PowerDNS itself. If you do not already have PowerDNS running, install it first and configure a database backend (MySQL/MariaDB, PostgreSQL, or SQLite). See the [PowerDNS installation guide](https://doc.powerdns.com/authoritative/installation.html) for details.
+
+### Enable a PHP 8.2+ Stream
+
+Rocky Linux 9, AlmaLinux 9, and RHEL 9 ship PHP 8.0 by default, which does not meet Poweradmin's PHP 8.2 minimum. Switch to a newer stream before installing PHP packages:
 
 ```bash
-dnf install -y php php-intl php-gettext php-pdo php-xml php-fpm
+dnf module reset php -y
+dnf module enable php:8.2 -y   # or php:8.3
+```
+
+Alternatively, install PHP from the [Remi repository](https://rpms.remirepo.net/) if you need an even newer release.
+
+### Install PHP and Extensions
+
+```bash
+dnf install -y php php-cli php-intl php-gettext php-mbstring php-xml php-pdo php-fpm
 ```
 
 ### Database Support
@@ -20,10 +35,9 @@ dnf install -y php-mysqlnd
 
 # For PostgreSQL
 dnf install -y php-pgsql
-
-# For SQLite (if available in your repositories)
-dnf install -y php-sqlite3
 ```
+
+> **Note:** SQLite support is built into `php-pdo` on RHEL-family distributions - there is no separate `php-sqlite3` package in the default AppStream repositories. If you plan to use SQLite, `php-pdo` alone is sufficient.
 
 ## Web Server Configuration
 
@@ -106,12 +120,12 @@ For Caddy servers, use the configuration example from the repository:
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases):
+Download the latest release from [GitHub Releases](https://github.com/poweradmin/poweradmin/releases). Always check the releases page for the most recent version - the example below uses v4.3.2:
 
 ```bash
-# For latest 4.0.x stable release
-curl -Lo v4.0.5.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v4.0.5.zip
-unzip v4.0.5.zip
+VERSION=4.3.2
+curl -Lo v${VERSION}.zip https://github.com/poweradmin/poweradmin/archive/refs/tags/v${VERSION}.zip
+unzip v${VERSION}.zip
 ```
 
 If you don't have curl or unzip installed:
@@ -126,11 +140,11 @@ Move the Poweradmin files to your web server's document root:
 
 ```bash
 # For Apache (default directory)
-cp -r poweradmin-4.0.5/* /var/www/html/
+cp -r poweradmin-${VERSION}/* /var/www/html/
 chown -R apache:apache /var/www/html/
 
 # For Nginx (if using a different directory)
-cp -r poweradmin-4.0.5/* /usr/share/nginx/html/
+cp -r poweradmin-${VERSION}/* /usr/share/nginx/html/
 chown -R nginx:nginx /usr/share/nginx/html/
 ```
 
