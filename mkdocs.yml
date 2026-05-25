@@ -38,6 +38,7 @@ nav:
       - Features: getting-started/features.md
       - Quick Evaluation:
           - Docker Demo: getting-started/docker-demo.md
+          - Headless / API-First Quickstart: getting-started/headless-quickstart.md
 #          - First Steps: getting-started/first-steps.md
 #          - Example Configurations: getting-started/examples.md
       - System Requirements: getting-started/requirements.md
@@ -190,10 +191,10 @@ nav:
       - Reset Admin Password: troubleshooting/reset-admin-password.md
 #      - FAQ: troubleshooting/faq.md
 
-#  - API Reference:
-#      - API Overview: api/overview.md
-#      - Authentication: api/authentication.md
-#      - Endpoints: api/endpoints.md
+  - API Reference:
+      - API Overview: api/overview.md
+      - Authentication: api/authentication.md
+      - Endpoints: api/endpoints.md
 
   - Contributing:
       - Development Setup: contributing/development.md

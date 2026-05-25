@@ -1,10 +1,10 @@
 # Poweradmin Documentation
 
-Welcome to the official documentation for Poweradmin, a web-based administration tool for PowerDNS.
+Welcome to the official documentation for Poweradmin, an administration tool for PowerDNS that can be driven through a web UI, a REST API, or both at the same time.
 
 ## Overview
 
-Poweradmin is a friendly web interface for managing PowerDNS. It allows you to manage DNS zones and records with ease.
+Poweradmin manages PowerDNS zones and records with the same validation rules whether you go through the web interface or the REST API. Use the UI for day-to-day operations, the API for scripts, CI, and infrastructure-as-code, or run completely headless after the initial setup.
 
 ## Features
 
@@ -18,10 +18,13 @@ Poweradmin is a friendly web interface for managing PowerDNS. It allows you to m
 
 ## Quick Start Guide
 
-1. **Installation**: See the [Installation Overview](installation/index.md) for installation options
-2. **Configuration**: Check the [Basic Configuration](configuration/basic.md) guide to set up your instance
-3. **User Management**: Learn how to manage [Users and Roles](user-guide/users-roles.md)
-4. **Using the System**: Follow our guides for everyday DNS management tasks
+Pick the path that matches how you want to use Poweradmin:
+
+- **Web UI**: [Docker Demo](getting-started/docker-demo.md) - one container, log in, manage zones in the browser
+- **Headless / API-first**: [Headless Quickstart](getting-started/headless-quickstart.md) - bring the API up and drive PowerDNS from scripts in about five minutes
+- **Production install**: [Installation Overview](installation/index.md) - Docker, Debian, Ubuntu, CentOS, or manual setups
+- **Configuration**: [Basic Configuration](configuration/basic.md) - all settings explained
+- **User Management**: [Users and Roles](user-guide/users-roles.md) - users, groups, permissions, MFA
 
 ## Documentation Sections
 
