@@ -104,6 +104,7 @@ nav:
           - Zone Management: user-guide/zones.md
           - DNS Templates: user-guide/dns-templates.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
+          - Bulk and Batch Operations: user-guide/bulk-operations.md
           - NAPTR Records: user-guide/naptr-records.md
           - TXT Records (SPF / DKIM / DMARC): user-guide/txt-records.md
           - Dynamic DNS:

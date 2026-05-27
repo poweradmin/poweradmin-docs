@@ -125,6 +125,59 @@ The Batch PTR Records feature follows Poweradmin's permission system:
 - **No records created**: Check if records already exist (they will be skipped)
 - **Feature not visible**: Check if you have the required permissions
 
+## Delegating a Sub-Range (RFC 2317)
+
+When you own a /24 reverse zone but want a different team or client to manage PTRs for only part of it (e.g. 10.0.0.64/25), use classless reverse delegation as defined in [RFC 2317](https://datatracker.ietf.org/doc/html/rfc2317). Poweradmin's ownership model is per-zone, so the trick is to create a smaller child zone for the sub-range and assign it to the delegate.
+
+### Example: Delegate 10.0.0.64/25 to a client
+
+Parent zone: `0.0.10.in-addr.arpa` (owned by you, covers 10.0.0.0/24).
+Goal: the client manages PTRs for 10.0.0.64 through 10.0.0.127.
+
+**1. Create the child zone**
+
+From **Zones → Add master zone**, create:
+
+- **Zone name**: `64/25.0.0.10.in-addr.arpa` (slash notation - preferred)
+  - Range notation `64-127.0.0.10.in-addr.arpa` is also accepted.
+- **Owner**: the client user (or a group the client belongs to)
+
+Poweradmin's hostname validator accepts both notations. The slash form follows the RFC 2317 example syntax most resolvers and dig output assume.
+
+**2. Add delegation NS records in the child zone**
+
+In the new child zone, add NS records pointing to whichever nameservers will be authoritative for it (often the same servers as the parent).
+
+**3. Add CNAME glue in the parent zone**
+
+In `0.0.10.in-addr.arpa`, replace the PTR records for the 64-127 range with CNAMEs pointing into the child zone. For each delegated address:
+
+| Name | Type | Content |
+|---|---|---|
+| `64` | CNAME | `64.64/25.0.0.10.in-addr.arpa.` |
+| `65` | CNAME | `65.64/25.0.0.10.in-addr.arpa.` |
+| ... | ... | ... |
+| `127` | CNAME | `127.64/25.0.0.10.in-addr.arpa.` |
+
+These CNAMEs tell any resolver doing reverse lookup for 10.0.0.64-127 to chase the answer into the delegated child zone.
+
+**4. Client adds PTRs in the child zone**
+
+The client (who owns the child zone, not the parent) adds PTR records in `64/25.0.0.10.in-addr.arpa`:
+
+| Name | Type | Content |
+|---|---|---|
+| `64` | PTR | `host64.client.example.` |
+| `100` | PTR | `mailrelay.client.example.` |
+
+The client cannot edit the parent zone, and you cannot accidentally clobber their PTRs.
+
+### When you don't need RFC 2317
+
+If you're delegating on an octet boundary - the whole /24 inside a /16, for instance - just create the child zone directly (`5.10.in-addr.arpa` under `10.in-addr.arpa`) and assign the owner. No CNAMEs needed.
+
+RFC 2317 only applies when the sub-range doesn't align with a DNS label boundary, i.e. anything smaller than /24 for IPv4 or anything not on a nibble boundary for IPv6.
+
 ## Per-Record-Type Default TTLs (4.5.0)
 
 Admins can configure default TTLs per record type from **Tools → TTL defaults** (`/tools/record-type-defaults`). Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
