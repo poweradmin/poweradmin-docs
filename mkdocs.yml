@@ -105,6 +105,7 @@ nav:
           - DNS Templates: user-guide/dns-templates.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
           - NAPTR Records: user-guide/naptr-records.md
+          - TXT Records (SPF / DKIM / DMARC): user-guide/txt-records.md
           - Dynamic DNS:
               - Overview: user-guide/ddns/overview.md
               - Configuration: user-guide/ddns/configuration.md
