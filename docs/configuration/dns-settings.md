@@ -29,7 +29,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
 | - | dns.top_record_types | null | Pin selected record types to the top of record type selectors, in the given order. Null = alphabetical only. | 4.4.0 |
-| - | dns.custom_tlds | [] | Custom TLDs to allow in CNAME targets (e.g., `['dn42', 'home']`). | 3.x |
+| - | dns.custom_tlds | [] | Custom TLDs to allow in zone names (when `strict_tld_check` is on) and in CNAME targets (e.g., `['dn42', 'home']`). | 3.x |
 
 ## SOA Record Settings
 
@@ -61,19 +61,35 @@ Example custom configuration:
 
 ## Custom TLD Whitelist
 
-By default, CNAME targets are validated to ensure they have a valid top-level domain (alphabetic characters only). This can cause issues in experimental networks like DN42 that use custom TLDs containing numbers (e.g., `.dn42`).
+The `custom_tlds` option lets you whitelist non-IANA TLDs so they pass validation. It applies in two places:
 
-The `custom_tlds` option allows you to whitelist custom TLDs that bypass the standard validation:
+- **CNAME targets** are normally restricted to alphabetic TLDs, which rejects experimental networks like DN42 (`.dn42`).
+- **Zone names** are normally restricted to the official IANA list plus reserved special-use names when `strict_tld_check` is enabled. With `strict_tld_check` off (the default), any alphabetic TLD is accepted and this whitelist is not consulted.
 
 ```php
 'dns' => [
-    'custom_tlds' => ['dn42', 'home', 'internal', 'lan'],
+    'strict_tld_check' => true,
+    'custom_tlds' => ['dn42', 'home', 'lan', 'corp'],
 ],
 ```
 
-With this configuration, CNAME targets like `ns1.example.dn42` will pass validation. The matching is case-insensitive.
+With this configuration, both a zone named `office.lan` and a CNAME target like `ns1.example.dn42` pass validation. Matching is case-insensitive.
 
 **Note**: Standard alphabetic TLDs (like `.com`, `.org`, `.net`) always work regardless of this setting.
+
+### Pre-whitelisted special-use TLDs
+
+Even with `strict_tld_check` enabled, the following reserved TLDs are always accepted and do not need to be added to `custom_tlds`:
+
+| TLD | Reference | Typical use |
+|-----|-----------|-------------|
+| `test`, `example`, `invalid`, `localhost` | RFC 2606 | Testing and documentation |
+| `local` | RFC 6762 | Multicast DNS |
+| `onion` | RFC 7686 | Tor hidden services |
+| `alt` | RFC 9476 | Alternative DNS namespaces |
+| `internal` | ICANN reserved (2024) | Private-use applications |
+
+If you use one of these for an internal zone, no extra configuration is required. Other common homelab TLDs such as `.lan`, `.home`, and `.corp` are not on this list and require either `strict_tld_check = false` or an entry in `custom_tlds`.
 
 ## Modern Configuration Example
 
