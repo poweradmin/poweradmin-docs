@@ -9,6 +9,7 @@ Poweradmin offers various security features to protect your DNS management syste
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`
 - **login_token_validation**: Enable token validation for login form. Default: `true`
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
+- **trusted_proxies**: Reverse proxy addresses allowed to set forwarded client-IP headers (`X-Forwarded-For`, `X-Real-IP`, `Client-IP`). Supports IPs, CIDRs (IPv4/IPv6), and IPv4 wildcards. Private and loopback peers are always trusted; add public proxy addresses here so their forwarded headers are honored. Default: `[]` (added in 4.5.0)
 
 ## Account Lockout
 
@@ -37,6 +38,7 @@ return [
         'password_cost' => 12,
         'login_token_validation' => true,
         'global_token_validation' => true,
+        'trusted_proxies' => ['203.0.113.10', '2001:db8::/32'],
         'account_lockout' => [
             'enable_lockout' => true,
             'lockout_attempts' => 3,

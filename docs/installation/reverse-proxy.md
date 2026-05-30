@@ -20,6 +20,27 @@ The `private_ranges` value trusts all private IP ranges (10.0.0.0/8, 172.16.0.0/
 
 Both `X-Forwarded-For` and `X-Real-IP` headers are supported. Your reverse proxy must forward at least one of these headers - see the examples below for proxy-specific configuration.
 
+### Two trust layers (Docker)
+
+`TRUSTED_PROXIES` configures two layers at once. The Docker image (4.5.0 and later) writes the same list to Poweradmin's `security.trusted_proxies` setting in addition to the Caddy server, so the application also honors forwarded headers from the listed proxies:
+
+- **Caddy** resolves the real client IP for its own access logs.
+- **The application** decides whether to trust forwarded headers for audit logs and per-IP rate limiting. By default it only trusts private/loopback peers, which is why a proxy on a **public** (non-RFC1918) address needs its IP listed here.
+
+The `private_ranges` keyword applies to Caddy only; the application always trusts private/loopback peers. Set `PA_TRUSTED_PROXIES` if the application allowlist must differ from the Caddy list.
+
+### Non-Docker installs
+
+Outside Docker, set the application allowlist directly in `config/settings.php`. This is required when the proxy connects from a public address:
+
+```php
+'security' => [
+    'trusted_proxies' => ['203.0.113.10', '2001:db8::/32'],
+],
+```
+
+See [Security Policies](../configuration/security-policies.md) for details.
+
 ## Traefik
 
 ### Basic Setup (HTTP only)
