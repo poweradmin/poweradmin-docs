@@ -74,6 +74,11 @@ docker run -d --name poweradmin -p 80:80 \
   poweradmin/poweradmin:stable
 ```
 
+!!! note "Database prerequisites (MySQL/PostgreSQL)"
+    The `DB_NAME` database and the `DB_USER` (with privileges on it) must already exist - the container does not create them. With the official `mysql`/`postgres` images, set `MYSQL_DATABASE`/`MYSQL_USER`/`MYSQL_PASSWORD` (or `POSTGRES_DB`/`POSTGRES_USER`/`POSTGRES_PASSWORD`) so they are provisioned on first start. Setting only the root password leaves the server with no Poweradmin database or user and fails with `ERROR 1045 Access denied`.
+
+    On startup the container loads the Poweradmin schema into an empty `DB_NAME` database automatically; an already-populated database is left untouched. PowerDNS stores its own zones and records in a separate database that PowerDNS (not Poweradmin) creates and initializes.
+
 ## Docker Compose
 
 ### Basic Setup with MySQL
