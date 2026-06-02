@@ -77,7 +77,7 @@ docker run -d --name poweradmin -p 80:80 \
 !!! note "Database prerequisites (MySQL/PostgreSQL)"
     The `DB_NAME` database and the `DB_USER` (with privileges on it) must already exist - the container does not create them. With the official `mysql`/`postgres` images, set `MYSQL_DATABASE`/`MYSQL_USER`/`MYSQL_PASSWORD` (or `POSTGRES_DB`/`POSTGRES_USER`/`POSTGRES_PASSWORD`) so they are provisioned on first start. Setting only the root password leaves the server with no Poweradmin database or user and fails with `ERROR 1045 Access denied`.
 
-    On startup the container loads the Poweradmin schema into an empty `DB_NAME` database automatically; an already-populated database is left untouched. PowerDNS stores its own zones and records in a separate database that PowerDNS (not Poweradmin) creates and initializes.
+    On startup the container loads the Poweradmin schema into an empty `DB_NAME` database automatically; an already-populated database is left untouched. PowerDNS stores its own zones and records in a separate database that PowerDNS (not Poweradmin) creates and initializes. If you instead keep both in one shared database, set `PA_INIT_PDNS_SCHEMA=true` to have the container load the PowerDNS schema into an empty `DB_NAME` as well; it is off by default and skipped when `PA_PDNS_DB_NAME` is set.
 
 ## Docker Compose
 
@@ -209,6 +209,7 @@ docker logs poweradmin | grep -i password
 | `DB_PASS` | - | Database password |
 | `DB_NAME` | - | Database name |
 | `PA_PDNS_DB_NAME` | - | Separate PowerDNS database (MySQL only) |
+| `PA_INIT_PDNS_SCHEMA` | false | Load PowerDNS schema into an empty `DB_NAME` on startup (MySQL/PostgreSQL; skipped when `PA_PDNS_DB_NAME` is set) |
 
 ### DNS
 
