@@ -14,6 +14,21 @@ PowerDNS supports three zone types. Choose the type based on your DNS architectu
 
 > **Tip:** If you are running a single PowerDNS server, **Native** is the simplest option since no zone transfers are needed.
 
+### Read-only zones
+
+**Secondary** (Slave) and **Consumer** (catalog) zones hold records that PowerDNS replicates from a primary, so Poweradmin treats their records as read-only. In the zone list these zones show a muted **Read-only** badge next to their type.
+
+For a read-only zone, Poweradmin blocks every record-changing action across the UI, API, and automation:
+
+- Adding, editing, or deleting records (zone editor, DNS wizards, bulk add, batch PTR)
+- Editing per-record comments and the zone comment
+- Applying a zone template
+- Importing records from a zone file
+- Dynamic DNS (DDNS) updates
+- The public API record, RRset, and bulk endpoints, which return a clear "read-only zone" error instead of a permission error
+
+To change the records in a read-only zone, edit them on the primary server - the changes replicate automatically. You can still change the zone's own configuration (such as the Secondary master IP) and delete the zone itself.
+
 ## Creating Zones
 
 ### Adding a Master Zone
