@@ -97,6 +97,30 @@ The following template variables are available in your custom templates:
 </div>
 ```
 
+## Custom Favicon and Logo
+
+Poweradmin renders the favicon (`<link rel="icon">`) and the header logo from two `interface` settings (added in 4.4.0):
+
+- **favicon_path**: Path or URL to a custom favicon. Empty uses the bundled `favicon.ico`. Default: `''`
+- **logo_path**: Path or URL to a custom header logo image. Empty uses the bundled `assets/logo.png`. Default: `''`
+
+```php
+return [
+    'interface' => [
+        'favicon_path' => '/branding/favicon.png',
+        'logo_path' => 'https://cdn.example.com/branding/dns-logo.svg',
+    ],
+];
+```
+
+Absolute URLs (`https://cdn.example.com/...`) are used as-is. Path values are served from the Poweradmin web root and automatically get `base_url_prefix` applied, so `/branding/favicon.png` works unchanged whether Poweradmin runs at the domain root or in a subfolder.
+
+Notes:
+
+- `logo_path` only applies to the standard header markup. If you use a custom header template (see above), the template controls its own logo.
+- Files placed inside the Poweradmin web root can be overwritten by upgrades. With Docker, bind-mount your branding files (e.g. `-v ./favicon.ico:/app/favicon.ico`) or point the settings at an external URL.
+- On versions before 4.4.0, replace `favicon.ico` in the Poweradmin web root (works for installs served at the domain root, browsers request `/favicon.ico` by convention) or add a `<link rel="icon" href="...">` tag through the header template fork described in [Injecting content into `<head>`](#injecting-content-into-head).
+
 ## UI Element Positioning
 
 ### Form Element Positioning
@@ -190,7 +214,7 @@ return [
 
 ## Injecting content into `<head>`
 
-Tracking snippets (Matomo, Plausible, Google Analytics), custom favicons, and additional meta tags need to live inside the page `<head>` element, not in the custom header template. Poweradmin does not expose a configuration setting for this - it gives you two supported paths instead.
+Tracking snippets (Matomo, Plausible, Google Analytics) and additional meta tags need to live inside the page `<head>` element, not in the custom header template. Poweradmin does not expose a configuration setting for this - it gives you two supported paths instead. (For favicons, use the `favicon_path` setting described in [Custom Favicon and Logo](#custom-favicon-and-logo) - no `<head>` injection needed since 4.4.0.)
 
 ### Option 1: Fork the theme header template (simple, but upgrade-aware)
 

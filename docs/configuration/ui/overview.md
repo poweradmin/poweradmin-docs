@@ -11,6 +11,8 @@ The following settings control the user interface appearance and behavior:
 - **theme**: UI theme name. Options: `default`, `custom`. Default: `default`
 - **style**: UI style. Options: `light`, `dark`. Default: `light`
 - **theme_base_path**: Base path for theme templates. Default: `templates`
+- **favicon_path**: Path or URL to a custom favicon. Empty uses the bundled `favicon.ico`. Default: `''` (added in 4.4.0)
+- **logo_path**: Path or URL to a custom header logo image. Empty uses the bundled `assets/logo.png`. Default: `''` (added in 4.4.0)
 - **title**: Application title displayed in browser tab and header logo. Useful for distinguishing multiple server instances. Default: `Poweradmin`
 - **session_timeout**: Session timeout in seconds. Default: `1800` (30 minutes)
 - **rows_per_page**: Number of items to display per page. Default: `10`
