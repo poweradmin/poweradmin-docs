@@ -22,6 +22,10 @@ theme:
 extra_css:
   - css/extra.css
 
+# superfences renders code fences nested in lists, which the default fenced_code extension breaks
+markdown_extensions:
+  - pymdownx.superfences
+
 extra:
   announcement: "This documentation covers Poweradmin 4.x. Some sections are still being expanded."
 
