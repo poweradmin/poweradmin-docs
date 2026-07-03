@@ -18,6 +18,14 @@ LDAP settings can be configured in the `config/settings.php` file under the `lda
 | $ldap_user_attribute | ldap.user_attribute | uid | Username attribute used in LDAP search filter | 2.1.7 |
 | $ldap_proto | ldap.protocol_version | 3 | LDAP protocol version | 2.1.7 |
 | N/A | ldap.session_cache_timeout | 300 | Cache LDAP validation results (seconds, 0 = disabled) | 4.1.0 |
+| N/A | ldap.sync_user_info | false | Sync fullname/email from LDAP on every login | 4.5.0 |
+| N/A | ldap.fullname_attribute | displayName | LDAP attribute for full name (`displayName` for AD, `cn` for OpenLDAP) | 4.5.0 |
+| N/A | ldap.email_attribute | mail | LDAP attribute for email address | 4.5.0 |
+| N/A | ldap.auto_provision | false | Create missing users on first successful LDAP login | 4.5.0 |
+| N/A | ldap.default_permission_template | Guest | Template for auto-provisioned users when no mapping matches | 4.5.0 |
+| N/A | ldap.groups_attribute | memberOf | LDAP attribute holding group memberships | 4.5.0 |
+| N/A | ldap.permission_template_mapping | [] | Maps LDAP groups to permission template names | 4.5.0 |
+| N/A | ldap.group_mapping | [] | Maps LDAP groups to Poweradmin group(s) | 4.5.0 |
 
 ## Modern Configuration Example
 
@@ -114,6 +122,60 @@ return [
     ],
 ];
 ```
+
+## User Info Sync, Auto-Provisioning and Group Mapping (v4.5.0+)
+
+Since 4.5.0, LDAP can drive user identity, permissions and group membership the same way OIDC/SAML do. All features are off by default, preserving the classic "admin pre-creates the account" workflow.
+
+### Syncing name and email
+
+```php
+'ldap' => [
+    // ...
+    'sync_user_info' => true,
+    'fullname_attribute' => 'displayName',  // 'cn' for OpenLDAP
+    'email_attribute' => 'mail',
+],
+```
+
+On every (non-cached) login, the user's fullname and email are refreshed from the directory. Empty attributes never blank existing values. With this enabled, the profile fields stay read-only in Poweradmin and the directory is the source of truth.
+
+### Auto-provisioning users
+
+```php
+'ldap' => [
+    // ...
+    'auto_provision' => true,
+    'default_permission_template' => 'Guest',
+],
+```
+
+A user who authenticates successfully against LDAP but has no Poweradmin account gets one created automatically (with `use_ldap` enabled). The permission template comes from `permission_template_mapping` when a group matches, otherwise from `default_permission_template`. Provisioning fails if the username is already taken by a local (non-LDAP) account.
+
+### Mapping LDAP groups
+
+```php
+'ldap' => [
+    // ...
+    'groups_attribute' => 'memberOf',
+    'permission_template_mapping' => [
+        'dns-admins' => 'Administrator',
+        'cn=dns-operators,ou=groups,dc=example,dc=com' => 'Viewer',
+    ],
+    'group_mapping' => [
+        'dns-admins' => 'Administrators',
+        'dns-operators' => ['Zone Managers', 'Editors'],  // 1:n mapping
+    ],
+],
+```
+
+Mapping keys match a group value exactly (full DN) or the first RDN value of a DN, so `dns-admins` matches `cn=dns-admins,ou=groups,dc=example,dc=com`. Semantics mirror the [OIDC](oidc.md) settings:
+
+- `permission_template_mapping` assigns **one** permission template per user; the first matching entry wins.
+- `group_mapping` assigns **multiple** Poweradmin groups; memberships are re-evaluated (added and removed) on every login.
+- A template assigned via mapping is revoked back to `default_permission_template` if the user later matches no mapping; admin-assigned templates are never touched.
+
+> **Note:** `memberOf` requires the overlay to be enabled on OpenLDAP; it is available out of the box on Active Directory. Nested group membership is not expanded.
 
 ## Security Considerations
 

@@ -276,6 +276,10 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 |----------|---------|-------------|
 | `PA_LDAP_ENABLED` | false | Enable LDAP authentication |
 | `PA_LDAP_USER_ATTRIBUTE` | uid | User attribute (`uid` for OpenLDAP, `sAMAccountName` for AD) |
+| `PA_LDAP_SYNC_USER_INFO` | false | Sync fullname/email from LDAP on login (v4.5.0+) |
+| `PA_LDAP_AUTO_PROVISION` | false | Create missing users on first LDAP login (v4.5.0+) |
+| `PA_LDAP_PERMISSION_TEMPLATE_MAPPING` | - | LDAP group to permission template mapping, `group:Template` comma-separated (v4.5.0+) |
+| `PA_LDAP_GROUP_MAPPING` | - | LDAP group to Poweradmin group mapping, `group:PAGroup` comma-separated (v4.5.0+) |
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
 
