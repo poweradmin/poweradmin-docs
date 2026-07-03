@@ -27,6 +27,8 @@ The following settings control the user interface appearance and behavior:
 - **show_record_comments**: Show or hide record comments. Default: `false`
 - **display_serial_in_zone_list**: Display serial number in zone list. Default: `false`
 - **display_template_in_zone_list**: Display template information in zone list. Default: `false`
+- **display_owner_in_zone_list**: Display owner column in zone lists (v4.5.0+). Default: `true`
+- **display_group_in_zone_list**: Display group column in zone lists (v4.5.0+). Default: `true`
 - **show_zone_record_count**: Display record count column in zone lists. Each user can override this via their preferences. Default: `true`
 - **display_fullname_in_zone_list**: Show user's full name instead of username in zone lists. Default: `false`
 - **search_group_records**: Group records by name and content in search results. Default: `false`

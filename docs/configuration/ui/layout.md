@@ -148,6 +148,8 @@ Configure which information is displayed in the user interface:
 - **show_record_comments**: Show record comments. Default: `false`
 - **display_serial_in_zone_list**: Show serial number in zone list. Default: `false`
 - **display_template_in_zone_list**: Show template information in zone list. Default: `false`
+- **display_owner_in_zone_list**: Show owner column in zone lists (v4.5.0+). Default: `true`
+- **display_group_in_zone_list**: Show group column in zone lists (v4.5.0+). Default: `true`
 - **show_zone_record_count**: Show record count column in zone lists. Each user can override this in their preferences. Default: `true`
 
 ```php
