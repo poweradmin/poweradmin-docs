@@ -48,7 +48,7 @@ return [
 
 ## LDAP Search Filter Examples
 
-The search filter is used to limit which LDAP accounts can authenticate to Poweradmin:
+The search filter is used to limit which LDAP accounts can authenticate to Poweradmin. Poweradmin combines it with the username lookup as `(&(<user_attribute>=<login>)<search_filter>)`, so the filter should only contain the extra conditions - do not repeat the username clause:
 
 ```php
 // Only users that are members of the 'powerdns' group
@@ -102,7 +102,7 @@ return [
         'bind_dn' => 'CN=ServiceAccount,OU=Users,DC=company,DC=com',
         'bind_password' => 'password',
         'user_attribute' => 'sAMAccountName',
-        'search_filter' => '(&(objectClass=user)(sAMAccountName=%s))',
+        'search_filter' => '(objectClass=user)',
     ],
 ];
 ```
@@ -118,7 +118,7 @@ return [
         'bind_dn' => 'cn=admin,dc=company,dc=com',
         'bind_password' => 'password',
         'user_attribute' => 'uid',
-        'search_filter' => '(&(objectClass=posixAccount)(uid=%s))',
+        'search_filter' => '(objectClass=posixAccount)',
     ],
 ];
 ```
@@ -176,6 +176,34 @@ Mapping keys match a group value exactly (full DN) or the first RDN value of a D
 - A template assigned via mapping is revoked back to `default_permission_template` if the user later matches no mapping; admin-assigned templates are never touched.
 
 > **Note:** `memberOf` requires the overlay to be enabled on OpenLDAP; it is available out of the box on Active Directory. Nested group membership is not expanded.
+
+### Granting access to an Active Directory group without pre-creating users
+
+A common request: everyone in an AD group (say `PA_users`) should be able to use Poweradmin, without an admin creating each account by hand. Combine auto-provisioning with a `search_filter` that gates login on group membership:
+
+```php
+'ldap' => [
+    'enabled' => true,
+    'uri' => 'ldaps://ad.company.com',
+    'base_dn' => 'DC=company,DC=com',
+    'bind_dn' => 'CN=ServiceAccount,OU=Users,DC=company,DC=com',
+    'bind_password' => 'password',
+    'user_attribute' => 'sAMAccountName',
+    // only PA_users members may log in
+    'search_filter' => '(memberOf=cn=PA_users,ou=groups,dc=company,dc=com)',
+    'auto_provision' => true,
+    'permission_template_mapping' => [
+        'PA_users' => 'Administrator',
+    ],
+    'group_mapping' => [
+        'PA_users' => 'DNS Admins',
+    ],
+],
+```
+
+Group members are created in Poweradmin on their first login with the mapped permission template and group memberships; nobody outside `PA_users` can authenticate. On Active Directory, nested groups can be matched in the login filter with the matching-rule-in-chain syntax: `(memberOf:1.2.840.113556.1.4.1941:=cn=PA_users,ou=groups,dc=company,dc=com)` (the mapping arrays still only see direct `memberOf` values).
+
+> **Warning:** with `auto_provision` enabled and no group condition in `search_filter`, any user in the directory can log in and receives `default_permission_template`.
 
 ## Security Considerations
 
