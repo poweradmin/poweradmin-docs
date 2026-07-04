@@ -47,6 +47,8 @@ When MFA is enforced, users who have not yet set up MFA will be redirected to th
 
 > **Note:** MFA enforcement requires both the global `mfa.enabled` and `mfa.enforced` settings to be set to `true` in your configuration. See [Configuration](#configuration) below.
 
+Since 4.5.0, enforcement can be waived for users who log in through an external identity provider (LDAP, OIDC, SAML) by setting `mfa.skip_for_external_auth` to `true`. Use this when the IdP already enforces MFA - it avoids a second OTP prompt in Poweradmin. Local (password) logins are still enforced, and external users can still enable Poweradmin MFA voluntarily.
+
 ## Disabling MFA
 
 To disable MFA on your account:
@@ -80,6 +82,7 @@ MFA is configured in `config/settings.php` under the `security` section:
     'mfa' => [
         'enabled' => true,
         'enforced' => true,
+        'skip_for_external_auth' => false,
         'app_enabled' => true,
         'email_enabled' => true,
         'recovery_codes' => 8,
@@ -90,6 +93,7 @@ MFA is configured in `config/settings.php` under the `security` section:
 
 - **enabled** - enable MFA functionality globally. Default: `false`
 - **enforced** - enable MFA enforcement (works with `user_enforce_mfa` permission). Default: `false`
+- **skip_for_external_auth** - do not enforce MFA for LDAP, OIDC, or SAML logins; the identity provider is trusted to enforce it. Default: `false` (added in 4.5.0)
 - **app_enabled** - allow authenticator app method. Default: `true`
 - **email_enabled** - allow email verification method (requires [mail configuration](../configuration/mail.md)). Default: `true`
 - **recovery_codes** - number of recovery codes to generate per user. Default: `8`
