@@ -179,7 +179,32 @@ Each provider requires specific configuration. All providers share these common 
 | `metadata_url` | Conditional | OpenID Configuration endpoint (if auto_discovery) |
 | `scopes` | No | OAuth scopes (default: openid profile email) |
 | `logout_url` | No | Provider logout endpoint |
+| `response_mode` | No | How the provider returns the authorization code: `query` (default) or `form_post` |
 | `user_mapping` | No | Map OIDC claims to user fields |
+
+### Response mode (`response_mode`)
+
+By default the provider returns the authorization code in the callback URL query
+string (`response_mode` = `query`). Setting `response_mode` to `form_post` asks the
+provider to return the code in an HTTP POST body instead, so it never appears in
+URLs, proxy logs, or browser history.
+
+```php
+'response_mode' => 'form_post',
+```
+
+Notes:
+
+- Default is `query`; existing deployments are unaffected until you opt in.
+- `form_post` requires HTTPS (the callback runs over a cross-site POST that needs a
+  secure cookie). It is also allowed on `localhost` for development. On a plain-HTTP
+  deployment Poweradmin logs a warning and falls back to `query`.
+- Set `interface.application_url` to your external HTTPS URL when Poweradmin runs
+  behind a TLS-terminating proxy, so the HTTPS requirement is judged by the
+  browser-facing URL rather than the backend request.
+- Works with any provider that supports the OpenID Connect Form Post Response Mode
+  (Azure AD, Keycloak, Okta, Auth0, and others). PKCE (S256) is always used
+  regardless of `response_mode`.
 
 ### Azure AD (Microsoft)
 
