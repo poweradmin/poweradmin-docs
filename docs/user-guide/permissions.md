@@ -62,6 +62,17 @@ This document provides detailed explanations of all user permissions available i
 - Provides restricted zone management capabilities
 - Common use case: tenant or end-customer self-service, where users can manage their own A/AAAA/CNAME/MX/TXT records but must not touch the zone's authority (SOA) or delegation (NS) records
 - Enforced uniformly in the web UI and across the v1/v2 record APIs (since 4.2.3); creating, editing, or deleting an SOA or NS record returns HTTP 403 for users limited to this permission
+- To additionally allow managing delegation NS records for subdomains, grant `zone_content_edit_ns_subzone`
+
+### zone_content_edit_ns_subzone
+
+- Allows users limited to `zone_content_edit_own_as_client` to add, edit, and delete NS records below the zone apex
+- SOA and apex NS records remain restricted regardless of this permission
+- Use case: end customers who delegate subdomains (e.g. `subdomain.example.com`) to another DNS provider while the zone's own NS set stays under the operator's control
+- Not granted to any permission template by default; assign it explicitly in the permission template editor
+- Has no effect on its own - it only extends `zone_content_edit_own_as_client`
+- Applies to the web UI and the v1/v2 record APIs
+- Added in v4.5.0
 
 ### zone_delete_own
 
