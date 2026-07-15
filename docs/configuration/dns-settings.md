@@ -26,6 +26,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
 | - | dns.default_zone_template | null | Default zone template pre-selected on the add-zone form. Accepts a template id (int) or name (string). The DB-backed default (set in the template list UI) wins when both are present. | 4.4.0 |
 | - | dns.zone_ownership_mode | both | Controls how zone ownership can be assigned on creation and ownership pages. Options: `both`, `users_only`, `groups_only`. | 4.4.0 |
+| - | dns.sync_zone_owner_to_account | false | Mirror the zone owner's username into the PowerDNS `account` field on zone creation and ownership changes. With multiple owners, the oldest owner is used; a zone left without a direct owner gets an empty account. When enabled, this overwrites account values set through the API or external tools whenever ownership changes. | 4.4.0 |
 | - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
 | - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
