@@ -26,6 +26,7 @@ The following settings control the user interface appearance and behavior:
 - **show_zone_comments**: Show or hide zone comments. Default: `true`
 - **show_record_comments**: Show or hide record comments. Default: `false`
 - **display_serial_in_zone_list**: Display serial number in zone list. Default: `false`
+- **display_signed_serial_in_zone_list**: Display the serial served by PowerDNS with SOA-EDIT applied (the "signed" serial) in zone lists. Requires the API backend and PowerDNS 4.2+ (v4.5.0+). Default: `false`
 - **display_template_in_zone_list**: Display template information in zone list. Default: `false`
 - **display_owner_in_zone_list**: Display owner column in zone lists (v4.5.0+). Default: `true`
 - **display_group_in_zone_list**: Display group column in zone lists (v4.5.0+). Default: `true`
