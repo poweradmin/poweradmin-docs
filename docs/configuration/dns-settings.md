@@ -18,6 +18,10 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | - | dns.soa_retry | 7200 | SOA retry time | 2.2.3 |
 | - | dns.soa_expire | 604800 | SOA expire time | 2.2.3 |
 | - | dns.soa_minimum | 86400 | SOA minimum TTL | 2.2.3 |
+| - | dns.soa_edit | '' | `SOA-EDIT` metadata applied to newly created zones (e.g. `INCEPTION-INCREMENT`). Controls the serial PowerDNS serves for DNSSEC-signed zones. Empty = not set. | 4.5.0 |
+| - | dns.soa_edit_api | '' | `SOA-EDIT-API` metadata applied to newly created zones (e.g. `EPOCH`). Controls how PowerDNS updates the serial on API edits; pre-selects the add-zone serial policy selector. `OFF` disables the policy explicitly, empty = server default. | 4.5.0 |
+| - | dns.soa_edit_api_options | null | `SOA-EDIT-API` values offered in the add-zone selector and the zone metadata editor (also applies to `SOA-EDIT-DNSUPDATE`). Null = all values, a list (e.g. `['DEFAULT', 'EPOCH', 'OFF']`) restricts the choice, an empty list hides the selector and the metadata kinds. | 4.5.0 |
+| - | dns.soa_edit_options | null | `SOA-EDIT` values offered in the zone metadata editor. Null = all values, a list restricts the choice, an empty list hides the kind. | 4.5.0 |
 | $dns_strict_tld_check | dns.strict_tld_check | false | If enabled (true), allow official TLDs only. | |
 | $dns_top_level_tld_check | dns.top_level_tld_check | false | Don't allow creation of top-level TLDs when true. | 2.1.7 |
 | $dns_third_level_check | dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |

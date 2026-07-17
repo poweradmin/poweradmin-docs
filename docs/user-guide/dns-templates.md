@@ -17,7 +17,7 @@ Templates support placeholders that are automatically substituted:
 - `[NS1]`, `[NS2]`, etc. - replaced with configured nameservers
 - `[HOSTMASTER]` - replaced with configured hostmaster email
 
-The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the initial SOA serial of a zone created from the template; later record changes increment the serial automatically. When Poweradmin runs against the PowerDNS API backend, the `SOA-EDIT-API` zone metadata governs how subsequent serials are generated.
+The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the initial SOA serial of a zone created from the template; later record changes increment the serial automatically. When Poweradmin runs against the PowerDNS API backend, the `SOA-EDIT-API` zone metadata governs how subsequent serials are generated - it can be chosen per zone on the add-zone form or on the zone metadata page (`EPOCH` pairs with `[UNIXTIME]`, `INCREASE` with `[COUNTER]`), with defaults from `dns.soa_edit_api`.
 
 ![Template Editor](/screenshots/template-editor.png)
 
