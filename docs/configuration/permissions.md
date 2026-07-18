@@ -2,8 +2,8 @@
 
 Poweradmin supports two permission management approaches that can be used independently or together:
 
-- **User access templates** - Assign permission templates directly to individual users. Permissions apply globally across the system.
-- **Group access templates** - Assign permission templates to groups, then add users to groups. Permissions apply to zones owned by the group.
+- **User permission templates** - Assign permission templates directly to individual users. Permissions apply globally across the system.
+- **Group permission templates** - Assign permission templates to groups, then add users to groups. Permissions apply to zones owned by the group.
 
 Both systems are enabled by default. You can hide either one from the UI by setting the corresponding toggle to `false` in your `settings.php` file.
 
@@ -24,8 +24,8 @@ Add a `permissions` section to your `settings.php`:
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `show_user_access_templates` | `true` | Show per-user access template assignment in the UI |
-| `show_group_access_templates` | `true` | Show group-based access template management in the UI |
+| `show_user_access_templates` | `true` | Show per-user permission template assignment in the UI |
+| `show_group_access_templates` | `true` | Show group-based permission template management in the UI |
 
 ## Usage Scenarios
 
@@ -46,7 +46,6 @@ When user templates are hidden:
 - The template dropdown is hidden from user creation and edit forms
 - The Template column is hidden from the users list
 - The permission template list shows only group templates
-- The "Access" nav menu is renamed to "Templates"
 
 ### User-only permissions (simpler setups)
 

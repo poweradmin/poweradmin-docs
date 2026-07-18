@@ -92,4 +92,4 @@ All three features respect the standard permission model:
 - **Batch PTR Records** requires the `add_reverse_record` feature flag and the same edit permissions as Bulk Record Add.
 - **Bulk Zone Registration** requires `zone_master_add` (and respects `dns.zone_ownership_mode`).
 
-See [Permissions](permissions.md) for the full list of permission constants and how to assign them through access templates.
+See [Permissions](permissions.md) for the full list of permission constants and how to assign them through permission templates.

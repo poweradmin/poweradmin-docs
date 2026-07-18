@@ -40,8 +40,8 @@ If your authenticator app code is not accepted, check that your device clock is 
 
 Administrators can require specific users to set up MFA. This is controlled through two mechanisms:
 
-- **User access templates** - add the `user_enforce_mfa` permission to an access template assigned to users
-- **Group access templates** - add the `user_enforce_mfa` permission to a group's access template, which enforces MFA for all group members
+- **User permission templates** - add the `user_enforce_mfa` permission to a permission template assigned to users
+- **Group permission templates** - add the `user_enforce_mfa` permission to a group's permission template, which enforces MFA for all group members
 
 When MFA is enforced, users who have not yet set up MFA will be redirected to the MFA setup page after their next login. They cannot use Poweradmin until MFA is configured.
 

@@ -183,27 +183,27 @@ groups permissions by name prefix).
 
 - Allows the user to view the zone activity log for zones they own (directly or through a group)
 - Scopes the Zone Logs view and the per-zone Logs button to owned zones only
-- Appears under "Zone Permissions" in the access template editor
+- Appears under "Zone Permissions" in the permission template editor
 - Added in v4.5.0
 
 ### zone_logs_view_others
 
 - Allows the user to view the zone activity log for all zones, including those they do not own
 - Intended for delegated auditors who need cross-zone visibility without superuser rights
-- Appears under "Zone Permissions" in the access template editor
+- Appears under "Zone Permissions" in the permission template editor
 - Added in v4.5.0
 
 ### user_logs_view
 
 - Allows the user to view the user activity log (logins, user management, and related events)
 - Global, read-only auditor permission; does not grant any user management rights
-- Appears under "User Permissions" in the access template editor
+- Appears under "User Permissions" in the permission template editor
 - Added in v4.5.0
 
 ### group_logs_view
 
 - Allows the user to view the group activity log
 - Global, read-only auditor permission; does not grant any group management rights
-- Appears under "Other Permissions" in the access template editor
+- Appears under "Other Permissions" in the permission template editor
 - Added in v4.5.0
 - Advanced permission for managing DNS infrastructure

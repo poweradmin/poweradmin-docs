@@ -114,7 +114,7 @@ This is useful for documentation, auditing, or migrating zone data to another sy
 Every zone has at least one owner. Ownership determines who can edit and manage the zone.
 
 - **User ownership** - assign individual users as zone owners when creating or editing a zone
-- **Group ownership** - assign zones to [Groups](groups.md) so all group members get access based on the group's access template
+- **Group ownership** - assign zones to [Groups](groups.md) so all group members get access based on the group's permission template
 
 A zone can have both individual user owners and group owners simultaneously. Permissions from all sources are combined - if any ownership path grants a user access, they have it.
 
@@ -151,4 +151,4 @@ Starting in v4.1.0, zone deletion uses two separate permissions:
 
 > **Warning:** Deleting a zone removes all its records permanently. This action cannot be undone. Make sure you have a backup or CSV export if you might need the data later.
 
-See [Permissions](permissions.md) for a full list of available permissions and how to assign them through access templates.
+See [Permissions](permissions.md) for a full list of available permissions and how to assign them through permission templates.
