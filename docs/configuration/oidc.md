@@ -165,6 +165,26 @@ Predefined Poweradmin groups:
 
 > **Note:** Both `permission_template_mapping` and `group_mapping` read from the same token claim specified by `user_mapping.groups`. Group memberships are also re-evaluated on every login.
 
+> **Important:** Group mapping only works if the provider actually returns a groups claim. Many providers (SimpleSAML, Keycloak, Okta, and most generic OIDC providers) only include it when the `groups` scope is explicitly requested - add it to that provider's `scopes` list (see [Scopes](#scopes-scopes)). Azure AD and Google surface group/role membership through other mechanisms; see their provider sections.
+
+The `scopes` field lives on the individual provider, not on the top-level `oidc` block:
+
+```php
+'oidc' => [
+    'enabled' => true,
+    'group_mapping' => [
+        'dns-managers' => 'Zone Managers',
+        'dns-editors' => 'Editors',
+    ],
+    'providers' => [
+        'simplesaml' => [
+            // ... client_id, client_secret, endpoints/discovery ...
+            'scopes' => 'openid profile email groups', // 'groups' required for the groups claim
+        ],
+    ],
+],
+```
+
 ## Provider Configuration
 
 Each provider requires specific configuration. All providers share these common fields:
@@ -205,6 +225,18 @@ Notes:
 - Works with any provider that supports the OpenID Connect Form Post Response Mode
   (Azure AD, Keycloak, Okta, Auth0, and others). PKCE (S256) is always used
   regardless of `response_mode`.
+
+### Scopes (`scopes`)
+
+Each provider's `scopes` string controls which OAuth scopes Poweradmin requests at login. The default is `openid profile email`, which does **not** include group information.
+
+If you use `group_mapping` or `permission_template_mapping`, the provider must return a groups claim, and many providers only include it when a `groups` scope is requested explicitly. Add it to that provider's `scopes`:
+
+```php
+'scopes' => 'openid profile email groups',
+```
+
+> **Note:** `groups` is not a universal scope. SimpleSAML, Keycloak, and Okta expose group membership through it, but Azure AD and Google do not - they surface groups/roles via provider-specific configuration (see their sections below). The scope name is also independent of the claim name, which you set with `user_mapping.groups` (default `groups`).
 
 ### Azure AD (Microsoft)
 
@@ -426,7 +458,7 @@ For providers not listed above, use manual endpoint configuration:
             'token_url' => 'https://provider.example.com/oauth/token',
             'userinfo_url' => 'https://provider.example.com/oauth/userinfo',
             'logout_url' => 'https://provider.example.com/oauth/logout',
-            'scopes' => 'openid profile email',
+            'scopes' => 'openid profile email',  // add 'groups' if your provider requires it for group claims
             'user_mapping' => [
                 'username' => 'preferred_username',
                 'email' => 'email',
