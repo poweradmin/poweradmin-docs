@@ -7,7 +7,7 @@ Poweradmin can log operations to the database for auditing and tracking purposes
 Database logging records operations across four log tables:
 
 - **User events** (`log_users`): login/logout, user creation/editing/deletion, MFA, password resets
-- **API events** (`log_api`): API key creation, editing, deletion, regeneration, and toggling
+- **API events** (`log_api`): API key management, plus optional per-request public API audit entries and permission violations (401/403)
 - **Zone events** (`log_zones`): zone and record creation, modification, and deletion
 - **Group events** (`log_groups`): group creation/editing/deletion, membership and zone assignment changes
 
@@ -16,6 +16,8 @@ Database logging records operations across four log tables:
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `logging.database_enabled` | false | Enable database logging |
+| `logging.api_request_logging` | false | Log every public API request to `log_api` (requires `database_enabled`); permission violations are logged regardless (added in v4.5.0) |
+| `logging.api_log_retention_days` | 0 | Days to keep `log_api` rows; 0 = keep forever (added in v4.5.0) |
 | `logging.dblog.use` | false | Legacy setting (v3.x) |
 
 ## Modern Configuration
@@ -95,6 +97,8 @@ environment:
 
 - API key creation, editing, and deletion
 - API key regeneration and toggling (enable/disable)
+- Permission violations (401/403 responses) on the public API - logged whenever `database_enabled` is on
+- Per-request public API calls (method, path, status, key id, user, client IP) - only when `api_request_logging` is enabled, since this is high volume
 
 ### Zone Events
 
@@ -115,7 +119,7 @@ environment:
 Administrators can view logs through the web interface:
 
 - **Users** > **User logs** - user and authentication events
-- **Tools** > **API Logs** - API key management events
+- **Tools** > **API Logs** - API key management, per-request API activity, and permission violations
 - **Zones** > **Zone logs** - zone and record events
 - **Groups** > **Group logs** - group membership and zone assignment events
 
@@ -166,6 +170,8 @@ DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 ```
 
 You can automate this with a cron job or scheduled task.
+
+The `log_api` table has built-in retention: set `logging.api_log_retention_days` to a positive number of days and Poweradmin prunes older API log rows automatically (opportunistically, during API request logging). Leave it at `0` to keep API logs forever and manage them manually as above. This applies only to `log_api`; the other log tables have no built-in pruning.
 
 ## Performance Considerations
 

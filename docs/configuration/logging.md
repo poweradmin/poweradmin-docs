@@ -24,6 +24,8 @@ Controlled by `type` and `level`. Used for troubleshooting application issues su
 | $logger_type | logging.type | null | Diagnostic logger type: null (disabled), native (PHP error_log) | 3.9.0 |
 | $logger_level | logging.level | info | Diagnostic logging level (debug, info, notice, warning, error, critical, alert, emergency) | 3.9.0 |
 | $dblog_use | logging.database_enabled | false | Enable audit logging to database (log_users, log_zones, log_groups tables) | 3.2.0 |
+| N/A | logging.api_request_logging | false | Log every public API request to log_api (requires database_enabled); permission violations logged regardless | 4.5.0 |
+| N/A | logging.api_log_retention_days | 0 | Days to keep log_api rows; 0 = keep forever | 4.5.0 |
 | $syslog_use | logging.syslog_enabled | false | Enable audit logging to syslog | 2.1.6 |
 | $syslog_ident | logging.syslog_identity | poweradmin | Specifies program name which is added to syslog message | 2.1.6 |
 | $syslog_facility | logging.syslog_facility | LOG_USER | Specifies what type of program is logging the message | 2.1.6 |
