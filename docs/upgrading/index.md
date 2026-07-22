@@ -93,6 +93,7 @@ The following versions include important database structure changes:
 - [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, groups support, bulk record operations
 - [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
 - [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
+- [v4.5.0](v4.5.0.md) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
 
 ### Recent Patch Releases
 
