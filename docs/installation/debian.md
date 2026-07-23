@@ -91,10 +91,10 @@ For Caddy servers, use the configuration example from the repository:
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release from the [stable line](https://github.com/poweradmin/poweradmin/releases) (currently the 4.2.x series). Always check the releases page for the most recent version - the example below uses v4.2.3:
+Download the latest release from the [stable line](https://github.com/poweradmin/poweradmin/releases) (currently the 4.3.x series). Always check the releases page for the most recent version - the example below uses v4.3.4:
 
 ```bash
-VERSION=4.2.3
+VERSION=4.3.4
 wget https://github.com/poweradmin/poweradmin/archive/refs/tags/v${VERSION}.zip
 unzip v${VERSION}.zip
 ```
