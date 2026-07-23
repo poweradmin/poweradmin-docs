@@ -174,8 +174,8 @@ We recommend planning your migration to 4.x when your schedule allows, while the
 | **4.4.x** | Fresh release line (4.4.0, Jul 2026) - no dedicated branch yet | 8.2 - 8.5 |
 | **4.3.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
 | **4.2.x** | Maintenance - security fixes only | 8.2 - 8.5 |
-| **4.1.x** | Active maintenance | 8.1 - 8.5 |
-| **4.0.x** | Retired - upgrade to 4.2.x | 8.1 - 8.5 |
+| **4.1.x** | End of support - upgrade to 4.3.x | 8.1 - 8.5 |
+| **4.0.x** | End of support - upgrade to 4.3.x | 8.1 - 8.5 |
 | **3.9.x** | LTS | 8.1 - 8.5 |
 | **3.8.x and older** | EOL | - |
 
