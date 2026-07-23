@@ -93,19 +93,23 @@ The following versions include important database structure changes:
 - [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, groups support, bulk record operations
 - [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
 - [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
-- [v4.5.0](v4.5.0.md) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
+- [v4.5.0](v4.5.0.md) (unreleased - in development on the develop branch) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
 
 ### Recent Patch Releases
 
-The following releases are bug fix updates with no special upgrade steps required. Simply replace files and preserve your configuration:
+The following releases are bug fix updates. Unless marked otherwise, no special upgrade steps are required - simply replace files and preserve your configuration. Releases marked **requires SQL migration** need their `sql/` update script run first:
 
 **v4.3.x Series:**
 
+- **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
+- **v4.3.3** (Jun 2026) - Permission and authorization hardening across API and DNSSEC, API-backend mode polish (record ordering, dashboard resilience), template sync correctness, Docker schema initialization
 - **v4.3.2** (May 2026) - API-mode zone handling (reverse zone owner display, DNSSEC status on forward zones, record counts from PowerDNS, zone kind sync), template fixes (correct sync column, preserved spaces, API-mode safe), `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, DNSSEC sign events in activity feed
 - **v4.3.1** (Apr 2026) - Patch release for 4.3.x line
 
 **v4.2.x Series:**
 
+- **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
+- **v4.2.4** (Jun 2026) - Same fixes as v4.3.3 for the 4.2.x line
 - **v4.2.3** (May 2026) - `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, PostgreSQL `record_comment_links` strict-typing fix, bulk record CSV escaping, CNAME validator accepts numeric-string IDs, API record edits honor `zone_content_edit_own_as_client`, Users API `auth_method`/`use_ldap` sync, zone template column and content-listing fixes
 - **v4.2.2** (Apr 2026) - Patch release for 4.2.x line
 - **v4.2.1** (Apr 2026) - Patch release for 4.2.x line
@@ -126,6 +130,8 @@ The following releases are bug fix updates with no special upgrade steps require
 
 **v3.9.x Series (LTS):**
 
+- **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates
+- **v3.9.10** (Mar 2026) - Translation updates for all locales
 - **v3.9.9** (Jan 2025) - Allow HTML characters in TXT records, fix record name handling
 - **v3.9.8** (Jan 2025) - CSRF protection, PostgreSQL fixes, API error handling improvements
 - **v3.9.6** (Oct 2024) - CAA record validation support
@@ -165,9 +171,9 @@ We recommend planning your migration to 4.x when your schedule allows, while the
 
 | Branch | Status | PHP Versions |
 |--------|--------|--------------|
-| **4.4.x** | In progress (master) | 8.2 - 8.5 |
-| **4.3.x** | Newer line, stabilizing | 8.2 - 8.5 |
-| **4.2.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
+| **4.4.x** | Fresh release line (4.4.0, Jul 2026) - no dedicated branch yet | 8.2 - 8.5 |
+| **4.3.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
+| **4.2.x** | Maintenance - security fixes only | 8.2 - 8.5 |
 | **4.1.x** | Active maintenance | 8.1 - 8.5 |
 | **4.0.x** | Retired - upgrade to 4.2.x | 8.1 - 8.5 |
 | **3.9.x** | LTS | 8.1 - 8.5 |
