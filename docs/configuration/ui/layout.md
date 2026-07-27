@@ -113,7 +113,7 @@ return [
 ];
 ```
 
-Absolute URLs (`https://cdn.example.com/...`) are used as-is. Path values are served from the Poweradmin web root and automatically get `base_url_prefix` applied, so `/branding/favicon.png` works unchanged whether Poweradmin runs at the domain root or in a subfolder.
+Absolute URLs (`https://cdn.example.com/...`) and protocol-relative URLs (`//cdn.example.com/...`) are used as-is. Path values are served from the Poweradmin web root and automatically get `base_url_prefix` applied, so `/branding/favicon.png` works unchanged whether Poweradmin runs at the domain root or in a subfolder.
 
 Notes:
 
