@@ -67,7 +67,14 @@ Poweradmin combines permissions from all sources. A user's effective permissions
 
 For example, if a user has a "Viewer" personal template but belongs to an "Editors" group that owns `example.com`, that user can edit records in `example.com` while having read-only access to everything else.
 
-> **Note:** Group permission templates only apply to zones owned by that group. They do not grant permissions for zones the user owns personally or through other groups.
+> **Note:** Zone-scoped permissions from a group template apply only to zones that group owns - they do not extend to zones the user owns personally or through other groups.
+>
+> This scoping is about *zones*, not about the permission set itself. Permissions that are
+> not zone-scoped take effect globally for every member: a group template carrying
+> `user_is_ueberuser` makes each member a full administrator everywhere, not just within
+> the group's zones. The installer ships an `Administrators` group bound to exactly such a
+> template. Creating and editing groups, and changing who belongs to one, is therefore
+> restricted to administrators.
 
 ## Permission Templates
 
