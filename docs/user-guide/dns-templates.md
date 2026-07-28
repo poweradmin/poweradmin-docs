@@ -89,6 +89,10 @@ Poweradmin also supports permission templates (different from zone templates):
 - **Editing permission templates**: Requires `templ_perm_edit` permission
 - **Deleting permission templates**: Requires `user_edit_templ_perm` permission
 
+None of these permissions allows granting administrator rights: a non-administrator
+cannot add `user_is_ueberuser` to a template, nor edit a template that already has it.
+See [Permissions](permissions.md#template-permissions).
+
 ## Default Zone Template
 
 A global zone template can be marked as the default. The marked template is pre-selected on the **Add master zone** form (instead of "none") and shown with a "(default)" suffix in the dropdown, so users know which template will be applied if they don't change the selection.

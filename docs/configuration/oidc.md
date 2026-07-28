@@ -25,6 +25,21 @@ Key features:
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
 | `oidc.default_permission_template` | "" | Default permission template for new users |
 
+### Superuser rights are never provisioned from an identity provider
+
+`oidc.allow_superuser_provisioning` (default `false`, added in 4.5.0) blocks two ways an
+IdP claim could otherwise mint a global administrator:
+
+- a `permission_template_mapping` entry pointing at a template that grants
+  `user_is_ueberuser`, and
+- a `group_mapping` entry pointing at a Poweradmin group whose template grants it - note
+  the installer ships an `Administrators` group bound to exactly such a template.
+
+With the default in place, both are refused and logged. If your deployment genuinely
+relies on the IdP deciding who is an administrator, set the flag to `true`; otherwise
+grant administrator rights in Poweradmin itself, where an existing administrator has to
+act.
+
 ### Account linking and template resolution
 
 `oidc.default_permission_template` must name a template that exists. When a new

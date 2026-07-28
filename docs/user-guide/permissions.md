@@ -153,6 +153,12 @@ This document provides detailed explanations of all user permissions available i
 - Can modify permission sets used for multiple users
 - Useful for maintaining consistent permission groups
 
+> **Neither permission can hand out administrator rights.** A template's permission
+> list is itself a grant of authority, so a holder of `templ_perm_add`/`templ_perm_edit`
+> who is not already an administrator cannot put `user_is_ueberuser` into a template,
+> and cannot edit a template that already carries it. The latter also prevents stripping
+> permissions off the Administrator template. Administrators are unaffected.
+
 ## Supermaster Permissions
 
 ### supermaster_view

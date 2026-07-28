@@ -25,6 +25,7 @@ LDAP settings can be configured in the `config/settings.php` file under the `lda
 | N/A | ldap.default_permission_template | Guest | Template for auto-provisioned users when no mapping matches | 4.5.0 |
 | N/A | ldap.groups_attribute | memberOf | LDAP attribute holding group memberships | 4.5.0 |
 | N/A | ldap.permission_template_mapping | [] | Maps LDAP groups to permission template names | 4.5.0 |
+| N/A | ldap.allow_superuser_provisioning | false | Let LDAP mappings grant `user_is_ueberuser` | 4.5.0 |
 | N/A | ldap.group_mapping | [] | Maps LDAP groups to Poweradmin group(s) | 4.5.0 |
 
 ## Modern Configuration Example
