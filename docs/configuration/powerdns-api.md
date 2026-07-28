@@ -104,6 +104,11 @@ API backend mode eliminates the need for Poweradmin to access the PowerDNS datab
 - Network policies prevent direct database access
 - You prefer API-first integration
 
+**PowerDNS 4.7 or newer is recommended.** API backend mode runs on any supported
+PowerDNS version, but zone listings are faster from 4.7 onward, where a single
+RRset can be fetched instead of a whole zone. See
+[Requirements](../getting-started/requirements.md#api-backend-mode).
+
 ### Configuration
 
 Set `dns.backend` to `api` in your `config/settings.php`:

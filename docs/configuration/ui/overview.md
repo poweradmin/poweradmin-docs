@@ -30,7 +30,7 @@ The following settings control the user interface appearance and behavior:
 - **display_template_in_zone_list**: Display template information in zone list. Default: `false`
 - **display_owner_in_zone_list**: Display owner column in zone lists (v4.5.0+). Default: `true`
 - **display_group_in_zone_list**: Display group column in zone lists (v4.5.0+). Default: `true`
-- **show_zone_record_count**: Display record count column in zone lists. Each user can override this via their preferences. Default: `true`
+- **show_zone_record_count**: Display record count column in zone lists. Each user can override this via their preferences. Default: `true`. In API backend mode this costs one PowerDNS request per zone shown on the page
 - **display_fullname_in_zone_list**: Show user's full name instead of username in zone lists. Default: `false`
 - **search_group_records**: Group records by name and content in search results. Default: `false`
 - **reverse_zone_sort**: Reverse zone sorting algorithm. Options: 'natural' (default), 'hierarchical' (experimental). Default: `natural`

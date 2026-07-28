@@ -145,6 +145,17 @@ While official testing is conducted with PowerDNS 4.7.4, community users have su
 - PowerDNS 4.9.x
 - PowerDNS 5.0.x and newer
 
+### API Backend Mode
+
+API backend mode (`dns.backend = api`) works on any supported version, but it is
+noticeably faster from **PowerDNS 4.7** onward:
+
+- **4.7+**: zone lists fetch only the SOA record when drawing zone health badges. Older servers ignore the filter and return the whole zone, so listing pages transfer far more data.
+- **4.3+**: zone lists skip the per-zone DNSSEC lookup when no column needs it.
+
+Nothing breaks on older versions - PowerDNS ignores query parameters it does not
+know - so this is a performance recommendation, not a requirement.
+
 ### Why Poweradmin Has Broad PowerDNS Compatibility
 
 Poweradmin maintains compatibility across PowerDNS versions due to its architectural design:
