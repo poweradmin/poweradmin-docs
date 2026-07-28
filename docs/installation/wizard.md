@@ -69,6 +69,28 @@ Once `config/settings.php` is in place, the installation is finished. For securi
 
 ![Installation complete](../screenshots/install-step8-complete.png)
 
+## Restricting Who Can Reach the Wizard
+
+`install/config.php` can limit the wizard to a set of addresses:
+
+```php
+'ip_access' => [
+    'enabled' => true,
+    'allowed_ips' => ['127.0.0.1', '::1'],
+    'allowed_ranges' => ['192.168.0.0/16'],
+    // Reverse proxies whose X-Forwarded-For header may be believed.
+    'trusted_proxies' => [],
+],
+```
+
+The allow-list is matched against the address the web server actually sees. An
+`X-Forwarded-For` header is only read when the connecting address appears in
+`trusted_proxies` - otherwise any client could set that header and name an allowed
+address. Leave `trusted_proxies` empty unless Poweradmin sits behind a reverse proxy,
+and list only the proxy addresses themselves.
+
+This gate is a convenience, not a substitute for removing `install/` once setup is done.
+
 ## Post-Installation
 
 1. Log in at `/login` with username **`admin`** and the Poweradmin account password from step 4.

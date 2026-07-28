@@ -73,6 +73,19 @@ permission error). Edit the records on the primary instead.
 | `PUT` | `/users/{id}` | Update user |
 | `DELETE` | `/users/{id}` | Delete user |
 
+Writing `perm_templ` is gated separately from the write itself, and a rejected
+assignment returns `403`:
+
+- Callers holding `user_is_ueberuser` may assign any template.
+- Callers holding `user_edit_templ_perm` may assign any template that does **not**
+  grant `user_is_ueberuser`, and may not change their own account's template unless
+  they also hold `user_edit_others`.
+- Everyone else may not send `perm_templ` at all.
+
+Omitting `perm_templ` on create assigns the least-privileged non-superuser template,
+whoever the caller is; it no longer falls back to template id 1. If no such template
+exists, the request fails rather than granting administrator rights.
+
 ### Groups (v4.2.0+)
 
 | Method | Path | Purpose |

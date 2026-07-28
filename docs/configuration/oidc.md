@@ -25,6 +25,23 @@ Key features:
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
 | `oidc.default_permission_template` | "" | Default permission template for new users |
 
+### Account linking and template resolution
+
+`oidc.default_permission_template` must name a template that exists. When a new
+user matches no group mapping and the named template cannot be found, provisioning
+is refused rather than falling back to an arbitrary template - the lowest template
+id is normally the bundled Administrator template.
+
+`oidc.link_by_email` only links an incoming identity to an existing local account when:
+
+- the ID token carries no `email_verified` claim, or carries one that is true. An
+  address the provider has not vouched for is not treated as proof of identity.
+- the matched local account does not hold `user_is_ueberuser`. A superuser account
+  is never claimed by email; link it explicitly by subject instead.
+
+Both checks are logged when they block a link, so a login that stops working after
+an upgrade can be traced in the application log.
+
 ## Permission Template Mapping
 
 Map OIDC groups to Poweradmin permission templates for automatic role assignment. This connects the group/role names from your OIDC token to Poweradmin's permission system.
