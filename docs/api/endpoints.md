@@ -86,6 +86,65 @@ Omitting `perm_templ` on create assigns the least-privileged non-superuser templ
 whoever the caller is; it no longer falls back to template id 1. If no such template
 exists, the request fails rather than granting administrator rights.
 
+#### Permission template and groups on reads (v4.5.0+)
+
+User reads carry the assigned permission template by ID and by name, plus the
+groups the user belongs to:
+
+```json
+{
+  "user_id": 5,
+  "username": "svc-acme",
+  "perm_templ": 2,
+  "perm_templ_name": "Zone Manager",
+  "groups": [{ "id": 3, "name": "dns-operators" }]
+}
+```
+
+`perm_templ_name` is `null` when the stored template no longer exists or is a
+group template rather than a user template.
+
+#### Assigning groups on create (v4.5.0+)
+
+`POST /users` accepts an optional `groups` array holding integer group IDs,
+exact group names, or a mix of both:
+
+```json
+{
+  "username": "svc-acme",
+  "password": "...",
+  "perm_templ": 2,
+  "groups": [3, "dns-operators"]
+}
+```
+
+The response lists the memberships that were actually created, so a caller does
+not have to assume the request took full effect:
+
+```json
+{ "user_id": 5, "groups": [{ "id": 3, "name": "dns-operators" }] }
+```
+
+Rules worth knowing before you script against it:
+
+- Sending `groups` requires `user_is_ueberuser`, because a group carries its own
+  permission template. Callers without it get `403`, even when they may otherwise
+  create users.
+- Names are matched exactly, including case and accents. `"Viewers"` resolves,
+  `"viewers"` does not. This is deliberate: MySQL's default collation would
+  otherwise accept variants that PostgreSQL and SQLite reject.
+- Numeric strings are treated as names, not IDs. Send `3` to reference group 3;
+  `"3"` is looked up as a group named `3` and will normally fail.
+- If any entry does not resolve to a group, the whole request returns `400` and
+  no user is created.
+- Naming the same group more than once, whether by ID and by name or by
+  repeating one value, still creates a single membership.
+- The array may hold up to 50 groups. A longer list returns `400` and creates
+  nothing.
+
+Membership changes after creation go through
+`POST`/`DELETE /groups/{id}/members`; `PUT /users/{id}` does not accept `groups`.
+
 ### Groups (v4.2.0+)
 
 | Method | Path | Purpose |
