@@ -37,6 +37,7 @@ The following settings control the user interface appearance and behavior:
 - **show_pdns_status**: Show PowerDNS server status page and dashboard card. Default: `false`
 - **show_dashboard_stats**: Show zone, record, user, and group counts on the dashboard for admin users. Default: `true`
 - **display_hostname_only**: Display only hostname part in zone edit form (strips zone suffix). Default: `false`
+- **wide_layout**: Use the full browser width instead of a fixed-width page (v4.5.0+). Site-wide default; each user can override this in their account preferences. Default: `false`
 - **enable_consistency_checks**: Enable database consistency checks page. Default: `false`
 
 ### Zone Editing Features

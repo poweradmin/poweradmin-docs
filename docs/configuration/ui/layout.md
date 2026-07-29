@@ -179,6 +179,25 @@ return [
 ];
 ```
 
+## Page Width
+
+By default pages are rendered in a fixed-width container, which leaves unused margins on wide monitors. Enabling
+the full-width layout lets the content span the entire browser window, which gives zone lists and other wide tables
+more room for long zone names.
+
+- **wide_layout**: Use the full browser width instead of a fixed-width page (v4.5.0+). Default: `false`
+
+```php
+return [
+    'interface' => [
+        'wide_layout' => true,
+    ],
+];
+```
+
+This is a site-wide default. Each user can override it under **Preferences -> Display Settings -> Full browser
+width**, so individual users can opt in or out regardless of the configured value.
+
 ## Pagination
 
 Control how many items appear per page:
