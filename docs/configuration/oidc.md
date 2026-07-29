@@ -15,6 +15,27 @@ Key features:
 - Support for multiple providers simultaneously
 - PKCE (Proof Key for Code Exchange) for enhanced security
 
+## Requirements
+
+### `interface.application_url` must be set
+
+OIDC will not start without it. The OAuth `redirect_uri` sent to the provider is built from `interface.application_url` alone, and no request header is consulted. With it unset, login fails and Poweradmin reports:
+
+```
+Failed to initiate OIDC authentication: interface.application_url must be configured
+before OIDC can be used: it defines the OAuth redirect_uri registered with the provider.
+```
+
+Set it to the full public URL of the install, matching the redirect URI registered with your provider:
+
+```php
+'interface' => [
+    'application_url' => 'https://dns.example.com/poweradmin',
+],
+```
+
+Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback has been removed: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could redirect the authorization code to another host.
+
 ## Global Settings
 
 | Setting | Default | Description |

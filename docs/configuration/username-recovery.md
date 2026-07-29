@@ -44,7 +44,7 @@ Username recovery requires:
 
 1. **Email configured**: Mail settings must be properly configured
 2. **User email addresses**: Users must have email addresses in their profiles
-3. **`interface.application_url` (recommended)**: When set, the login link in the email is built from this value. When empty, Poweradmin falls back to the web server's `SERVER_NAME` and emits an http/https link without the link's port - so deployments on non-standard public ports or behind Apache with `UseCanonicalName Off` should set `application_url` explicitly. If neither `application_url` nor `SERVER_NAME` is available, the email is still sent but the "Go to Login Page" link is omitted.
+3. **`interface.application_url` (recommended)**: The login link in the email is built from this value alone. No request header and no web server variable is consulted, because the email goes to the account owner and a forged host would point a third party at an attacker's site. When it is empty the email is still sent, but the "Go to Login Page" link is omitted.
 
 See [Mail Configuration](mail.md) for email setup.
 

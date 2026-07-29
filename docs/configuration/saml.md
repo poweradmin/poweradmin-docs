@@ -15,6 +15,29 @@ Key features:
 - Support for multiple providers simultaneously
 - SP metadata generation for easy IdP configuration
 
+## Requirements
+
+### `interface.application_url` must be set
+
+SAML needs it to derive the SP URLs. The `entityID`, ACS and SLO URLs advertised to the identity provider are built from `interface.application_url` alone, and no request header is consulted. With it unset and no explicit `sp` URLs configured, SAML login and `/saml/metadata` fail with:
+
+```
+Error generating SAML metadata: interface.application_url must be configured before SAML
+can be used: it defines the entityID and ACS URL advertised to the identity provider.
+```
+
+Set it to the full public URL of the install:
+
+```php
+'interface' => [
+    'application_url' => 'https://dns.example.com/poweradmin',
+],
+```
+
+Alternatively, set `sp.entity_id`, `sp.assertion_consumer_service_url` and `sp.single_logout_service_url` explicitly (see [Service Provider Configuration](#service-provider-sp-configuration)). Those are then used as given and nothing is derived, so `application_url` is not required for SAML.
+
+Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback has been removed: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could advertise an attacker's ACS URL to an IdP that consumes SP metadata dynamically.
+
 ## Global Settings
 
 | Setting | Default | Description |

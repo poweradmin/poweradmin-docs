@@ -115,6 +115,8 @@ return [
 ];
 ```
 
+The same setting is required for [OIDC](oidc.md#interfaceapplication_url-must-be-set) and [SAML](saml.md#interfaceapplication_url-must-be-set), which refuse to build the provider-bound redirect and metadata URLs without it. Poweradmin never derives these from the request: the web server takes `SERVER_NAME` from the client `Host` header under the official Docker image and under Apache's default `UseCanonicalName Off`.
+
 ## Google reCAPTCHA
 
 Protect login forms from automated attacks using Google reCAPTCHA:
