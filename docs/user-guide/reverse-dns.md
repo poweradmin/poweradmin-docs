@@ -180,7 +180,7 @@ RFC 2317 only applies when the sub-range doesn't align with a DNS label boundary
 
 ## Per-Record-Type Default TTLs (4.5.0)
 
-Admins can configure default TTLs per record type from **Tools → TTL defaults** (`/tools/record-type-defaults`). Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
+Admins can configure default TTLs per record type from **Tools → TTL defaults** (`/tools/record-type-defaults`). Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
 
 The fallback chain (first non-null wins):
 
@@ -190,7 +190,7 @@ The fallback chain (first non-null wins):
 
 ## Default TTL for PTR Records (legacy)
 
-`dns.ttl_reverse` in `config/settings.php` is the legacy config-file knob that predates the per-type table. It still works as a fallback when no per-type row is configured: when set, it pre-fills the TTL field on the add-record form for reverse zones, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record. When unset, PTRs fall back to `dns.ttl`. Originally added in 4.4.0; extended to the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard in 4.5.0.
+`dns.ttl_reverse` in `config/settings.php` is the legacy config-file knob that predates the per-type table. It still works as a fallback when no per-type row is configured: when set, it pre-fills the TTL field on the add-record form for reverse zones, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record. When unset, PTRs fall back to `dns.ttl`. Originally added in 4.4.0; extended to the record APIs, RRSets, bulk records, and the DNS wizard in 4.5.0.
 
 ```php
 'dns' => [

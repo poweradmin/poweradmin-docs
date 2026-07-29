@@ -12,7 +12,7 @@ DNS settings in Poweradmin can be configured through the `config/settings.php` f
 | $dns_ns3 | dns.ns3 | no default | The third nameserver. | |
 | $dns_ns4 | dns.ns4 | no default | The fourth nameserver. | |
 | $dns_ttl | dns.ttl | 86400 | The default TTL for records (in seconds). | |
-| - | dns.ttl_reverse | null | Default TTL for PTR records in reverse zones. When `null`, falls back to `dns.ttl`. When configured, the value pre-fills the TTL field on the reverse-zone add-record form, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record (the matched forward record's TTL is overridden). The same default is applied server-side by the v1/v2 record APIs, RRSets, bulk records, and the DNS wizard when the request omits a `ttl` field. | 4.4.0 (UI), 4.5.0 (APIs + wizard) |
+| - | dns.ttl_reverse | null | Default TTL for PTR records in reverse zones. When `null`, falls back to `dns.ttl`. When configured, the value pre-fills the TTL field on the reverse-zone add-record form, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record (the matched forward record's TTL is overridden). The same default is applied server-side by the record APIs, RRSets, bulk records, and the DNS wizard when the request omits a `ttl` field. | 4.4.0 (UI), 4.5.0 (APIs + wizard) |
 | $dns_soa | (see below) | 28800 7200 604800 86400 | SOA settings for refresh, retry, expire and minimum | 2.2.3 |
 | - | dns.soa_refresh | 28800 | SOA refresh time | 2.2.3 |
 | - | dns.soa_retry | 7200 | SOA retry time | 2.2.3 |

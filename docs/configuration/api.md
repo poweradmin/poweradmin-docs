@@ -104,7 +104,7 @@ API keys provide secure, token-based authentication:
 ```bash
 curl -H "X-API-Key: your-api-key-here" \
      -H "Content-Type: application/json" \
-     https://your-domain.com/api/v1/zones
+     https://your-domain.com/api/v2/zones
 ```
 
 ### HTTP Basic Authentication
@@ -114,12 +114,12 @@ Traditional username/password authentication:
 ```bash
 curl -u username:password \
      -H "Content-Type: application/json" \
-     https://your-domain.com/api/v1/zones
+     https://your-domain.com/api/v2/zones
 ```
 
 ## API Endpoints
 
-Poweradmin provides two API versions. API v2 (introduced in v4.1.0) is recommended for all new integrations. API v1 remains available for backward compatibility.
+API v2 (introduced in v4.1.0) is the current API and is recommended for every integration. API v1 was deprecated in 4.3.0 and removed in 4.5.0; on 4.2.x-4.4.x it is still available for backward compatibility.
 
 ### API v2 Endpoints *(v4.1.0+)*
 
@@ -199,9 +199,9 @@ When a `POST` request to any of the create endpoints omits the `ttl` field, the 
 - `POST /api/v2/groups/{id}/zones` - Assign zone to group
 - `DELETE /api/v2/groups/{id}/zones/{zone_id}` - Remove zone from group
 
-### API v1 Endpoints (Legacy)
+### API v1 Endpoints (Legacy, removed in 4.5.0)
 
-API v1 is available for backward compatibility. Consider migrating to v2 for new integrations.
+API v1 is available on 4.2.x-4.4.x for backward compatibility. It was deprecated in 4.3.0 and removed in 4.5.0, where every `/api/v1` path answers `410 Gone` with a pointer to `/api/v2`. Migrate to v2 before upgrading.
 
 - `GET/POST /api/v1/zones` - List / create zones
 - `GET/PUT/DELETE /api/v1/zones/{id}` - Get / update / delete zone
@@ -358,14 +358,14 @@ Starting with v4.0.1, pagination is optional for zones and users endpoints (issu
 
 **Without pagination (returns all results):**
 ```bash
-GET /api/v1/zones
-GET /api/v1/users
+GET /api/v2/zones
+GET /api/v2/users
 ```
 
 **With pagination:**
 ```bash
-GET /api/v1/zones?page=1&limit=50
-GET /api/v1/users?page=2&limit=25
+GET /api/v2/zones?page=1&limit=50
+GET /api/v2/users?page=2&limit=25
 ```
 
 ### Pagination Response

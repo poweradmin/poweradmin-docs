@@ -10,7 +10,7 @@ This page gets you from zero to a scripted record update in about five minutes.
 
 ## What you get
 
-- A REST API (`/api/v1` and `/api/v2`) with predictable JSON responses
+- A REST API (`/api/v2`) with predictable JSON responses
 - Per-user API keys that can be revoked or rotated
 - Interactive OpenAPI/Swagger docs at `/api/docs`
 - The same validation Poweradmin applies in the web UI (record types,

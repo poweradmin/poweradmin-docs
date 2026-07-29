@@ -130,12 +130,14 @@ exists, the request fails rather than granting administrator rights.
 
 ## API v1 endpoints
 
-API v1 remains available for backward compatibility under `/api/v1`. The
-endpoint surface is similar but the response envelope is less consistent and
-several v2 features (RRsets, bulk records, zone owners, groups, zone
-templates) are not available. See
-[API Configuration](../configuration/api.md#api-v1-endpoints-legacy) for the
-v1 endpoint list and consider migrating new code to v2.
+**Removed in 4.5.0.** On 4.5.0 and later, every `/api/v1` path answers
+`410 Gone` and points at `/api/v2`.
+
+On 4.2.x-4.4.x, v1 is still available under `/api/v1`. The endpoint surface is
+similar but the response envelope is less consistent and several v2 features
+(RRsets, bulk records, zone owners, groups, zone templates) are not available.
+See [API Configuration](../configuration/api.md#api-v1-endpoints-legacy) for
+the v1 endpoint list, and migrate to v2 before upgrading to 4.5.0.
 
 ## Pagination
 

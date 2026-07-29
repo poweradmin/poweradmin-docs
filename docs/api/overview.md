@@ -14,11 +14,21 @@ For the full list of configuration options and security recommendations, see
 
 | Version | Base path | Status | When to use |
 |---------|-----------|--------|-------------|
-| **v2** | `/api/v2` | Recommended | All new integrations. Consistent response envelope, RRset endpoints, bulk record creation, zone owners, zone templates, groups. |
-| **v1** | `/api/v1` | Legacy, still supported | Existing integrations that have not migrated yet. |
+| **v2** | `/api/v2` | Recommended | All integrations. Consistent response envelope, RRset endpoints, bulk record creation, zone owners, zone templates, groups. |
+| **v1** | `/api/v1` | Removed in 4.5.0 | Nothing new. Deprecated in 4.3.0, still present in 4.2.x-4.4.x. |
 
-Both versions ship together. You can use v1 and v2 from the same client; the
-API keys and authentication are shared.
+On 4.4.x and older, both versions ship together and share API keys and
+authentication, so you can use v1 and v2 from the same client.
+
+From 4.5.0 on, v1 is gone. Every `/api/v1` path answers `410 Gone` for every
+HTTP method, with a `Link: </api/v2/>; rel="successor-version"` header and a
+body of `{"error": true, "message": "..."}`. Migrate before upgrading.
+
+Two v2 differences catch most v1 clients out: v2 wraps every response in the
+envelope below, so list payloads are nested (`data.zones`, `data.users`,
+`data.templates`, `data.records`) rather than a bare `data` array; and API keys
+restricted to read-only or a narrow operation scope are now enforced on every
+request, where v1 requests were exempt.
 
 ## Response envelope
 
