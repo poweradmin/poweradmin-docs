@@ -21,6 +21,23 @@ These settings help prevent brute force attacks by temporarily locking accounts 
 - **track_ip_address**: Lock accounts based on IP address. Default: `true`
 - **clear_attempts_on_success**: Clear failed attempts after successful login. Default: `true`
 
+These settings govern the password stage only. The second factor is throttled separately - see [Second-factor attempt limit](#second-factor-attempt-limit) below.
+
+## Second-Factor Attempt Limit
+
+A six-digit second factor is small enough to guess, so MFA verification is rate limited on its own, independently of the account lockout above. This limit is always active when MFA is enabled: it does not require `enable_lockout`, which ships disabled (added in 4.5.0).
+
+- **mfa.max_verify_attempts**: Wrong MFA codes tolerated before verification is refused. Default: `5`
+- **mfa.verify_lockout_duration**: Minutes to keep refusing attempts once the limit is reached. Default: `15`
+
+Three behaviours differ from the password lockout, all deliberate:
+
+- MFA failures are counted per account across every source address. `track_ip_address` does not apply, because an attacker rotating addresses would otherwise reset the counter on each request.
+- `whitelist_ip_addresses` does not exempt the second factor. The whitelist exists so a bot cannot lock staff out of password login; the second factor is the only barrier left once a password is known, so it is never waived. The blacklist still applies.
+- Reaching the limit invalidates any pending emailed code, and no replacement is sent until the lockout expires.
+
+MFA failures are tracked separately from password failures, so a wrong code never blocks a later password login, and a fresh password login does not reset the MFA counter. Setting either value to `0` is treated as `1` rather than as "unlimited"; to remove the limit entirely, disable MFA.
+
 ## IP Address Management
 
 Control which IP addresses can access the system:
@@ -54,6 +71,8 @@ return [
             'email_enabled' => true,
             'recovery_codes' => 8,
             'recovery_code_length' => 10,
+            'max_verify_attempts' => 5,
+            'verify_lockout_duration' => 15,
         ],
         'password_reset' => [
             'enabled' => true,

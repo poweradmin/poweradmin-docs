@@ -73,6 +73,12 @@ If you lose access to your authenticator app or email:
 
 If you have no remaining recovery codes and cannot access your authenticator, contact your Poweradmin administrator. An admin can disable MFA on your account so you can set it up again.
 
+### Too many failed attempts
+
+After several wrong codes the verification screen stops accepting attempts for a while, and reports too many failed attempts. Recovery codes are refused during that period too, so a wrong-code lockout cannot be worked around with one. If you use email verification, any pending code is discarded and no replacement is sent until the wait is over.
+
+Wait for the period to pass and try again with a fresh code. Administrators can change how many attempts are allowed and how long the wait lasts - see [Configuration](#configuration).
+
 ## Configuration
 
 MFA is configured in `config/settings.php` under the `security` section:
@@ -87,6 +93,8 @@ MFA is configured in `config/settings.php` under the `security` section:
         'email_enabled' => true,
         'recovery_codes' => 8,
         'recovery_code_length' => 10,
+        'max_verify_attempts' => 5,
+        'verify_lockout_duration' => 15,
     ],
 ],
 ```
@@ -98,5 +106,9 @@ MFA is configured in `config/settings.php` under the `security` section:
 - **email_enabled** - allow email verification method (requires [mail configuration](../configuration/mail.md)). Default: `true`
 - **recovery_codes** - number of recovery codes to generate per user. Default: `8`
 - **recovery_code_length** - character length of each recovery code. Default: `10`
+- **max_verify_attempts** - wrong codes tolerated before verification is refused. Default: `5` (added in 4.5.0)
+- **verify_lockout_duration** - minutes to keep refusing attempts once the limit is reached. Default: `15` (added in 4.5.0)
+
+The attempt limit is always active when MFA is enabled and does not depend on the account lockout settings. See [Second-factor attempt limit](../configuration/security-policies.md#second-factor-attempt-limit) for how it differs from password lockout.
 
 For the full list of security settings, see [Security Policies](../configuration/security-policies.md).

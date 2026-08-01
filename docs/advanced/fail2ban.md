@@ -49,6 +49,8 @@ The `operation:` token is what fail2ban filters on.
 | `mfa_verify` | INFO | MFA code accepted, user fully authenticated | No |
 | `mfa_failed` | WARNING | MFA code rejected after password was already correct | **Yes** - high-confidence brute force |
 
+From 4.5.0 the application also limits MFA attempts on its own, so a code-guessing run stops at the application layer whether or not fail2ban is configured. Banning on `mfa_failed` is still worthwhile: it cuts the attacker off at the network edge instead of letting them resume each time the lockout expires. See [Second-factor attempt limit](../configuration/security-policies.md#second-factor-attempt-limit).
+
 ### Why `login_error` is separate
 
 If you put `operation:login_error` into the same filter as
