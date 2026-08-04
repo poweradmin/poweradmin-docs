@@ -132,6 +132,18 @@ This document provides detailed explanations of all user permissions available i
 - Can modify user access by applying different templates
 - Streamlines permission management for administrators
 
+The permission delegates template management, not the granting of administrator rights.
+Two limits apply to holders who are not themselves administrators:
+
+- A template that grants `user_is_ueberuser` cannot be assigned to anyone, on either the
+  user editor or the user create form. Assigning one requires `user_is_ueberuser`.
+- The holder's own template can only be changed if they also hold `user_edit_others`.
+  Without it, the template stored on their account is kept and the submitted value is
+  ignored, so they cannot promote themselves.
+
+Both limits apply equally to the REST API user endpoints, so automation is held to the
+same rule as the web interface. Assigning any ordinary template is unaffected.
+
 ### user_is_ueberuser
 
 - Grants superuser status with full access to all functions
