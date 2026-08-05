@@ -88,6 +88,50 @@ Starting in v4.1.0, the zone editor supports configurable columns. You can show 
 
 Starting in v4.1.0, you can sort records by clicking column headers. This helps when working with large zones to quickly find specific records.
 
+## Zone Metadata
+
+Starting in v4.5.0, the **Metadata** button on the zone editor opens an editor for the zone's
+PowerDNS domain metadata - the per-zone settings that control transfers, notifies, serial
+policy and DNSSEC behaviour. Each row is a metadata *kind* and one value.
+
+Kinds with a fixed set of valid values (`SOA-EDIT`, `SOA-EDIT-API`, `SOA-EDIT-DNSUPDATE`,
+`API-RECTIFY`, `NSEC3NARROW`) offer a dropdown instead of a free-text field. Kinds your
+PowerDNS version does not support yet are listed but disabled, with the required version
+shown. Kinds not in the built-in list can be added through the **Custom** entry.
+
+Some kinds accept several values - `ALLOW-AXFR-FROM`, `ALLOW-DNSUPDATE-FROM`, `ALSO-NOTIFY`,
+`TSIG-ALLOW-AXFR`, `TSIG-ALLOW-DNSUPDATE`, `GSS-ALLOW-AXFR-PRINCIPAL` and `PUBLISH-CDS`. Add
+one row per value. Every other kind holds a single value.
+
+### Restrictions with the PowerDNS API backend
+
+When Poweradmin talks to PowerDNS over its HTTP API rather than directly to the database,
+PowerDNS itself limits what can be written, and the editor marks the affected rows
+**Read-only**:
+
+| Kind | Behaviour |
+|---|---|
+| `SOA-EDIT`, `SOA-EDIT-API`, `API-RECTIFY`, `NSEC3PARAM`, `NSEC3NARROW` | Writable, but stored as zone properties rather than metadata entries |
+| `PRESIGNED`, `LUA-AXFR-SCRIPT`, `ENABLE-LUA-RECORDS` | Read-only - PowerDNS offers no API route for them. Use `pdnsutil` or the database |
+| `AXFR-MASTER-TSIG` | Read-only - PowerDNS requires a TSIG key id, which Poweradmin cannot supply yet |
+| `CATALOG-HASH` | Read-only - PowerDNS maintains it for catalog zones |
+
+Two further rules apply in this mode:
+
+- **Custom kinds must start with `X-`.** PowerDNS rejects any other unknown kind.
+- **`NSEC3NARROW` needs `NSEC3PARAM`.** PowerDNS ignores narrow mode unless the zone also
+  carries NSEC3 parameters, so the editor asks for both.
+
+Editing a restricted kind reports an error rather than silently doing nothing. None of these
+restrictions apply when Poweradmin writes to the PowerDNS database directly.
+
+### Metadata over the API
+
+The v2 API exposes the same data at `/api/v2/zones/{id}/metadata`, with `GET`, `PUT` and
+`DELETE` on `/api/v2/zones/{id}/metadata/{kind}`. It enforces the same value vocabularies and
+the same backend restrictions, and requires the `zone_meta_edit_own` or
+`zone_meta_edit_others` permission.
+
 ## Bulk Operations
 
 Starting in v4.0.0, you can add multiple records to a zone at once:
