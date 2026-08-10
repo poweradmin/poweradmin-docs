@@ -82,7 +82,7 @@ The configuration is organized into logical sections:
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `security.session_key` | p0w3r4dm1n | Session encryption key (change this!) |
+| `security.session_key` | change_this_key | Session encryption key (change this!) |
 | `security.password_encryption` | bcrypt | Hash algorithm: bcrypt, argon2i, argon2id |
 | `security.password_cost` | 12 | Bcrypt cost parameter |
 | `security.login_token_validation` | true | CSRF protection for login |

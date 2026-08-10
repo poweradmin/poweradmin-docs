@@ -11,6 +11,36 @@ Poweradmin offers various security features to protect your DNS management syste
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
 - **trusted_proxies**: Reverse proxy addresses allowed to set forwarded client-IP headers (`X-Forwarded-For`, `X-Real-IP`, `Client-IP`). Supports IPs, CIDRs (IPv4/IPv6), and IPv4 wildcards. Private and loopback peers are always trusted; add public proxy addresses here so their forwarded headers are honored. Default: `[]` (added in 4.5.0)
 
+## Rotating the Session Key
+
+`session_key` encrypts the credentials Poweradmin holds in the session. Its strength decides whether a leaked session store yields only password hashes or usable plaintext passwords, so it is worth treating as a secret in its own right.
+
+Replace the current value if any of these apply:
+
+- It is still `change_this_key`, or `p0w3r4dm1n` on the 3.x line. Both are published defaults and are in the public source tree.
+- The configuration file has ever been committed to version control, copied between environments, or shared in a support thread.
+- The key was written for you by the web installer before 4.5.0 (4.4.2, 4.3.6, 4.2.7 and 3.9.13 on the older lines). Those releases built it with `mt_rand()`, which is seeded from a 32-bit value, so the key is far weaker than its length suggests. Installations set up through Docker are unaffected: the entrypoint has always used `openssl rand`.
+
+Generate a replacement from a real random source:
+
+```bash
+openssl rand -hex 32
+```
+
+Then set it in `config/settings.php`:
+
+```php
+return [
+    'security' => [
+        'session_key' => 'the-generated-value',
+    ],
+];
+```
+
+Rotating logs everyone out, because sessions encrypted under the old key can no longer be read. Nothing else is affected: stored password hashes, API keys, zone data and permissions do not depend on this value.
+
+Poweradmin shows a warning in the page header, visible to superusers, when the configured key is missing, is one of the shipped defaults, or is shorter than 32 characters. The check can only judge length and known values, not the quality of the generator that produced the key, so an installer-generated key of adequate length will not raise a warning. If you do not know where your key came from, rotate it.
+
 ## Account Lockout
 
 These settings help prevent brute force attacks by temporarily locking accounts after multiple failed login attempts:
