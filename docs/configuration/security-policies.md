@@ -19,7 +19,7 @@ Replace the current value if any of these apply:
 
 - It is still `change_this_key`, or `p0w3r4dm1n` on the 3.x line. Both are published defaults and are in the public source tree.
 - The configuration file has ever been committed to version control, copied between environments, or shared in a support thread.
-- The key was written for you by the web installer before 4.5.0 (4.4.2, 4.3.6, 4.2.7 and 3.9.13 on the older lines). Those releases built it with `mt_rand()`, which is seeded from a 32-bit value, so the key is far weaker than its length suggests. Installations set up through Docker are unaffected: the entrypoint has always used `openssl rand`.
+- The key was written for you by the web installer before 4.5.0 (4.4.1, 4.3.5, 4.2.6 and 3.9.12 on the older lines). Those releases built it with `mt_rand()`, which is seeded from a 32-bit value, so the key is far weaker than its length suggests. Installations set up through Docker are unaffected: the entrypoint has always used `openssl rand`.
 
 Generate a replacement from a real random source:
 
