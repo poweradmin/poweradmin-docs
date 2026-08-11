@@ -23,6 +23,9 @@ extra_css:
   - css/extra.css
 
 # superfences renders code fences nested in lists, which the default fenced_code extension breaks
+# Do not write "!!! note" admonitions in the docs. The admonition extension is not enabled, so
+# the marker line renders as visible literal text and any further indented paragraph turns into
+# a code block. Use a blockquote callout instead, e.g. > **Note:** text
 markdown_extensions:
   - pymdownx.superfences
 
