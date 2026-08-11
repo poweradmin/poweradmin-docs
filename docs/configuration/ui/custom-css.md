@@ -76,12 +76,37 @@ templates/default/style/
 
 ### Wider Content Area
 
+The page shell is built from Bootstrap `.container` elements, which are capped at 1320px on
+large screens. Release that cap to use the whole browser width:
+
 ```css
-/* custom_light.css */
-.container-fluid {
+/* custom_light.css and custom_dark.css */
+.container {
+    max-width: none;
+}
+```
+
+Use a pixel value instead of `none` if you want a wider page but still want a limit:
+
+```css
+.container {
     max-width: 1600px;
 }
 ```
+
+Put the rule in both `custom_light.css` and `custom_dark.css`. The stylesheet filename is
+chosen from the theme saved in the browser, not from the `style` setting on the server, so a
+user who switches to dark with only `custom_light.css` present gets a 404 and no widening.
+
+**Version 4.5.0 and later:** this is built in. Each user can turn it on under
+Account > Preferences > Display Settings with the "Full browser width" switch, and
+`interface.wide_layout` in `config/settings.php` sets the default for the whole installation.
+The custom CSS above is still the way to do it on 4.1.0 through 4.4.x.
+
+**Version 4.0.x and 3.x:** custom stylesheets were added in 4.1.0, so there is no hook on
+earlier releases. The rule has to go into the theme stylesheet itself, either
+`templates/<theme>/style/light.css` and `dark.css` on 4.0.x, or `style/ignite.css` and
+`style/spark.css` on 3.x. Those edits are overwritten on upgrade.
 
 ## Tips
 
