@@ -74,6 +74,31 @@ This document provides detailed explanations of all user permissions available i
 - Applies to the web UI and the record APIs
 - Added in v4.5.0
 
+### zone_metadata_view_own / zone_metadata_view_others
+
+- Allow the user to see a zone's PowerDNS metadata, for zones they own and for zones they do not
+- Split out of `zone_content_view_own` / `zone_content_view_others` so metadata visibility can be withheld from users who may still read records
+- The 4.5.0 migration auto-grants each of these to every permission template that already held the matching `zone_content_view_*`, so nothing a user could see before the upgrade disappears
+- Viewing only. Editing metadata still requires `zone_meta_edit_own` or `zone_meta_edit_others`
+- See [Zone Metadata](zones.md#zone-metadata)
+- Added in v4.5.0
+
+### zone_ownership_view_own / zone_ownership_view_others
+
+- Allow the user to see who owns a zone, for zones they own and for zones they do not
+- Split out of `zone_content_view_*` on the same terms as the metadata permissions above, and auto-granted the same way on upgrade
+- Useful for hiding the customer list in multi-tenant installations while leaving record access intact
+- Added in v4.5.0
+
+### zone_dnssec_manage_own
+
+- Allows the user to manage DNSSEC keys for zones they own: add, edit, activate, deactivate, delete, and import or export keys
+- Previously key management was superuser-only, so delegating DNSSEC meant handing out full superuser rights
+- Independent of record editing. A user can be allowed to manage keys without being allowed to edit records, and the reverse
+- Zones marked `PRESIGNED` are excluded - Poweradmin does not manage keys for zones signed elsewhere
+- See [DNSSEC](../configuration/dnssec.md)
+- Added in v4.5.0
+
 ### zone_delete_own
 
 - Allows the user to delete zones they own

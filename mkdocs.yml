@@ -113,6 +113,9 @@ nav:
           - DNS Templates: user-guide/dns-templates.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
           - Bulk and Batch Operations: user-guide/bulk-operations.md
+          - Record Change Log: user-guide/record-change-log.md
+          - Secondary Zone Import: user-guide/secondary-zone-import.md
+          - Views and Networks: user-guide/views-networks.md
           - NAPTR Records: user-guide/naptr-records.md
           - TXT Records (SPF / DKIM / DMARC): user-guide/txt-records.md
           - Dynamic DNS:

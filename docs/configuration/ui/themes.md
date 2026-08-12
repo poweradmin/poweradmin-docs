@@ -4,10 +4,18 @@ Poweradmin includes built-in themes that can be selected through the configurati
 
 ## Available Themes
 
-Poweradmin comes with the following themes:
+Poweradmin ships two complete themes:
 
-- **default**: The standard theme
-- **custom**: For custom theme templates
+- **default**: The standard theme, with navigation across the top of the page.
+- **modern** *(since v4.1.0)*: A Bootstrap 5 layout with a collapsible sidebar instead of a
+  top bar, tuned for smaller screens. It carries the same set of templates as `default` and
+  is kept in sync with it, so every page exists in both.
+
+A third value, **custom**, points Poweradmin at your own template directory - see
+[Creating Custom Themes](#creating-custom-themes) below.
+
+Both shipped themes support the light and dark styles, and both can be restyled without
+forking through [Custom CSS](custom-css.md).
 
 ## Theme Configuration
 
@@ -16,12 +24,15 @@ Configure your preferred theme in the `settings.php` file under the `interface` 
 ```php
 return [
     'interface' => [
-        'theme' => 'default',  // Options: 'default', 'custom', etc.
+        'theme' => 'default',  // Options: 'default', 'modern', 'custom'
         'style' => 'light',    // Options: 'light', 'dark'
         'theme_base_path' => 'templates', // Base path for theme templates
     ],
 ];
 ```
+
+> **Note:** The theme sets the layout. The style (light or dark) is a separate setting, and
+> users can override it for themselves from the toggle in the page footer.
 
 ## Theme Screenshots
 

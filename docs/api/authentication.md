@@ -37,6 +37,38 @@ The key inherits the permissions of the user it belongs to. If that user can
 edit zone X in the web UI, the key can edit zone X over the API; if they
 cannot, the key cannot either.
 
+### Restricting what a key can do
+
+*Available since v4.5.0.*
+
+By default a key can do everything its owner can. The add and edit forms let you
+narrow that down, which is what you want for a key handed to a monitoring agent, a
+CI job, or a single application.
+
+![Add API Key](../screenshots/api-key-add.png)
+
+Three independent restrictions are available:
+
+| Restriction | Effect |
+|---|---|
+| **Read-only** | Only `GET` and `HEAD` requests are accepted. Everything else gets `403`. |
+| **Allowed operations** | Tick any of `view`, `create`, `update`, `delete`. A request whose operation is not ticked gets `403`. Leave all unticked to allow every operation. |
+| **Zone access** | Select specific zones. Requests targeting any other zone get `403`. Leave empty to allow every zone the owner can reach. |
+
+Operations map onto HTTP methods: `POST` is create, `PUT` and `PATCH` are update,
+`DELETE` is delete, and everything else is view. Endpoints that do more than one
+thing in a single request, such as a dynamic DNS upsert or a bulk record change,
+must satisfy every operation they perform.
+
+Restrictions only narrow access - they never widen it. A read-only key belonging to
+a user with no zone permissions still cannot read anything.
+
+Existing keys are unrestricted after an upgrade, so nothing changes until you
+edit a key and apply restrictions.
+
+> **Note:** These restrictions are enforced on API v2 only. API v1 was removed in
+> 4.5.0 and answers `410 Gone`.
+
 ### Rotating and revoking keys
 
 From **Settings -> API Keys** you can:

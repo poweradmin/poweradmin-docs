@@ -21,6 +21,31 @@ The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the init
 
 ![Template Editor](/screenshots/template-editor.png)
 
+### Saving an existing zone as a template
+
+*Available since v4.2.0.*
+
+Rather than building a template record by record, you can turn a zone you already have into
+one. On the zone editor, **Save as Template** (`/zones/{id}/save-template`) asks for a
+template name and description, then copies the zone's records into a new template.
+
+The copy is not literal. The zone's own name is replaced with `[ZONE]`, and the configured
+nameserver and hostmaster values are replaced with `[NS1]` and `[HOSTMASTER]`, so the
+template applies cleanly to any other zone.
+
+Two behaviours to expect:
+
+- **Record types you are not allowed to add are left out**, and the page tells you which ones
+  were skipped. A user who can read a zone containing record types their permissions do not
+  cover still gets a usable template from the rest.
+- **A default SOA record is added** if the source zone had none.
+
+This is the quickest way to capture a house standard: build one zone the way you want every
+zone to look, then save it as the template for the rest.
+
+It requires the same rights as creating a template by hand - the `zone_templ_add` permission,
+or superuser.
+
 ## Zone Template Application
 
 ### When Changing a Zone's Template
