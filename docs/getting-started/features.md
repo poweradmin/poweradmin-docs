@@ -29,7 +29,7 @@ Features without a version marker have been present since 3.x or earlier.
 | Zone ownership modes: users only, groups only, or both | 4.4.0 | [DNS Settings](../configuration/dns-settings.md) |
 | Pinned record types at the top of every selector | 4.4.0 | [Record Type Customization](../configuration/record-types.md) |
 | IP-aware search | 4.4.0 | [Zone Management](../user-guide/zones.md) |
-| Views and networks for split-horizon DNS | 4.4.0 | [Views and Networks](../user-guide/views-networks.md) |
+| Views and networks for split-horizon DNS (PowerDNS LMDB backend only) | 4.4.0 | [Views and Networks](../user-guide/views-networks.md) |
 | Per-record-type default TTLs | 4.5.0 | [Reverse DNS](../user-guide/reverse-dns.md#per-record-type-default-ttls-450) |
 | Read-only replicated zones with a Read-only badge | 4.5.0 | [Zone Management](../user-guide/zones.md) |
 | Zone overlap guard on creation | 4.5.0 | [DNS Settings](../configuration/dns-settings.md) |

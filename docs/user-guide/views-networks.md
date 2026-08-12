@@ -1,16 +1,48 @@
 # Views and Networks
 
-*Available since v4.4.0. Requires PowerDNS 5.0 or newer and the PowerDNS API backend.*
+*Available since v4.4.0.*
 
 PowerDNS 5.0 can answer the same query differently depending on which network the client
 came from - the feature usually called split-horizon DNS. Poweradmin exposes two pages for
 it: **Views**, which assigns zone variants to a view, and **Networks**, which maps client
 networks to views.
 
-> **Note:** Both pages are superuser-only, need `dns.backend` set to `api`, and refuse to
-> load on PowerDNS older than 5.0. On an older server the page reports "Views require
-> PowerDNS 5.0 or newer" instead of rendering. See
-> [PowerDNS API](../configuration/powerdns-api.md) for the backend setup.
+![Views](../screenshots/views-list.png)
+
+## Requirements
+
+Views have more prerequisites than most features, and three of them are on the PowerDNS side
+rather than in Poweradmin:
+
+| Requirement | Detail |
+|---|---|
+| PowerDNS 5.0 or newer | Older servers make the page report "Views require PowerDNS 5.0 or newer" instead of rendering |
+| **The LMDB backend** | Views are an LMDB-only feature. The generic SQL backends (`gmysql`, `gpgsql`, `gsqlite3`) do not implement them |
+| **`views=yes` in `pdns.conf`** | The setting is off by default, even on LMDB |
+| Poweradmin's API backend | `dns.backend` must be `api`; see [PowerDNS API](../configuration/powerdns-api.md) |
+| Superuser | Both pages are superuser-only |
+
+The backend requirement is the one that catches people out. Running PowerDNS 5.1 on `gmysql`
+looks like it should work, and the pages load, but PowerDNS rejects every view operation.
+`pdnsutil` says so plainly:
+
+```
+None of the configured backends support views.
+```
+
+You get the same message on LMDB when `views=yes` is missing, so check both before
+concluding the backend is wrong.
+
+A minimal PowerDNS configuration for views:
+
+```
+launch=lmdb
+lmdb-filename=/var/lib/powerdns/pdns.lmdb
+views=yes
+api=yes
+api-key=your-api-key
+webserver=yes
+```
 
 ## How the two pieces fit together
 
@@ -31,7 +63,12 @@ a form to add another.
 Two things to know:
 
 - **The variant zone must already exist in PowerDNS.** Poweradmin assigns an existing zone
-  to a view; it does not create the variant for you.
+  to a view; it does not create the variant for you. Create it with `pdnsutil`:
+
+```bash
+pdnsutil zone create example.com..trusted ns1.example.com
+```
+
 - **View names accept letters, digits, dots, underscores and hyphens.** Anything else is
   rejected.
 
@@ -40,6 +77,8 @@ To assign a zone, enter the view name (`trusted`) and the full variant zone name
 not delete the zone.
 
 ## Networks
+
+![Network views](../screenshots/networks-list.png)
 
 The Networks page is at `/networks`. Each network maps to exactly one view, and every
 resolver in that network sees only the zone variants belonging to it.
