@@ -23,8 +23,9 @@ rather than in Poweradmin:
 | Superuser | Both pages are superuser-only |
 
 The backend requirement is the one that catches people out. Running PowerDNS 5.1 on `gmysql`
-looks like it should work, and the pages load, but PowerDNS rejects every view operation.
-`pdnsutil` says so plainly:
+looks like it should work, because the version is new enough and listing views returns an
+empty list rather than an error. Every attempt to change one is then rejected. `pdnsutil`
+says so plainly:
 
 ```
 None of the configured backends support views.
@@ -32,6 +33,11 @@ None of the configured backends support views.
 
 You get the same message on LMDB when `views=yes` is missing, so check both before
 concluding the backend is wrong.
+
+Since v4.5.0 Poweradmin checks this for you. It reads the server's `launch` and `views`
+settings over the API, keeps both pages and their dashboard entries hidden when they cannot
+work, and names the missing prerequisite if you open the page directly. On PowerDNS 4.x, or
+when the API does not expose its configuration, the pages stay visible as before.
 
 A minimal PowerDNS configuration for views:
 
