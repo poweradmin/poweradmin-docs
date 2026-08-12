@@ -29,6 +29,7 @@ Pick the path that matches how you want to use Poweradmin:
 ## Documentation Sections
 
 - **[Getting Started](getting-started/overview.md)**: System requirements and feature overview
+- **[What's New](whats-new/index.md)**: What each 4.x release added, one page per release
 - **[Installation](installation/index.md)**: Detailed installation guides for different environments
 - **[Configuration](configuration/basic.md)**: All configuration options and settings
 - **[User Guide](user-guide/users-roles.md)**: Practical usage instructions
