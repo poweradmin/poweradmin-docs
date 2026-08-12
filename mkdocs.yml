@@ -99,6 +99,7 @@ nav:
       - Username Recovery: configuration/username-recovery.md
       - Avatar System: configuration/avatars.md
       - Database Logging: configuration/database-logging.md
+      - Admin-Managed Settings: configuration/admin-managed-settings.md
       - Legacy Configuration (v3.x): configuration/legacy-configuration.md
 
   - User Guide:

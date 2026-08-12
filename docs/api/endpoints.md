@@ -195,7 +195,7 @@ Membership changes after creation go through
 On 4.2.x-4.4.x, v1 is still available under `/api/v1`. The endpoint surface is
 similar but the response envelope is less consistent and several v2 features
 (RRsets, bulk records, zone owners, groups, zone templates) are not available.
-See [API Configuration](../configuration/api.md#api-v1-endpoints-legacy) for
+See [API Configuration](../configuration/api.md#api-v1-endpoints-legacy-removed-in-450) for
 the v1 endpoint list, and migrate to v2 before upgrading to 4.5.0.
 
 ## Pagination

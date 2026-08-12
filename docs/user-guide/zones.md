@@ -90,7 +90,7 @@ Starting in v4.1.0, you can sort records by clicking column headers. This helps 
 
 ## Zone Metadata
 
-Starting in v4.5.0, the **Metadata** button on the zone editor opens an editor for the zone's
+Starting in v4.3.0, the **Metadata** button on the zone editor opens an editor for the zone's
 PowerDNS domain metadata - the per-zone settings that control transfers, notifies, serial
 policy and DNSSEC behaviour. Each row is a metadata *kind* and one value.
 

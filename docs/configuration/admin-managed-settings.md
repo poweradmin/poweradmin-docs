@@ -18,7 +18,7 @@ The first non-null value wins. Reads are memoized within a single request.
 |---|---|
 | `config/settings.php` | Bootstrap configuration the app needs before the DB is reachable: database credentials, encryption keys, install paths, file logging targets. |
 | `app_settings` (DB) | Generic admin-managed knobs - UI toggles, defaults, thresholds. Reach for this when you want an admin to flip a value without editing files on disk. |
-| Dedicated table (e.g. [`record_type_defaults`](../user-guide/reverse-dns.md#per-record-type-default-ttls)) | Settings that have structure - per-type, per-zone, per-user overrides - or that need indexed lookups beyond a single key. |
+| Dedicated table (e.g. [`record_type_defaults`](../user-guide/reverse-dns.md#per-record-type-default-ttls-450)) | Settings that have structure - per-type, per-zone, per-user overrides - or that need indexed lookups beyond a single key. |
 
 ## Schema
 
@@ -57,5 +57,5 @@ When the schema update hasn't been applied yet, `DbAppSettingRepository::isReady
 ## What's not in 4.5.0
 
 - No setting has been moved from `config/settings.php` yet. The new table exists but is empty.
-- There is no admin UI for editing `app_settings` rows. Future features will add focused UIs (similar to [TTL defaults by record type](../user-guide/reverse-dns.md#per-record-type-default-ttls)) that read/write specific keys.
-- Per-user overrides remain in [`user_preferences`](../user-guide/index.md) - `app_settings` is system-wide.
+- There is no admin UI for editing `app_settings` rows. Future features will add focused UIs (similar to [TTL defaults by record type](../user-guide/reverse-dns.md#per-record-type-default-ttls-450)) that read/write specific keys.
+- Per-user overrides remain in [`user_preferences`](../user-guide/users-roles.md) - `app_settings` is system-wide.

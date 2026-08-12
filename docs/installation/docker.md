@@ -218,6 +218,7 @@ docker logs poweradmin | grep -i password
 | `DNS_NS1` | ns1.example.com | Primary nameserver |
 | `DNS_NS2` | ns2.example.com | Secondary nameserver |
 | `DNS_HOSTMASTER` | hostmaster.example.com | Hostmaster email |
+| `PA_DNS_BACKEND` | sql | DNS data backend: `sql` (direct database) or `api` (PowerDNS REST API, v4.3.0+). See [PowerDNS API](../configuration/powerdns-api.md) |
 
 ### Security
 
@@ -236,6 +237,7 @@ docker logs poweradmin | grep -i password
 | `PA_LOCKOUT_DURATION` | 15 | Lockout duration in minutes |
 | `PA_PASSWORD_RESET_ENABLED` | false | Enable password reset functionality |
 | `PA_USERNAME_RECOVERY_ENABLED` | false | Enable username recovery functionality |
+| `TRUSTED_PROXIES` | - | Comma-separated proxy CIDRs, or `private_ranges`, allowed to set forwarded-IP headers. See [Reverse Proxy](reverse-proxy.md) |
 
 ### Interface
 
