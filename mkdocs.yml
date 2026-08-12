@@ -50,6 +50,15 @@ nav:
 #          - Example Configurations: getting-started/examples.md
       - System Requirements: getting-started/requirements.md
 
+  - What's New:
+      - Overview: whats-new/index.md
+      - v4.5.0: whats-new/v4.5.0.md
+      - v4.4.0: whats-new/v4.4.0.md
+      - v4.3.0: whats-new/v4.3.0.md
+      - v4.2.0: whats-new/v4.2.0.md
+      - v4.1.0: whats-new/v4.1.0.md
+      - v4.0.0: whats-new/v4.0.0.md
+
   - Installation:
       - Overview: installation/index.md
       - Docker:
