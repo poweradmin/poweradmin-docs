@@ -33,7 +33,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install mkdocs mkdocs-glightbox pymdown-extensions
+        run: pip install mkdocs mkdocs-material mkdocs-glightbox pymdown-extensions
 
       - name: Build and deploy
         run: |

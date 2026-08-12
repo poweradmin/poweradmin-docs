@@ -6,31 +6,61 @@ repo_url: https://github.com/poweradmin/poweradmin-docs
 edit_uri: edit/main/docs/
 
 theme:
-  name: readthedocs
-  highlightjs: true
-  hljs_languages:
-    - php
+  name: material
+  language: en
+  logo: img/logo.png
+  favicon: img/favicon.ico
   features:
     - navigation.tabs
     - navigation.sections
-    - navigation.expand
+    - navigation.top
+    - navigation.tracking
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
     - search.highlight
-  extra:
-    - screenshots
-  custom_dir: overrides
-    
+    - search.share
+    - content.code.copy
+    - content.action.edit
+  # A neutral header with the brand red as the accent, which is how
+  # poweradmin.org itself uses #cc0000. Exact shades are in docs/css/extra.css.
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: red
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  icon:
+    repo: fontawesome/brands/github
+
 extra_css:
   - css/extra.css
 
 # superfences renders code fences nested in lists, which the default fenced_code extension breaks
-# Do not write "!!! note" admonitions in the docs. The admonition extension is not enabled, so
-# the marker line renders as visible literal text and any further indented paragraph turns into
-# a code block. Use a blockquote callout instead, e.g. > **Note:** text
 markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.details
   - pymdownx.superfences
-
-extra:
-  announcement: "This documentation covers Poweradmin 4.x. Some sections are still being expanded."
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+      pygments_lang_class: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
 
 validation:
   links:
