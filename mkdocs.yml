@@ -163,24 +163,30 @@ nav:
               - Client Setup: user-guide/ddns/client-setup.md
               - Using cURL: user-guide/ddns/using-curl.md
 
-  - Advanced Topics:
+  # Advanced Topics, Maintenance and Troubleshooting were three top-level
+  # sections holding five pages between them. Merged rather than kept as three
+  # near-empty tabs.
+  - Operations:
+      - Overview: maintenance/index.md
+      - Logging:
+          - Log Configuration: advanced/logging-config.md
+          - fail2ban Integration: advanced/fail2ban.md
+      - Troubleshooting:
+          - Debugging: troubleshooting/debugging.md
+          - Reset Admin Password: troubleshooting/reset-admin-password.md
+#      - Backup and Restore: maintenance/backup-restore.md
+#      - Monitoring: maintenance/monitoring.md
+#      - Log Analysis: advanced/log-analysis.md
+#      - Common Issues: troubleshooting/common-issues.md
+#      - FAQ: troubleshooting/faq.md
 #      - Security:
 #          - Best Practices: advanced/security-best-practices.md
 #          - API Security: advanced/api-security.md
 #          - Authentication Methods: advanced/authentication.md
-      - Logging:
-          - Log Configuration: advanced/logging-config.md
-          - fail2ban Integration: advanced/fail2ban.md
-#          - Log Analysis: advanced/log-analysis.md
 #      - Performance:
 #          - Optimization: advanced/optimization.md
 #          - Caching: advanced/caching.md
 
-  - Maintenance:
-      - Overview: maintenance/index.md
-#      - Backup and Restore: maintenance/backup-restore.md
-#      - Monitoring: maintenance/monitoring.md
-      
   - Upgrading:
       - Overview: upgrading/index.md
       - v4.x Series:
@@ -237,12 +243,6 @@ nav:
               - v2.1.2: upgrading/v2.1.2.md
               - v2.1.1: upgrading/v2.1.1.md
               - v2.1.0: upgrading/v2.1.0.md
-
-  - Troubleshooting:
-#      - Common Issues: troubleshooting/common-issues.md
-      - Debugging: troubleshooting/debugging.md
-      - Reset Admin Password: troubleshooting/reset-admin-password.md
-#      - FAQ: troubleshooting/faq.md
 
   - API Reference:
       - API Overview: api/overview.md
