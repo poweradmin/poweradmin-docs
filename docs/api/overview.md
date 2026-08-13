@@ -82,12 +82,22 @@ If an endpoint you need is missing, please open an issue on the
 
 ## Companion projects
 
-Two officially maintained projects already drive the Poweradmin API for you:
+Four officially maintained integrations drive the Poweradmin API for you, so check these before
+writing your own client:
 
-- [terraform-provider-poweradmin](https://github.com/poweradmin/terraform-provider-poweradmin) -
-  manage zones, records, users, and templates from Terraform.
-- [external-dns-poweradmin-webhook](https://github.com/poweradmin/external-dns-poweradmin-webhook) -
-  use Poweradmin as a backend for Kubernetes ExternalDNS.
+| Project | Use it for | Distributed as |
+|---|---|---|
+| [terraform-provider-poweradmin](https://github.com/poweradmin/terraform-provider-poweradmin) | Managing zones, records, RRsets, users, groups and group zone assignments, permissions and zone templates as Terraform or OpenTofu resources | Terraform Registry |
+| [external-dns-poweradmin-webhook](https://github.com/poweradmin/external-dns-poweradmin-webhook) | Using Poweradmin as a backend for Kubernetes ExternalDNS, so records follow your Ingresses and Services | Container image |
+| [cert-manager-webhook-poweradmin](https://github.com/poweradmin/cert-manager-webhook-poweradmin) | DNS-01 ACME challenges in Kubernetes, for automated Let's Encrypt issuance through cert-manager | Helm chart, Artifact Hub |
+| [certbot-dns-poweradmin](https://github.com/poweradmin/certbot-dns-poweradmin) | DNS-01 ACME challenges from Certbot outside Kubernetes | PyPI |
+
+Each project publishes a compatibility table mapping its own releases to the Poweradmin versions it
+supports. Check it before upgrading either side.
+
+> **Note:** These integrations target the released 4.x line. Older versions of some of them can
+> still be configured against API v1, which is removed in 4.5.0, so move to a v2-capable release
+> before upgrading Poweradmin.
 
 ## Next steps
 
