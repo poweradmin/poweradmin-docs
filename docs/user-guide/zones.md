@@ -48,7 +48,7 @@ The zone is created with the records defined in the selected template. If no tem
 
 1. Navigate to **Zones** and click **Add slave zone**
 2. Enter the **Zone name**
-3. Enter the **Master server IP** address that this slave will pull data from
+3. Enter the **IP address of master NS** that this slave will pull data from (several IPs can be given, separated by commas)
 4. Select an **Owner**
 5. Click **Add zone**
 
@@ -66,13 +66,16 @@ The zone editor is where you view and modify a zone's DNS records. It shows all 
 
 ### Editing Records
 
-- Click the **edit icon** next to a record to modify it inline
-- Change the name, type, content, TTL, or priority fields directly in the table
-- Click **Save** to apply changes or **Cancel** to discard
+Records are edited in the table itself:
+
+- Change the name, type, content, TTL, or priority fields directly in the record row
+- Click **Save changes** to apply, or **Reset** to discard
+
+Enabling `interface.show_record_edit_button` adds an **Actions** column with a per-record edit button that opens the record on its own page. It is off by default, as is `interface.show_record_delete_button`, so a default install has no Actions column.
 
 ### Adding Records
 
-Use the input row at the top of the record table to add new records:
+By default the zone editor shows an **Add record** button that opens a separate page (`/zones/{id}/records/add`). Set `interface.show_add_record_form` to `true` to get an input row in the record table instead. Either way:
 
 1. Enter the record **Name** (just the hostname part, e.g., `www`)
 2. Select the record **Type** (A, AAAA, CNAME, MX, TXT, etc.)
@@ -80,13 +83,16 @@ Use the input row at the top of the record table to add new records:
 4. Set the **TTL** and **Priority** if applicable
 5. Click **Add Record**
 
-### Configurable Columns
+### Optional Columns
 
-Starting in v4.1.0, the zone editor supports configurable columns. You can show or hide columns such as Priority, TTL, or DNSSEC-related fields to reduce clutter depending on your workflow.
+Two columns are optional, and both are off by default:
+
+- `interface.show_record_id` (added in 3.9.0) - adds the record ID column
+- `interface.show_record_edit_button` and `interface.show_record_delete_button` (added in 4.1.0) - add the **Actions** column with per-record edit and delete buttons
 
 ### Sorting
 
-Starting in v4.1.0, you can sort records by clicking column headers. This helps when working with large zones to quickly find specific records.
+You can sort records by clicking column headers. This helps when working with large zones to quickly find specific records.
 
 ## Zone Metadata
 
@@ -122,15 +128,19 @@ Two further rules apply in this mode:
 - **`NSEC3NARROW` needs `NSEC3PARAM`.** PowerDNS ignores narrow mode unless the zone also
   carries NSEC3 parameters, so the editor asks for both.
 
-Editing a restricted kind reports an error rather than silently doing nothing. None of these
-restrictions apply when Poweradmin writes to the PowerDNS database directly.
+Editing a restricted kind reports an error rather than silently doing nothing. Apart from
+`CATALOG-HASH`, which PowerDNS maintains itself and Poweradmin keeps read-only in both modes,
+none of these restrictions apply when Poweradmin writes to the PowerDNS database directly.
 
 ### Metadata over the API
 
 The v2 API exposes the same data at `/api/v2/zones/{id}/metadata`, with `GET`, `PUT` and
 `DELETE` on `/api/v2/zones/{id}/metadata/{kind}`. It enforces the same value vocabularies and
-the same backend restrictions, and requires the `zone_meta_edit_own` or
-`zone_meta_edit_others` permission.
+the same backend restrictions.
+
+Reading requires the `zone_metadata_view_own` or `zone_metadata_view_others` permission (both
+added in 4.5.0); anyone who may edit metadata keeps view access as well. `PUT` and `DELETE`
+require `zone_meta_edit_own` or `zone_meta_edit_others`.
 
 ## Bulk Operations
 
@@ -145,10 +155,11 @@ This is particularly useful when setting up a new zone or adding a batch of simi
 
 ## CSV Export
 
-Starting in v4.0.0, you can export a zone's records as a CSV file:
+CSV export comes from the `csv_export` module, which is enabled by default
+(`modules.csv_export.enabled`):
 
 1. Open the zone in the zone editor
-2. Click the **CSV export** button
+2. Open the **Export** dropdown and choose **CSV** (route `/zones/{id}/export/csv`)
 3. The browser downloads a CSV file containing all records in the zone
 
 This is useful for documentation, auditing, or migrating zone data to another system.
@@ -172,11 +183,11 @@ Starting in v4.4.0, the `dns.zone_ownership_mode` setting controls which ownersh
 - `users_only` - only individual users can be assigned; the group picker is hidden
 - `groups_only` - only groups can be assigned; the user picker is hidden, and group membership is the sole way to grant zone access
 
-Use `groups_only` to enforce group-based access management across the installation. The setting also applies to the API. API v2 supports group-only zones (pass `owner_user_id: null` together with `group_ids`). On 4.2.x-4.4.x, API v1 cannot create group-only zones and returns an error when `zone_ownership_mode` is set to `groups_only`.
+Use `groups_only` to enforce group-based access management across the installation. The setting also applies to the API. API v2 supports group-only zones (pass `owner_user_id: null` together with `group_ids`). On 4.4.x, API v1 cannot create group-only zones and returns an error when `zone_ownership_mode` is set to `groups_only`.
 
 ## Disabled Records
 
-Starting in v4.1.0, you can disable individual records without deleting them:
+You can disable individual records without deleting them:
 
 - In the zone editor, toggle the **disabled** checkbox on a record
 - Disabled records remain in the database but are not served by PowerDNS

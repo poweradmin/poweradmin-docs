@@ -48,4 +48,4 @@ The Priority column in the add/edit form is not used by NAPTR - the order and pr
 
 ## ENUM Records
 
-For ENUM (E.164 to URI mapping, RFC 6116), the zone name lives under `e164.arpa`, the service starts with `E2U`, and the flag is normally `"U"`. Poweradmin will warn you if a NAPTR looks like an ENUM record but the fields do not line up.
+For ENUM (E.164 to URI mapping, RFC 6116), the zone name lives under `e164.arpa`, the service starts with `E2U`, and the flag is normally `"U"`. Poweradmin shows an informational warning whenever the record looks like ENUM at all - either the service starts with `E2U` or the name is under `e164.arpa`. The warning is a reminder of the RFC 6116 conventions, not a mismatch check, so it appears even when the record is perfectly consistent.

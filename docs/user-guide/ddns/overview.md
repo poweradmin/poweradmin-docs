@@ -72,7 +72,7 @@ Two server endpoints accept dynamic updates:
     }
     ```
 
-    The API endpoint enforces the same DDNS permission gate as `dynamic_update.php` (dedicated user with `zone_content_edit_own` or `zone_content_edit_own_as_client`). Administrator API keys are rejected with `403`.
+    The API endpoint requires the calling user to hold `zone_content_edit_own` or `zone_content_edit_own_as_client`. This is slightly stricter than `dynamic_update.php`, which also accepts `zone_content_edit_others`. Administrator API keys are rejected with `403`.
 
 ### Server-Side Components
 

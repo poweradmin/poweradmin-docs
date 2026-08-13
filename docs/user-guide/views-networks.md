@@ -37,7 +37,9 @@ concluding the backend is wrong.
 Since v4.5.0 Poweradmin checks this for you. It reads the server's `launch` and `views`
 settings over the API, keeps both pages and their dashboard entries hidden when they cannot
 work, and names the missing prerequisite if you open the page directly. On PowerDNS 4.x, or
-when the API does not expose its configuration, the pages stay visible as before.
+when the server version cannot be read at all, the pages are hidden - Views need 5.0. Only an
+unreadable `launch` or `views` setting on a 5.0 or newer server leaves them visible, since an
+unread setting is a poor reason to hide a feature that may well work.
 
 A minimal PowerDNS configuration for views:
 

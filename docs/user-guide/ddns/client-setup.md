@@ -16,7 +16,7 @@ The Dynamic DNS update system supports several ways to update records:
 * `myip` or `ip` - IPv4 address(es), comma-separated
 * `myip6` or `ip6` - IPv6 address(es), comma-separated
 * `dualstack_update` - Set to 1 to update both IPv4 and IPv6
-* `verbose` - Set to 1 to receive human-readable response messages
+* `verbose` - Include this query parameter to receive human-readable response messages. Only its presence is checked, so `verbose=0` enables verbose output too
 
 ### Response Codes
 
@@ -24,14 +24,16 @@ Without `verbose=1` the endpoint returns one of these short codes followed by a 
 
 | Code | Meaning |
 |------|---------|
-| `good <ip>` | Update accepted. The applied IPv4 (or IPv6) address follows. Poweradmin returns `good` for both new updates and no-op updates against unchanged records (dyndns2's optional `nochg` code is not emitted separately). |
-| `nohost` | Hostname does not exist in any zone you own. |
-| `!yours` | You authenticated, but you do not own a zone containing this hostname. |
+| `good <ip>` | Update accepted and a record was written. The applied IPv4 (or IPv6) address follows. |
+| `nochg <ip>` | The record already held the supplied address, so nothing changed. |
+| `nohost` | Hostname is not contained in any zone you own. This is also what you get when you authenticate successfully but own no zone matching the hostname. |
+| `!yours` | The owning zone was found, but there are no matching A/AAAA records to update, or the zone is read-only (Secondary or Consumer). |
 | `notfqdn` | The supplied hostname is not a fully-qualified domain name. |
-| `badauth` | Missing credentials. |
-| `badauth2` | Credentials supplied but did not validate. |
+| `badauth` | Authentication failed. Covers missing credentials, invalid credentials, an account without the DDNS permissions, and a temporarily locked-out login. |
 | `badagent` | Request had no `User-Agent` header. |
 | `dnserr` | A server-side validation or write error occurred. |
+
+> **Note:** These codes changed in 4.4.0 and 4.5.0. Poweradmin 4.3.x and earlier returned `good` for no-op updates and split authentication failures into `badauth` (no username supplied) and `badauth2` (credentials rejected). From 4.4.0 onwards unchanged updates return `nochg` and every authentication failure returns `badauth`; `badauth2` no longer exists. The trailing address on `good` / `nochg` was added in 4.5.0.
 
 When debugging, always append `&verbose=1` so you get the readable equivalent instead of a two-letter code.
 
@@ -58,14 +60,14 @@ curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip6
 curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip=192.0.2.1,192.0.2.2&myip6=2001:db8::1,2001:db8::2&dualstack_update=1"
 ```
 
-If any of these return a short error code like `!yours` or `badauth2`, re-run the same URL with `&verbose=1` appended to get a readable message.
+If any of these return a short error code like `!yours` or `badauth`, re-run the same URL with `&verbose=1` appended to get a readable message.
 
 When using multiple IPs:
 
 * Omitted record types are preserved
 * Use `dualstack_update=1` to clean up both A and AAAA records
 * Records not included in the update are automatically removed
-* Changes are atomic and maintain zone consistency
+* Records are inserted and deleted one statement at a time - the update is not wrapped in a database transaction
 
 ## Using the Shell Script
 

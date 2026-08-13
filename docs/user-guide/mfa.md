@@ -54,12 +54,11 @@ Since 4.5.0, enforcement can be waived for users who log in through an external 
 To disable MFA on your account:
 
 1. Navigate to **Account** in the top navigation bar
-2. In the MFA section, click **Disable MFA**
-3. Confirm the action
+2. In the MFA section, click **Disable MFA** - it takes effect immediately, there is no confirmation step
 
 After disabling, you will only need your password to log in.
 
-> **Note:** If MFA is enforced for your account through a user or group template, you will be required to set it up again on your next login.
+> **Note:** If MFA is enforced for your account through a user or group template, you cannot disable it. The **Disable MFA** button is not shown, and a disable request sent anyway is refused with a message saying MFA is required by your organization's security policy. The enforcement has to be removed first.
 
 ## Recovery
 
@@ -71,7 +70,7 @@ If you lose access to your authenticator app or email:
     - Set up MFA again with a new authenticator app
     - Regenerate new recovery codes if your supply is running low
 
-If you have no remaining recovery codes and cannot access your authenticator, contact your Poweradmin administrator. An admin can disable MFA on your account so you can set it up again.
+If you have no remaining recovery codes and cannot access your authenticator, contact your Poweradmin administrator. There is no admin screen for this: the user list shows whether MFA is configured, but nobody can clear another user's MFA from the interface or the API. Recovery means removing the user's row from the `user_mfa` table directly in the database, after which the account logs in with its password alone and can set MFA up again.
 
 ### Too many failed attempts
 

@@ -36,7 +36,7 @@ setting controls.
 
 | Action | Recorded when |
 |--------|---------------|
-| `record_create` | A record is added, through any path - forms, bulk add, templates, the API, DDNS |
+| `record_create` | A record is added through the forms, bulk add, templates, or the API. Dynamic DNS updates are not logged - they write to the records table directly |
 | `record_edit` | A record is changed; both the old and the new row are stored |
 | `record_delete` | A record is removed |
 | `zone_create` | A zone is created |

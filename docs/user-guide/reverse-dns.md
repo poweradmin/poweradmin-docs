@@ -47,7 +47,7 @@ For creating multiple PTR records at once:
 
 1. Access the Batch PTR Records feature:
    - From the top navigation: Zones → Batch PTR Records
-   - From the dashboard: Click the "Batch PTR Records" card
+   - From the dashboard: Click the "PTR Records" card
    
 2. Complete the form:
    - **IP Version**: Choose IPv4 or IPv6
@@ -56,9 +56,9 @@ For creating multiple PTR records at once:
      - For IPv6: The /64 prefix (e.g., `2001:db8:1:1`)
    - **Host Prefix**: Base name for the hosts (e.g., `server`)
    - **Domain**: Domain suffix for PTR records (e.g., `example.com`)
-   - **Number of IPv6 Records**: (IPv6 only) How many records to create
-   - **TTL**: Time-to-live value
-   - **Priority**: Usually 0 for PTR records
+   - **IPv6 Count**: (IPv6 only) How many records to create
+
+   The form has no TTL or Priority fields. It shows a "Using default TTL value from configuration" note, the TTL is resolved server-side, and the priority is always 0.
    
 3. Click "Create PTR Records"
 
@@ -72,11 +72,12 @@ For creating multiple PTR records at once:
 - Host Prefix: `server`
 - Domain: `example.com`
 
-This will create 256 PTR records:
-- `0.1.168.192.in-addr.arpa` → `server-0.example.com.`
-- `1.1.168.192.in-addr.arpa` → `server-1.example.com.`
+This will create 254 PTR records - the network address (`.0`) and the broadcast address (`.255`) are skipped:
+
+- `1.1.168.192.in-addr.arpa` → `server1.example.com.`
+- `2.1.168.192.in-addr.arpa` → `server2.example.com.`
 - ...through...
-- `255.1.168.192.in-addr.arpa` → `server-255.example.com.`
+- `254.1.168.192.in-addr.arpa` → `server254.example.com.`
 
 ![IPv4 Batch PTR Records example](../screenshots/ptr-ipv4-example.png)
 
@@ -85,9 +86,9 @@ This will create 256 PTR records:
 - Network Prefix: `2001:db8:1:1`
 - Host Prefix: `vm`
 - Domain: `example.com`
-- Number of records: 100
+- IPv6 Count: 100
 
-This will create 100 PTR records with hostnames like `vm-0.example.com` through `vm-99.example.com`
+This will create 99 PTR records - index 0 is skipped, and the suffix is written in hexadecimal, so the addresses run from `2001:db8:1:1::1` to `2001:db8:1:1::63` with hostnames `vm1.example.com` through `vm63.example.com`.
 
 ![IPv6 Batch PTR Records example](../screenshots/ptr-ipv6-example.png)
 
@@ -96,7 +97,7 @@ This will create 100 PTR records with hostnames like `vm-0.example.com` through 
 - **Run Multiple Times Safely**: You can run the batch tool multiple times - existing records will be skipped
 - **Progress Reporting**: The tool reports how many records were created, skipped, or failed
 - **Reverse Zone Required**: The appropriate reverse zone must exist before using this feature
-- **Automated Creation**: All hostnames are generated automatically based on the pattern `{prefix}-{number}.{domain}`
+- **Automated Creation**: All hostnames are generated automatically based on the pattern `{prefix}{number}.{domain}` - no separator is inserted between the prefix and the number, and for IPv6 the number is hexadecimal
 
 ## Permissions and Access Control
 
@@ -116,7 +117,7 @@ The Batch PTR Records feature follows Poweradmin's permission system:
 
 4. **Administrative Setup**:
    - Administrators can assign these permissions through permission templates
-   - Users who can only view zones will not see the Batch PTR Records option
+   - The navigation entry is shown to anyone with a zone content view permission, so view-only users still see "Batch PTR Records" in the Zones menu - they are refused with a permission error when they open it
 
 ## Troubleshooting
 
@@ -127,9 +128,9 @@ The Batch PTR Records feature follows Poweradmin's permission system:
 
 ## Delegating a Sub-Range (RFC 2317)
 
-When you own a /24 reverse zone but want a different team or client to manage PTRs for only part of it (e.g. 10.0.0.64/25), use classless reverse delegation as defined in [RFC 2317](https://datatracker.ietf.org/doc/html/rfc2317). Poweradmin's ownership model is per-zone, so the trick is to create a smaller child zone for the sub-range and assign it to the delegate.
+When you own a /24 reverse zone but want a different team or client to manage PTRs for only part of it (e.g. 10.0.0.64/26), use classless reverse delegation as defined in [RFC 2317](https://datatracker.ietf.org/doc/html/rfc2317). Poweradmin's ownership model is per-zone, so the trick is to create a smaller child zone for the sub-range and assign it to the delegate.
 
-### Example: Delegate 10.0.0.64/25 to a client
+### Example: Delegate 10.0.0.64/26 to a client
 
 Parent zone: `0.0.10.in-addr.arpa` (owned by you, covers 10.0.0.0/24).
 Goal: the client manages PTRs for 10.0.0.64 through 10.0.0.127.
@@ -138,11 +139,13 @@ Goal: the client manages PTRs for 10.0.0.64 through 10.0.0.127.
 
 From **Zones → Add master zone**, create:
 
-- **Zone name**: `64/25.0.0.10.in-addr.arpa` (slash notation - preferred)
+- **Zone name**: `64/26.0.0.10.in-addr.arpa` (slash notation - preferred)
   - Range notation `64-127.0.0.10.in-addr.arpa` is also accepted.
 - **Owner**: the client user (or a group the client belongs to)
 
 Poweradmin's hostname validator accepts both notations. The slash form follows the RFC 2317 example syntax most resolvers and dig output assume.
+
+> **Note:** In slash notation the subnet number must be aligned with the prefix length. `64/26` is accepted because 64 is a multiple of the /26 block size of 64. `64/25` is rejected with "Subnet 64 is not aligned with prefix /25" - a /25 block is 128 addresses and starts only at `0` or `128`. Range notation is not checked for alignment.
 
 **2. Add delegation NS records in the child zone**
 
@@ -154,16 +157,16 @@ In `0.0.10.in-addr.arpa`, replace the PTR records for the 64-127 range with CNAM
 
 | Name | Type | Content |
 |---|---|---|
-| `64` | CNAME | `64.64/25.0.0.10.in-addr.arpa.` |
-| `65` | CNAME | `65.64/25.0.0.10.in-addr.arpa.` |
+| `64` | CNAME | `64.64/26.0.0.10.in-addr.arpa.` |
+| `65` | CNAME | `65.64/26.0.0.10.in-addr.arpa.` |
 | ... | ... | ... |
-| `127` | CNAME | `127.64/25.0.0.10.in-addr.arpa.` |
+| `127` | CNAME | `127.64/26.0.0.10.in-addr.arpa.` |
 
 These CNAMEs tell any resolver doing reverse lookup for 10.0.0.64-127 to chase the answer into the delegated child zone.
 
 **4. Client adds PTRs in the child zone**
 
-The client (who owns the child zone, not the parent) adds PTR records in `64/25.0.0.10.in-addr.arpa`:
+The client (who owns the child zone, not the parent) adds PTR records in `64/26.0.0.10.in-addr.arpa`:
 
 | Name | Type | Content |
 |---|---|---|
@@ -180,7 +183,7 @@ RFC 2317 only applies when the sub-range doesn't align with a DNS label boundary
 
 ## Per-Record-Type Default TTLs (4.5.0)
 
-Admins can configure default TTLs per record type from **Tools → TTL defaults** (`/tools/record-type-defaults`). Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
+Admins can configure default TTLs per record type on the **TTL defaults** page (`/tools/record-type-defaults`). There is no Tools menu entry for it - open it from the "TTL defaults" card on the dashboard or go to the URL directly. Values stored there take precedence over the legacy `dns.ttl_reverse` config and `dns.ttl` fallback. The same default applies to every record-creation path (UI forms, batch PTR, the record APIs, RRSets, bulk records, and the DNS wizard) when the caller omits a `ttl` field. Leave a row empty to fall back to the legacy chain.
 
 The fallback chain (first non-null wins):
 

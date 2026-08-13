@@ -6,10 +6,10 @@ This guide will walk you through the process of setting up Dynamic DNS (DDNS) in
 
 You'll need to create a **dedicated** user with specific permissions for DDNS updates:
 
-> Administrator (ueberuser) accounts are deliberately blocked from `dynamic_update.php`. DDNS credentials are typically stored in plaintext on routers, IoT devices, or `ddclient.conf` files - low-trust locations. Forcing a dedicated, narrowly-scoped account keeps admin credentials out of those files. If you authenticate with an admin account, the endpoint responds with `badauth2`.
+> Administrator (ueberuser) accounts are deliberately blocked from `dynamic_update.php`. DDNS credentials are typically stored in plaintext on routers, IoT devices, or `ddclient.conf` files - low-trust locations. Forcing a dedicated, narrowly-scoped account keeps admin credentials out of those files. If you authenticate with an admin account, the endpoint responds with `badauth` (`badauth2` in Poweradmin 4.3.x and earlier, which used a separate code for rejected credentials).
 
 1. Create a permission template:
-    - Navigate to `Users > Add permission template`
+    - Navigate to `Permissions > Add permission template` (`/permissions/templates/add`)
     - Provide a meaningful name (e.g., "dynamic") and description
     - Select required permissions:
         - `zone_master_add`
@@ -78,7 +78,9 @@ A successful response in verbose mode will look like:
 Your hostname has been updated.
 ```
 
-Without `verbose=1` you will just receive `good\n` (or one of the short error codes documented in [Client Setup](client-setup.md)).
+Without `verbose=1` you receive a short status line carrying the applied address: `good <ip>\n` when a record was written, or `nochg <ip>\n` when it already matched. A bare `good\n` only appears when the request resolved no address at all (for example a dual-stack cleanup). Errors come back as one of the short codes documented in [Client Setup](client-setup.md).
+
+> The trailing address was added in Poweradmin 4.5.0. Version 4.4.x returns a bare `good` or `nochg`, and 4.3.x and earlier return `good` even when nothing changed.
 
 ## Troubleshooting
 

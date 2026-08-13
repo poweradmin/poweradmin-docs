@@ -41,15 +41,18 @@ www2,CNAME,www.example.com.
 @,MX,mail.example.com.,10
 _acme,TXT,"verification=12345"
 @,TXT,"v=spf1 mx a ip4:192.168.0.0/24 ~all"
+_sip._tcp,SRV,"0 5060 sip.example.com.",0,3600
 _sip._tcp,SRV,sip.example.com.,0,5060,3600
 ```
+
+SRV has its own parser and does not follow the generic column order above. The first SRV line is the normal form (`name,SRV,"weight port target",priority,ttl`, matching CSV export); the second is the legacy form (`name,SRV,target,weight,port,ttl`), which the in-app help also labels legacy.
 
 ### Tips
 
 - Quote any value that contains a comma or spaces.
 - For CNAME, MX, SRV: end the target with a trailing dot.
-- Validation runs before any record is written - if one line fails, the page reports the offending row and aborts the batch.
-- Records exported from a zone via **CSV export** can be re-imported with this form unchanged.
+- There is no validation pre-pass and no rollback. Lines are processed one at a time, valid ones are written immediately, and only the failing lines are listed back on the form with a warning.
+- Records exported from a zone via **CSV export** can be re-imported with this form, but delete the header row first - `Name,Type,Content,...` is parsed as a record and rejected with "Invalid record type". The data rows import as they are.
 
 ---
 

@@ -19,8 +19,10 @@ The module is off by default:
 
 ```php
 return [
-    'secondary_zone_import' => [
-        'enabled' => true,
+    'modules' => [
+        'secondary_zone_import' => [
+            'enabled' => true,
+        ],
     ],
 ];
 ```
@@ -38,8 +40,9 @@ in:
 
 - **Zone name** - the domain to pull, for example `example.com`.
 - **Primary server IP address** - IPv4 or IPv6. Separate several primaries with commas.
-- **Owner** - a user, a group, or neither, following your
-  [zone ownership mode](../configuration/dns-settings.md).
+- **Owner** - a user, a group, or both, following your
+  [zone ownership mode](../configuration/dns-settings.md). At least one owner is required;
+  submitting neither is rejected.
 
 Poweradmin creates a secondary zone pointing at that primary and asks PowerDNS to transfer it
 immediately. The page then polls the transfer and tells you how many records have arrived.

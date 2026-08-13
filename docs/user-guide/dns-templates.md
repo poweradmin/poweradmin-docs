@@ -76,8 +76,12 @@ Poweradmin maintains a database table (`records_zone_templ`) that tracks which D
 **Individual Zone Update**:
 
 1. Go to Edit Zone page
-2. Change the template dropdown (even to the same template)
-3. Save changes - this triggers a template refresh
+2. Pick a different template in the template dropdown
+3. Click **Change**
+
+Re-selecting the template the zone already uses does nothing - the form compares the
+selection against the current template and skips the refresh when they match. To re-apply the
+same template, use the bulk update below.
 
 **Bulk Zone Update**:
 
@@ -85,9 +89,14 @@ Poweradmin maintains a database table (`records_zone_templ`) that tracks which D
 2. Click "Update Zones" button
 3. This updates ALL zones currently using that template
 
-### No Automatic Sync Indicators
+### Sync Indicators
 
-Poweradmin does not currently provide interface indicators showing which zones are "out of sync" with their templates. Administrators must manually track when template changes need to be applied to existing zones.
+Poweradmin shows which zones are out of sync with their template:
+
+- The **Zone templates** list has a sync column per template: a warning badge with the `unsynced/total` count, or a green **Synced** badge when every linked zone is up to date.
+- The template editor shows a **Sync Required** banner with the number of zones needing an update, and repeats that count as a badge on the **Update zones** button.
+
+The zones themselves are still only updated when you ask for it.
 
 ## Permissions
 
@@ -96,14 +105,14 @@ Poweradmin does not currently provide interface indicators showing which zones a
 Different template operations require different permissions:
 
 - **Creating zone templates**: Requires `zone_templ_add` permission
-- **Listing zone templates**: Requires `zone_master_add` OR `user_is_ueberuser` permission
+- **Listing zone templates**: Requires `zone_templ_add` OR `zone_templ_edit` OR `user_is_ueberuser` permission
 - **Editing/deleting zone templates**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership)
 - **Adding/editing/deleting template records**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership)
 
 ### Applying Templates to Zones
 
-- **Creating zones with templates**: Requires `zone_master_add` OR `zone_slave_add` permission
-- **Changing existing zone templates**: Requires zone editing permissions (`zone_content_edit_own` for owned zones or `zone_content_edit_others` for other zones)
+- **Creating zones with templates**: Requires `zone_master_add` permission. A template can only be chosen on the **Add master zone** form and in bulk registration; the slave zone form offers no template.
+- **Changing existing zone templates**: Requires zone editing permissions (`zone_content_edit_own` for owned zones or `zone_content_edit_others` for other zones) **and** `zone_master_add` or `zone_slave_add`. The editing permission only authorises removing the old template's records; writing the new template's records needs one of the add permissions. A user with editing rights alone ends up with the old records gone and no replacements.
 - **Unlinking zones from templates**: Requires `user_is_ueberuser` OR zone editing permissions (`zone_content_edit_own`/`zone_content_edit_others` OR `zone_meta_edit_own`/`zone_meta_edit_others`)
 
 ### Permission Templates
