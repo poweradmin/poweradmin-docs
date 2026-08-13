@@ -123,8 +123,8 @@ If you're using DNSSEC, enable it in your settings:
 ],
 ```
 
-Note: The PowerDNS API method is strongly recommended over the legacy pdnsutil method. When configured with the API
-settings above, Poweradmin will automatically use the API for DNSSEC operations.
+> **Note:** DNSSEC operations go through the PowerDNS API. There is no command-line fallback, so if
+> `pdns_api.url` and `pdns_api.key` are not set, enabling `dnssec` has no effect.
 
 ## Step 5: Network Security Considerations
 

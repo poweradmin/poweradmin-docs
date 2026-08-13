@@ -468,15 +468,17 @@ Bridge table that maps a record identifier to a PowerDNS `comments.id`. Record-l
 
 ## Default Permission Templates
 
-Poweradmin includes default permission templates:
+Poweradmin seeds five user templates (`template_type = 'user'`, ids 1-5):
 
 | Template | Description |
 |----------|-------------|
 | Administrator | Full access (user_is_ueberuser) |
-| Zone Manager | Full management of own zones |
-| DNS Editor | Edit records (no SOA/NS) |
-| Read Only | View-only access |
-| No Access | No permissions |
+| Zone Manager | Full management of own zones including creation, editing, deletion, and templates |
+| Editor | Edit own zone records but cannot modify SOA and NS records |
+| Viewer | Read-only access to own zones with search capability |
+| Guest | Temporary access with no permissions |
+
+Since 4.2.0 it also seeds five matching group templates (`template_type = 'group'`, ids 6-10): Administrators, Zone Managers, Editors, Viewers, and Guests.
 
 ## Table Relationships
 
