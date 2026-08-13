@@ -95,7 +95,12 @@ This is convenient for ad-hoc requests but it has trade-offs:
 
 - The password travels with every request - HTTPS is mandatory
 - Revoking access means changing the user's password (which affects the UI too)
-- MFA-enabled accounts are not supported over Basic Auth
+- Basic Auth does not prompt for a second factor. An account with MFA enabled
+  authenticates over Basic Auth with its username and password alone, so
+  enabling `api.basic_auth_enabled` gives every account a path that skips MFA.
+
+Account lockout still applies: repeated failures over Basic Auth count towards
+the same `security.account_lockout` thresholds as the browser login.
 
 For anything beyond exploration, prefer API keys.
 
@@ -105,7 +110,7 @@ For anything beyond exploration, prefer API keys.
 |--------|------|-------|
 | `X-API-Key` | API key auth | The full key value |
 | `Authorization: Basic ...` | Basic auth | Base64-encoded `user:pass` |
-| `Content-Type: application/json` | All `POST`, `PUT` requests | Required for body parsing |
+| `Content-Type: application/json` | `POST`, `PUT` requests | Recommended. The body is parsed as JSON when it looks like JSON even without it, and form-encoded data is accepted as a fallback |
 | `Accept: application/json` | Optional | Responses are always JSON |
 
 Some reverse-proxy setups strip the `Authorization` header by default. If

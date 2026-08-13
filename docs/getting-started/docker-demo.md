@@ -11,15 +11,33 @@ docker pull poweradmin/poweradmin:latest
 
 ### 2. Run the Container
 ```bash
-docker run -d --name poweradmin -p 80:80 poweradmin/poweradmin:latest
+docker run -d --name poweradmin -p 80:80 \
+  -e DB_TYPE=sqlite \
+  -e PA_CREATE_ADMIN=1 \
+  -v poweradmin-db:/db \
+  poweradmin/poweradmin:latest
 ```
 
-### 3. Access Poweradmin
-- Open your browser and go to [http://localhost](http://localhost)
-- Username: `admin`
-- Password: `testadmin`
+> **Warning:** `DB_TYPE` is required and has no default. Without it the
+> container logs `ERROR: DB_TYPE environment variable is required` and exits.
 
-> **Note**: This demo uses SQLite with pre-configured test data.
+### 3. Get the Admin Password
+
+No admin account is seeded. `PA_CREATE_ADMIN=1` creates one on first start with
+a randomly generated password, which is written to the container log:
+
+```bash
+docker logs poweradmin | grep -i password
+```
+
+To choose the credentials yourself, set `PA_ADMIN_USERNAME` and
+`PA_ADMIN_PASSWORD` instead. The username defaults to `admin`.
+
+### 4. Access Poweradmin
+
+Open [http://localhost](http://localhost) and log in with that account.
+
+> **Note**: This demo uses an empty SQLite database. There is no sample data.
 
 ## Architecture
 
@@ -64,12 +82,19 @@ docker run -d --name poweradmin -p 80:80 \
 
 ### Basic Demo
 ```yaml
-version: '3.8'
 services:
   poweradmin:
     image: poweradmin/poweradmin:latest
     ports:
       - "80:80"
+    environment:
+      - DB_TYPE=sqlite
+      - PA_CREATE_ADMIN=1
+    volumes:
+      - poweradmin_db:/db
+
+volumes:
+  poweradmin_db:
 ```
 
 ### Complete Demo with MySQL
@@ -121,14 +146,20 @@ cd poweradmin
 docker build --no-cache -t poweradmin .
 
 # Run the container
-docker run -d --name poweradmin -p 80:80 poweradmin
+docker run -d --name poweradmin -p 80:80 \
+  -e DB_TYPE=sqlite \
+  -e PA_CREATE_ADMIN=1 \
+  -v poweradmin-db:/db \
+  poweradmin
 ```
 
 ## Environment Variables (Demo Examples)
 
 | Variable | Description | Example |
 |----------|-------------|---------|
-| `DB_TYPE` | Database type | `sqlite`, `mysql`, `pgsql` |
+| `DB_TYPE` | Database type (required, no default) | `sqlite`, `mysql`, `pgsql` |
+| `PA_CREATE_ADMIN` | Create the initial admin user on first start | `1` |
+| `PA_ADMIN_PASSWORD` | Admin password; generated and logged if unset | `choose-your-own` |
 | `PA_API_ENABLED` | Enable API | `true` |
 | `PA_API_DOCS_ENABLED` | Enable API docs | `true` |
 | `PA_APP_TITLE` | Application title | `My DNS Demo` |
@@ -140,8 +171,11 @@ Enable the API to test RESTful endpoints:
 
 ```bash
 docker run -d --name poweradmin -p 80:80 \
+  -e DB_TYPE=sqlite \
+  -e PA_CREATE_ADMIN=1 \
   -e PA_API_ENABLED=true \
   -e PA_API_DOCS_ENABLED=true \
+  -v poweradmin-db:/db \
   poweradmin/poweradmin:latest
 ```
 

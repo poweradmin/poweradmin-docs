@@ -49,9 +49,9 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 | `POST` | `/zones/{id}/records` | Create record |
 | `PUT` | `/zones/{id}/records/{record_id}` | Update record |
 | `DELETE` | `/zones/{id}/records/{record_id}` | Delete record |
-| `POST` | `/zones/{id}/records/bulk` | Bulk create records (v4.2.0+) |
-| `GET` | `/zones/{id}/rrsets` | List RRsets (v4.2.0+) |
-| `GET` | `/zones/{id}/rrsets/{name}/{type}` | Get a specific RRset (v4.2.0+) |
+| `POST` | `/zones/{id}/records/bulk` | Bulk create records |
+| `GET` | `/zones/{id}/rrsets` | List RRsets |
+| `GET` | `/zones/{id}/rrsets/{name}/{type}` | Get a specific RRset |
 
 When `ttl` is omitted on a record create call, Poweradmin applies the
 configured default (`dns.ttl_reverse` for PTR records in reverse zones when
@@ -200,19 +200,25 @@ the v1 endpoint list, and migrate to v2 before upgrading to 4.5.0.
 
 ## Pagination
 
-List endpoints for zones and users accept `page` and `limit` query
+List endpoints for zones and users accept `page` and `per_page` query
 parameters:
 
 ```bash
-GET /api/v2/zones?page=1&limit=50
+GET /api/v2/zones?page=1&per_page=50
 ```
 
-Omitting both returns all results (added in v4.0.1). Paginated responses
-include a `pagination` block:
+Omitting `per_page` returns all results. `page` is only read when `per_page` is
+given, and `per_page` is capped at 10000.
+
+> **Warning:** The parameter is `per_page`, not `limit`. An unrecognised
+> parameter is ignored rather than rejected, so `?limit=50` silently returns
+> every row.
+
+Paginated responses include a `pagination` block alongside `data`:
 
 ```json
 {
-  "pagination": { "total": 150, "page": 1, "limit": 50, "pages": 3 }
+  "pagination": { "current_page": 1, "per_page": 50, "total": 150, "last_page": 3 }
 }
 ```
 

@@ -9,7 +9,7 @@ maintain a dedicated admin interface without needing to install PowerDNS on the 
 - A server running PowerDNS (referred to as "DNS server")
 - MySQL/MariaDB, PostgreSQL, or SQLite database access from the admin server to the PowerDNS database
 - Network connectivity between both servers
-- PHP 7.4+ with required extensions on the admin server
+- PHP 8.2 or newer with the required extensions on the admin server
 - Web server software (Apache, Nginx, etc.) on the admin server
 
 ## Architecture Overview

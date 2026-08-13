@@ -46,20 +46,20 @@ On error:
 ```json
 {
   "success": false,
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Invalid record type",
-    "details": { "field": "type", "value": "INVALID" }
-  }
+  "data": null,
+  "message": "Invalid record type"
 }
 ```
+
+The error message is a plain string at the top level. There is no nested `error` object and no
+machine-readable error code, so branch on the HTTP status rather than on a code in the body.
 
 Paginated list endpoints add a `pagination` block alongside `data`.
 
 ## What the API can do
 
 - **Zones**: list, create, update, delete; manage owners (v4.2.0+); list RRsets
-- **Records**: list per zone, create, update, delete, bulk create (v4.2.0+)
+- **Records**: list per zone, create, update, delete, bulk create
 - **Users**: full CRUD, list groups
 - **Groups**: full CRUD, manage members and zone assignments (v4.2.0+)
 - **Permission templates**: full CRUD

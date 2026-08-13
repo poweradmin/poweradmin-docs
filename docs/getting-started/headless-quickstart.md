@@ -24,19 +24,29 @@ interactively.
 
 ```bash
 docker run -d --name poweradmin -p 8080:80 \
+  -e DB_TYPE=sqlite \
+  -e PA_CREATE_ADMIN=1 \
   -e PA_API_ENABLED=true \
   -e PA_API_DOCS_ENABLED=true \
+  -v poweradmin-db:/db \
   poweradmin/poweradmin:latest
 ```
 
-The default image uses SQLite with a pre-seeded admin account
-(`admin` / `testadmin`). For a production setup, point at MySQL or PostgreSQL
-with the `DB_*` variables described in
+`DB_TYPE` is required and has no default, so the container will not start
+without it. No admin account is seeded: `PA_CREATE_ADMIN=1` creates one named
+`admin` with a generated password, which you can read from the log:
+
+```bash
+docker logs poweradmin | grep -i password
+```
+
+Set `PA_ADMIN_PASSWORD` to choose it yourself. For a production setup, point at
+MySQL or PostgreSQL with the `DB_*` variables described in
 [Docker Installation](../installation/docker.md).
 
 ## 2. Create an API key
 
-API keys are issued through the web UI. This is a one-time step — once the key
+API keys are issued through the web UI. This is a one-time step; once the key
 exists, you can do everything else from scripts.
 
 1. Open [http://localhost:8080](http://localhost:8080) and log in.

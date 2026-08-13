@@ -135,8 +135,12 @@ echo "pdns_api_key_12345" | docker secret create pdns_api_key -
 |----------|-------------|
 | `PA_OIDC_AZURE_CLIENT_SECRET__FILE` | Azure AD client secret |
 | `PA_OIDC_GOOGLE_CLIENT_SECRET__FILE` | Google client secret |
-| `PA_OIDC_KEYCLOAK_CLIENT_SECRET__FILE` | Keycloak client secret |
-| `PA_OIDC_OKTA_CLIENT_SECRET__FILE` | Okta client secret |
+| `PA_OIDC_GENERIC_CLIENT_SECRET__FILE` | Generic OIDC provider client secret |
+
+> **Note:** The Docker entrypoint generates OIDC configuration for Azure, Google
+> and the generic provider only. Poweradmin also supports Keycloak, Okta,
+> Authentik and Auth0, but those are configured in `settings.php` rather than
+> through environment variables or secrets.
 
 ### SAML
 

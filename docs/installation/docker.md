@@ -28,14 +28,19 @@ The image tags published for production and development use are:
 
 ## Quick Start
 
-### SQLite (Default)
+### SQLite
 
 ```bash
 docker run -d --name poweradmin -p 80:80 \
+  -e DB_TYPE=sqlite \
   -e PA_CREATE_ADMIN=1 \
   -v poweradmin-db:/db \
   poweradmin/poweradmin:stable
 ```
+
+> **Warning:** `DB_TYPE` is required. There is no default. A container started
+> without it logs `ERROR: DB_TYPE environment variable is required` and exits
+> immediately.
 
 Check logs for the generated admin password:
 
@@ -202,7 +207,7 @@ docker logs poweradmin | grep -i password
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DB_TYPE` | sqlite | Database type: sqlite, mysql, pgsql |
+| `DB_TYPE` | *(required)* | Database type: sqlite, mysql, pgsql. The container exits at startup if this is unset |
 | `DB_HOST` | - | Database hostname |
 | `DB_PORT` | - | Database port (3306 for MySQL, 5432 for PostgreSQL) |
 | `DB_USER` | - | Database username |
