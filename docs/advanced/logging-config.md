@@ -43,7 +43,7 @@ Logs user actions and zone changes to the Poweradmin database. This is independe
 
 ### 4. Syslog Logging
 
-Logs authentication and security events to the system's syslog.
+Sends every audit event to the system's syslog - not just authentication, but also zone and record changes, user and group management, and API events.
 
 ```php
 'logging' => [
@@ -126,6 +126,9 @@ For production systems, ensure log rotation is configured at the system level:
 ### Database Log Tables
 
 When `database_enabled` is true, logs are stored in:
+
 - `log_users` table: Authentication and user management events
 - `log_zones` table: DNS zone and record changes
 - `log_groups` table: Group management and membership changes
+- `log_api` table: Public API requests and permission violations (added in 4.3.0; per-request logging also needs `api_request_logging`)
+- `log_changesets` and `log_record_changes` tables: Structured before/after snapshots of record changes, grouped per submitted change (added in 4.5.0)

@@ -32,20 +32,25 @@ escalate to **IP-level bans** at the firewall.
 
 ## Event Types
 
-Every Poweradmin authentication event uses the same field order:
+Most Poweradmin authentication events use the same field order:
 
 ```
 client_ip:<ip> user:<username> operation:<op> auth_method:<sql|ldap|oidc|saml> [reason:<code>] [mfa_type:<app|email>]
 ```
 
+Two shapes differ, though the filters below still match them:
+
+- MFA events carry no `auth_method:` field - they are `client_ip:<ip> user:<username> operation:<op> mfa_type:<app|email>`.
+- OIDC and SAML `login_error` events carry no `user:` field and report the cause as `error:<message>` rather than `reason:<code>`.
+
 The `operation:` token is what fail2ban filters on.
 
 | `operation:` | Severity | When it fires | Should fail2ban ban? |
 | --- | --- | --- | --- |
-| `login_success` | NOTICE | Successful credential check (or SAML/OIDC handshake completed) | No |
+| `login_success` | NOTICE | Successful credential check. A completed SAML/OIDC handshake emits `saml_login_success` / `oidc_login_success` instead | No |
 | `login_failed` | WARNING | Credential check rejected: unknown user, wrong password, or disabled account | **Yes** |
 | `login_locked` | WARNING | Attempt arrived against an account already locked by `LoginAttemptService` | Optional - useful for escalation |
-| `login_error` | WARNING | Infrastructure failure: LDAP server unreachable, OIDC `?error=` callback, SAML assertion validation exception | **No** - the user was never credential-checked |
+| `login_error` | WARNING (ERROR on the LDAP path) | Infrastructure failure: LDAP server unreachable, OIDC `?error=` callback, SAML assertion validation exception | **No** - the user was never credential-checked |
 | `mfa_verify` | INFO | MFA code accepted, user fully authenticated | No |
 | `mfa_failed` | WARNING | MFA code rejected after password was already correct | **Yes** - high-confidence brute force |
 
@@ -153,8 +158,8 @@ distributed scans.
 
 ## Admin UI
 
-The same events are searchable in **Audit Log** under these filter
-entries:
+The same events are searchable in **User logs** (`/users/logs`) under
+these filter entries:
 
 - `login_failed`, `login_locked`, `login_error`
 - `mfa_failed`, `mfa_verify`

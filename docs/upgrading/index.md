@@ -67,9 +67,9 @@ This allows quick rollback by simply changing the symlink back to the previous v
 
 If you're upgrading across multiple major versions, it's often safest to upgrade incrementally through each major version rather than jumping directly to the latest version.
 
-### Recommended Path from 2.0.0 to 4.1.0
+### Recommended Path from 2.0.0 to 4.4.0
 
-If you're upgrading from a very old version (e.g., 2.0.0) to the latest 4.1.0, we recommend the following path:
+If you're upgrading from a very old version (e.g., 2.0.0) to the latest release, 4.4.0, we recommend the following path:
 
 1. 2.0.0 → 2.1.4 (Important database structure changes)
 2. 2.1.4 → 2.2.2 (API integration changes)
@@ -77,6 +77,9 @@ If you're upgrading from a very old version (e.g., 2.0.0) to the latest 4.1.0, w
 4. 3.2.0 → 3.9.3 (Security improvements)
 5. 3.9.3 → 4.0.0 (Complete architecture overhaul)
 6. 4.0.0 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
+7. 4.1.0 → 4.2.0 (PHP 8.2 minimum, groups support, bulk record operations)
+8. 4.2.0 → 4.3.0 (PowerDNS API backend mode, zone metadata editor, separate API log table)
+9. 4.3.0 → 4.4.0 (Default zone template, PowerDNS capability detection, Views & Networks)
 
 ### Critical Versions with SQL Migrations
 
@@ -122,21 +125,21 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 - **v4.0.7** (Feb 2026) - CSRF token fix for DNSSEC key deletion, MFA TOTP secret reuse fix, IPv6 supermaster validation, LUA record handling, zone apex (`@`) symbol fix
 - **v4.0.6** (Jan 2026) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
-- **[v4.0.5](v4.0.5.md)** (Jan 2025) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
-- **v4.0.4** (Nov 2024) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
-- **v4.0.3** (Oct 2024) - SOA serial updates on record operations, API pagination, dark mode fixes
-- **v4.0.2** (Oct 2024) - MySQL strict mode compatibility, SPF validation, SMTP fixes
-- **v4.0.1** (Aug 2024) - Docker MySQL config, v3.9.2→v4.0.0 migration fixes, LDAP form restoration
+- **[v4.0.5](v4.0.5.md)** (Jan 2026) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)
+- **v4.0.4** (Nov 2025) - LDAP+MFA fixes, automatic TXT record splitting, DNSSEC zone signing fixes
+- **v4.0.3** (Oct 2025) - SOA serial updates on record operations, API pagination, dark mode fixes
+- **v4.0.2** (Sep 2025) - MySQL strict mode compatibility, SPF validation, SMTP fixes
+- **v4.0.1** (Aug 2025) - Docker MySQL config, v3.9.2→v4.0.0 migration fixes, LDAP form restoration
 
 **v3.9.x Series (LTS):**
 
 - **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates
 - **v3.9.10** (Mar 2026) - Translation updates for all locales
-- **v3.9.9** (Jan 2025) - Allow HTML characters in TXT records, fix record name handling
-- **v3.9.8** (Jan 2025) - CSRF protection, PostgreSQL fixes, API error handling improvements
-- **v3.9.6** (Oct 2024) - CAA record validation support
-- **v3.9.5** (Jul 2024) - MySQL ONLY_FULL_GROUP_BY compatibility fix
-- **v3.9.4** (Jul 2024) - Configurable pagination rows per page
+- **v3.9.9** (Jan 2026) - Allow HTML characters in TXT records, fix record name handling
+- **v3.9.8** (Jan 2026) - CSRF protection, PostgreSQL fixes, API error handling improvements
+- **v3.9.6** (Oct 2025) - CAA record validation support
+- **v3.9.5** (Jul 2025) - MySQL ONLY_FULL_GROUP_BY compatibility fix
+- **v3.9.4** (Jul 2025) - Configurable pagination rows per page
 
 ## Long-Term Support (LTS)
 

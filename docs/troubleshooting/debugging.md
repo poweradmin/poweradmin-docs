@@ -4,11 +4,7 @@ To help diagnose issues, you can enable various debug settings in your Poweradmi
 
 ## Configuration Location
 
-Debugging settings should be added to your `config/settings.php` file. If you're still using the legacy configuration in `inc/config.inc.php`, consider migrating to the new configuration format using the provided script:
-
-```bash
-php config/migrate-config.php
-```
+Debugging settings should be added to your `config/settings.php` file. The legacy `inc/config.inc.php` format and its migration script were removed in 4.1.0, so `config/settings.php` is the only configuration file on current releases.
 
 ## Available Debug Settings
 
@@ -137,7 +133,7 @@ Parse error: syntax error, unexpected 'password' in config/settings.php on line 
 
 **Debugging Steps:**
 1. Check your password for the problematic characters listed above
-2. Use `var_dump((new AppConfiguration())->getAll())` to inspect parsed configuration values
+2. Use `var_dump(ConfigurationManager::getInstance()->getAll())` to inspect parsed configuration values
 3. Look for missing quotes or escape characters in the output
 4. Change the password to use only alphanumeric characters and basic symbols
 

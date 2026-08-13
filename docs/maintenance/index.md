@@ -52,8 +52,8 @@ To prevent logs from consuming excessive disk space:
 
 ```sql
 -- Example log cleanup (retain only the last 90 days)
-DELETE FROM log_users WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
-DELETE FROM log_zones WHERE created < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
 ```
 
 2. **System Logs**: Configure log rotation for your web server and PHP logs:
@@ -94,7 +94,7 @@ Back up your Poweradmin configuration files:
 
 ```bash
 # Create a compressed archive of configuration files
-tar -czf poweradmin_config_$(date +%Y%m%d).tar.gz /path/to/poweradmin/inc/config.inc.php /path/to/poweradmin/config/
+tar -czf poweradmin_config_$(date +%Y%m%d).tar.gz /path/to/poweradmin/config/
 ```
 
 ### Security Updates
