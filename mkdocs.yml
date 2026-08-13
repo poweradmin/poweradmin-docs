@@ -76,8 +76,6 @@ nav:
       - Quick Evaluation:
           - Docker Demo: getting-started/docker-demo.md
           - Headless / API-First Quickstart: getting-started/headless-quickstart.md
-#          - First Steps: getting-started/first-steps.md
-#          - Example Configurations: getting-started/examples.md
       - System Requirements: getting-started/requirements.md
 
   - What's New:
@@ -174,18 +172,6 @@ nav:
       - Troubleshooting:
           - Debugging: troubleshooting/debugging.md
           - Reset Admin Password: troubleshooting/reset-admin-password.md
-#      - Backup and Restore: maintenance/backup-restore.md
-#      - Monitoring: maintenance/monitoring.md
-#      - Log Analysis: advanced/log-analysis.md
-#      - Common Issues: troubleshooting/common-issues.md
-#      - FAQ: troubleshooting/faq.md
-#      - Security:
-#          - Best Practices: advanced/security-best-practices.md
-#          - API Security: advanced/api-security.md
-#          - Authentication Methods: advanced/authentication.md
-#      - Performance:
-#          - Optimization: advanced/optimization.md
-#          - Caching: advanced/caching.md
 
   - Upgrading:
       - Overview: upgrading/index.md
