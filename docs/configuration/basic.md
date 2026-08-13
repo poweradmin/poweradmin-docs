@@ -150,11 +150,23 @@ For more DNS options, see [DNS Settings](dns-settings.md).
 | `misc.show_generated_passwords` | true | Display generated passwords |
 | `misc.edit_conflict_resolution` | last_writer_wins | Conflict strategy* |
 | `misc.record_comments_sync` | false | Sync A/PTR record comments |
+| `misc.template_cache` | false | Cache compiled Twig templates on disk for faster rendering (v4.5.0+) |
+| `misc.template_cache_path` | *(empty)* | Directory for compiled templates; empty uses `var/cache/twig` (v4.5.0+) |
 
 \* Conflict resolution strategies:
 - `last_writer_wins` - Latest save overwrites previous
 - `only_latest_version` - Reject if record was modified
 - `3_way_merge` - Attempt automatic merge
+
+### Template caching
+
+Enabling `misc.template_cache` compiles Twig templates to PHP once and reuses them, which takes the
+compile step out of every request. The cache directory must be writable by the web server user. If
+it cannot be created or written, Poweradmin logs a warning and falls back to uncached rendering
+rather than failing the request.
+
+Compiled templates are revalidated against their source files, so an upgrade that ships new
+templates takes effect without clearing the cache by hand.
 
 ## Related Documentation
 
