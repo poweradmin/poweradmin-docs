@@ -4,18 +4,34 @@ Poweradmin uses the GNU gettext system for internationalization. Translation fil
 
 ## Supported Languages
 
-| Locale  | Language             | Locale  | Language           |
-|---------|----------------------|---------|--------------------|
-| cs_CZ   | Czech                | lt_LT   | Lithuanian         |
-| de_DE   | German               | nb_NO   | Norwegian Bokmål   |
-| en_EN   | English              | nl_NL   | Dutch              |
-| es_ES   | Spanish              | pl_PL   | Polish             |
-| fr_FR   | French               | pt_PT   | Portuguese         |
-| id_ID   | Indonesian           | ru_RU   | Russian            |
-| it_IT   | Italian              | sv_SE   | Swedish            |
-| ja_JP   | Japanese             | tr_TR   | Turkish            |
-| ko_KR   | Korean               | uk_UA   | Ukrainian          |
-| vi_VN   | Vietnamese           | zh_CN   | Chinese            |
+Poweradmin ships 43 locales as of v4.5.0.
+
+| Locale  | Language               | Locale  | Language               |
+|---------|------------------------|---------|------------------------|
+| ar_SA   | Arabic                 | lt_LT   | Lithuanian             |
+| bg_BG   | Bulgarian              | lv_LV   | Latvian                |
+| bs_BA   | Bosnian                | ms_MY   | Malay                  |
+| cs_CZ   | Czech                  | nb_NO   | Norwegian Bokmål       |
+| da_DK   | Danish                 | nl_NL   | Dutch                  |
+| de_DE   | German                 | pl_PL   | Polish                 |
+| el_GR   | Greek                  | pt_BR   | Portuguese (Brazil)    |
+| en_EN   | English                | pt_PT   | Portuguese             |
+| es_ES   | Spanish                | ro_RO   | Romanian               |
+| et_EE   | Estonian               | ru_RU   | Russian                |
+| fa_IR   | Persian                | sk_SK   | Slovak                 |
+| fi_FI   | Finnish                | sl_SI   | Slovenian              |
+| fr_FR   | French                 | sq_AL   | Albanian               |
+| ga_IE   | Irish                  | sr_RS   | Serbian                |
+| he_IL   | Hebrew                 | sv_SE   | Swedish                |
+| hi_IN   | Hindi                  | th_TH   | Thai                   |
+| hr_HR   | Croatian               | tr_TR   | Turkish                |
+| hu_HU   | Hungarian              | uk_UA   | Ukrainian              |
+| id_ID   | Indonesian             | vi_VN   | Vietnamese             |
+| it_IT   | Italian                | zh_CN   | Chinese (Simplified)   |
+| ja_JP   | Japanese               | zh_TW   | Chinese (Traditional)  |
+| ko_KR   | Korean                 |         |                        |
+
+Arabic, Persian and Hebrew are right-to-left; the interface flips direction for them.
 
 ## File Structure
 
@@ -33,9 +49,9 @@ locale/
 └── ...
 ```
 
-- **`.pot`** (PO Template) — Master template extracted from source code containing all translatable strings.
-- **`.po`** (Portable Object) — Human-editable translation file for each locale.
-- **`.mo`** (Machine Object) — Compiled binary used at runtime, generated from `.po` files.
+- **`.pot`** (PO Template) - Master template extracted from source code containing all translatable strings.
+- **`.po`** (Portable Object) - Human-editable translation file for each locale.
+- **`.mo`** (Machine Object) - Compiled binary used at runtime, generated from `.po` files.
 
 ## How to Contribute
 
@@ -107,7 +123,7 @@ locale/
 - Untranslated strings fall back to English automatically
 - Test your translations by switching the language on the login page
 - Focus on commonly seen strings first (menu items, buttons, form labels)
-- Entries marked `#, fuzzy` need review and are not used at runtime — remove the fuzzy flag after verifying
+- Entries marked `#, fuzzy` need review and are not used at runtime - remove the fuzzy flag after verifying
 
 ## Checking Translation Progress
 
