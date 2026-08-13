@@ -13,7 +13,7 @@ migration scripts, breaking changes, step-by-step instructions - see
 
 | Release | Date | Theme | Headline features |
 |---------|------|-------|-------------------|
-| [v4.5.0](v4.5.0.md) | unreleased | Change tracking and finer-grained access | Record change log, granular API keys, serial policies, eleven new permissions, API v1 removed |
+| [v4.5.0](v4.5.0.md) | unreleased | Change tracking and finer-grained access | Record change log, granular API keys, serial policies, ten new permissions, API v1 removed |
 | [v4.4.0](v4.4.0.md) | July 2026 | The interface adapts to your server | PowerDNS version awareness, views and networks, DNSSEC key import/export, zone ownership modes |
 | [v4.3.0](v4.3.0.md) | April 2026 | API backend, metadata, audit | PowerDNS API backend mode, zone metadata editor, audit logging overhaul |
 | [v4.2.0](v4.2.0.md) | March 2026 | Groups and modules | User groups, group-based zone ownership, the module system, BIND zone import/export |
