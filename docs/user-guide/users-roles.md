@@ -2,7 +2,7 @@
 
 This document provides an overview of user roles and the permission management system in Poweradmin.
 
-![User List](/screenshots/user-list.png)
+![User List](../screenshots/user-list.png)
 
 ## Basics of User Management
 
@@ -32,9 +32,12 @@ example, if a user owns zones but lacks the `zone_content_view_own` permission, 
 
 ## Edit Access and Zone Integrity
 
-Poweradmin assumes that users with edit permissions for a zone can be trusted with full access to that zone. This is
-because even partial edit access would allow a user to potentially break the zone's functionality. Therefore, if a user
-can edit a zone, they're also granted delete permissions.
+Poweradmin assumes that users with edit permissions for a zone can be trusted with full access to that zone's contents,
+because even partial edit access would allow a user to break the zone's functionality.
+
+Deleting a zone is separate. Since version 4.1.0 it has its own permissions, `zone_delete_own` and
+`zone_delete_others`, checked independently of the edit permissions. A user who can edit a zone cannot delete it unless
+one of those is granted as well.
 
 ## Security Pitfalls
 
