@@ -1,52 +1,49 @@
 # DNS Settings
 
-DNS settings in Poweradmin can be configured through the `config/settings.php` file under the `dns` section or through individual variables in the legacy configuration format.
+DNS settings in Poweradmin are configured through the `config/settings.php` file under the `dns` section.
 
 ## Configuration Options
 
-| Legacy variable | Modern equivalent | Default value | Description | Added in version |
-|----------------|-------------------|---------------|-------------|-----------------|
-| $dns_hostmaster | dns.hostmaster | no default | The default email address to use for the SOA record (e.g., 'hostmaster.example.net'). | |
-| $dns_ns1 | dns.ns1 | no default | The default primary nameserver. | |
-| $dns_ns2 | dns.ns2 | no default | The default secondary nameserver. | |
-| $dns_ns3 | dns.ns3 | no default | The third nameserver. | |
-| $dns_ns4 | dns.ns4 | no default | The fourth nameserver. | |
-| $dns_ttl | dns.ttl | 86400 | The default TTL for records (in seconds). | |
-| - | dns.ttl_reverse | null | Default TTL for PTR records in reverse zones. When `null`, falls back to `dns.ttl`. When configured, the value pre-fills the TTL field on the reverse-zone add-record form, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record (the matched forward record's TTL is overridden). The same default is applied server-side by the record APIs, RRSets, bulk records, and the DNS wizard when the request omits a `ttl` field. | 4.4.0 (UI), 4.5.0 (APIs + wizard) |
-| $dns_soa | (see below) | 28800 7200 604800 86400 | SOA settings for refresh, retry, expire and minimum | 2.2.3 |
-| - | dns.soa_refresh | 28800 | SOA refresh time | 2.2.3 |
-| - | dns.soa_retry | 7200 | SOA retry time | 2.2.3 |
-| - | dns.soa_expire | 604800 | SOA expire time | 2.2.3 |
-| - | dns.soa_minimum | 86400 | SOA minimum TTL | 2.2.3 |
-| - | dns.soa_edit | '' | `SOA-EDIT` metadata applied to newly created zones (e.g. `INCEPTION-INCREMENT`). Controls the serial PowerDNS serves for DNSSEC-signed zones. Empty = not set. | 4.5.0 |
-| - | dns.soa_edit_api | '' | `SOA-EDIT-API` metadata applied to newly created zones (e.g. `EPOCH`). Controls how PowerDNS updates the serial on API edits; pre-selects the add-zone serial policy selector. `OFF` disables the policy explicitly, empty = server default. | 4.5.0 |
-| - | dns.soa_edit_api_options | null | `SOA-EDIT-API` values offered in the add-zone selector and the zone metadata editor (also applies to `SOA-EDIT-DNSUPDATE`). Null = all values, a list (e.g. `['DEFAULT', 'EPOCH', 'OFF']`) restricts the choice, an empty list hides the selector and the metadata kinds. | 4.5.0 |
-| - | dns.soa_edit_options | null | `SOA-EDIT` values offered in the zone metadata editor. Null = all values, a list restricts the choice, an empty list hides the kind. | 4.5.0 |
-| $dns_strict_tld_check | dns.strict_tld_check | false | If enabled (true), allow official TLDs only. | |
-| $dns_top_level_tld_check | dns.top_level_tld_check | false | Don't allow creation of top-level TLDs when true. | 2.1.7 |
-| $dns_third_level_check | dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |
-| - | dns.parent_zone_ownership_check | true | Block creating a zone that overlaps an existing zone owned by another user, in either direction (a subdomain of, or a parent of, the other zone). Covers forward and reverse zones. Ueberusers are exempt. | 4.5.0 |
-| $dns_txt_auto_quote | dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
-| $iface_zone_type_default | dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
-| - | dns.default_zone_template | null | Default zone template pre-selected on the add-zone form. Accepts a template id (int) or name (string). The DB-backed default (set in the template list UI) wins when both are present. | 4.4.0 |
-| - | dns.zone_ownership_mode | both | Controls how zone ownership can be assigned on creation and ownership pages. Options: `both`, `users_only`, `groups_only`. | 4.4.0 |
-| - | dns.sync_zone_owner_to_account | false | Mirror the zone owner's username into the PowerDNS `account` field on zone creation and ownership changes. With multiple owners, the oldest owner is used; a zone left without a direct owner gets an empty account. When enabled, this overwrites account values set through the API or external tools whenever ownership changes. | 4.4.0 |
-| - | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
-| - | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
-| - | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
-| - | dns.top_record_types | null | Pin selected record types to the top of record type selectors, in the given order. Null = alphabetical only. | 4.4.0 |
-| - | dns.custom_tlds | [] | Custom TLDs to allow in zone names (when `strict_tld_check` is on) and in CNAME targets (e.g., `['dn42', 'home']`). | 3.x |
+| Setting | Default value | Description | Added in version |
+|---------|---------------|-------------|-----------------|
+| dns.hostmaster | hostmaster.example.com | The default email address to use for the SOA record (e.g., 'hostmaster.example.net'). | |
+| dns.ns1 | ns1.example.com | The default primary nameserver. | |
+| dns.ns2 | ns2.example.com | The default secondary nameserver. | |
+| dns.ns3 | '' | The third nameserver. | |
+| dns.ns4 | '' | The fourth nameserver. | |
+| dns.ttl | 86400 | The default TTL for records (in seconds). | |
+| dns.ttl_reverse | null | Default TTL for PTR records in reverse zones. When `null`, falls back to `dns.ttl`. When configured, the value pre-fills the TTL field on the reverse-zone add-record form, applies to batch PTR creation, and is used for PTRs auto-created alongside a forward record (the matched forward record's TTL is overridden). The same default is applied server-side by the record APIs, RRSets, bulk records, and the DNS wizard when the request omits a `ttl` field. | 4.4.0 (UI), 4.5.0 (APIs + wizard) |
+| dns.soa_refresh | 28800 | SOA refresh time | 2.2.3 |
+| dns.soa_retry | 7200 | SOA retry time | 2.2.3 |
+| dns.soa_expire | 604800 | SOA expire time | 2.2.3 |
+| dns.soa_minimum | 86400 | SOA minimum TTL | 2.2.3 |
+| dns.soa_edit | '' | `SOA-EDIT` metadata applied to newly created zones (e.g. `INCEPTION-INCREMENT`). Controls the serial PowerDNS serves for DNSSEC-signed zones. Empty = not set. | 4.5.0 |
+| dns.soa_edit_api | '' | `SOA-EDIT-API` metadata applied to newly created zones (e.g. `EPOCH`). Controls how PowerDNS updates the serial on API edits; pre-selects the add-zone serial policy selector. `OFF` disables the policy explicitly, empty = server default. | 4.5.0 |
+| dns.soa_edit_api_options | null | `SOA-EDIT-API` values offered in the add-zone selector and the zone metadata editor (also applies to `SOA-EDIT-DNSUPDATE`). Null = all values, a list (e.g. `['DEFAULT', 'EPOCH', 'OFF']`) restricts the choice, an empty list hides the selector and the metadata kinds. | 4.5.0 |
+| dns.soa_edit_options | null | `SOA-EDIT` values offered in the zone metadata editor. Null = all values, a list restricts the choice, an empty list hides the kind. | 4.5.0 |
+| dns.strict_tld_check | false | If enabled (true), allow official TLDs only. | |
+| dns.top_level_tld_check | false | Don't allow creation of top-level TLDs when true. | 2.1.7 |
+| dns.third_level_check | false | Don't allow creation of third-level domains when true. | 2.1.7 |
+| dns.parent_zone_ownership_check | true | Block creating a zone that overlaps an existing zone owned by another user, in either direction (a subdomain of, or a parent of, the other zone). Covers forward and reverse zones. Ueberusers are exempt. | 4.5.0 |
+| dns.txt_auto_quote | false | Automatically quote TXT records when true. | 3.9.2 |
+| dns.zone_type_default | MASTER | Default zone type when creating new zones. | 2.1.9 |
+| dns.default_zone_template | null | Default zone template pre-selected on the add-zone form. Accepts a template id (int) or name (string). The DB-backed default (set in the template list UI) wins when both are present. | 4.4.0 |
+| dns.zone_ownership_mode | both | Controls how zone ownership can be assigned on creation and ownership pages. Options: `both`, `users_only`, `groups_only`. | 4.4.0 |
+| dns.sync_zone_owner_to_account | false | Mirror the zone owner's username into the PowerDNS `account` field on zone creation and ownership changes. With multiple owners, the oldest owner is used; a zone left without a direct owner gets an empty account. When enabled, this overwrites account values set through the API or external tools whenever ownership changes. | 4.4.0 |
+| dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
+| dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
+| dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
+| dns.top_record_types | null | Pin selected record types to the top of record type selectors, in the given order. Null = alphabetical only. | 4.4.0 |
+| dns.custom_tlds | [] | Custom TLDs to allow in zone names (when `strict_tld_check` is on) and in CNAME targets (e.g., `['dn42', 'home']`). | 4.1.0 |
 
 ## SOA Record Settings
 
-In the modern configuration format, the SOA settings are configured as individual parameters:
+The SOA settings are configured as individual parameters:
 
 - **refresh**: The time interval before the zone should be refreshed. Default: `28800` (8 hours)
 - **retry**: The time interval that should elapse before a failed refresh should be retried. Default: `7200` (2 hours)
 - **expire**: The upper limit on the time interval that can elapse before the zone is no longer authoritative. Default: `604800` (1 week)
 - **minimum**: The negative result TTL. Default: `86400` (24 hours)
-
-In the legacy format, these are combined in the `$dns_soa` variable as a space-separated string.
 
 ## Record Type Configuration
 
@@ -121,7 +118,7 @@ To allow cross-owner overlapping zones, set it to `false`:
 ],
 ```
 
-## Modern Configuration Example
+## Configuration Example
 
 ```php
 return [
@@ -152,23 +149,4 @@ return [
         'custom_tlds' => [], // Custom TLDs for CNAME validation
     ],
 ];
-```
-
-## Legacy Configuration Example
-
-```php
-<?php
-// DNS settings
-$dns_hostmaster = 'hostmaster.example.com';
-$dns_ns1 = 'ns1.example.com';
-$dns_ns2 = 'ns2.example.com';
-$dns_ns3 = 'ns3.example.com';
-$dns_ns4 = 'ns4.example.com';
-$dns_ttl = 86400;
-$dns_soa = '28800 7200 604800 86400';
-$dns_strict_tld_check = false;
-$dns_top_level_tld_check = false;
-$dns_third_level_check = false;
-$dns_txt_auto_quote = false;
-$iface_zone_type_default = 'MASTER';
 ```

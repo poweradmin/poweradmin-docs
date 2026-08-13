@@ -4,16 +4,18 @@ Poweradmin allows you to customize various layout aspects to better fit your wor
 
 ## Customizing Header and Footer
 
-Poweradmin supports custom header and footer templates through the theme system. These templates replace the visible logo/title area at the top of the page and the footer line at the bottom. They do not inject content into the page `<head>` element (see [Injecting content into `<head>`](#injecting-content-into-head) below if you need that for analytics or custom meta tags).
+Poweradmin looks for two optional snippet files inside the active theme: `custom/header.html` and `custom/footer.html`. When a file exists, its content replaces the visible logo/title area at the top of the page or the footer line at the bottom. They do not inject content into the page `<head>` element (see [Injecting content into `<head>`](#injecting-content-into-head) below if you need that for analytics or custom meta tags).
 
 ### Configuration
 
-First, configure your theme settings in `settings.php`:
+No setting switches the snippets on and no theme change is needed - the files are picked up from whichever theme you already run, so the path is `templates/<active theme>/custom/`. On a stock install that is `templates/default/custom/`.
+
+The theme-related settings themselves:
 
 ```php
 return [
     'interface' => [
-        'theme' => 'custom',  // Set to 'custom' to use your custom templates
+        'theme' => 'default',  // Theme whose custom/ directory is used ('default' or 'modern')
         'style' => 'light',   // Options: 'light', 'dark'
         'theme_base_path' => 'templates', // Base path for theme templates
         'title' => 'DNS Server 1', // Custom title to distinguish multiple server instances
@@ -23,20 +25,20 @@ return [
 
 **Tip**: If you manage multiple DNS servers, customize the `title` setting to easily distinguish between them. For example, use server names like "Production DNS", "ns1.example.com", or "DNS Server - East Coast" to quickly identify which server you're managing.
 
-### Creating Custom Templates
+### Creating the Snippet Files
 
-1. Create a directory structure for your custom theme (see below)
-2. Create the following files (see sections below)
+1. Create a `custom` directory inside your active theme
+2. Add either or both files (see sections below)
 
 ```
 templates/
-└── custom/
-    ├── header.html
-    ├── footer.html
-    └── other template files...
+└── default/
+    └── custom/
+        ├── header.html
+        └── footer.html
 ```
 
-#### Custom Header (templates/custom/header.html)
+#### Custom Header (templates/default/custom/header.html)
 
 ```html
 <!-- Your custom header content goes here -->
@@ -44,7 +46,7 @@ templates/
 <span class="fs-4">Your Custom Title</span>
 ```
 
-#### Custom Footer (templates/custom/footer.html)
+#### Custom Footer (templates/default/custom/footer.html)
 
 ```html
 <!-- Your custom footer content goes here -->
@@ -67,13 +69,13 @@ The following template variables are available in your custom templates:
 
 - `{{ iface_title }}` - Application title from configuration settings (appears in browser tab and header)
 - `{{ iface_style }}` - Current theme style (light or dark)
-- `{{ file_version }}` - File version timestamp for cache busting
+- `{{ file_version }}` - Opaque cache-busting token for asset URLs. Not a timestamp: it is a truncated HMAC over the Poweradmin version and a content digest of the bundled assets, so it stays stable until an asset or the version changes
 
 #### Footer Template Variables
 
 - `{{ version }}` - Poweradmin version
 - `{{ iface_style }}` - Current theme style
-- `{{ file_version }}` - File version timestamp for cache busting
+- `{{ file_version }}` - Opaque cache-busting token for asset URLs. Not a timestamp: it is a truncated HMAC over the Poweradmin version and a content digest of the bundled assets, so it stays stable until an asset or the version changes
 
 ### Examples
 
@@ -127,7 +129,7 @@ Notes:
 
 Control the positioning of key UI elements:
 
-- **position_record_form_top**: Place the "Add record" form at the top of the page. Default: `false`
+- **position_record_form_top**: Place the "Add record" form at the top of the page. Default: `true`
 - **position_save_button_top**: Place the "Save changes" button at the top of the page. Default: `false`
 
 ```php
@@ -143,7 +145,7 @@ return [
 
 Configure which information is displayed in the user interface:
 
-- **show_record_id**: Show record ID column in edit mode. Default: `true`
+- **show_record_id**: Show record ID column in edit mode. Default: `false`
 - **show_zone_comments**: Show zone comments. Default: `true`
 - **show_record_comments**: Show record comments. Default: `false`
 - **display_serial_in_zone_list**: Show serial number in zone list. Default: `false`
@@ -161,20 +163,6 @@ return [
         'show_record_comments' => true,
         'display_serial_in_zone_list' => true,
         'show_zone_record_count' => true,
-    ],
-];
-```
-
-## Display Mode
-
-Configure how the main index page displays information:
-
-- **index_display**: Choose between card view or list view. Options: `cards`, `list`. Default: `cards`
-
-```php
-return [
-    'interface' => [
-        'index_display' => 'list',
     ],
 ];
 ```
@@ -247,7 +235,7 @@ Tracking snippets (Matomo, Plausible, Google Analytics) and additional meta tags
     cp templates/default/header.html templates/custom/header.html
     ```
 
-2. Set `theme: 'custom'` in `settings.php` (see the configuration block earlier on this page).
+2. Set `'theme' => 'custom'` in the `interface` section of `settings.php`. Unlike the `custom/header.html` snippet described earlier, this path forks the whole header template, so the theme really does have to change.
 
 3. Open `templates/custom/header.html` and paste your snippet immediately before `</head>`. For example, a Matomo `<noscript>` tracker:
 

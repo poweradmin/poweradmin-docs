@@ -1,12 +1,12 @@
 # Avatar System
 
-Poweradmin v4.0.0+ supports user avatars from OAuth providers and Gravatar.
+Poweradmin v4.1.0+ supports user avatars from OAuth providers and Gravatar.
 
 ## Overview
 
 The avatar system displays user profile pictures in the interface. Avatars can be sourced from:
 
-- **OAuth providers**: Profile pictures from OIDC/SAML identity providers
+- **OIDC providers**: Profile pictures from OpenID Connect identity providers. SAML logins do not supply an avatar URL
 - **Gravatar**: Global avatar service based on email address
 
 ## Configuration
@@ -17,7 +17,6 @@ The avatar system displays user profile pictures in the interface. Avatars can b
 | `interface.avatar_gravatar_enabled`  | `false` | Enable Gravatar integration          |
 | `interface.avatar_priority`          | `oauth` | Priority: `oauth` or `gravatar`      |
 | `interface.avatar_size`              | `40`    | Avatar size in pixels                |
-| `interface.avatar_cache_ttl`         | `3600`  | Cache TTL in seconds                 |
 
 ## Modern Configuration
 
@@ -28,30 +27,20 @@ return [
         'avatar_gravatar_enabled' => true,
         'avatar_priority' => 'oauth',  // 'oauth' or 'gravatar'
         'avatar_size' => 40,
-        'avatar_cache_ttl' => 3600,    // 1 hour
     ],
 ];
 ```
 
-## Docker Configuration
-
-```yaml
-environment:
-  PA_AVATAR_OAUTH_ENABLED: "true"
-  PA_AVATAR_GRAVATAR_ENABLED: "true"
-  PA_AVATAR_PRIORITY: "oauth"
-  PA_AVATAR_SIZE: "40"
-  PA_AVATAR_CACHE_TTL: "3600"
-```
+> **Note:** There are no `PA_AVATAR_*` environment variables. The Docker entrypoint writes no avatar keys, so configure avatars in `config/settings.php` (bind-mount the file into the container if needed).
 
 ## Avatar Priority
 
 The `avatar_priority` setting determines which source is checked first:
 
 - **oauth**: Check OAuth provider first, fall back to Gravatar
-- **gravatar**: Check Gravatar first, fall back to OAuth
+- **gravatar**: Check Gravatar first
 
-If the primary source has no avatar, the secondary source is used.
+The fallback only applies with `oauth`: if the login supplied no avatar URL, Gravatar is used instead. With `gravatar`, any user who has an email address gets a Gravatar URL (Gravatar serves a generated default image for unknown addresses), so the OAuth picture is never reached.
 
 ## OAuth Avatars
 
@@ -59,7 +48,7 @@ OAuth avatars are retrieved from identity providers during login:
 
 - Azure AD, Google, Keycloak, etc. provide profile pictures
 - The `picture` claim is mapped automatically
-- Avatars are cached locally to reduce provider requests
+- The URL is kept in the session and the image is loaded by the browser straight from the provider
 
 ### OIDC Configuration
 
@@ -94,15 +83,9 @@ If a user has no Gravatar, a default image is displayed. Gravatar provides sever
 
 ## Caching
 
-Avatars are cached to improve performance:
+Poweradmin does not cache avatar images server-side. It only builds the avatar URL (the provider's picture URL, or a Gravatar URL derived from the email) and hands it to the browser, which caches it under normal HTTP rules.
 
-- **Cache TTL**: Default 1 hour (3600 seconds)
-- **Cache key**: Based on user ID and source
-- **Cache invalidation**: Automatic on logout
-
-Adjust `avatar_cache_ttl` based on your needs:
-- Lower values: More frequent updates, more requests
-- Higher values: Better performance, stale avatars
+> **Note:** `interface.avatar_cache_ttl` exists in `settings.defaults.php` but is not read anywhere in the application. Setting it has no effect.
 
 ## Disabling Avatars
 
@@ -119,7 +102,7 @@ To disable avatars completely:
 
 1. **Gravatar**: Sends hashed email to external service
 2. **OAuth**: Avatar URLs may be stored in session
-3. **Caching**: Avatars may be cached on server
+3. **Browser requests**: Images are fetched by the user's browser directly from Gravatar or the identity provider
 
 For privacy-conscious deployments, consider disabling Gravatar and relying only on OAuth avatars (which users explicitly provide to their identity provider).
 

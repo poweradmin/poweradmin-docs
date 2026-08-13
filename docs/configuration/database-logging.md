@@ -4,12 +4,14 @@ Poweradmin can log operations to the database for auditing and tracking purposes
 
 ## Overview
 
-Database logging records operations across four log tables:
+Database logging records operations across six log tables:
 
 - **User events** (`log_users`): login/logout, user creation/editing/deletion, MFA, password resets
 - **API events** (`log_api`): API key management, plus optional per-request public API audit entries and permission violations (401/403)
 - **Zone events** (`log_zones`): zone and record creation, modification, and deletion
 - **Group events** (`log_groups`): group creation/editing/deletion, membership and zone assignment changes
+- **Record changes** (`log_record_changes`): the structured change log with before/after values per record
+- **Changesets** (`log_changesets`): groups the record changes made in a single save, with the optional change comment
 
 ## Configuration
 
@@ -18,7 +20,8 @@ Database logging records operations across four log tables:
 | `logging.database_enabled` | false | Enable database logging |
 | `logging.api_request_logging` | false | Log every public API request to `log_api` (requires `database_enabled`); permission violations are logged regardless (added in v4.5.0) |
 | `logging.api_log_retention_days` | 0 | Days to keep `log_api` rows; 0 = keep forever (added in v4.5.0) |
-| `logging.dblog.use` | false | Legacy setting (v3.x) |
+
+The v3.x equivalent of `logging.database_enabled` was the flat `$dblog_use` variable. See [Legacy Configuration](legacy-configuration.md).
 
 ## Modern Configuration
 
@@ -106,7 +109,7 @@ environment:
 - Zone type changes (MASTER, NATIVE, SLAVE)
 - Zone deletion
 - Record creation, modification, and deletion
-- DNSSEC sign and unsign events (sign events added in v4.4.0; before that only unsign was recorded)
+- DNSSEC sign and unsign events (sign events added in v4.3.2; before that only unsign was recorded)
 
 ### Group Events
 

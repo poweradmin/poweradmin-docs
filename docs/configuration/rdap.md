@@ -52,9 +52,11 @@ PA_MODULE_RDAP_CUSTOM_SERVERS=za=https://rdap.registry.net.za/
 
 **Lookup priority:**
 
-1. Custom servers (from `custom_servers` config)
-2. Built-in RDAP server database
-3. `default_server` (global fallback, if set)
+1. `default_server`, if set
+2. Custom servers (from `custom_servers` config)
+3. Built-in RDAP server database
+
+> **Warning:** `default_server` is not a fallback. When it is non-empty it is the only server ever queried, and `custom_servers` and the built-in database are never consulted. Leave it empty unless you want every lookup to go to one server.
 
 ## RDAP vs WHOIS
 
@@ -65,7 +67,7 @@ PA_MODULE_RDAP_CUSTOM_SERVERS=za=https://rdap.registry.net.za/
 | Internationalization | Limited | Full Unicode support |
 | Machine readable | No | Yes |
 | Rate limiting | Basic | Standardized |
-| Authentication | None | OAuth2 support |
+| Authentication | None | OAuth2 in the protocol (not implemented in Poweradmin) |
 
 ## Usage
 
@@ -73,7 +75,7 @@ When enabled, RDAP lookups provide:
 
 1. **Structured data** - JSON responses with consistent formatting
 2. **Enhanced security** - HTTPS-based queries
-3. **Better performance** - HTTP-based protocol with caching support
+3. **Better performance** - HTTP-based protocol
 4. **Internationalization** - Full Unicode domain support
 
 ### How to Use RDAP Lookup
@@ -97,12 +99,13 @@ RDAP returns structured information including:
 ### Choosing Between WHOIS and RDAP
 
 Use **RDAP** when you need:
+
 - Machine-readable data for automation
 - International domain names (IDN)
 - Structured contact information
-- OAuth2-protected queries
 
 Use **WHOIS** when you need:
+
 - Quick manual lookups
 - Legacy system compatibility
 - Simple text output
@@ -117,10 +120,12 @@ RDAP supports lookups for:
 
 ## Security Features
 
-- **HTTPS encryption** - All queries use encrypted connections
 - **Admin restriction** - Access limited to administrators by default
-- **Rate limiting compliance** - Respects RDAP server rate limits
-- **Input validation** - Domain names are validated before queries
+- **Input validation** - Domain names and server URLs are validated before queries
+
+> **Warning:** The URL validator accepts `http` as well as `https`, so a plain-HTTP `default_server` or `custom_servers` entry is queried unencrypted. Use `https` URLs. Nearly all entries in the built-in server database are HTTPS, but a handful of registries publish `http` endpoints.
+
+Poweradmin does not throttle RDAP queries or handle HTTP 429 responses; each lookup is a single request with a timeout.
 
 ## Configuration Best Practices
 
@@ -146,17 +151,16 @@ RDAP supports lookups for:
 ],
 ```
 
-## RDAP Server Bootstrap
+## RDAP Server List
 
-RDAP uses a bootstrap mechanism to determine the correct server for each TLD:
+The TLD-to-server mapping ships with Poweradmin as a static list generated from the IANA RDAP bootstrap registry. It is loaded from disk when the module starts.
 
-1. **Automatic detection** - Queries IANA bootstrap registry
-2. **Cached mappings** - Server mappings are cached for performance
-3. **Fallback servers** - Default server used if bootstrap fails
+- Nothing queries IANA at runtime, so a lookup for a TLD missing from the list simply fails
+- The list is refreshed between releases; use `custom_servers` to add or override an entry in the meantime
+- There is no fallback from a failed lookup to `default_server`
 
-## Performance Optimization
+## Performance Considerations
 
-- **Caching**: RDAP responses can be cached
-- **Connection pooling**: Reuse HTTP connections
-- **Timeout tuning**: Balance between reliability and performance
-- **Error handling**: Graceful fallback to WHOIS if RDAP fails
+- **Timeout tuning**: `request_timeout` balances reliability against a blocked interface
+- **No caching**: every lookup performs a fresh HTTP request; responses are not stored
+- **Error handling**: a failed RDAP lookup returns an error. There is no automatic fallback to WHOIS, run a WHOIS lookup separately if needed

@@ -6,7 +6,7 @@ configurations, including password policies, are now configured in a single `con
 
 ## Password Rules
 
-- **enable_password_rules**: Enable or disable password rules enforcement. Default: `false`.
+- **enable_password_rules**: Enable or disable password rules enforcement. Default: `true`.
 - **min_length**: Minimum length of the password. Default: `6`.
 - **require_uppercase**: Require at least one uppercase letter. Default: `true`.
 - **require_lowercase**: Require at least one lowercase letter. Default: `true`.

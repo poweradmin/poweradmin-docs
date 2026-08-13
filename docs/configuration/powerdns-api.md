@@ -18,18 +18,18 @@ This document explains how to configure both modes.
 
 ## Configuration Options
 
-PowerDNS API settings can be configured in the `config/settings.php` file under the `pdns_api` section or through individual variables in the legacy configuration format.
+PowerDNS API settings are configured in the `config/settings.php` file under the `pdns_api` section.
 
-| Legacy variable | Modern equivalent | Default value | Description | Added in version |
-|----------------|-------------------|---------------|-------------|-----------------|
-| $pdns_api_url | pdns_api.url | no default | The endpoint for establishing a connection to the PowerDNS API | 3.7.0 |
-| $pdns_api_key | pdns_api.key | no default | The authentication key required for establishing a connection with the PowerDNS API | 3.7.0 |
-| - | pdns_api.display_name | PowerDNS | PowerDNS name to identify server in the interface | 4.0.0 |
-| - | pdns_api.server_name | localhost | PowerDNS server name used in API calls | 4.0.0 |
-| - | pdns_api.timeout | 10 | PowerDNS API request timeout in seconds. GET requests are retried once on transient failures; writes are not retried. | 4.4.0 |
-| - | dns.backend | sql | Backend mode: `sql` (database) or `api` (API only) | 4.3.0 |
+| Setting | Default value | Description | Added in version |
+|---------|---------------|-------------|-----------------|
+| pdns_api.url | '' | The endpoint for establishing a connection to the PowerDNS API | 3.7.0 |
+| pdns_api.key | '' | The authentication key required for establishing a connection with the PowerDNS API | 3.7.0 |
+| pdns_api.display_name | PowerDNS | PowerDNS name to identify server in the interface | 4.0.0 |
+| pdns_api.server_name | localhost | PowerDNS server name used in API calls | 4.0.0 |
+| pdns_api.timeout | 10 | PowerDNS API request timeout in seconds. GET requests are retried once on transient failures; writes are not retried. | 4.4.0 |
+| dns.backend | sql | Backend mode: `sql` (database) or `api` (API only) | 4.3.0 |
 
-## Modern Configuration Example
+## Configuration Example
 
 ```php
 return [
@@ -40,15 +40,6 @@ return [
         'server_name' => 'localhost',
     ],
 ];
-```
-
-## Legacy Configuration Example
-
-```php
-<?php
-// PowerDNS API settings
-$pdns_api_url = 'http://localhost:8081';
-$pdns_api_key = 'YOUR_API_KEY';
 ```
 
 ## PowerDNS Server Setup
@@ -200,7 +191,7 @@ In API backend mode, a sync service keeps the local `zones` table in sync with P
 
 If you've just created zones in PowerDNS through `pdnsutil` or another tool and don't want to wait for the next scheduled sync, the Forward Zones page now has a **Sync from PowerDNS** button. Clicking it triggers an immediate sync against the PowerDNS API.
 
-The action requires a CSRF-protected POST, so it's safe to expose to non-admin zone owners. The button respects the same throttle as the automatic sync internally - if a sync ran very recently, the manual press becomes a no-op rather than a double-reconciliation.
+The button is only shown to ueberusers, and the server re-checks that permission when the CSRF-protected POST arrives. Unlike the automatic sync, the manual press is not throttled: it always runs a full reconciliation.
 
 #### What Happens When the API is Down
 

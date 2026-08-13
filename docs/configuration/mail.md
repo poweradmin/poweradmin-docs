@@ -18,7 +18,7 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 - **from**: Default "from" email address. Default: `poweradmin@example.com`
 - **from_name**: Default "from" name. Default: empty
 - **return_path**: Default "Return-Path" address for bounce handling. Default: `poweradmin@example.com`
-- **transport**: Transport method. Options: 'smtp', 'sendmail', 'php'. Default: `php`
+- **transport**: Transport method. Options: 'smtp', 'sendmail', 'php', 'logger' (writes messages to the log instead of sending, see [Email Debug Logging](#email-debug-logging)). Default: `php`
 
 ### SMTP Settings
 
@@ -33,7 +33,9 @@ SMTP settings live as flat keys under `mail` (they are not nested in an `smtp` s
 
 ### Sendmail Settings
 
-- **sendmail_path**: Path to sendmail binary. Default: `/usr/sbin/sendmail -bs`
+- **sendmail_path**: Path to sendmail binary, including arguments. Default: `/usr/sbin/sendmail -t -i`
+
+> **Warning:** Keep the `-t` flag (it makes sendmail read recipients from the message headers). `-bs` puts sendmail into SMTP mode, where a piped message is silently dropped and no mail is delivered.
 
 
 ## Example Configuration

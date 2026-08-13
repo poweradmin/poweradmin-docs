@@ -46,7 +46,7 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `saml.auto_provision` | true | Auto-create users from SAML assertions |
 | `saml.link_by_email` | true | Link SAML accounts to existing users by email |
 | `saml.sync_user_info` | true | Sync user info on each login |
-| `saml.default_permission_template` | "" | Default permission template for new users |
+| `saml.default_permission_template` | "Guest" | Default permission template for new users |
 
 ### Superuser rights are never provisioned from an identity provider
 
@@ -165,10 +165,12 @@ Poweradmin acts as a SAML Service Provider. Configure SP settings in the `sp` se
 Poweradmin can generate SP metadata for your identity provider. Access it at:
 
 ```
-https://your-poweradmin.com/saml/metadata/{provider-id}
+https://your-poweradmin.com/saml/metadata?provider={provider-id}
 ```
 
-For example: `https://your-poweradmin.com/saml/metadata/azure`
+For example: `https://your-poweradmin.com/saml/metadata?provider=azure`. With no `provider` parameter the first configured provider is used.
+
+> **Note:** The SP entity ID is the bare `https://your-poweradmin.com/saml/metadata`, with no provider suffix. The query parameter only selects which IdP the generated document is tailored for.
 
 ## Provider Configuration
 
@@ -176,7 +178,7 @@ Each provider requires IdP-specific configuration:
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Internal provider identifier |
+| `name` | Yes | Display label for the provider. The provider identifier is the array key, not this field |
 | `display_name` | Yes | Text shown on login button |
 | `entity_id` | Yes | IdP Entity ID |
 | `sso_url` | Yes | IdP Single Sign-On URL |
@@ -189,7 +191,7 @@ Each provider requires IdP-specific configuration:
 1. In Azure Portal, go to Enterprise Applications > New Application
 2. Create a non-gallery application
 3. Configure Single Sign-On > SAML
-4. Set Entity ID: `https://your-poweradmin.com/saml/metadata/azure`
+4. Set Entity ID: `https://your-poweradmin.com/saml/metadata` (no provider suffix - it must match the SP entity ID exactly, or the assertion is rejected on audience mismatch)
 5. Set Reply URL (ACS): `https://your-poweradmin.com/saml/acs`
 6. Download the Certificate (Base64)
 
@@ -222,7 +224,7 @@ Each provider requires IdP-specific configuration:
 1. In Okta Admin Console, go to Applications > Create App Integration
 2. Select SAML 2.0
 3. Set Single Sign-On URL: `https://your-poweradmin.com/saml/acs`
-4. Set Audience URI (SP Entity ID): `https://your-poweradmin.com/saml/metadata/okta`
+4. Set Audience URI (SP Entity ID): `https://your-poweradmin.com/saml/metadata` (no provider suffix)
 5. Configure attribute statements
 6. Download the IdP metadata or certificate
 
@@ -283,7 +285,7 @@ Each provider requires IdP-specific configuration:
 
 1. In Keycloak Admin Console, create a new Client
 2. Set Client Protocol to "saml"
-3. Set Client ID: `https://your-poweradmin.com/saml/metadata/keycloak`
+3. Set Client ID: `https://your-poweradmin.com/saml/metadata` (Keycloak uses the client ID as the SP entity ID, so it must carry no provider suffix)
 4. Configure endpoints and download certificate
 
 ```php
@@ -388,12 +390,19 @@ Configure security options per provider:
 ],
 ```
 
+Anything you set here overrides the derived defaults below.
+
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `wantAssertionsSigned` | true | Require signed assertions |
+| `wantAssertionsSigned` | true when the provider has an `x509cert`, otherwise false | Require signed assertions |
 | `wantNameId` | true | Require NameID in assertions |
-| `authnRequestsSigned` | false | Sign authentication requests |
+| `authnRequestsSigned` | true when `sp.private_key` is set, otherwise false | Sign authentication requests |
+| `logoutRequestSigned` | true when `sp.private_key` is set, otherwise false | Sign logout requests |
+| `logoutResponseSigned` | true when `sp.private_key` is set, otherwise false | Sign logout responses |
+| `signMetadata` | true when `sp.private_key` is set, otherwise false | Sign the generated SP metadata |
 | `signatureAlgorithm` | rsa-sha256 | Signature algorithm |
+
+Signing therefore switches on by itself once you configure an SP key and certificate, and assertion signing is required as soon as the provider has an IdP certificate configured.
 
 ## SP Signing (Optional)
 

@@ -30,8 +30,8 @@ return [
 
 ### First-Time Users
 
-1. **Registration/Login** - User creates account or logs in
-2. **Agreement Prompt** - System displays user agreement
+1. **Login** - User logs in with an existing account
+2. **Agreement Prompt** - The login pipeline redirects the user to `/user-agreement`
 3. **Acceptance Required** - User must accept to continue
 4. **Access Granted** - User can access the system
 
@@ -56,80 +56,63 @@ The system tracks:
 
 ### Creating Agreement Content
 
-Create agreement templates in your theme directory:
+The agreement page always renders the `user_agreement.html` template of the active theme. There is no per-version template: to customize the text, create a single Twig fragment in the theme's `custom` directory.
 
 ```
 templates/
-├── user_agreement/
-│   ├── agreement_v1.0.html
-│   ├── agreement_v2.0.html
-│   └── agreement_v2.1.html
+├── default/
+│   └── custom/
+│       └── user_agreement_content.html
 ```
 
-### Agreement Template Example
+If that file exists it is included in place of the shipped default content. Changing `current_version` does not change which file is used, so update the fragment and the version together.
 
-```html
-<!-- templates/user_agreement/agreement_v2.1.html -->
-<div class="user-agreement">
-    <h2>DNS Management System - Terms of Use</h2>
-    
-    <h3>1. Acceptable Use</h3>
-    <p>You agree to use this DNS management system only for legitimate business purposes...</p>
-    
-    <h3>2. Data Protection</h3>
-    <p>All DNS data is confidential and must not be shared with unauthorized parties...</p>
-    
-    <h3>3. Security Requirements</h3>
-    <ul>
-        <li>Use strong passwords and change them regularly</li>
-        <li>Do not share your account credentials</li>
-        <li>Report security incidents immediately</li>
-    </ul>
-    
-    <h3>4. Compliance</h3>
-    <p>Users must comply with all applicable laws and regulations...</p>
-    
-    <div class="agreement-footer">
-        <p><strong>Version:</strong> 2.1</p>
-        <p><strong>Effective Date:</strong> January 1, 2024</p>
-    </div>
-</div>
+### Agreement Content Example
+
+```twig
+{# templates/default/custom/user_agreement_content.html #}
+<h2>DNS Management System - Terms of Use</h2>
+
+<h3>1. Acceptable Use</h3>
+<p>You agree to use this DNS management system only for legitimate business purposes...</p>
+
+<h3>2. Data Protection</h3>
+<p>All DNS data is confidential and must not be shared with unauthorized parties...</p>
+
+<h3>3. Security Requirements</h3>
+<ul>
+    <li>Use strong passwords and change them regularly</li>
+    <li>Do not share your account credentials</li>
+    <li>Report security incidents immediately</li>
+</ul>
+
+<h3>4. Compliance</h3>
+<p>Users must comply with all applicable laws and regulations...</p>
 ```
+
+> **Note:** The file is a Twig template, not plain HTML. Literal `{{` and `{%` sequences are interpreted by Twig and must be escaped.
 
 ## Database Schema
 
 The user agreement system uses the following database structure:
 
 ```sql
-CREATE TABLE user_agreements (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    version VARCHAR(20) NOT NULL,
-    accepted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    ip_address VARCHAR(45),
-    user_agent TEXT,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    INDEX idx_user_version (user_id, version)
+CREATE TABLE `user_agreements` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `agreement_version` varchar(50) NOT NULL,
+    `accepted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `ip_address` varchar(45) DEFAULT NULL,
+    `user_agent` text DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `unique_user_agreement` (`user_id`, `agreement_version`),
+    KEY `idx_user_id` (`user_id`),
+    KEY `idx_agreement_version` (`agreement_version`),
+    CONSTRAINT `fk_user_agreements_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 ```
 
-## Administrative Functions
-
-### Viewing Agreement Status
-
-Administrators can view:
-
-- **User acceptance status** - Which users have accepted current version
-- **Acceptance history** - Historical acceptance records
-- **Compliance reports** - Generate reports for audit purposes
-
-### Forcing Re-acceptance
-
-Administrators can:
-- 
-- **Update version** - Change current version to force re-acceptance
-- **Reset user status** - Require specific users to re-accept
-- **Bulk operations** - Handle multiple users at once
+The `(user_id, agreement_version)` pair is unique, so a user has at most one row per version.
 
 ## Use Cases
 
@@ -169,14 +152,13 @@ Administrators can:
 
 ## Integration with User Management
 
-### New User Registration
+### New Users
 
-When creating new users:
+Poweradmin has no self-registration: accounts are created by an administrator. The agreement does not gate account creation or activation, it gates access.
 
-1. User completes registration
-2. Agreement prompt appears
-3. Acceptance is required before activation
-4. User account is fully activated
+1. Administrator creates the account
+2. User logs in and is redirected to the agreement page
+3. Access to the rest of the interface is blocked until the agreement is accepted
 
 ### Existing User Management
 
@@ -200,8 +182,4 @@ The system maintains:
 
 ### Reporting
 
-Generate reports for:
-
-- **Compliance status** - Current acceptance rates
-- **Historical data** - Past agreement versions
-- **User activity** - Individual user agreement history
+Poweradmin has no built-in agreement reports or administrative screens: there is no acceptance overview, no per-user reset and no bulk operation. The audit data lives in the `user_agreements` table, so query it directly for compliance status, past versions or an individual user's history. To force everyone to re-accept, raise `current_version`.

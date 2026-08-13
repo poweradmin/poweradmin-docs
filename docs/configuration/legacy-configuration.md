@@ -151,12 +151,8 @@ $ldap_search_filter = '(cn=*admin*)';
 
 ## Migrating to v4.x
 
-When upgrading to Poweradmin v4.0.0 or later, you can migrate your configuration using:
+Upgrading to Poweradmin v4.x means rewriting `inc/config.inc.php` as `config/settings.php` by hand. Use the tables above to map each legacy `$variable` to its modern section and key.
 
-```bash
-php config/migrate-config.php
-```
-
-This will convert your legacy `inc/config.inc.php` to the modern `config/settings.php` format.
+> **Note:** v4.0.0 shipped a `config/migrate-config.php` helper script. It was removed in v4.1.0 and is not present in any later release, so there is no automated conversion path.
 
 See [Basic Configuration](basic.md) for the modern configuration format.

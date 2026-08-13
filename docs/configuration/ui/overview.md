@@ -7,8 +7,8 @@ Poweradmin provides several ways to customize the user interface to match your o
 The following settings control the user interface appearance and behavior:
 
 - **language**: Default language for the interface. Default: `en_EN`
-- **enabled_languages**: Comma-separated list of available languages. Default: `cs_CZ,de_DE,en_EN,es_ES,fr_FR,id_ID,it_IT,ja_JP,ko_KR,lt_LT,nb_NO,nl_NL,pl_PL,pt_PT,ru_RU,sv_SE,tr_TR,uk_UA,vi_VN,zh_CN`
-- **theme**: UI theme name. Options: `default`, `custom`. Default: `default`
+- **enabled_languages**: Comma-separated list of available languages. Default: `ar_SA,bg_BG,bs_BA,cs_CZ,da_DK,de_DE,el_GR,en_EN,es_ES,et_EE,fa_IR,fi_FI,fr_FR,ga_IE,he_IL,hi_IN,hr_HR,hu_HU,id_ID,it_IT,ja_JP,ko_KR,lt_LT,lv_LV,ms_MY,nb_NO,nl_NL,pl_PL,pt_BR,pt_PT,ro_RO,ru_RU,sk_SK,sl_SI,sq_AL,sr_RS,sv_SE,th_TH,tr_TR,uk_UA,vi_VN,zh_CN,zh_TW`
+- **theme**: UI theme name. Two themes ship with Poweradmin: `default` and `modern`. Any other directory under `theme_base_path` is accepted, so you can add your own. Default: `default`
 - **style**: UI style. Options: `light`, `dark`. Default: `light`
 - **theme_base_path**: Base path for theme templates. Default: `templates`
 - **favicon_path**: Path or URL to a custom favicon. Empty uses the bundled `favicon.ico`. Default: `''` (added in 4.4.0)
@@ -16,12 +16,11 @@ The following settings control the user interface appearance and behavior:
 - **title**: Application title displayed in browser tab and header logo. Useful for distinguishing multiple server instances. Default: `Poweradmin`
 - **session_timeout**: Session timeout in seconds. Default: `1800` (30 minutes)
 - **rows_per_page**: Number of items to display per page. Default: `10`
-- **index_display**: Display mode for the index page. Options: `cards`, `list`. Default: `cards`
 
 ### UI Element Settings
 
-- **show_record_id**: Show record ID column in edit mode. Default: `true`
-- **position_record_form_top**: Position the "Add record" form at the top of the page. Default: `false`
+- **show_record_id**: Show record ID column in edit mode. Default: `false`
+- **position_record_form_top**: Position the "Add record" form at the top of the page. Default: `true`
 - **position_save_button_top**: Position the "Save changes" button at the top of the page. Default: `false`
 - **show_zone_comments**: Show or hide zone comments. Default: `true`
 - **show_record_comments**: Show or hide record comments. Default: `false`
@@ -56,7 +55,6 @@ return [
         'theme_base_path' => 'templates',
         'title' => 'DNS Management Console',
         'rows_per_page' => 20,
-        'index_display' => 'list',
         'show_record_comments' => true,
         'position_save_button_top' => true,
     ],

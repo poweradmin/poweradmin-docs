@@ -20,7 +20,12 @@ The record type customization is configured in the `dns` section of your `settin
 
 ### Default Behavior
 
-By default, both settings are set to `null`, which means Poweradmin will display all supported record types for the respective zone type.
+By default, both settings are set to `null`, which means Poweradmin uses its built-in default sets - not every type it knows about:
+
+- **Forward zones**: the common types (A, AAAA, CNAME, MX, NS, SOA, SRV, TXT) plus a larger set of less common but valid types (CAA, DNAME, HTTPS, NAPTR, SSHFP, SVCB, TLSA, URI and others). DNSSEC types (DNSKEY, DS, CDS, CDNSKEY, RRSIG, NSEC, NSEC3, NSEC3PARAM, ZONEMD) are merged in only when `dnssec.enabled` is true.
+- **Reverse zones**: only six types - CNAME, LOC, NS, PTR, SOA, TXT.
+
+Types the connected PowerDNS does not support are filtered out.
 
 ## Customizing Domain (Forward) Zone Record Types
 
@@ -65,7 +70,10 @@ Notes:
 
 ## Supported Record Types
 
-Poweradmin supports the following DNS record types that can be included in your customized lists:
+Poweradmin knows roughly 60 record types, matching the PowerDNS
+[supported types](https://doc.powerdns.com/authoritative/appendices/types.html). Any of them can be named in
+`domain_record_types` or `reverse_record_types`. The table below is a selection of the most commonly used ones,
+not the full list:
 
 | Record Type | Description | Typically Used In |
 |-------------|-------------|------------------|
@@ -84,6 +92,7 @@ Poweradmin supports the following DNS record types that can be included in your 
 | NAPTR | Name Authority Pointer for ENUM and other transformations | Domain zones |
 | SSHFP | SSH Public Key Fingerprint | Domain zones |
 | TLSA | TLS Authentication association | Domain zones |
+| LOC | Geographical location of the host | Both (part of the default reverse-zone set) |
 
 ## Use Cases
 

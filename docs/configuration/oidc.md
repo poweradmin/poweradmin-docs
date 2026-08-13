@@ -44,7 +44,7 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `oidc.auto_provision` | true | Auto-create users from OIDC provider |
 | `oidc.link_by_email` | true | Link OIDC accounts to existing users by email |
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
-| `oidc.default_permission_template` | "" | Default permission template for new users |
+| `oidc.default_permission_template` | "Guest" | Default permission template for new users |
 
 ### Superuser rights are never provisioned from an identity provider
 
@@ -244,11 +244,11 @@ Each provider requires specific configuration. All providers share these common 
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Internal provider identifier |
+| `name` | Yes | Display label for the provider. The provider identifier is the array key, not this field |
 | `display_name` | Yes | Text shown on login button |
 | `client_id` | Yes | OAuth client ID from provider |
 | `client_secret` | Yes | OAuth client secret from provider |
-| `auto_discovery` | No | Use OpenID Connect Discovery (default: true) |
+| `auto_discovery` | No | Use OpenID Connect Discovery (default: false). When disabled, `authorize_url`, `token_url` and `userinfo_url` are all required or the provider is rejected |
 | `metadata_url` | Conditional | OpenID Configuration endpoint (if auto_discovery) |
 | `scopes` | No | OAuth scopes (default: openid profile email) |
 | `logout_url` | No | Provider logout endpoint |
@@ -543,16 +543,23 @@ The `user_mapping` array maps OIDC claims to Poweradmin user fields:
 
 Use environment variables with the `PA_OIDC_` prefix:
 
+The entrypoint can generate three OIDC providers: `azure` (`PA_OIDC_AZURE_*`), `google` (`PA_OIDC_GOOGLE_*`) and `generic` (`PA_OIDC_GENERIC_*`). Any other IdP - Keycloak, Authentik, Okta - is configured through the generic provider:
+
 ```yaml
 environment:
   PA_OIDC_ENABLED: "true"
   PA_OIDC_AUTO_PROVISION: "true"
   PA_OIDC_DEFAULT_PERMISSION_TEMPLATE: "Guest"
-  PA_OIDC_KEYCLOAK_CLIENT_ID: "poweradmin"
-  PA_OIDC_KEYCLOAK_CLIENT_SECRET: "your-secret"
-  PA_OIDC_KEYCLOAK_BASE_URL: "https://keycloak.example.com"
-  PA_OIDC_KEYCLOAK_REALM: "master"
+  PA_OIDC_GENERIC_ENABLED: "true"
+  PA_OIDC_GENERIC_NAME: "Keycloak"
+  PA_OIDC_GENERIC_DISPLAY_NAME: "Sign in with Keycloak"
+  PA_OIDC_GENERIC_CLIENT_ID: "poweradmin"
+  PA_OIDC_GENERIC_CLIENT_SECRET: "your-secret"
+  PA_OIDC_GENERIC_AUTO_DISCOVERY: "true"
+  PA_OIDC_GENERIC_METADATA_URL: "https://keycloak.example.com/realms/master/.well-known/openid-configuration"
 ```
+
+> **Note:** There are no `PA_OIDC_KEYCLOAK_*` variables. To run a named Keycloak provider alongside another IdP, configure it in `config/settings.php` instead - the entrypoint only writes the three providers above.
 
 To change the groups claim name for the generic OIDC provider, use `PA_OIDC_GENERIC_GROUPS_ATTR`:
 
@@ -586,7 +593,7 @@ secrets:
 services:
   poweradmin:
     environment:
-      PA_OIDC_KEYCLOAK_CLIENT_SECRET__FILE: /run/secrets/oidc_client_secret
+      PA_OIDC_GENERIC_CLIENT_SECRET__FILE: /run/secrets/oidc_client_secret
     secrets:
       - oidc_client_secret
 ```

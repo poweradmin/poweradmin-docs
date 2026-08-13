@@ -54,17 +54,20 @@ PA_MODULE_WHOIS_CUSTOM_SERVERS=za=whois.registry.net.za,co.za=whois.registry.net
 
 **Lookup priority:**
 
-1. Custom servers (from `custom_servers` config)
-2. Built-in WHOIS server database
-3. `default_server` (global fallback, if set)
+1. `default_server`, if set
+2. Custom servers (from `custom_servers` config)
+3. Built-in WHOIS server database
+
+> **Warning:** `default_server` is not a fallback. When it is non-empty it is the only server ever queried, and `custom_servers` and the built-in database are never consulted. Leave it empty unless you want every lookup to go to one server.
 
 ## Usage
 
 When enabled, WHOIS lookups can be performed from:
 
-1. **Zone management pages** - Lookup domain registration information
-2. **Domain search results** - Quick WHOIS lookup for search results
-3. **Administrative tools** - Bulk domain verification
+1. **Zone edit page** - Lookup registration information for the zone being edited
+2. **Domain search results** - Quick WHOIS lookup for a zone in the result list
+
+Each lookup handles a single domain; there is no bulk lookup.
 
 ### How to Use WHOIS Lookup
 

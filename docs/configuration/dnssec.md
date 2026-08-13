@@ -2,12 +2,12 @@
 
 ## Overview
 
-Poweradmin provides comprehensive support for DNSSEC (Domain Name System Security Extensions) through a well-structured implementation that follows domain-driven design principles. The system offers two implementation methods:
+Poweradmin provides comprehensive support for DNSSEC (Domain Name System Security Extensions) through a well-structured implementation that follows domain-driven design principles. All DNSSEC operations go through the PowerDNS REST API - there is no command-line code path.
 
-1. **PowerDNS API Integration** (Recommended): Uses the PowerDNS REST API for DNSSEC operations
-2. **pdnsutil Command-line Tool** (Legacy): Uses the pdnsutil command-line utility 
+> **Note:** DNSSEC requires a configured PowerDNS API connection. If `pdns_api.url` and `pdns_api.key` are not both set, DNSSEC is inactive no matter what `dnssec.enabled` says.
 
 The DNSSEC implementation enables you to:
+
 - Secure and unsecure zones
 - Manage cryptographic keys (create, activate, deactivate, delete)
 - View DS (Delegation Signer) and DNSKEY records
@@ -29,19 +29,16 @@ The DNSSEC implementation enables you to:
 
 ## Configuration Options
 
-DNSSEC settings can be configured in the `config/settings.php` file under the `dnssec` section or through individual variables in the legacy configuration format.
+DNSSEC settings are configured in the `config/settings.php` file under the `dnssec` section.
 
-| Legacy variable | Modern equivalent | Default value | Description | Added in version |
-|----------------|-------------------|---------------|-------------|-----------------|
-| $pdnssec_use | dnssec.enabled | false | Enable (true) or disable (false) DNSSEC support | 2.1.7 |
-| $pdnssec_debug | dnssec.debug | false | Enable debug for DNSSEC operations | 2.1.9 |
-| $pdnssec_command | dnssec.command | /usr/bin/pdnsutil | Full path to pdnsutil utility (will be deprecated in the future) | 2.1.7 |
+| Setting | Default value | Description | Added in version |
+|---------|---------------|-------------|-----------------|
+| dnssec.enabled | false | Enable (true) or disable (false) DNSSEC support | 2.1.7 |
+| dnssec.debug | false | Enable debug for DNSSEC operations | 2.1.9 |
 
-## Implementation Methods
+## Enabling DNSSEC
 
-### Option 1: PowerDNS API Method (Recommended)
-
-To enable DNSSEC using the PowerDNS API:
+To enable DNSSEC:
 
 1. Configure your PowerDNS server with API access
 2. Update your Poweradmin configuration file with the following settings:
@@ -59,42 +56,14 @@ return [
 ];
 ```
 
-The API method provides several advantages:
+Working through the API means:
+
 - No need to configure special permissions for the web server user
 - More secure as it doesn't require shell access
 - Better error handling and feedback
 - Full support for all DNSSEC operations
 
-### Option 2: pdnsutil Method (Legacy)
-
-If you can't use the API method, you can still use the legacy pdnsutil approach:
-
-```php
-return [
-    'dnssec' => [
-        'enabled' => true,
-        'debug' => false,
-        'command' => '/usr/bin/pdnsutil',
-    ],
-    'pdns_api' => [
-        'url' => '',
-        'key' => '',
-    ],
-];
-```
-
-Configure permissions for the web server user to run pdnsutil:
-
-For example, on Ubuntu with Apache:
-```bash
-# Add the web server user to the root group
-adduser www-data root
-
-# Make pdns.conf readable by the web server user
-chmod 640 /etc/powerdns/pdns.conf
-```
-
-**Important Note**: The pdnsutil method requires the web server user to have access to the PowerDNS configuration file, which poses security risks. The API method is strongly recommended.
+> **Warning:** Leaving `pdns_api.url` or `pdns_api.key` empty does not fall back to a command-line tool. Poweradmin loads a no-op DNSSEC provider instead, and every DNSSEC action silently does nothing.
 
 ## PowerDNS Configuration
 
@@ -114,14 +83,6 @@ Check DNSSEC status using:
 dig +dnssec example.com SOA
 ```
 
-## Migration
-
-If you're currently using the pdnsutil method, it's recommended to migrate to the API method:
-
-1. Configure the PowerDNS API (see PowerDNS documentation)
-2. Update your Poweradmin configuration with API settings
-3. No data migration is needed - the same DNSSEC keys will be accessible through both methods
-
 ## Importing and Exporting PEM Keys
 
 PowerDNS 4.7 and newer expose endpoints for importing PEM-encoded private keys into a zone and exporting the active ones back out. Poweradmin wires both into the zone's DNSSEC page so you can move signed zones between servers without dropping out to `pdnsutil`.
@@ -139,17 +100,17 @@ Open the zone's DNSSEC page and use the **Import key** form:
 
 If PowerDNS rejects the format (wrong algorithm for the key, malformed PEM, etc.) the error from the API is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
 
-You need full edit permission on the zone to import. Read-only or content-only roles cannot.
+Importing requires the `zone_dnssec_manage_own` permission on the zone (ueberusers always pass). This is a separate permission from zone editing: full zone-edit rights without it are refused, and content-edit rights with it are accepted. The same gate applies to export.
 
 ### Exporting a Key
 
 Each key row on the DNSSEC page now has an **Export** action. Clicking it returns the PEM block for the active private key so you can copy it into another server or store it offline. Treat the export the same way you would treat any private key - whoever holds it can sign records for the zone.
 
-There is no export-to-file download by default; the PEM is shown inline so you can paste it where you need it. If you want a file, save it from the page.
+The export is always delivered as a file download (`Content-Type: application/x-pem-file`), named `<zone>-key-<id>.pem`. The PEM is never rendered inline in the page.
 
 ### Notes
 
-- Imports and exports go through the PowerDNS API. The pdnsutil method does not currently expose PEM import/export through Poweradmin - if you're on the legacy method, switch the connection to API mode first.
+- Imports and exports go through the PowerDNS API, so a working `pdns_api.url` and `pdns_api.key` are required.
 - DS and DNSKEY records on the same page can be copied to clipboard with a single click. This is handy when handing the DS record to a registrar.
 - The CSK guidance alert that used to sit on top of every DNSSEC page only appears on legacy pre-4.0 PowerDNS servers now. On 4.x+ the standard split-key advice no longer applies, and the alert was just adding noise.
 - Sign and unsign actions are both recorded in the zone activity feed (sign was missing before 4.4.0).

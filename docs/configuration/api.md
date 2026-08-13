@@ -32,7 +32,7 @@ return [
 
 ## Web Server Requirements
 
-The API requires proper web server configuration to function correctly. The PHP router handles API path parsing from `REQUEST_URI`, so explicit per-endpoint rewrite rules are not needed—just route all `/api/*` requests to `index.php`.
+The API requires proper web server configuration to function correctly. The PHP router handles API path parsing from `REQUEST_URI`, so explicit per-endpoint rewrite rules are not needed - just route all `/api/*` requests to `index.php`.
 
 ### Key Requirements
 
@@ -55,12 +55,12 @@ Use the web server configuration examples from the Poweradmin repository:
 **Nginx:**
 
 - [nginx.conf.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/nginx.conf.example)
-- [nginx.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) — includes subfolder deployment support
+- [nginx.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/nginx.conf.example) - includes subfolder deployment support
 
 **Caddy:**
 
 - [Caddyfile.example (4.0.x)](https://github.com/poweradmin/poweradmin/blob/release/4.0.x/Caddyfile.example)
-- [caddy.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) — includes subfolder deployment support
+- [caddy.conf.example (4.1.x+)](https://github.com/poweradmin/poweradmin/blob/master/caddy.conf.example) - includes subfolder deployment support
 
 ### Minimal Nginx Example
 
@@ -145,7 +145,7 @@ API v2 (introduced in v4.1.0) is the current API and is recommended for every in
 - `DELETE /api/v2/zones/{id}/records/{record_id}` - Delete record
 - `POST /api/v2/zones/{id}/records/bulk` - Bulk create records
 
-When a `POST` request to any of the create endpoints omits the `ttl` field, the server applies the configured default: `dns.ttl_reverse` for PTR records in reverse zones (when set), and `dns.ttl` otherwise. See [DNS settings](dns-settings.md#configuration-options) for details. (4.5.0)
+When a `POST` request to any of the create endpoints omits the `ttl` field, the server applies the configured default, in this order: a per-type default from the `record_type_defaults` table (managed in the UI) for the submitted record type, then `dns.ttl_reverse` for PTR records in reverse zones (when set), then `dns.ttl`. A per-type default therefore wins over `dns.ttl_reverse`, including for PTR. See [DNS settings](dns-settings.md#configuration-options) for details. (4.5.0)
 
 #### RRset Management
 
@@ -325,36 +325,27 @@ Poweradmin can integrate with PowerDNS metrics endpoints for monitoring and stat
 
 ### Configuration
 
+Everything lives in the `pdns_api` section. There is no separate `pdns` section and no `metrics.enabled` toggle - the status page is shown by `interface.show_pdns_status`.
+
 ```php
-'pdns' => [
-    'api_url' => 'http://localhost:8081/api/v1',
-    'api_key' => 'your-powerdns-api-key',
-    'server_id' => 'localhost',
-    'metrics' => [
-        'enabled' => true,
-        'basic_auth' => [
-            'username' => 'admin',
-            'password' => 'your-password',
-        ],
-    ],
+'pdns_api' => [
+    'url' => 'http://localhost:8081',
+    'key' => 'your-powerdns-api-key',
+    'server_name' => 'localhost',
+    'timeout' => 10,
+    'webserver_username' => '',
+    'webserver_password' => '',
 ],
 ```
 
 ### Basic Authentication for Metrics *(v4.0.3+)*
 
-Starting with v4.0.3, Poweradmin supports Basic Authentication for accessing PowerDNS metrics endpoints (issue #800). This is useful when your PowerDNS API is protected with Basic Auth in addition to API keys.
-
-**Example configuration:**
+Starting with v4.0.3, Poweradmin supports Basic Authentication for accessing PowerDNS metrics endpoints (issue #800). This is useful when your PowerDNS webserver is protected with Basic Auth in addition to API keys. Set the credentials with `webserver_username` (usually `#`) and `webserver_password`:
 
 ```php
-'pdns' => [
-    'metrics' => [
-        'enabled' => true,
-        'basic_auth' => [
-            'username' => 'metrics_user',
-            'password' => 'secure_password',
-        ],
-    ],
+'pdns_api' => [
+    'webserver_username' => '#',
+    'webserver_password' => 'secure_password',
 ],
 ```
 

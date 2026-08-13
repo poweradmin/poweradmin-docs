@@ -160,17 +160,17 @@ A user who authenticates successfully against LDAP but has no Poweradmin account
     // ...
     'groups_attribute' => 'memberOf',
     'permission_template_mapping' => [
-        'dns-admins' => 'Administrator',
+        'cn=dns-admins,ou=groups,dc=example,dc=com' => 'Administrator',
         'cn=dns-operators,ou=groups,dc=example,dc=com' => 'Viewer',
     ],
     'group_mapping' => [
-        'dns-admins' => 'Administrators',
-        'dns-operators' => ['Zone Managers', 'Editors'],  // 1:n mapping
+        'cn=dns-admins,ou=groups,dc=example,dc=com' => 'Administrators',
+        'cn=dns-operators,ou=groups,dc=example,dc=com' => ['Zone Managers', 'Editors'],  // 1:n mapping
     ],
 ],
 ```
 
-Mapping keys match a group value exactly (full DN) or the first RDN value of a DN, so `dns-admins` matches `cn=dns-admins,ou=groups,dc=example,dc=com`. Semantics mirror the [OIDC](oidc.md) settings:
+Mapping keys must match a group value exactly. When `groups_attribute` returns DNs (as `memberOf` does), the key has to be the full DN: `dns-admins` does **not** match `cn=dns-admins,ou=groups,dc=example,dc=com`. Matching on the first RDN alone would discard the OU and DC that distinguish two identically named groups, so it is deliberately not supported. Semantics mirror the [OIDC](oidc.md) settings:
 
 - `permission_template_mapping` assigns **one** permission template per user; the first matching entry wins.
 - `group_mapping` assigns **multiple** Poweradmin groups; memberships are re-evaluated (added and removed) on every login.
@@ -193,11 +193,12 @@ A common request: everyone in an AD group (say `PA_users`) should be able to use
     // only PA_users members may log in
     'search_filter' => '(memberOf=cn=PA_users,ou=groups,dc=company,dc=com)',
     'auto_provision' => true,
+    // mapping keys are the full DN as returned by memberOf, not the group name
     'permission_template_mapping' => [
-        'PA_users' => 'Administrator',
+        'cn=PA_users,ou=groups,dc=company,dc=com' => 'Administrator',
     ],
     'group_mapping' => [
-        'PA_users' => 'DNS Admins',
+        'cn=PA_users,ou=groups,dc=company,dc=com' => 'DNS Admins',
     ],
 ],
 ```

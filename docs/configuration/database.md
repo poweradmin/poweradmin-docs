@@ -10,7 +10,7 @@ Poweradmin's database settings are configured in the `config/settings.php` file 
 - **name**: Database name. Default: 'powerdns'
 - **user**: Database username
 - **password**: Database password
-- **charset**: Database character set. Options: 'latin1', 'utf8', 'utf8mb4'. Default: 'latin1'
+- **charset**: Database character set. Default: 'latin1'. Only the literal value `utf8` affects the connection: on MySQL/MariaDB it appends `charset=utf8` to the DSN. Any other value, `utf8mb4` included, leaves the connection on the server's default character set. The installer offers the driver's full charset list (about 38 values for MySQL) and uses that choice when creating the tables, which is a separate thing from the connection charset
 - **file**: SQLite database file path (only for SQLite)
 - **debug**: Enable SQL query debugging. Default: `false`
 - **pdns_db_name**: Separate database name for PowerDNS (added in v3.8.0). MySQL/MariaDB only - ignored (and rejected by config validation) on PostgreSQL and SQLite. Default: same as 'name'

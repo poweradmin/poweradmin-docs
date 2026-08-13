@@ -1,6 +1,6 @@
 # Username Recovery
 
-Poweradmin v4.0.0+ includes a username recovery feature that allows users to recover their forgotten username via email.
+Poweradmin v4.1.0+ includes a username recovery feature that allows users to recover their forgotten username via email.
 
 ## Overview
 
@@ -10,20 +10,24 @@ When enabled, users can request their username by providing their registered ema
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `username_recovery.enabled` | false | Enable username recovery feature |
-| `username_recovery.rate_limit_attempts` | 5 | Maximum recovery attempts per time window |
-| `username_recovery.rate_limit_window` | 3600 | Time window for rate limiting (seconds) |
-| `username_recovery.min_time_between_requests` | 60 | Minimum time between requests (seconds) |
+| `security.username_recovery.enabled` | false | Enable username recovery feature |
+| `security.username_recovery.rate_limit_attempts` | 5 | Maximum recovery attempts per time window |
+| `security.username_recovery.rate_limit_window` | 3600 | Time window for rate limiting (seconds) |
+| `security.username_recovery.min_time_between_requests` | 60 | Minimum time between requests (seconds) |
 
 ## Modern Configuration
 
+These keys live under the `security` section. A top-level `username_recovery` block is ignored.
+
 ```php
 return [
-    'username_recovery' => [
-        'enabled' => true,
-        'rate_limit_attempts' => 5,
-        'rate_limit_window' => 3600,      // 1 hour
-        'min_time_between_requests' => 60, // 1 minute
+    'security' => [
+        'username_recovery' => [
+            'enabled' => true,
+            'rate_limit_attempts' => 5,
+            'rate_limit_window' => 3600,      // 1 hour
+            'min_time_between_requests' => 60, // 1 minute
+        ],
     ],
 ];
 ```
@@ -35,7 +39,7 @@ environment:
   PA_USERNAME_RECOVERY_ENABLED: "true"
   PA_USERNAME_RECOVERY_RATE_LIMIT_ATTEMPTS: "5"
   PA_USERNAME_RECOVERY_RATE_LIMIT_WINDOW: "3600"
-  PA_USERNAME_RECOVERY_MIN_TIME_BETWEEN_REQUESTS: "60"
+  PA_USERNAME_RECOVERY_MIN_TIME_BETWEEN: "60"
 ```
 
 ## Requirements

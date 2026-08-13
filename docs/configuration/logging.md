@@ -10,7 +10,7 @@ Poweradmin uses two separate logging systems that serve different purposes:
 
 Controlled by `database_enabled` and `syslog_enabled`. Tracks user, zone, and group changes - create/edit/delete operations, login/logout, group membership changes.
 
-- **database_enabled**: writes audit events to `log_users`, `log_zones`, and `log_groups` tables
+- **database_enabled**: writes audit events to the `log_users`, `log_zones`, `log_groups`, `log_api`, `log_changesets` and `log_record_changes` tables
 - **syslog_enabled**: writes audit events to syslog
 
 ### 2. Diagnostic Logging (application errors and debug info)
@@ -23,7 +23,7 @@ Controlled by `type` and `level`. Used for troubleshooting application issues su
 |----------------|-------------------|---------------|-------------|-----------------|
 | $logger_type | logging.type | null | Diagnostic logger type: null (disabled), native (PHP error_log) | 3.9.0 |
 | $logger_level | logging.level | info | Diagnostic logging level (debug, info, notice, warning, error, critical, alert, emergency) | 3.9.0 |
-| $dblog_use | logging.database_enabled | false | Enable audit logging to database (log_users, log_zones, log_groups tables) | 3.2.0 |
+| $dblog_use | logging.database_enabled | false | Enable audit logging to database (log_users, log_zones, log_groups, log_api, log_changesets, log_record_changes tables) | 3.2.0 |
 | N/A | logging.api_request_logging | false | Log every public API request to log_api (requires database_enabled); permission violations logged regardless | 4.5.0 |
 | N/A | logging.api_log_retention_days | 0 | Days to keep log_api rows; 0 = keep forever | 4.5.0 |
 | $syslog_use | logging.syslog_enabled | false | Enable audit logging to syslog | 2.1.6 |
