@@ -37,10 +37,10 @@ return [
 ## Theme Screenshots
 
 ### Light Style
-![Light Theme](/screenshots/theme-light.png)
+![Light Theme](../../screenshots/theme-light.png)
 
 ### Dark Style
-![Dark Theme](/screenshots/theme-dark.png)
+![Dark Theme](../../screenshots/theme-dark.png)
 
 ## Theme Components
 

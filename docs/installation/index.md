@@ -20,8 +20,8 @@ Poweradmin can be installed on various operating systems and with different data
 
 ## Database Setup
 
-- [MySQL/MariaDB](/database/mysql-configuration.md) - Setting up with MySQL or MariaDB
-- [PostgreSQL](/database/postgresql-configuration.md) - Setting up with PostgreSQL
-- [SQLite](/database/sqlite.md) - Setting up with SQLite
+- [MySQL/MariaDB](../database/mysql-configuration.md) - Setting up with MySQL or MariaDB
+- [PostgreSQL](../database/postgresql-configuration.md) - Setting up with PostgreSQL
+- [SQLite](../database/sqlite.md) - Setting up with SQLite
 
 Choose the installation method that best fits your environment and requirements.

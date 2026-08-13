@@ -4,7 +4,7 @@ DNS templates in Poweradmin allow you to create standardized sets of DNS records
 
 ## Template Management
 
-![Template List](/screenshots/template-list.png)
+![Template List](../screenshots/template-list.png)
 
 Templates are managed through the Poweradmin interface and stored in the database. Each template can contain multiple DNS records of various types (A, CNAME, MX, etc.) that will be applied when the template is used.
 
@@ -19,7 +19,7 @@ Templates support placeholders that are automatically substituted:
 
 The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the initial SOA serial of a zone created from the template; later record changes increment the serial automatically. When Poweradmin runs against the PowerDNS API backend, the `SOA-EDIT-API` zone metadata governs how subsequent serials are generated - it can be chosen per zone on the add-zone form or on the zone metadata page (`EPOCH` pairs with `[UNIXTIME]`, `INCREASE` with `[COUNTER]`), with defaults from `dns.soa_edit_api`.
 
-![Template Editor](/screenshots/template-editor.png)
+![Template Editor](../screenshots/template-editor.png)
 
 ### Saving an existing zone as a template
 

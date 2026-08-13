@@ -2,7 +2,7 @@
 
 Zones are the core objects in Poweradmin. Each zone corresponds to a DNS domain (or reverse network) managed by PowerDNS. This guide covers creating, editing, and managing zones.
 
-![Zone List](/screenshots/zone-list.png)
+![Zone List](../screenshots/zone-list.png)
 
 ## Zone Types
 
@@ -33,7 +33,7 @@ To change the records in a read-only zone, edit them on the primary server - the
 
 ### Adding a Master Zone
 
-![Add Master Zone](/screenshots/zone-add-master.png)
+![Add Master Zone](../screenshots/zone-add-master.png)
 
 1. Navigate to **Zones** and click **Add master zone**
 2. Enter the **Zone name** (e.g., `example.com`)
@@ -60,7 +60,7 @@ Zone templates let you define a standard set of records that are added when crea
 
 ## Zone Editor
 
-![Zone Editor](/screenshots/zone-editor.png)
+![Zone Editor](../screenshots/zone-editor.png)
 
 The zone editor is where you view and modify a zone's DNS records. It shows all records in a table with columns for name, type, content, TTL, and priority.
 
