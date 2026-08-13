@@ -214,6 +214,7 @@ same rule as the web interface. Assigning any ordinary template is unaffected.
 
 - Allows the user to edit existing supermaster servers
 - Can modify authoritative name server configurations
+- Advanced permission for managing DNS infrastructure
 
 ## Log Permissions
 
@@ -249,4 +250,3 @@ groups permissions by name prefix).
 - Global, read-only auditor permission; does not grant any group management rights
 - Appears under "Other Permissions" in the permission template editor
 - Added in v4.5.0
-- Advanced permission for managing DNS infrastructure

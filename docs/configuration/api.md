@@ -263,32 +263,40 @@ When `docs_enabled` is true, interactive API documentation is available at `/api
 {
     "success": true,
     "data": {
-        "id": 123,
-        "name": "example.com",
-        "type": "A",
-        "content": "192.168.1.100",
-        "ttl": 3600,
-        "created_at": "2023-01-01T12:00:00Z",
-        "updated_at": "2023-01-01T12:00:00Z"
-    }
+        "record": {
+            "id": 123,
+            "zone_id": 42,
+            "name": "www",
+            "type": "A",
+            "content": "192.168.1.100",
+            "ttl": 3600,
+            "priority": null,
+            "disabled": false,
+            "auth": true,
+            "ptr_created": false
+        }
+    },
+    "message": "Record created successfully"
 }
 ```
+
+Record responses nest under `data.record`, and list responses under the plural
+collection name (`data.records`, `data.zones`, `data.users`). Records carry no
+`created_at` or `updated_at`; those fields exist only on zones and groups.
 
 ### Error Response
 
 ```json
 {
     "success": false,
-    "error": {
-        "code": "VALIDATION_ERROR",
-        "message": "Invalid record type",
-        "details": {
-            "field": "type",
-            "value": "INVALID"
-        }
-    }
+    "data": null,
+    "message": "Invalid record type"
 }
 ```
+
+The message is a plain string at the top level. There is no nested `error`
+object and no machine-readable error code, so branch on the HTTP status rather
+than on a code in the body.
 
 ## Troubleshooting
 
@@ -364,21 +372,29 @@ GET /api/v2/users
 
 **With pagination:**
 ```bash
-GET /api/v2/zones?page=1&limit=50
-GET /api/v2/users?page=2&limit=25
+GET /api/v2/zones?page=1&per_page=50
+GET /api/v2/users?page=2&per_page=25
 ```
+
+> **Warning:** The parameter is `per_page`, not `limit`. Unrecognised query
+> parameters are ignored rather than rejected, so `?limit=50` silently returns
+> every row.
+
+`page` is only read when `per_page` is given, and `per_page` is capped at 10000.
 
 ### Pagination Response
 
 ```json
 {
     "success": true,
-    "data": [...],
+    "data": {
+        "zones": [...]
+    },
     "pagination": {
+        "current_page": 1,
+        "per_page": 50,
         "total": 150,
-        "page": 1,
-        "limit": 50,
-        "pages": 3
+        "last_page": 3
     }
 }
 ```
@@ -389,12 +405,12 @@ GET /api/v2/users?page=2&limit=25
 - **Added:** Zone template CRUD endpoints (API v2)
 - **Added:** Zone owners endpoints with batch assignment (API v2)
 - **Added:** Group management endpoints - members and zones (API v2)
-- **Added:** RRset endpoints (API v2)
-- **Added:** Bulk record creation endpoint (API v2)
 
 ### v4.1.0
 - **Added:** API v2 with consistent response wrapping
 - **Added:** Permission validation for API endpoints
+- **Added:** RRset endpoints (API v2)
+- **Added:** Bulk record creation endpoint (API v2)
 
 ### v4.0.4
 - **Fixed:** Basic Auth TypeError when LDAP authentication is enabled (issue #799)

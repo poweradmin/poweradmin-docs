@@ -41,15 +41,20 @@ one of those is granted as well.
 
 ## Security Pitfalls
 
-Be aware that granting any of these permissions can indirectly give users extensive rights:
+Granting any of these permissions gives a user broad influence over other accounts, so treat them as
+administrative:
 
 - `user_edit_templ_perm`
 - `templ_perm_edit`
 - `user_add_new`
 
-Users with these permissions can potentially create or modify templates to grant themselves `user_is_ueberuser` rights.
-Additionally, anyone with root shell access to the server running Poweradmin or the PowerDNS database server effectively
-has uberuser rights.
+They cannot be used to become an administrator. A user who is not already an administrator cannot put
+`user_is_ueberuser` into a permission template, cannot edit a template that already carries it, and
+cannot assign such a template to an account. See
+[Permissions](permissions.md#template-permissions) for the details.
+
+Anyone with root shell access to the server running Poweradmin, or to the PowerDNS database server,
+effectively has uberuser rights regardless of the permission system.
 
 ## Additional Information
 
