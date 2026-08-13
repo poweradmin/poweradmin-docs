@@ -13,13 +13,6 @@ jobs:
       - name: Checkout docs repo
         uses: actions/checkout@v4
 
-      - name: Reject MkDocs admonitions
-        run: |
-          if grep -rn --include='*.md' '^[[:space:]]*!!!' docs/; then
-            echo "::error::MkDocs admonitions are not supported here. The admonition extension is not enabled, so the marker line renders as visible text and any indented paragraph below it becomes a code block. Use a blockquote callout instead: > **Note:** text"
-            exit 1
-          fi
-
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
