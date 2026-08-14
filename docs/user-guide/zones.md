@@ -6,13 +6,22 @@ Zones are the core objects in Poweradmin. Each zone corresponds to a DNS domain 
 
 ## Zone Types
 
-PowerDNS supports three zone types. Choose the type based on your DNS architecture:
+Choose the type based on your DNS architecture:
 
 - **Master** - the authoritative source for the zone. Changes are made here and replicated to slave servers. Use this when Poweradmin is your primary DNS management interface.
 - **Slave** - a read-only copy that receives updates from a master server. Use this when another DNS server holds the primary data and you want PowerDNS to serve as a secondary.
 - **Native** - zones that rely on native database replication instead of DNS-based zone transfers (AXFR/IXFR). Use this when all your PowerDNS servers share the same database backend.
 
 > **Tip:** If you are running a single PowerDNS server, **Native** is the simplest option since no zone transfers are needed.
+
+### Catalog zones
+
+PowerDNS 4.7 and later add two more kinds, used to distribute a list of zones between servers rather than to hold ordinary records. Poweradmin offers them on the add-zone form only when the connected server reports 4.7 or newer.
+
+- **Producer** - the catalog itself, on a primary. PowerDNS generates its contents from the member zones, so you do not add records to it by hand.
+- **Consumer** - the receiving end, on a secondary. It works like a Slave zone and needs the IP address of the primary it transfers the catalog from, so the add-zone form asks for one when you select it. Because its contents arrive by transfer, no template or DNSSEC option applies.
+
+> **Note:** Assigning member zones to a catalog is not yet supported. You can create a Producer zone, but Poweradmin cannot put anything in it.
 
 ### Read-only zones
 
