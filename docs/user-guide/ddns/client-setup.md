@@ -13,8 +13,8 @@ The Dynamic DNS update system supports several ways to update records:
 * `username` - Your Poweradmin username (if not using HTTP Basic Auth)
 * `password` - Your Poweradmin password (if not using HTTP Basic Auth)
 * `hostname` - The FQDN to update
-* `myip` or `ip` - IPv4 address(es), comma-separated
-* `myip6` or `ip6` - IPv6 address(es), comma-separated
+* `myip` or `ip` - IP address(es), comma-separated. Either address family is accepted, and each address in the list is routed to an A or AAAA record according to its own family, so a single list may mix IPv4 and IPv6
+* `myip6` or `ip6` - IPv6 address(es), comma-separated. When supplied, this is authoritative for the IPv6 side and any IPv6 address in `myip` is ignored rather than merged into it
 * `dualstack_update` - Set to 1 to update both IPv4 and IPv6
 * `verbose` - Include this query parameter to receive human-readable response messages. Only its presence is checked, so `verbose=0` enables verbose output too
 
@@ -58,6 +58,9 @@ curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip6
 
 # Update both IPv4 and IPv6 with cleanup
 curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip=192.0.2.1,192.0.2.2&myip6=2001:db8::1,2001:db8::2&dualstack_update=1"
+
+# Update both families from a single myip list
+curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip=192.0.2.1,2001:db8::1"
 ```
 
 If any of these return a short error code like `!yours` or `badauth`, re-run the same URL with `&verbose=1` appended to get a readable message.
@@ -67,6 +70,7 @@ When using multiple IPs:
 * Omitted record types are preserved
 * Use `dualstack_update=1` to clean up both A and AAAA records
 * Records not included in the update are automatically removed
+* A `myip` or `myip6` that is supplied but contains no valid address is rejected with `dnserr`, and no records are changed. Omitting a parameter and supplying an unparseable one are not the same thing - the first preserves that record type, the second is treated as a malformed request
 * Records are inserted and deleted one statement at a time - the update is not wrapped in a database transaction
 
 ## Using the Shell Script
@@ -123,6 +127,8 @@ home.example.com
 ```
 
 Run `ddclient -daemon=0 -debug -verbose -noquiet` to watch the exchange. The server returns either `good\n` (no IP suffix on older builds) or the dyndns2-compliant `good <ip>\n` depending on Poweradmin version. Both forms are accepted by `ddclient`.
+
+`ddclient` 3.11 and later, configured for dual-stack, sends both addresses in a single `myip` list rather than using `myip6`. Poweradmin routes each address to the matching record type from 4.4.1 and 4.5.0 onwards. Earlier versions moved the whole list to the IPv6 side and dropped the IPv4 address, which combined with `dualstack_update=1` removed the host's existing A records - if you run an earlier version, keep the families in separate `myip` and `myip6` parameters.
 
 ### Other clients
 
