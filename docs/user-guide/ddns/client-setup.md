@@ -70,7 +70,8 @@ When using multiple IPs:
 * Omitted record types are preserved
 * Use `dualstack_update=1` to clean up both A and AAAA records
 * Records not included in the update are automatically removed
-* A `myip` or `myip6` that is supplied but contains no valid address is rejected with `dnserr`, and no records are changed. Omitting a parameter and supplying an unparseable one are not the same thing - the first preserves that record type, the second is treated as a malformed request
+* An unparseable address anywhere in `myip` or `myip6` is rejected with `dnserr`, and no records are changed. Since the list is the complete record set, silently skipping a bad entry would delete the record it was meant to keep, so the whole request is refused instead
+* Omitting a parameter and supplying an invalid one are not the same thing - the first preserves that record type, the second is a malformed request
 * Records are inserted and deleted one statement at a time - the update is not wrapped in a database transaction
 
 ## Using the Shell Script
