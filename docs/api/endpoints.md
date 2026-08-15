@@ -45,18 +45,18 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/zones/{id}/metadata` | List all metadata kinds for a zone |
-| `GET` | `/zones/{id}/metadata/{kind}` | Get one metadata kind |
-| `PUT` | `/zones/{id}/metadata/{kind}` | Set one metadata kind |
-| `DELETE` | `/zones/{id}/metadata/{kind}` | Remove one metadata kind |
-| `GET` | `/zones/{id}/dnssec` | Get DNSSEC status and keys |
-| `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone |
+| `GET` | `/zones/{id}/metadata` | List all metadata kinds for a zone (v4.3.0+) |
+| `GET` | `/zones/{id}/metadata/{kind}` | Get one metadata kind (v4.3.0+) |
+| `PUT` | `/zones/{id}/metadata/{kind}` | Set one metadata kind (v4.3.0+) |
+| `DELETE` | `/zones/{id}/metadata/{kind}` | Remove one metadata kind (v4.3.0+) |
+| `GET` | `/zones/{id}/dnssec` | Get DNSSEC status and keys (v4.5.0+) |
+| `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone (v4.5.0+) |
 
 ### Dynamic DNS
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `POST` | `/dynamic-dns` | Update a record from a dynamic DNS client |
+| `POST` | `/dynamic-dns` | Update a record from a dynamic DNS client (v4.5.0+) |
 
 This is the API v2 equivalent of the standalone `dynamic_update.php` script
 described in [Dynamic DNS](../user-guide/ddns/overview.md). Both remain

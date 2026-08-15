@@ -58,6 +58,14 @@ Three independent restrictions are available:
 | **Allowed operations** | Tick any of `view`, `create`, `update`, `delete`. A request whose operation is not ticked gets `403`. Leave all unticked to allow every operation. |
 | **Zone access** | Select specific zones. Requests targeting any other zone get `403`. Leave empty to allow every zone the owner can reach. |
 
+Read-only and allowed-operations are checked on every API v2 request. Zone access
+applies to the endpoints that address a zone - zones, records, RRsets, DNSSEC,
+metadata, owners, and a group's zone assignments. Endpoints for users, groups,
+permissions, permission templates and zone templates are not zone-scoped
+resources, so a zone restriction does not narrow them; restrict those with the
+operations list instead. Listing endpoints that can filter, such as a group's
+zones, return only the zones in scope rather than refusing the whole request.
+
 Operations map onto HTTP methods: `POST` is create, `PUT` and `PATCH` are update,
 `DELETE` is delete, and everything else is view. Endpoints that do more than one
 thing in a single request, such as a dynamic DNS upsert or a bulk record change,

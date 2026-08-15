@@ -96,8 +96,11 @@ location ~ \.php$ {
 API keys provide secure, token-based authentication:
 
 1. **Generate API keys** - Create keys for each application
-2. **Permissions** - Restrict access to specific operations
+2. **Permissions** - A key inherits its owner's permissions, and since v4.5.0 can be narrowed further by marking it read-only, ticking the operations it may perform (`view`, `create`, `update`, `delete`), or restricting it to selected zones
 3. **Revocation** - Easily revoke compromised keys
+
+See [API Authentication](../api/authentication.md) for how each restriction is
+enforced.
 
 #### Using API Keys
 
@@ -391,6 +394,17 @@ GET /api/v2/users?page=2&per_page=25
 ```
 
 ## Version History
+
+### v4.5.0
+- **Removed:** API v1; its paths answer `410 Gone`
+- **Added:** Granular API keys - read-only, allowed operations, and per-zone scoping
+- **Added:** Zone DNSSEC endpoints (API v2)
+- **Added:** Dynamic DNS endpoint (`POST /api/v2/dynamic-dns`)
+- **Added:** Per-request API logging via `logging.api_request_logging`
+
+### v4.3.0
+- **Added:** Zone metadata endpoints (API v2)
+- **Added:** Separate `log_api` table for API log entries
 
 ### v4.2.0
 - **Added:** Zone template CRUD endpoints (API v2)
