@@ -227,22 +227,93 @@ docker logs poweradmin | grep -i password
 
 ### Security
 
+#### Session and password hashing
+
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `PA_SESSION_KEY` | (auto) | Session encryption key |
-| `PA_PASSWORD_ENCRYPTION` | bcrypt | Password hashing: `bcrypt`, `argon2i`, `argon2id` |
+| `PA_SESSION_KEY` | (auto) | Session encryption key. Set this explicitly in production so sessions survive a container restart |
+| `PA_PASSWORD_ENCRYPTION` | bcrypt | Password hashing: `bcrypt`, `argon2i`, `argon2id`. The legacy `md5` and `md5salt` options were removed in 4.3.0 |
+| `PA_PASSWORD_COST` | 12 | Cost factor for bcrypt hashing |
 | `PA_LOGIN_TOKEN_VALIDATION` | true | Enable CSRF token validation for login |
 | `PA_GLOBAL_TOKEN_VALIDATION` | true | Enable CSRF token validation for all forms |
-| `PA_MFA_ENABLED` | false | Enable multi-factor authentication |
-| `PA_MFA_ENFORCED` | false | Enforce MFA for users with enforce permission |
-| `PA_RECAPTCHA_ENABLED` | false | Enable reCAPTCHA on login |
-| `PA_RECAPTCHA_VERSION` | v3 | reCAPTCHA version: `v2` or `v3` |
+
+#### Password policy
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_PASSWORD_RULES_ENABLED` | true | Enable password policy enforcement |
+| `PA_PASSWORD_MIN_LENGTH` | 6 | Minimum password length |
+| `PA_PASSWORD_REQUIRE_UPPERCASE` | true | Require at least one uppercase letter |
+| `PA_PASSWORD_REQUIRE_LOWERCASE` | true | Require at least one lowercase letter |
+| `PA_PASSWORD_REQUIRE_NUMBERS` | true | Require at least one number |
+| `PA_PASSWORD_REQUIRE_SPECIAL` | false | Require at least one special character |
+
+See [Password Policies](../configuration/password-policies.md) for the full policy, including the allowed special-character set, which has no environment variable and must be set in `settings.php`.
+
+#### Account lockout
+
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `PA_LOCKOUT_ENABLED` | false | Enable account lockout after failed logins |
 | `PA_LOCKOUT_ATTEMPTS` | 5 | Failed attempts before lockout |
 | `PA_LOCKOUT_DURATION` | 15 | Lockout duration in minutes |
+| `PA_LOCKOUT_TRACK_IP` | true | Lock accounts based on IP address |
+| `PA_LOCKOUT_CLEAR_ON_SUCCESS` | true | Clear failed attempts after a successful login |
+
+The IP whitelist and blacklist have no environment variables; set them in `settings.php`. See [Security Policies](../configuration/security-policies.md).
+
+#### Multi-factor authentication
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_MFA_ENABLED` | false | Enable multi-factor authentication |
+| `PA_MFA_ENFORCED` | false | Enforce MFA for users holding `user_enforce_mfa` |
+| `PA_MFA_APP_ENABLED` | true | Offer the authenticator app method |
+| `PA_MFA_EMAIL_ENABLED` | true | Offer the email verification method |
+| `PA_MFA_RECOVERY_CODES` | 8 | Number of recovery codes generated |
+| `PA_MFA_RECOVERY_CODE_LENGTH` | 10 | Length of each recovery code |
+| `PA_MFA_SKIP_FOR_EXTERNAL_AUTH` | false | Skip enforcement for LDAP, OIDC and SAML logins, trusting the identity provider (v4.5.0+) |
+| `PA_MFA_MAX_VERIFY_ATTEMPTS` | 5 | Failed second-factor guesses before the code is refused (v4.5.0+) |
+| `PA_MFA_VERIFY_LOCKOUT_DURATION` | 15 | Minutes to refuse further attempts once the limit is hit (v4.5.0+) |
+
+Email-based MFA needs a working mail configuration; see [Mail](../configuration/mail.md).
+
+#### Password reset
+
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `PA_PASSWORD_RESET_ENABLED` | false | Enable password reset functionality |
+| `PA_PASSWORD_RESET_TOKEN_LIFETIME` | 3600 | Token validity in seconds |
+| `PA_PASSWORD_RESET_RATE_LIMIT_ATTEMPTS` | 5 | Maximum reset attempts per time window |
+| `PA_PASSWORD_RESET_RATE_LIMIT_WINDOW` | 3600 | Rate limit window in seconds |
+| `PA_PASSWORD_RESET_MIN_TIME_BETWEEN` | 60 | Minimum seconds between requests |
+
+#### Username recovery
+
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `PA_USERNAME_RECOVERY_ENABLED` | false | Enable username recovery functionality |
+| `PA_USERNAME_RECOVERY_RATE_LIMIT_ATTEMPTS` | 5 | Maximum recovery attempts per time window |
+| `PA_USERNAME_RECOVERY_RATE_LIMIT_WINDOW` | 3600 | Rate limit window in seconds |
+| `PA_USERNAME_RECOVERY_MIN_TIME_BETWEEN` | 60 | Minimum seconds between requests |
+
+#### reCAPTCHA
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_RECAPTCHA_ENABLED` | false | Enable reCAPTCHA on login |
+| `PA_RECAPTCHA_SITE_KEY` | *(empty)* | Site key (public) |
+| `PA_RECAPTCHA_SECRET_KEY` | *(empty)* | Secret key (private) |
+| `PA_RECAPTCHA_VERSION` | v3 | reCAPTCHA version: `v2` or `v3` |
+| `PA_RECAPTCHA_V3_THRESHOLD` | 0.5 | Score threshold for v3, from 0.0 to 1.0 |
+
+#### Proxies
+
+| Variable | Default | Description |
+|----------|---------|-------------|
 | `TRUSTED_PROXIES` | - | Comma-separated proxy CIDRs, or `private_ranges`, allowed to set forwarded-IP headers. See [Reverse Proxy](reverse-proxy.md) |
+
+Account lockout (with `PA_LOCKOUT_TRACK_IP`) and the reset and recovery rate limits all throttle by client IP as well as by account. Behind a proxy they need `TRUSTED_PROXIES` set, or every request appears to come from the proxy's address.
 
 ### Interface
 
