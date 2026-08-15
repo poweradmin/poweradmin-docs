@@ -59,6 +59,13 @@ GRANT ALL PRIVILEGES ON powerdns.* TO 'poweradmin'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
+> **Note:** `@'localhost'` only allows connections from the database server itself.
+> If Poweradmin runs on a different host, replace it with the web server's address
+> (`@'192.0.2.10'`) or `@'%'` for any host, and make sure the server is listening on
+> more than the loopback interface (`bind-address` in `my.cnf`). Prefer a specific
+> address over `%`, and see [SSL/TLS Configuration](#ssltls-configuration) for
+> encrypting the connection.
+
 ### Schema Installation
 
 The SQL schema files are located in the `sql/` directory:

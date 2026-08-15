@@ -58,6 +58,32 @@ GRANT ALL PRIVILEGES ON DATABASE powerdns TO poweradmin;
 GRANT ALL ON SCHEMA public TO poweradmin;
 ```
 
+### Allowing Remote Connections
+
+A default PostgreSQL install only listens on the loopback interface, so this step is
+needed when Poweradmin runs on a different host than the database.
+
+In `postgresql.conf`, set the addresses the server listens on:
+
+```
+listen_addresses = '192.0.2.20'
+```
+
+In `pg_hba.conf`, add a rule for the client. Put it before any broader rule, since
+the first match wins:
+
+```
+# TYPE  DATABASE   USER         ADDRESS           METHOD
+host    powerdns   poweradmin   192.0.2.10/32     scram-sha-256
+```
+
+Then reload the server (`systemctl reload postgresql`). On Debian and Ubuntu both
+files live under `/etc/postgresql/<version>/main/`; on RHEL-based systems they are
+in the data directory, typically `/var/lib/pgsql/data/`.
+
+Restrict the address to the hosts that need it rather than using `0.0.0.0/0`, and
+see [SSL/TLS Configuration](#ssltls-configuration) for encrypting the connection.
+
 ### Schema Installation
 
 The SQL schema files are located in the `sql/` directory:
