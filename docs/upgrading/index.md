@@ -119,10 +119,16 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.1.x Series:**
 
+- **v4.1.4** (May 2026) - Record search fix for an ambiguous `ORDER BY` column
+- **v4.1.3** (Apr 2026) - Duplicate SOA serial increment on inline record add, comment search query referencing a non-existent table, plural-form headers and missing format specifiers in several locales
+- **v4.1.2** (Mar 2026) - xmlseclibs updated to 3.1.5 (CVE-2026-32313), SSO fixes (default permission template applied to new users only, `auth_method` preserved on edit, OIDC groups read from the ID token), Docker entrypoint fixes for `PA_LOGGING_*` and volume-mounted config
 - **v4.1.1** (Feb 2026) - DNSSEC fix for RFC 2317 reverse zones, login routing fix, IPv6 supermaster validation, LUA record handling, CSRF token fix, zone apex (`@`) symbol fix in multi-record form
 
 **v4.0.x Series:**
 
+- **v4.0.11** (May 2026) - Record search fix for an ambiguous `ORDER BY` column
+- **v4.0.10** (Apr 2026) - Duplicate SOA serial increment on inline record add, format specifiers and plural headers across all locales
+- **v4.0.9** (Mar 2026) - Zone creation API validates the template as a numeric ID, sign-zone button separated from the edit form to prevent accidental signing, Docker entrypoint fixes for volume-mounted config, light theme gradient fix
 - **v4.0.7** (Feb 2026) - CSRF token fix for DNSSEC key deletion, MFA TOTP secret reuse fix, IPv6 supermaster validation, LUA record handling, zone apex (`@`) symbol fix
 - **v4.0.6** (Jan 2026) - Zone deletion fixes, IPv6 PTR handling, MySQL SSL disabled by default for backwards compatibility
 - **[v4.0.5](v4.0.5.md)** (Jan 2026) - Database compatibility (primary key fix), PostgreSQL sequence sync, PHP 8.4 fixes, new `show_forward_zone_associations` option (**requires SQL migration**)

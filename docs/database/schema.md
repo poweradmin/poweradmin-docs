@@ -218,6 +218,17 @@ Stores API keys for authentication.
 | `last_used_at` | timestamp | Last usage timestamp |
 | `disabled` | tinyint | Disabled flag |
 | `expires_at` | timestamp | Expiration timestamp |
+| `is_readonly` | tinyint | Restricts the key to read-only operations |
+| `allowed_operations` | varchar(255) | Comma-separated operations the key may perform (null means no restriction) |
+
+### `api_key_zones`
+Restricts an API key to a set of zones. A key with no rows here is unrestricted and can reach every zone its creator may access.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `api_key_id` | int | Foreign key to `api_keys.id` (cascades on delete) |
+| `zone_id` | int | Zone the key is allowed to reach |
 
 ### `user_mfa`
 Stores multi-factor authentication settings.
@@ -372,6 +383,19 @@ Logs user-group lifecycle events (create / rename / membership changes).
 | `priority` | int | Log priority level |
 | `group_id` | int | Related `user_groups.id` (nullable) |
 
+### `log_changesets`
+Groups the record changes made in a single edit, so the change log can present them as one entry with a shared comment.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `zone_id` | int | Related zone (nullable) |
+| `user_id` | int | Acting user (nullable) |
+| `username` | varchar(64) | Acting username (denormalized so the log survives user deletion) |
+| `comment` | text | Optional reason supplied with the change |
+| `client_ip` | varchar(64) | Source IP |
+| `created_at` | timestamp | Event timestamp |
+
 ### `log_record_changes`
 Structured before/after snapshots for record mutations. Powers the diff-style change-log UI and email digests. Complements `log_zones` (which is a free-text activity feed) with machine-readable detail.
 
@@ -379,6 +403,7 @@ Structured before/after snapshots for record mutations. Powers the diff-style ch
 |--------|------|-------------|
 | `id` | int | Primary key |
 | `zone_id` | int | Related zone (nullable) |
+| `changeset_id` | int | Related `log_changesets.id` (nullable) |
 | `record_id` | text | Record identifier (numeric for SQL mode, encoded for API mode) |
 | `action` | varchar(32) | `create`, `update`, `delete` |
 | `user_id` | int | Acting user (nullable) |
@@ -491,7 +516,7 @@ Since 4.2.0 it also seeds five matching group templates (`template_type = 'group
 5. **User permissions**: `users.perm_templ` → `perm_templ.id`; `user_groups.perm_templ` → `perm_templ.id`
 6. **Permission templates**: `perm_templ_items.templ_id` → `perm_templ.id`; `perm_templ_items.perm_id` → `perm_items.id`
 7. **Zone templates**: `zone_templ_records.zone_templ_id` → `zone_templ.id`; `records_zone_templ.zone_templ_id` → `zone_templ.id` (SQL mode); `records_zone_templ_api.zone_templ_id` → `zone_templ.id` (API mode)
-8. **API keys**: `api_keys.created_by` → `users.id`
+8. **API keys**: `api_keys.created_by` → `users.id`; `api_key_zones.api_key_id` → `api_keys.id`
 9. **MFA**: `user_mfa.user_id` → `users.id`
 10. **User preferences**: `user_preferences.user_id` → `users.id`
 11. **OIDC / SAML links**: `oidc_user_links.user_id` → `users.id`; `saml_user_links.user_id` → `users.id`
@@ -501,7 +526,7 @@ Since 4.2.0 it also seeds five matching group templates (`template_type = 'group
 
 | Version            | Changes |
 |--------------------|---------|
-| 4.5.0 *(develop)*  | Added `log_record_changes` (structured before/after record snapshots), `records_zone_templ_api` (template tracking in API mode), `record_type_defaults` (per-type default TTLs), and `app_settings` (admin-managed runtime key/value store). `zones.zone_templ_id` now defaults to `0`. |
+| 4.5.0 *(develop)*  | Added `log_changesets` and `log_record_changes` (grouped, structured before/after record snapshots), `records_zone_templ_api` (template tracking in API mode), `record_type_defaults` (per-type default TTLs), `app_settings` (admin-managed runtime key/value store), and `api_key_zones` (per-zone API key scoping); added `is_readonly` and `allowed_operations` to `api_keys`. `zones.zone_templ_id` now defaults to `0`. |
 | 4.4.0 *(master)*   | Added `is_default` to `zone_templ` for marking a system-wide default template. |
 | 4.3.0              | Added `log_api` and migrated API key log entries into it; added `zone_name`, `zone_type`, `zone_master` to `zones`; widened `record_comment_links.record_id` to VARCHAR. |
 | 4.2.0              | Introduced group-based ownership (`user_groups`, `user_group_members`, `zones_groups`, `log_groups`); added `template_type` to `perm_templ`; made `zones.owner` nullable. Introduced `record_comment_links`. Renamed default permission templates (DNS Editor → Editor, Read Only → Viewer, No Access → Guest). |
