@@ -88,9 +88,9 @@ The following providers are included by default:
 | ssl.com | SSL.com |
 | buypass.com | Buypass |
 | usertrust.com | USERTrust (Sectigo) |
-| ; | Allow all CAs (not recommended) |
+| ; | Disallow all CAs (no issuance permitted) |
 
-> **Note:** the last entry writes a literal `;` as the CAA value. Per RFC 8659 that means **no** certificate authority is authorised to issue for the name, which is the opposite of what its label suggests. Only pick it if you intend to block issuance.
+> **Note:** the last entry writes a literal `;` as the CAA value. Per RFC 8659 that means **no** certificate authority is authorised to issue for the name. Only pick it if you intend to block issuance.
 
 ## Full Configuration Example
 

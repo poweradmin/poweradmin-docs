@@ -21,7 +21,29 @@ PowerDNS 4.7 and later add two more kinds, used to distribute a list of zones be
 - **Producer** - the catalog itself, on a primary. PowerDNS generates its contents from the member zones, so you do not add records to it by hand.
 - **Consumer** - the receiving end, on a secondary. It works like a Slave zone and needs the IP address of the primary it transfers the catalog from, so the add-zone form asks for one when you select it. Because its contents arrive by transfer, no template or DNSSEC option applies.
 
-> **Note:** Assigning member zones to a catalog is not yet supported. You can create a Producer zone, but Poweradmin cannot put anything in it.
+#### Managing catalog members
+
+Poweradmin can assign zones to a catalog from either end.
+
+From the **producer** side, open the Producer zone and use the **Catalog Members** button on the zone
+editor. The page lists the zones the catalog currently publishes and lets you add or remove one at a
+time.
+
+From the **member** side, open the zone and use the **Catalog** selector in the zone details block.
+It offers every producer zone you are allowed to manage, plus `none` to take the zone out of its
+catalog. If the zone is already in a catalog whose producer this installation does not hold, the
+selector shows that catalog name marked `not managed here` and leaves it untouched unless you pick
+something else.
+
+Two limits come from PowerDNS itself:
+
+- Only **Primary** (Master) and **Producer** zones can be members. PowerDNS serves a catalog from
+  those kinds only, so other kinds would accept the setting and then never be published. Poweradmin
+  hides the selector for them.
+- A zone belongs to at most one catalog, so adding it to a second one moves it.
+
+Membership is governed by the same **zone meta edit** permission that covers zone type, primary IP
+and template, and every change is written to the audit log.
 
 ### Read-only zones
 

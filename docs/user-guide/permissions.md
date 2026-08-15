@@ -35,7 +35,7 @@ This document provides detailed explanations of all user permissions available i
 - User cannot orphan a zone (at least one user must remain)
 - User can change zone type (i.e. from native to slave)
 - User can set IP of master server for slave zone
-- User can change used zone template (requires zone_master_add and zone_content_edit_own permissions)
+- User can change used zone template (requires `zone_content_edit_own` plus either `zone_master_add` or `zone_slave_add`)
 
 ### zone_content_view_others
 
