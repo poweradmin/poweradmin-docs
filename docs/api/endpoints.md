@@ -41,6 +41,35 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 | `POST` | `/zones/{id}/owners` | Add owner(s), supports batch (v4.2.0+) |
 | `DELETE` | `/zones/{id}/owners/{user_id}` | Remove owner (v4.2.0+) |
 
+#### Setting the serial policy on create (v4.5.0+)
+
+`POST /zones` accepts an optional `soa_edit_api` string that sets the zone's
+SOA-EDIT-API serial policy:
+
+```json
+{
+  "name": "example.com",
+  "type": "MASTER",
+  "soa_edit_api": "INCREASE"
+}
+```
+
+Omit the field, or send an empty string, to apply the `dns.soa_edit_api`
+configuration default. Send `OFF` to disable the policy for this zone
+specifically; in API backend mode that also clears the default PowerDNS applies.
+
+The accepted values are `DEFAULT`, `INCREASE`, `EPOCH`, `SOA-EDIT`,
+`SOA-EDIT-INCREASE` and `OFF`, narrowed to whatever the `dns.soa_edit_api_options`
+configuration list allows. A value outside that set returns `400`, and so does a
+non-string value. This differs deliberately from the add-zone form, which silently
+drops an unoffered value and falls back to the default.
+
+Two limits worth knowing before scripting against it. The field is create-only:
+`PUT /zones/{id}` does not accept it, and an existing zone's policy is changed
+through `PUT /zones/{id}/metadata/SOA-EDIT-API` instead. And a SLAVE zone takes
+its serial from the primary, so a value accepted there is validated but never
+applied.
+
 ### Zone metadata and DNSSEC
 
 | Method | Path | Purpose |
