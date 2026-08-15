@@ -11,6 +11,11 @@ Poweradmin implements a permission-based user management system with two primary
 1. **Uberusers** - Users that can do anything within the interface (administrators)
 2. **Limited users** - Users with restricted permissions based on assigned templates
 
+From version 4.5.0 the user list carries a filter box that matches on username, full name,
+email address and description. The term is kept as you page through the results, and the
+count in the page heading reflects the filtered total rather than every user. Users who
+lack `user_view_others` only ever see their own account, filtered or not.
+
 ## Permission Templates
 
 Permission templates were introduced in version 2.0.0 and are built from a set of individual permissions. Each
