@@ -33,6 +33,9 @@ curl -H "X-API-Key: your-api-key-here" \
      https://poweradmin.example.com/api/v2/zones
 ```
 
+`Authorization: Bearer your-api-key-here` is accepted as an equivalent if your
+client is easier to configure that way.
+
 The key inherits the permissions of the user it belongs to. If that user can
 edit zone X in the web UI, the key can edit zone X over the API; if they
 cannot, the key cannot either.
@@ -109,6 +112,7 @@ For anything beyond exploration, prefer API keys.
 | Header | When | Notes |
 |--------|------|-------|
 | `X-API-Key` | API key auth | The full key value |
+| `Authorization: Bearer ...` | API key auth | Accepted as an equivalent to `X-API-Key` |
 | `Authorization: Basic ...` | Basic auth | Base64-encoded `user:pass` |
 | `Content-Type: application/json` | `POST`, `PUT` requests | Recommended. The body is parsed as JSON when it looks like JSON even without it, and form-encoded data is accepted as a fallback |
 | `Accept: application/json` | Optional | Responses are always JSON |

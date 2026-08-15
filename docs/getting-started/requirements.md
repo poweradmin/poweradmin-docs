@@ -24,7 +24,7 @@ exceeds the recommended requirements.
         - `pdo-pgsql`
         - `pdo-sqlite`
     - `ldap` (optional)
-- **Database**: MySQL 5.7.x/8.x, MariaDB, PostgreSQL, or SQLite
+- **Database**: MariaDB 10.6+, MySQL 8.x, PostgreSQL, or SQLite
 - **PowerDNS**: PowerDNS authoritative server 4.0.0+ (including 4.x and 5.x series)
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD

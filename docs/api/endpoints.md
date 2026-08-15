@@ -41,6 +41,28 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 | `POST` | `/zones/{id}/owners` | Add owner(s), supports batch (v4.2.0+) |
 | `DELETE` | `/zones/{id}/owners/{user_id}` | Remove owner (v4.2.0+) |
 
+### Zone metadata and DNSSEC
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/zones/{id}/metadata` | List all metadata kinds for a zone |
+| `GET` | `/zones/{id}/metadata/{kind}` | Get one metadata kind |
+| `PUT` | `/zones/{id}/metadata/{kind}` | Set one metadata kind |
+| `DELETE` | `/zones/{id}/metadata/{kind}` | Remove one metadata kind |
+| `GET` | `/zones/{id}/dnssec` | Get DNSSEC status and keys |
+| `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone |
+
+### Dynamic DNS
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/dynamic-dns` | Update a record from a dynamic DNS client |
+
+This is the API v2 equivalent of the standalone `dynamic_update.php` script
+described in [Dynamic DNS](../user-guide/ddns/overview.md). Both remain
+supported; the standalone script keeps the dyndns2-compatible query-string
+interface that routers expect.
+
 ### Records
 
 | Method | Path | Purpose |

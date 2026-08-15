@@ -59,7 +59,8 @@ The configuration is organized into logical sections:
 | `ldap` | LDAP/Active Directory authentication |
 | `oidc` | OpenID Connect authentication |
 | `saml` | SAML authentication |
-| `modules` | Optional modules: CSV export, zone import/export, WHOIS (`modules.whois`), RDAP (`modules.rdap`), and others |
+| `modules` | Optional modules: CSV export (`modules.csv_export`), zone import/export (`modules.zone_import_export`), secondary zone import over AXFR (`modules.secondary_zone_import`), WHOIS (`modules.whois`), RDAP (`modules.rdap`), DNS wizards (`modules.dns_wizards`), mail template previews (`modules.email_previews`) |
+| `notifications` | Notification toggles, currently `notifications.zone_access_enabled` (default `false`) for zone access change emails |
 | `api` | REST API configuration |
 | `user_agreement` | User agreement system |
 | `misc` | Timezone, conflict handling, etc. |

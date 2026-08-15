@@ -60,7 +60,9 @@ Paginated list endpoints add a `pagination` block alongside `data`.
 
 - **Zones**: list, create, update, delete; manage owners (v4.2.0+); list RRsets
 - **Records**: list per zone, create, update, delete, bulk create
-- **Users**: full CRUD, list groups
+- **Users**: full CRUD; user responses include the groups the user belongs to (v4.5.0+)
+- **Zone metadata and DNSSEC**: read and write zone metadata, read DNSSEC status, sign and unsign zones
+- **Dynamic DNS**: update a record from a dynamic DNS client
 - **Groups**: full CRUD, manage members and zone assignments (v4.2.0+)
 - **Permission templates**: full CRUD
 - **Zone templates**: full CRUD, manage template records (v4.2.0+)
