@@ -169,6 +169,12 @@ Two limits apply to holders who are not themselves administrators:
 Both limits apply equally to the REST API user endpoints, so automation is held to the
 same rule as the web interface. Assigning any ordinary template is unaffected.
 
+### user_enforce_mfa
+
+- Requires the holder to complete multi-factor authentication at login
+- Applies when the permission comes from the user's own template or from a group they belong to
+- Only takes effect when `security.mfa.enabled` is on; `security.mfa.skip_for_external_auth` can exempt logins that came through an external identity provider
+
 ### user_is_ueberuser
 
 - Grants superuser status with full access to all functions
@@ -195,6 +201,31 @@ same rule as the web interface. Assigning any ordinary template is unaffected.
 > who is not already an administrator cannot put `user_is_ueberuser` into a template,
 > and cannot edit a template that already carries it. The latter also prevents stripping
 > permissions off the Administrator template. Administrators are unaffected.
+
+## Zone Template Permissions
+
+These cover zone templates (reusable sets of DNS records), not the permission
+templates above.
+
+### zone_templ_add
+
+- Allows the user to create new zone templates
+- Also required to save an existing zone's records as a new template
+- Together with `zone_templ_edit`, gates access to the zone template list
+
+### zone_templ_edit
+
+- Allows the user to edit and delete existing zone templates
+- Covers adding, editing and deleting the records inside a template, and pushing template changes out to the zones that use it
+
+## API Permissions
+
+### api_manage_keys
+
+- Allows the user to create, view, edit and revoke their own REST API keys
+- Gates the API Keys page and the equivalent service operations
+- Administrators hold this implicitly
+- The API itself must be enabled with `api.enabled`; see [API Configuration](../configuration/api.md)
 
 ## Supermaster Permissions
 
