@@ -83,13 +83,13 @@ If you're experiencing issues with TLS encryption:
 
 1. **Verify encryption setting:**
 
-```php
-'encryption' => 'tls',  // For STARTTLS on port 587
-// or
-'encryption' => 'ssl',  // For SMTPS on port 465
-// or
-'encryption' => null,   // For unencrypted connections (not recommended)
-```
+    ```php
+    'encryption' => 'tls',  // For STARTTLS on port 587
+    // or
+    'encryption' => 'ssl',  // For SMTPS on port 465
+    // or
+    'encryption' => null,   // For unencrypted connections (not recommended)
+    ```
 
 2. **Common port and encryption combinations:**
    - **Port 587** with `'encryption' => 'tls'` (STARTTLS) - Most common
@@ -116,9 +116,9 @@ This particularly affects:
 1. **Verify credentials:** Double-check username and password
 2. **Test SMTP connectivity:**
 
-```bash
-telnet smtp.example.com 587
-```
+    ```bash
+    telnet smtp.example.com 587
+    ```
 
 3. **Check firewall rules:** Ensure outbound SMTP ports are open
 4. **Review server logs:** Raise `logging.level` to `debug` (see [Logging](logging.md)) for detailed `MailService` output

@@ -47,9 +47,9 @@ Then:
 
 1. Enable the required Apache modules:
 
-```bash
-a2enmod rewrite headers
-```
+    ```bash
+    a2enmod rewrite headers
+    ```
 
 2. Either place Poweradmin in the default webroot (`/var/www/html/`) or create a virtual host configuration.
 

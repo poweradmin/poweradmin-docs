@@ -98,9 +98,9 @@ later:
 
 1. Navigate to your project directory in the terminal:
 
-```sh
-cd /path/to/poweradmin
-```
+    ```sh
+    cd /path/to/poweradmin
+    ```
 
 2. If you want to update to a newer version of the Poweradmin package itself, you'll need to modify the version
    constraint in your `composer.json` file, then run the update command. For specifically updating just the Poweradmin

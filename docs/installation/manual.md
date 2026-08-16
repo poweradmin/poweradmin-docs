@@ -139,35 +139,35 @@ Apache requires `mod_rewrite` to be enabled for Poweradmin to function correctly
 
 1. Enable the required Apache modules:
 
-```bash
-a2enmod rewrite headers
-```
+    ```bash
+    a2enmod rewrite headers
+    ```
 
 2. Configure your VirtualHost. If you are using PHP-FPM instead of `mod_php`, also include the `SetHandler` block shown below to forward `.php` requests to the FPM socket:
 
-```apache
-<VirtualHost *:80>
-    ServerName your-domain.com
-    DocumentRoot /path/to/poweradmin
+    ```apache
+    <VirtualHost *:80>
+        ServerName your-domain.com
+        DocumentRoot /path/to/poweradmin
 
-    <Directory /path/to/poweradmin>
-        Options -Indexes +FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
+        <Directory /path/to/poweradmin>
+            Options -Indexes +FollowSymLinks
+            AllowOverride All
+            Require all granted
+        </Directory>
 
-    # Only needed when using PHP-FPM (not mod_php).
-    # Adjust the socket path to your installed PHP version.
-    <FilesMatch \.php$>
-        SetHandler "proxy:unix:/var/run/php/php8.2-fpm.sock|fcgi://localhost"
-    </FilesMatch>
+        # Only needed when using PHP-FPM (not mod_php).
+        # Adjust the socket path to your installed PHP version.
+        <FilesMatch \.php$>
+            SetHandler "proxy:unix:/var/run/php/php8.2-fpm.sock|fcgi://localhost"
+        </FilesMatch>
 
-    # For DDNS update functionality
-    RewriteEngine On
-    RewriteRule ^/update(.*)$ /dynamic_update.php [L]
-    RewriteRule ^/nic/update(.*)$ /dynamic_update.php [L]
-</VirtualHost>
-```
+        # For DDNS update functionality
+        RewriteEngine On
+        RewriteRule ^/update(.*)$ /dynamic_update.php [L]
+        RewriteRule ^/nic/update(.*)$ /dynamic_update.php [L]
+    </VirtualHost>
+    ```
 
 > **Warning:** If you see 404 errors when accessing Poweradmin (e.g., on `/login`), check that: (1) `mod_rewrite` is enabled: `a2enmod rewrite && systemctl restart apache2`, (2) `AllowOverride All` is set in your VirtualHost or Apache configuration, (3) The `.htaccess` file is present in the Poweradmin root directory.
 

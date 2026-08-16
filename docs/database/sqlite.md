@@ -13,30 +13,30 @@ This guide explains how to configure Poweradmin to use SQLite as your database b
 
 1. Create a configuration file at `/config/settings.php` based on the example below:
 
-```php
-<?php
-/**
- * Poweradmin SQLite Configuration
- */
-return [
+    ```php
+    <?php
     /**
-     * Database Settings
+     * Poweradmin SQLite Configuration
      */
-    'database' => [
-        'type' => 'sqlite',           // Set database type to SQLite
-        'file' => '/path/to/your/poweradmin.sqlite',  // Absolute path to SQLite database file
-        'host' => '',                 // Not used for SQLite
-        'port' => '',                 // Not used for SQLite
-        'user' => '',                 // Not used for SQLite
-        'password' => '',             // Not used for SQLite
-        'name' => '',                 // Not used for SQLite
-        'charset' => 'utf8',          // Character set
-        'debug' => false,             // Set to true to debug SQL queries
-    ],
+    return [
+        /**
+         * Database Settings
+         */
+        'database' => [
+            'type' => 'sqlite',           // Set database type to SQLite
+            'file' => '/path/to/your/poweradmin.sqlite',  // Absolute path to SQLite database file
+            'host' => '',                 // Not used for SQLite
+            'port' => '',                 // Not used for SQLite
+            'user' => '',                 // Not used for SQLite
+            'password' => '',             // Not used for SQLite
+            'name' => '',                 // Not used for SQLite
+            'charset' => 'utf8',          // Character set
+            'debug' => false,             // Set to true to debug SQL queries
+        ],
     
-    // Other configuration sections remain the same as in settings.defaults.php
-];
-```
+        // Other configuration sections remain the same as in settings.defaults.php
+    ];
+    ```
 
 2. Ensure the directory containing the SQLite database file has appropriate permissions:
     - The web server user (e.g., www-data, apache, nginx) needs read/write access to both the directory and database

@@ -59,14 +59,14 @@ Then:
 
 1. Tell Apache to hand PHP files to the module by adding this to `/usr/local/etc/apache24/httpd.conf`:
 
-```apache
-<FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-</FilesMatch>
-<FilesMatch "\.phps$">
-    SetHandler application/x-httpd-php-source
-</FilesMatch>
-```
+    ```apache
+    <FilesMatch "\.php$">
+        SetHandler application/x-httpd-php
+    </FilesMatch>
+    <FilesMatch "\.phps$">
+        SetHandler application/x-httpd-php-source
+    </FilesMatch>
+    ```
 
 2. Ensure `mod_rewrite` and `mod_headers` are enabled in `httpd.conf` - Poweradmin requires URL rewriting.
 
@@ -74,10 +74,10 @@ Then:
 
 4. Enable and start Apache:
 
-```bash
-sysrc apache24_enable=YES
-service apache24 start
-```
+    ```bash
+    sysrc apache24_enable=YES
+    service apache24 start
+    ```
 
 The `.htaccess` file included with Poweradmin handles URL routing, API support, and security rules automatically.
 

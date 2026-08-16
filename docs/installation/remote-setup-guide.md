@@ -21,36 +21,36 @@ In a remote setup:
 3. Poweradmin connects to the PowerDNS database remotely
 4. For DNSSEC operations, Poweradmin uses the PowerDNS API
 
-```
-┌────────────────┐        ┌────────────────┐
-│                │        │                │
-│  Admin Server  │        │   DNS Server   │
-│                │        │                │
-│  ┌──────────┐  │        │  ┌──────────┐  │
-│  │Poweradmin│  │◄──────►│  │ PowerDNS │  │
-│  └──────────┘  │  API   │  └──────────┘  │
-│                │        │                │
-└───────┬────────┘        └───────┬────────┘
-        │                         │
-        │    ┌──────────────┐     │
-        └───►│ PowerDNS DB  │◄────┘
-             └──────────────┘
-```
+    ```
+    ┌────────────────┐        ┌────────────────┐
+    │                │        │                │
+    │  Admin Server  │        │   DNS Server   │
+    │                │        │                │
+    │  ┌──────────┐  │        │  ┌──────────┐  │
+    │  │Poweradmin│  │◄──────►│  │ PowerDNS │  │
+    │  └──────────┘  │  API   │  └──────────┘  │
+    │                │        │                │
+    └───────┬────────┘        └───────┬────────┘
+            │                         │
+            │    ┌──────────────┐     │
+            └───►│ PowerDNS DB  │◄────┘
+                 └──────────────┘
+    ```
 
 ## Step 1: Install Poweradmin on the Admin Server
 
 1. Clone or download Poweradmin:
 
-```bash
-git clone https://github.com/poweradmin/poweradmin.git
-cd poweradmin
-```
+    ```bash
+    git clone https://github.com/poweradmin/poweradmin.git
+    cd poweradmin
+    ```
 
 2. Install dependencies:
 
-```bash
-composer install --no-dev
-```
+    ```bash
+    composer install --no-dev
+    ```
 
 3. Configure your web server to serve Poweradmin (directory configuration examples for Apache/Nginx not shown here).
 
@@ -58,20 +58,20 @@ composer install --no-dev
 
 1. Create a database user on your PowerDNS database server with appropriate permissions:
 
-```sql
--- For MySQL/MariaDB (execute on DNS server's database)
-CREATE
-USER 'poweradmin'@'admin_server_ip' IDENTIFIED BY 'secure_password';
-GRANT
-SELECT,
-INSERT
-,
-UPDATE,
-DELETE
-ON powerdns.* TO 'poweradmin'@'admin_server_ip';
-FLUSH
-PRIVILEGES;
-```
+    ```sql
+    -- For MySQL/MariaDB (execute on DNS server's database)
+    CREATE
+    USER 'poweradmin'@'admin_server_ip' IDENTIFIED BY 'secure_password';
+    GRANT
+    SELECT,
+    INSERT
+    ,
+    UPDATE,
+    DELETE
+    ON powerdns.* TO 'poweradmin'@'admin_server_ip';
+    FLUSH
+    PRIVILEGES;
+    ```
 
 2. Configure Poweradmin to connect to the remote database:
     - Copy `config/settings.defaults.php` to `config/settings.php`
@@ -105,12 +105,12 @@ webserver-allow-from=admin_server_ip/32
 
 2. Configure Poweradmin to use the API by editing your `settings.php`:
 
-```php
-'pdns_api' => [
-    'url' => 'http://dns_server_ip:8081',  // PowerDNS API URL
-    'key' => 'your_secure_api_key',        // PowerDNS API key
-],
-```
+    ```php
+    'pdns_api' => [
+        'url' => 'http://dns_server_ip:8081',  // PowerDNS API URL
+        'key' => 'your_secure_api_key',        // PowerDNS API key
+    ],
+    ```
 
 ## Step 4: Configure DNSSEC (Optional)
 
@@ -148,11 +148,11 @@ webserver-allow-from=admin_server_ip/32  # Replace with your admin server's IP
     - Consider using SSH tunneling or VPN for additional security
     - Example with UFW (Ubuntu):
 
-```bash
-# On PowerDNS server
-sudo ufw allow from admin_server_ip to any port 8081 proto tcp
-sudo ufw allow from admin_server_ip to any port 3306 proto tcp
-```
+    ```bash
+    # On PowerDNS server
+    sudo ufw allow from admin_server_ip to any port 8081 proto tcp
+    sudo ufw allow from admin_server_ip to any port 3306 proto tcp
+    ```
 
 3. TLS/SSL:
     - Consider using SSL/TLS for database connections
