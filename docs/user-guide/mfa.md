@@ -101,7 +101,7 @@ MFA is configured in `config/settings.php` under the `security` section:
 - **enabled** - enable MFA functionality globally. Default: `false`
 - **enforced** - enable MFA enforcement (works with `user_enforce_mfa` permission). Default: `false`
 - **skip_for_external_auth** - do not enforce MFA for LDAP, OIDC, or SAML logins; the identity provider is trusted to enforce it. Default: `false` (added in 4.5.0)
-- **app_enabled** - allow authenticator app method. Default: `true`
+- **app_enabled** - intended to allow the authenticator app method. Default: `true`. **Not implemented** - the value is never read, so the app method is always offered while MFA is enabled
 - **email_enabled** - allow email verification method (requires [mail configuration](../configuration/mail.md)). Default: `true`
 - **recovery_codes** - number of recovery codes to generate per user. Default: `8`
 - **recovery_code_length** - character length of each recovery code. Default: `10`
