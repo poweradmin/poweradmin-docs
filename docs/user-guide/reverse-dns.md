@@ -55,12 +55,12 @@ For creating multiple PTR records at once:
    
 2. Complete the form:
    - **IP Version**: Choose IPv4 or IPv6
-   - **Network Prefix**: 
-     - For IPv4: The first three octets (e.g., `192.168.1`)
-     - For IPv6: The /64 prefix (e.g., `2001:db8:1:1`)
-   - **Host Prefix**: Base name for the hosts (e.g., `server`)
+   - **Network Prefix**: The network in CIDR notation (e.g., `192.168.1.0/24` or `10.0.0.0/20`). The button beside the field picks from the reverse zones you already have.
+   - **Host Prefix**: Base name for the hosts (e.g., `server`). Leave empty to use just the domain.
    - **Domain**: Domain suffix for PTR records (e.g., `example.com`)
-   - **IPv6 Count**: (IPv6 only) How many records to create
+   - **Comment**: Optional, stored on each created record
+   - **Create forward A/AAAA records in primary zone**: Also creates the matching forward records
+   - **Create PTRs only for existing A/AAAA records in forward zone**: Restricts creation to IPs that already resolve, instead of the whole range
 
    The form has no TTL or Priority fields. It shows a "Using default TTL value from configuration" note, the TTL is resolved server-side, and the priority is always 0.
    
