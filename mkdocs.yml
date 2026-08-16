@@ -97,6 +97,7 @@ nav:
           - Debian: installation/debian.md
           - Ubuntu: installation/ubuntu.md
           - CentOS/RHEL: installation/centos.md
+          - FreeBSD: installation/freebsd.md
       - Database Setup:
           - MySQL/MariaDB: database/mysql-configuration.md
           - PostgreSQL: database/postgresql-configuration.md

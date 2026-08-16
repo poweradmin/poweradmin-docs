@@ -80,6 +80,7 @@ Default PHP versions are taken from each distribution's official package reposit
 | Rocky Linux 10 / AlmaLinux 10 | 8.3        | RHEL 10 dropped modularity; PHP 8.3 ships directly from AppStream. Use the [Remi repository](https://rpms.remirepo.net/) for newer releases.                                           |
 | Rocky Linux 9 / AlmaLinux 9  | 8.0         | Below the 8.2 minimum - run `dnf module reset php && dnf module enable php:8.2` (or `php:8.3`) to enable a newer module stream, or install from Remi.                                  |
 | OpenSUSE Leap 15.6           | 8.2         | Meets the minimum out of the box.                                                                                                                                                      |
+| FreeBSD 15.x / 14.4          | 8.4         | Ports default; `php83` and `php85` also available. No `php` meta-package - install the versioned one. `php82` is deprecated, removal due 2026-12-31.                                    |
 
 ---
 
@@ -87,6 +88,11 @@ Default PHP versions are taken from each distribution's official package reposit
 
 Poweradmin is compatible with BSD operating systems that meet the PHP 8.2+ requirement. While not extensively tested, it
 should work as long as the environment is properly configured.
+
+FreeBSD 14.4 and the 15.x series carry PHP 8.3, 8.4 and 8.5 in the ports tree, with 8.4 as the
+current default. `lang/php82` is deprecated and scheduled for removal on 2026-12-31, so install
+`php84` rather than PHP 8.2 on a new system. See the [FreeBSD installation guide](../installation/freebsd.md)
+for the package names, paths and service commands, which differ from the Linux guides.
 
 ---
 

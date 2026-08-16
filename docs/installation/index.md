@@ -7,6 +7,7 @@ Poweradmin can be installed on various operating systems and with different data
 - [Debian](debian.md) - Installation guide for Debian
 - [Ubuntu](ubuntu.md) - Installation guide for Ubuntu
 - [CentOS/RHEL](centos.md) - Installation guide for CentOS, Rocky Linux, AlmaLinux, and Red Hat Enterprise Linux
+- [FreeBSD](freebsd.md) - Installation guide for FreeBSD
 
 ## Installation Methods
 
