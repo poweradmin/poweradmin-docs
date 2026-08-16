@@ -6,6 +6,17 @@ Welcome to the official documentation for Poweradmin, an administration tool for
 
 Poweradmin manages PowerDNS zones and records with the same validation rules whether you go through the web interface or the REST API. Use the UI for day-to-day operations, the API for scripts, CI, and infrastructure-as-code, or run completely headless after the initial setup.
 
+## Which version do these docs describe?
+
+This site publishes a single version of the documentation - the current release line. If you run
+an older release, some of what you read here will not exist in your version.
+
+Where it matters, individual settings and features are marked with the release that introduced
+them, for example `(v4.3.0+)` or "added in 4.5.0". Two places track this per release:
+
+- **[What's New](whats-new/index.md)** - what each 4.x release added, one page per release
+- **[Upgrading](upgrading/index.md)** - upgrade steps, schema migrations, and recent patch releases
+
 ## Features
 
 - **User Management**: Manage users and roles with different permissions

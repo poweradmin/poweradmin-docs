@@ -66,7 +66,9 @@ for the authoritative EOL calendar before planning a long-running deployment.
 
 ## Supported Distributions
 
-Default PHP versions are taken from each distribution's official package repository as of May 2026.
+Default PHP versions are taken from each distribution's official package repository. Rows are
+updated as distributions ship new releases, so check your distribution's current package before
+planning a deployment.
 
 | Distribution                 | Default PHP | Notes                                                                                                                                                                                  |
 |------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
