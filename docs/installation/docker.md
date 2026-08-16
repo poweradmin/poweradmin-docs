@@ -203,6 +203,21 @@ docker logs poweradmin | grep -i password
 
 ## Key Environment Variables
 
+This page covers the variables you need to stand a deployment up and secure it. It
+is deliberately a subset: the container accepts roughly 330 variables, and the
+complete reference, versioned alongside the code, is
+[DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md) in the
+source repository. Check there for anything not listed below, especially the
+interface, mail, DNS validation and per-provider OIDC and SAML settings.
+
+Every variable here can also be supplied from a file by appending `__FILE` to its
+name; see [Docker Secrets](docker-secrets.md).
+
+> **Note:** These variables only take effect when the container generates its own
+> configuration. If `config/settings.php` (or `PA_CONFIG_PATH`) exists and is not
+> empty, that file is used and the variables below are ignored. See
+> [Configuration Priority](docker-secrets.md#configuration-priority).
+
 ### Database
 
 | Variable | Default | Description |
@@ -315,15 +330,6 @@ Email-based MFA needs a working mail configuration; see [Mail](../configuration/
 
 Account lockout (with `PA_LOCKOUT_TRACK_IP`) and the reset and recovery rate limits all throttle by client IP as well as by account. Behind a proxy they need `TRUSTED_PROXIES` set, or every request appears to come from the proxy's address.
 
-### Interface
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PA_APP_TITLE` | Poweradmin | Application title |
-| `PA_DEFAULT_LANGUAGE` | en_EN | Default language |
-| `PA_SESSION_TIMEOUT` | 1800 | Session timeout (seconds) |
-| `PA_STYLE` | light | UI style: light or dark |
-
 ### PowerDNS API
 
 | Variable | Default | Description |
@@ -376,13 +382,22 @@ docker run -d --name poweradmin -p 80:80 \
   poweradmin/poweradmin
 ```
 
-### Miscellaneous
+### Interface and miscellaneous
 
 | Variable | Default | Description |
 |----------|---------|-------------|
+| `PA_CONFIG_PATH` | /app/config/settings.php | Path to the configuration file. When this file exists and is not empty it replaces the generated one, and the other `PA_*` variables are ignored |
+| `PA_APP_TITLE` | Poweradmin | Application title |
+| `PA_DEFAULT_LANGUAGE` | en_EN | Default language |
+| `PA_STYLE` | light | UI style: light or dark |
+| `PA_SESSION_TIMEOUT` | 1800 | Session timeout in seconds |
 | `PA_TIMEZONE` | UTC | Default timezone |
 | `PA_EDIT_CONFLICT_RESOLUTION` | last_writer_wins | Edit conflict resolution strategy |
 | `PA_DNS_CUSTOM_TLDS` | - | Comma-separated custom TLDs (e.g., `dn42,home`) |
+
+The interface has many more settings than the four above; see
+[UI Overview](../configuration/ui/overview.md) for what is available and
+`DOCKER.md` for their variables.
 
 ### Logging
 
@@ -395,7 +410,9 @@ docker run -d --name poweradmin -p 80:80 \
 | `PA_LOGGING_SYSLOG_IDENTITY` | poweradmin | Syslog program identity |
 | `PA_LOGGING_SYSLOG_FACILITY` | LOG_USER | Syslog facility (`LOG_USER`, `LOG_LOCAL0`-`LOG_LOCAL7`) |
 
-For complete environment variable reference, see the [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md) in the source repository.
+Anything not listed on this page is in
+[DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md), which
+tracks the code and is tagged with each release.
 
 ## Volumes
 

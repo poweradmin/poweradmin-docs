@@ -14,6 +14,25 @@ Any Poweradmin environment variable can be provided via a file by appending `__F
 -e DB_PASS__FILE=/run/secrets/db_password
 ```
 
+## Docker Run Example
+
+Without Swarm or Compose, mount each secret file read-only and point the `__FILE`
+variable at it:
+
+```bash
+docker run -d --name poweradmin \
+  -p 80:80 \
+  -e DB_TYPE=mysql \
+  -e DB_HOST=mysql.example.com \
+  -e DB_USER=poweradmin \
+  -e DB_NAME=poweradmin \
+  -e DB_PASS__FILE=/run/secrets/db_password \
+  -e PA_PDNS_API_KEY__FILE=/run/secrets/pdns_api_key \
+  -v /path/to/db_password:/run/secrets/db_password:ro \
+  -v /path/to/pdns_api_key:/run/secrets/pdns_api_key:ro \
+  poweradmin/poweradmin:stable
+```
+
 ## Docker Compose Example
 
 ```yaml
@@ -205,12 +224,18 @@ secrets/
 
 ## Configuration Priority
 
-Configuration is loaded in this order (later overrides earlier):
+Environment variables and a configuration file are not layered - the container
+picks one or the other at startup:
 
-1. Default values
-2. Configuration file (`config/settings.php`)
-3. Environment variables
-4. Docker secrets (`__FILE` variables)
+- If the configuration file exists and is **not empty**, it is used as-is and every
+  `PA_*` environment variable is ignored. The file is `PA_CONFIG_PATH` when set,
+  otherwise `config/settings.php`.
+- Otherwise the container generates `settings.php` from the environment variables.
+
+So mounting a `settings.php` and also setting `PA_*` variables does not merge the
+two - the file wins and the variables have no effect. Secrets are resolved before
+this decision, so `VAR__FILE` behaves exactly like `VAR` for it, including
+`PA_CONFIG_PATH__FILE`.
 
 ## Error Handling
 
