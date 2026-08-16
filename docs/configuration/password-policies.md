@@ -22,19 +22,15 @@ The following additional security settings are available in the `security` secti
 
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`.
 
-## Password Expiration
+## Not available
 
-**Note:** The following settings are not implemented yet.
+Poweradmin has no password expiration and no password reuse prevention. There are no
+configuration keys for either - nothing in `config/settings.defaults.php` corresponds to them,
+so adding keys of your own has no effect.
 
-- **enable_expiration**: Enable or disable password expiration. Default: `false`.
-- **max_age_days**: Maximum age of the password in days before it expires. Default: `90`.
-
-## Password Reuse Prevention
-
-**Note:** The following settings are not implemented yet.
-
-- **enable_reuse_prevention**: Enable or disable prevention of password reuse. Default: `false`.
-- **prevent_reuse**: Number of previous passwords to check against for reuse. Default: `5`.
+If you need enforced rotation or reuse history, handle it in your identity provider and
+authenticate through [LDAP](ldap.md), [OIDC](oidc.md) or [SAML](saml.md) instead of local
+passwords.
 
 ## Example Configuration
 
