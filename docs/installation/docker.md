@@ -347,10 +347,22 @@ Account lockout (with `PA_LOCKOUT_TRACK_IP`) and the reset and recovery rate lim
 | `PA_MODULE_ZONE_IMPORT_EXPORT_MAX_FILE_SIZE` | 1048576 | Max upload file size in bytes |
 | `PA_MODULE_WHOIS_ENABLED` | false | Enable WHOIS lookup module |
 | `PA_MODULE_WHOIS_RESTRICT_TO_ADMIN` | true | Restrict WHOIS to administrators |
+| `PA_MODULE_WHOIS_DEFAULT_SERVER` | *(empty)* | Default WHOIS server |
+| `PA_MODULE_WHOIS_CUSTOM_SERVERS` | *(empty)* | Custom TLD-to-server mapping, e.g. `za=whois.registry.net.za` |
+| `PA_MODULE_WHOIS_SOCKET_TIMEOUT` | 10 | WHOIS socket timeout in seconds |
 | `PA_MODULE_RDAP_ENABLED` | false | Enable RDAP lookup module |
 | `PA_MODULE_RDAP_RESTRICT_TO_ADMIN` | true | Restrict RDAP to administrators |
+| `PA_MODULE_RDAP_DEFAULT_SERVER` | *(empty)* | Default RDAP server |
+| `PA_MODULE_RDAP_CUSTOM_SERVERS` | *(empty)* | Custom TLD-to-server mapping, e.g. `za=https://rdap.example.com/` |
+| `PA_MODULE_RDAP_REQUEST_TIMEOUT` | 10 | RDAP request timeout in seconds |
+| `PA_MODULE_EMAIL_PREVIEWS_ENABLED` | false | Enable the email template previews module |
 | `PA_MODULE_EMAIL_PREVIEWS_RESTRICT_TO_ADMIN` | true | Restrict email previews to administrators |
+| `PA_MODULE_DNS_WIZARDS_ENABLED` | false | Enable the DNS record wizards module |
 | `PA_MODULE_DNS_WIZARDS_TYPES` | DMARC,SPF,DKIM,CAA,TLSA,SRV | Comma-separated list of DNS wizard types |
+
+This table covers every module variable the container accepts. Two module settings have no
+environment variable and must be set in `settings.php`: `modules.secondary_zone_import.enabled`
+and the `modules.dns_wizards.caa_providers` list.
 
 For detailed module configuration, see the [Configuration](../configuration/zone-import-export.md) section.
 
@@ -359,6 +371,12 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PA_LDAP_ENABLED` | false | Enable LDAP authentication |
+| `PA_LDAP_URI` | *(empty)* | LDAP server URI, e.g. `ldaps://ldap.example.com:636` |
+| `PA_LDAP_BASE_DN` | *(empty)* | Base DN where users are stored |
+| `PA_LDAP_BIND_DN` | *(empty)* | Bind DN used to search the directory |
+| `PA_LDAP_BIND_PASSWORD` | *(empty)* | Password for the bind DN |
+| `PA_LDAP_SEARCH_FILTER` | *(empty)* | Additional LDAP search filter |
+| `PA_LDAP_PROTOCOL_VERSION` | 3 | LDAP protocol version |
 | `PA_LDAP_USER_ATTRIBUTE` | uid | User attribute (`uid` for OpenLDAP, `sAMAccountName` for AD) |
 | `PA_LDAP_SYNC_USER_INFO` | false | Sync fullname/email from LDAP on login (v4.5.0+) |
 | `PA_LDAP_AUTO_PROVISION` | false | Create missing users on first LDAP login (v4.5.0+) |
@@ -366,6 +384,12 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | `PA_LDAP_GROUP_MAPPING` | - | LDAP group to Poweradmin group mapping, `group:PAGroup` comma-separated (v4.5.0+) |
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
+
+The LDAP rows above are enough for a working LDAP setup. OIDC and SAML are not - each provider
+needs its own block of variables (`PA_OIDC_AZURE_*`, `PA_SAML_OKTA_*` and so on), and there are
+137 authentication variables in total across LDAP, OIDC and SAML. They are listed in
+[DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md); the settings behind
+them are explained in [OIDC](../configuration/oidc.md) and [SAML](../configuration/saml.md).
 
 ### Custom CA Certificate
 
