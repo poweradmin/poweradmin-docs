@@ -26,6 +26,10 @@ Before creating PTR records, you need:
    - For creating reverse zones, you need:
      - `zone_master_add` or `zone_slave_add` permissions
 
+Reverse zones are listed separately from forward zones, under Zones → **Reverse Zones**.
+
+![Reverse zone list](../screenshots/zone-list-reverse.png)
+
 ## Method 1: Adding Individual PTR Records
 
 For single PTR records:

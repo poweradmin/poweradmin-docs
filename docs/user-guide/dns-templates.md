@@ -29,6 +29,8 @@ Rather than building a template record by record, you can turn a zone you alread
 one. On the zone editor, **Save as Template** (`/zones/{id}/save-template`) asks for a
 template name and description, then copies the zone's records into a new template.
 
+![Save as Template](../screenshots/zone-save-as-template.png)
+
 The copy is not literal. The zone's own name is replaced with `[ZONE]`, and the configured
 nameserver and hostmaster values are replaced with `[NS1]` and `[HOSTMASTER]`, so the
 template applies cleanly to any other zone.

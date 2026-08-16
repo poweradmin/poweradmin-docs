@@ -72,6 +72,8 @@ Creates many zones at once from a list of domain names. All zones get the same t
 
 **Route:** `/zones/bulk-registration` (Zones menu → **Bulk Registration**).
 
+![Bulk Registration](../screenshots/bulk-registration.png)
+
 ### Form fields
 
 - **Zone names** - one domain per line (e.g. `example.com`, `example.net`, ...)

@@ -4,6 +4,8 @@ DNS Wizards provide a guided interface for creating complex DNS records. Instead
 
 *Added in version 4.1.0*
 
+![DNS Wizard Selection](../screenshots/dns-wizard-select.png)
+
 ## Configuration Options
 
 DNS wizard settings live under `modules.dns_wizards`.

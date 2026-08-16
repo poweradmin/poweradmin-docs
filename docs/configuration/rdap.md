@@ -4,6 +4,8 @@
 
 RDAP (Registration Data Access Protocol) is the modern replacement for WHOIS. Poweradmin supports RDAP lookups for domain registration information with structured JSON responses and better internationalization support.
 
+![RDAP Lookup](../screenshots/rdap-lookup.png)
+
 ## Configuration Options
 
 RDAP settings live under `modules.rdap` in `config/settings.php`.

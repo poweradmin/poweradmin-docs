@@ -13,6 +13,12 @@ The DNSSEC implementation enables you to:
 - View DS (Delegation Signer) and DNSKEY records
 - Manage DNSSEC key rollovers
 
+Each zone gets a key management page listing its keys with their type, tag, algorithm and
+active state, alongside actions to add, activate, export or delete a key, show the DS and
+DNSKEY records, and unsign the zone.
+
+![DNSSEC keys for a zone](../screenshots/dnssec-overview.png)
+
 ## Basic Concepts
 
 - **Zone Signing Keys (ZSK)**: Used to sign the actual DNS records

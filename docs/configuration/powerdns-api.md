@@ -84,9 +84,16 @@ With the PowerDNS API properly configured, Poweradmin gains the following capabi
 - Metadata management
 - Direct server statistics access
 
+The **PowerDNS Server Status** page reports whether the server is reachable, its version, daemon
+type and uptime, and the connectivity of each configured autoprimary.
+
+![PowerDNS Server Status](../screenshots/pdns-status.png)
+
 ## API Backend Mode (v4.3.0+)
 
 API backend mode eliminates the need for Poweradmin to access the PowerDNS database. All DNS operations go through the PowerDNS REST API.
+
+![Zone list in API backend mode](../screenshots/zone-list-api-backend.png)
 
 ### When to Use API Backend Mode
 
