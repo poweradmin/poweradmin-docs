@@ -146,8 +146,11 @@ nav:
           - User Groups: user-guide/groups.md
           - Multi-Factor Authentication: user-guide/mfa.md
           - Permissions: user-guide/permissions.md
+          - User Preferences: user-guide/user-preferences.md
       - DNS Management:
           - Zone Management: user-guide/zones.md
+          - Search: user-guide/search.md
+          - Supermasters and Autoprimaries: user-guide/supermasters.md
           - DNS Templates: user-guide/dns-templates.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
           - Bulk and Batch Operations: user-guide/bulk-operations.md
@@ -167,6 +170,7 @@ nav:
   # near-empty tabs.
   - Operations:
       - Overview: maintenance/index.md
+      - Database Consistency Check: maintenance/consistency-check.md
       - Logging:
           - Log Configuration: advanced/logging-config.md
           - fail2ban Integration: advanced/fail2ban.md

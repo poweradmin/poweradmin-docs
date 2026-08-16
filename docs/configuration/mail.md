@@ -59,6 +59,39 @@ return [
 ];
 ```
 
+## Email Template Previews
+
+Poweradmin can render its outgoing mail templates in the browser so you can check wording and
+styling without sending anything. The page is at `/tools/email-previews`, under **Tools**.
+
+![Email template previews](../screenshots/email-previews.png)
+
+Enable the module in `config/settings.php`:
+
+```php
+'modules' => [
+    'email_previews' => [
+        'enabled' => true,
+    ],
+],
+```
+
+> **Note:** The page is restricted to **administrators** (`user_is_ueberuser`) whatever
+> `restrict_to_admin` is set to. That setting only controls whether the navigation entry is
+> offered; the controller enforces administrator access regardless.
+
+Three templates can be previewed - **New Account**, **Password Reset** and **MFA Verification** -
+each rendered with fixed sample data rather than real user details. Every preview opens
+standalone and can be viewed in light or dark mode; dark mode is produced by applying a CSS
+override to the same template, not from a separate file.
+
+If you have added a custom template under `templates/emails/custom/`, the preview shows your
+version instead of the shipped one and marks it as custom, which makes this a quick way to
+confirm a custom template is actually being picked up.
+
+Previews are HTML only. There is no plain-text preview, even though mail is also sent with a
+plain-text body.
+
 ## Troubleshooting
 
 ### Email Debug Logging

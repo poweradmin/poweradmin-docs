@@ -130,6 +130,41 @@ Each log page supports filtering by user, event type, and date range, with CSV/J
 
 From v4.4.0, zone owners can read the audit log for the zones they own (directly or via group ownership) without being administrators. They see only entries for their own zones - the filter is applied server-side. Administrators continue to see everything.
 
+> **Note:** All of these pages need `logging.database_enabled` to be on. Without it the pages
+> still exist but nothing is ever written to the log tables, so they stay empty.
+
+### User activity log
+
+`/users/logs`, reached from **Users → User logs**. Readable by administrators or by anyone
+holding the `user_logs_view` permission.
+
+![User activity log](../screenshots/user-logs.png)
+
+Reads the `log_users` table. Filters are a **user dropdown**, an event-type dropdown, and a date
+range (`date_from` / `date_to`, both `YYYY-MM-DD`).
+
+Each row shows when the event happened and the event itself, broken into badges. Entries that
+predate the structured format are marked `legacy` and shown as stored. **Details** opens the full
+entry. An ID column appears when `interface.show_record_id` is on.
+
+Results page by `interface.rows_per_page`, and **Export** writes CSV or JSON honouring whatever
+filters are currently applied - not just the visible page.
+
+### Group activity log
+
+`/groups/logs`, reached from **Groups → Group logs**. Readable by administrators or by anyone
+holding the `group_logs_view` permission. It additionally requires
+`permissions.show_group_access_templates`, which is on by default; with group management disabled
+the page reports that instead.
+
+![Group activity log](../screenshots/group-logs.png)
+
+Reads the `log_groups` table, joined to the group so deleted groups drop out of the listing.
+
+The columns, Details modal, pagination and CSV/JSON export match the user log. One difference is
+worth knowing: **the group filter is a free-text field, not a dropdown**, so type the group name
+rather than picking it from a list.
+
 ## Querying Logs
 
 You can query logs directly from the database:

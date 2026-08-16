@@ -74,3 +74,6 @@ See the specific documentation pages for more detailed information on each custo
 - [Themes](./themes.md)
 - [Layout](./layout.md) (includes custom header and footer setup)
 - [UI Styling](./custom-css.md)
+
+Several of the settings on this page are defaults that individual users can override for
+themselves - see [User Preferences](../../user-guide/user-preferences.md).

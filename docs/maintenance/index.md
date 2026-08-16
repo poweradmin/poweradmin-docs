@@ -135,6 +135,10 @@ Establish a routine maintenance schedule:
 - **Quarterly**: Test backups by performing a restore
 - **Bi-annually**: Review user accounts and permissions
 
+The built-in [Database Consistency Check](consistency-check.md) covers most of the structural
+problems worth looking for - orphaned records, zones without owners or an SOA, and slave zones
+with no master.
+
 ## Disaster Recovery
 
 Prepare for potential system failures:
