@@ -4,7 +4,7 @@ Poweradmin supports LDAP (Lightweight Directory Access Protocol) authentication,
 
 ## Configuration Options
 
-LDAP settings can be configured in the `config/settings.php` file under the `ldap` section or through individual variables in the legacy configuration format.
+LDAP settings live in `config/settings.php` under the `ldap` section. The table below also lists the flat v3.x variable each key replaced, to help when upgrading; that format was removed in 4.1.0.
 
 | Legacy variable | Modern equivalent | Default value | Description | Added in version |
 |----------------|-------------------|---------------|-------------|-----------------|
@@ -28,7 +28,7 @@ LDAP settings can be configured in the `config/settings.php` file under the `lda
 | N/A | ldap.allow_superuser_provisioning | false | Let LDAP mappings grant `user_is_ueberuser` | 4.5.0 |
 | N/A | ldap.group_mapping | [] | Maps LDAP groups to Poweradmin group(s) | 4.5.0 |
 
-## Modern Configuration Example
+## Configuration Example
 
 ```php
 return [

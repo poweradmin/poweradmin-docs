@@ -2,7 +2,7 @@
 
 Poweradmin v4.x uses an array-based configuration format in `config/settings.php`.
 
-**Note**: For legacy v3.x variable format (`$variable`), see [Legacy Configuration](legacy-configuration.md).
+**Note**: Upgrading from v3.x? The old flat `$variable` format was removed in 4.1.0. See [Legacy Configuration](legacy-configuration.md) to map the old names onto the keys below.
 
 ## Configuration File
 

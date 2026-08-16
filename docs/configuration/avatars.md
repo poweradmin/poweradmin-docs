@@ -18,7 +18,7 @@ The avatar system displays user profile pictures in the interface. Avatars can b
 | `interface.avatar_priority`          | `oauth` | Priority: `oauth` or `gravatar`      |
 | `interface.avatar_size`              | `40`    | Avatar size in pixels                |
 
-## Modern Configuration
+## Configuration
 
 ```php
 return [

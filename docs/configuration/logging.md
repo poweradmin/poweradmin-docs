@@ -45,7 +45,7 @@ Available logging levels for the diagnostic logger (`type`/`level`), in order of
 
 When you set a specific log level, you will receive logs of that level and all higher severity levels. For example, setting `level` to `warning` will log warnings, errors, critical issues, alerts, and emergencies, but not info or debug messages.
 
-## Modern Configuration Example
+## Configuration Example
 
 ```php
 return [
@@ -60,18 +60,9 @@ return [
 ];
 ```
 
-## Legacy Configuration Example
-
-```php
-<?php
-// Logging settings
-$logger_type = 'native';
-$logger_level = 'warning';
-$syslog_use = true;
-$syslog_ident = 'poweradmin';
-$syslog_facility = LOG_USER;
-$dblog_use = true;
-```
+Upgrading from v3.x? The equivalent flat variables were `$logger_type`, `$logger_level`,
+`$syslog_use`, `$syslog_ident`, `$syslog_facility` and `$dblog_use`. That format was removed in
+4.1.0 - see [Legacy Configuration](legacy-configuration.md).
 
 For more advanced logging configuration, environment-specific examples, and best practices, see:
 - [Advanced Logging Configuration](../advanced/logging-config.md)

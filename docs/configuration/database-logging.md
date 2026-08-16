@@ -21,9 +21,7 @@ Database logging records operations across six log tables:
 | `logging.api_request_logging` | false | Log every public API request to `log_api` (requires `database_enabled`); permission violations are logged regardless (added in v4.5.0) |
 | `logging.api_log_retention_days` | 0 | Days to keep `log_api` rows; 0 = keep forever (added in v4.5.0) |
 
-The v3.x equivalent of `logging.database_enabled` was the flat `$dblog_use` variable. See [Legacy Configuration](legacy-configuration.md).
-
-## Modern Configuration
+## Configuration
 
 ```php
 return [
@@ -33,11 +31,8 @@ return [
 ];
 ```
 
-## Legacy Configuration
-
-```php
-$dblog_use = true;
-```
+Upgrading from v3.x? The equivalent was the flat `$dblog_use` variable. That format was removed in
+4.1.0 - see [Legacy Configuration](legacy-configuration.md) for the full variable mapping.
 
 ## Docker Configuration
 

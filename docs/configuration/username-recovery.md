@@ -15,7 +15,7 @@ When enabled, users can request their username by providing their registered ema
 | `security.username_recovery.rate_limit_window` | 3600 | Time window for rate limiting (seconds) |
 | `security.username_recovery.min_time_between_requests` | 60 | Minimum time between requests (seconds) |
 
-## Modern Configuration
+## Configuration
 
 These keys live under the `security` section. A top-level `username_recovery` block is ignored.
 

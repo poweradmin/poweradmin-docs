@@ -2,7 +2,10 @@
 
 This page documents the legacy PHP variable configuration format used in Poweradmin v3.x and earlier versions.
 
-**Note**: For Poweradmin v4.0.0 and later, use the [modern array-based configuration](basic.md) format instead.
+> **Note:** Support for `inc/config.inc.php` was **removed in 4.1.0**, along with the
+> `config/migrate-config.php` helper that converted it. Current releases read only
+> `config/settings.php`. This page is kept as a reference for translating old `$variable` names
+> when upgrading from v3.x - see [Basic Configuration](basic.md) for the format in use today.
 
 ## Configuration File
 
@@ -151,8 +154,8 @@ $ldap_search_filter = '(cn=*admin*)';
 
 ## Migrating to v4.x
 
-Upgrading to Poweradmin v4.x means rewriting `inc/config.inc.php` as `config/settings.php` by hand. Use the tables above to map each legacy `$variable` to its modern section and key.
+Upgrading to Poweradmin v4.x means rewriting `inc/config.inc.php` as `config/settings.php` by hand. Use the tables above to map each legacy `$variable` to its current section and key.
 
 > **Note:** v4.0.0 shipped a `config/migrate-config.php` helper script. It was removed in v4.1.0 and is not present in any later release, so there is no automated conversion path.
 
-See [Basic Configuration](basic.md) for the modern configuration format.
+See [Basic Configuration](basic.md) for the configuration format in use today.
