@@ -156,16 +156,8 @@ services:
     ports:
       - "53:53/udp"
       - "53:53/tcp"
-    environment:
-      PDNS_gmysql_host: mysql
-      PDNS_gmysql_user: pdns
-      PDNS_gmysql_password: pdns-password
-      PDNS_gmysql_dbname: pdns
-      PDNS_api: "yes"
-      PDNS_api_key: your-api-key
-      PDNS_webserver: "yes"
-      PDNS_webserver_address: "0.0.0.0"
-      PDNS_webserver_allow_from: "0.0.0.0/0"
+    volumes:
+      - ./pdns.conf:/etc/powerdns/pdns.conf:ro
     depends_on:
       - mysql
 
@@ -179,6 +171,28 @@ services:
 
 volumes:
   mysql-data:
+```
+
+The official `powerdns/pdns-auth-*` images do not read `PDNS_*` environment
+variables — that convention belongs to third-party images, and the official
+image silently ignores them (see
+[PowerDNS/pdns#14951](https://github.com/PowerDNS/pdns/issues/14951)). The only
+configuration variable it honors is `PDNS_AUTH_API_KEY`; everything else has to
+come from a config file or command-line arguments. The example above mounts a
+`pdns.conf` next to the compose file:
+
+```ini
+launch=gmysql
+gmysql-host=mysql
+gmysql-user=pdns
+gmysql-password=pdns-password
+gmysql-dbname=pdns
+
+api=yes
+api-key=your-api-key
+webserver=yes
+webserver-address=0.0.0.0
+webserver-allow-from=0.0.0.0/0
 ```
 
 ## Admin User Creation
