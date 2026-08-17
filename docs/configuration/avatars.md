@@ -85,7 +85,8 @@ If a user has no Gravatar, a default image is displayed. Gravatar provides sever
 
 Poweradmin does not cache avatar images server-side. It only builds the avatar URL (the provider's picture URL, or a Gravatar URL derived from the email) and hands it to the browser, which caches it under normal HTTP rules.
 
-> **Note:** `interface.avatar_cache_ttl` exists in `settings.defaults.php` but is not read anywhere in the application. Setting it has no effect.
+> **Note:** earlier releases shipped an `interface.avatar_cache_ttl` setting that was never read.
+> It was removed in 4.5.0; if it is still present in your `settings.php` you can delete it.
 
 ## Disabling Avatars
 

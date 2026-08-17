@@ -137,7 +137,7 @@ return [
 Poweradmin supports multi-factor authentication to add an extra layer of security:
 
 - **enabled**: Enable MFA functionality. Default: `false`
-- **app_enabled**: Intended to toggle the authenticator app option (TOTP). Default: `true`. **Not implemented** - the value is never read, so the app method is always offered while MFA is on. Only `email_enabled` can be turned off.
+- **app_enabled**: Enable the authenticator app option (TOTP). Default: `true`. Setting it to `false` hides the option and refuses the setup request. It is ignored while email verification is unusable - disabled, or with no mail transport configured - so that disabling both methods cannot leave an enforced user with no way to complete setup.
 - **email_enabled**: Enable email verification option. Default: `true`
 - **recovery_codes**: Number of recovery codes to generate. Default: `8`
 - **recovery_code_length**: Length of recovery codes. Default: `10`

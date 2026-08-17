@@ -283,7 +283,7 @@ The IP whitelist and blacklist have no environment variables; set them in `setti
 |----------|---------|-------------|
 | `PA_MFA_ENABLED` | false | Enable multi-factor authentication |
 | `PA_MFA_ENFORCED` | false | Enforce MFA for users holding `user_enforce_mfa` |
-| `PA_MFA_APP_ENABLED` | true | Intended to offer the authenticator app method. **Not implemented** - the setting is never read, so the app method is always available |
+| `PA_MFA_APP_ENABLED` | true | Offer the authenticator app method. Ignored while email verification is unusable, so the last remaining method stays available |
 | `PA_MFA_EMAIL_ENABLED` | true | Offer the email verification method |
 | `PA_MFA_RECOVERY_CODES` | 8 | Number of recovery codes generated |
 | `PA_MFA_RECOVERY_CODE_LENGTH` | 10 | Length of each recovery code |
