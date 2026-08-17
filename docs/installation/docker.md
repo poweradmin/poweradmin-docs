@@ -195,6 +195,32 @@ webserver-address=0.0.0.0
 webserver-allow-from=0.0.0.0/0
 ```
 
+The example also relies on `./init.sql` to prepare MySQL on first startup: it
+must create both databases and users, and load the PowerDNS schema into the
+`pdns` database. Start with:
+
+```sql
+CREATE DATABASE poweradmin;
+CREATE USER 'poweradmin'@'%' IDENTIFIED BY 'poweradmin-password';
+GRANT ALL PRIVILEGES ON poweradmin.* TO 'poweradmin'@'%';
+
+CREATE DATABASE pdns;
+CREATE USER 'pdns'@'%' IDENTIFIED BY 'pdns-password';
+GRANT ALL PRIVILEGES ON pdns.* TO 'pdns'@'%';
+
+-- Poweradmin manages zones in the PowerDNS database (PA_PDNS_DB_NAME)
+GRANT ALL PRIVILEGES ON pdns.* TO 'poweradmin'@'%';
+
+USE pdns;
+```
+
+then append the [official PowerDNS MySQL schema](https://doc.powerdns.com/authoritative/backends/generic-mysql.html#default-schema)
+matching your PowerDNS version:
+
+```bash
+curl https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-4.9.x/modules/gmysqlbackend/schema.mysql.sql >> init.sql
+```
+
 ## Admin User Creation
 
 The container can automatically create an admin user on first startup:
