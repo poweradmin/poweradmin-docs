@@ -14,7 +14,7 @@ cannot affect anyone else's.
 
 | Preference | Overrides | Notes |
 |------------|-----------|-------|
-| Items per page | `interface.rows_per_page` | 10, 20, 50 or 100 |
+| Items per page | `interface.rows_per_page` | Any value from 5 to 500. The dropdown offers 10, 20, 50 and 100 plus the configured value (4.5.0) |
 | Full browser width | `interface.wide_layout` | Uses the whole window instead of a fixed-width page |
 
 ## Timezone

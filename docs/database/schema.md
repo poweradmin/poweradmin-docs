@@ -177,7 +177,7 @@ Stores record templates within zone templates.
 | `id` | int | Primary key |
 | `zone_templ_id` | int | Foreign key to zone_templ.id |
 | `name` | varchar(255) | Record name template |
-| `type` | varchar(6) | Record type |
+| `type` | varchar(10) | Record type (widened from varchar(6) in 4.5.0) |
 | `content` | varchar(2048) | Record content template |
 | `ttl` | int | Time to live |
 | `prio` | int | Priority |
@@ -526,7 +526,7 @@ Since 4.2.0 it also seeds five matching group templates (`template_type = 'group
 
 | Version            | Changes |
 |--------------------|---------|
-| 4.5.0 *(develop)*  | Added `log_changesets` and `log_record_changes` (grouped, structured before/after record snapshots), `records_zone_templ_api` (template tracking in API mode), `record_type_defaults` (per-type default TTLs), `app_settings` (admin-managed runtime key/value store), and `api_key_zones` (per-zone API key scoping); added `is_readonly` and `allowed_operations` to `api_keys`. `zones.zone_templ_id` now defaults to `0`. |
+| 4.5.0 *(develop)*  | Added `log_changesets` and `log_record_changes` (grouped, structured before/after record snapshots), `records_zone_templ_api` (template tracking in API mode), `record_type_defaults` (per-type default TTLs), `app_settings` (admin-managed runtime key/value store), and `api_key_zones` (per-zone API key scoping); added `is_readonly` and `allowed_operations` to `api_keys`. `zones.zone_templ_id` now defaults to `0`. Widened `zone_templ_records.type` from varchar(6) to varchar(10) so longer record types such as `NSEC3PARAM` and `OPENPGPKEY` can be stored in zone templates. |
 | 4.4.0 *(master)*   | Added `is_default` to `zone_templ` for marking a system-wide default template. |
 | 4.3.0              | Added `log_api` and migrated API key log entries into it; added `zone_name`, `zone_type`, `zone_master` to `zones`; widened `record_comment_links.record_id` to VARCHAR. |
 | 4.2.0              | Introduced group-based ownership (`user_groups`, `user_group_members`, `zones_groups`, `log_groups`); added `template_type` to `perm_templ`; made `zones.owner` nullable. Introduced `record_comment_links`. Renamed default permission templates (DNS Editor → Editor, Read Only → Viewer, No Access → Guest). |
