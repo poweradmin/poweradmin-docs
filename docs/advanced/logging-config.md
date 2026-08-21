@@ -6,6 +6,8 @@ This guide provides detailed information about Poweradmin's advanced logging cap
 
 Poweradmin supports several logging methods that can be combined for comprehensive monitoring:
 
+`type` defaults to `null`, so diagnostic logging is off until you set it to `native`. Raising `level` on its own changes nothing. `level` defaults to `info` and accepts `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert` and `emergency`; see [Basic Logging Configuration](../configuration/logging.md) for what each one covers and what happens if the value is not recognised.
+
 ### 1. Native Logging
 
 Uses PHP's `error_log()` function to write logs to the configured PHP error log destination.
@@ -20,7 +22,7 @@ Uses PHP's `error_log()` function to write logs to the configured PHP error log 
 
 ### 2. Null Logging
 
-Disables all application logging (except database logging if enabled separately).
+The default. Disables all application logging (except database logging if enabled separately).
 
 ```php
 'logging' => [

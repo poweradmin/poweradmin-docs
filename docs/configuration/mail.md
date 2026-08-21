@@ -104,7 +104,7 @@ To troubleshoot email delivery without touching SMTP, set `transport` to `logger
 ],
 ```
 
-For server-side errors during real SMTP delivery, raise the global log level under `logging.level` (see [Logging](logging.md)) and check your web server error log or PHP error log for output from `MailService`.
+For server-side errors during real SMTP delivery, set `logging.type` to `native` and raise `logging.level` (see [Logging](logging.md)), then check your web server error log or PHP error log for output from `MailService`. `logging.type` defaults to `null`, which discards diagnostic output no matter what the level is set to.
 
 ### TLS/STARTTLS Issues *(Fixed in v4.1.0)*
 
@@ -154,7 +154,7 @@ This particularly affects:
     ```
 
 3. **Check firewall rules:** Ensure outbound SMTP ports are open
-4. **Review server logs:** Raise `logging.level` to `debug` (see [Logging](logging.md)) for detailed `MailService` output
+4. **Review server logs:** Set `logging.type` to `native` and raise `logging.level` to `debug` (see [Logging](logging.md)) for detailed `MailService` output
 5. **Try alternative ports:** Test port 465 (SSL) or 25 if 587 fails
 
 ### Email Not Being Delivered
@@ -168,7 +168,7 @@ This particularly affects:
 
 **Debugging steps:**
 
-1. Raise `logging.level` to `debug` and check the application log (see [Logging](logging.md))
+1. Set `logging.type` to `native`, raise `logging.level` to `debug`, and check the application log (see [Logging](logging.md))
 2. Check mail server logs
 3. Verify email appears in sent items (if using external SMTP)
 4. Test with a simple mail client using same credentials
