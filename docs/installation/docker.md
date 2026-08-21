@@ -468,7 +468,7 @@ The interface has many more settings than the four above; see
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PA_LOGGING_TYPE` | null | Logger type: `null` or `native` |
-| `PA_LOGGING_LEVEL` | info | Log level (debug, info, warning, error, etc.) |
+| `PA_LOGGING_LEVEL` | info | Log level: `debug`, `info`, `notice`, `warning`, `error`, `critical`, `alert`, `emergency` |
 | `PA_LOGGING_DATABASE_ENABLED` | false | Log zone/record changes to database |
 | `PA_LOGGING_SYSLOG_ENABLED` | false | Log auth attempts to syslog |
 | `PA_LOGGING_SYSLOG_IDENTITY` | poweradmin | Syslog program identity |

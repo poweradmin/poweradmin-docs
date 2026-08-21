@@ -45,6 +45,8 @@ Available logging levels for the diagnostic logger (`type`/`level`), in order of
 
 When you set a specific log level, you will receive logs of that level and all higher severity levels. For example, setting `level` to `warning` will log warnings, errors, critical issues, alerts, and emergencies, but not info or debug messages.
 
+Level values are lowercase in the configuration file. From 4.5.0 an unrecognised value, such as `warn` in place of `warning`, falls back to `info` and the logger records a warning naming the value it rejected. Earlier versions suppressed every message below `emergency` instead.
+
 ## Configuration Example
 
 ```php
