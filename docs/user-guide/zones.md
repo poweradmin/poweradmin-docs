@@ -149,7 +149,8 @@ PowerDNS itself limits what can be written, and the editor marks the affected ro
 | Kind | Behaviour |
 |---|---|
 | `SOA-EDIT`, `SOA-EDIT-API`, `API-RECTIFY`, `NSEC3PARAM`, `NSEC3NARROW` | Writable, but stored as zone properties rather than metadata entries |
-| `PRESIGNED`, `LUA-AXFR-SCRIPT`, `ENABLE-LUA-RECORDS` | Read-only - PowerDNS offers no API route for them. Use `pdnsutil` or the database |
+| `PRESIGNED`, `LUA-AXFR-SCRIPT` | Read-only - PowerDNS exposes no API route to write them. Use `pdnsutil` or the database |
+| `ENABLE-LUA-RECORDS` | Neither readable nor writable over the API metadata endpoint. Use `pdnsutil` or the database |
 | `AXFR-MASTER-TSIG` | Read-only - PowerDNS requires a TSIG key id, which Poweradmin cannot supply yet |
 | `CATALOG-HASH` | Read-only - PowerDNS maintains it for catalog zones |
 

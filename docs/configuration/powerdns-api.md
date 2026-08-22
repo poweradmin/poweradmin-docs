@@ -182,7 +182,8 @@ All existing zone ownership, group assignments, and permissions are preserved. T
 
 **What changes at runtime:**
 
-- All zone and record writes go through the PowerDNS API, so NOTIFY, cache flush, and DNSSEC signing are triggered automatically. In SQL mode these required manual `pdns_control notify` or `pdns_control cache-flush` calls.
+- All zone and record writes go through the PowerDNS API, so cache flush and DNSSEC rectify/signing are triggered automatically. In SQL mode these required manual `pdns_control cache-flush` calls.
+- NOTIFY is *not* sent as a side effect of an API write. PowerDNS only sends one from the explicit `PUT /zones/{id}/notify` endpoint, which Poweradmin does not call, or from the primary's periodic serial-check loop - which needs `primary=yes` (formerly `master=yes`) in `pdns.conf` and behaves the same way in SQL mode.
 - The Poweradmin app no longer needs credentials for the PowerDNS database. You can remove `pdns_db_*` settings and revoke the corresponding database grants.
 
 ### Zone Sync Service

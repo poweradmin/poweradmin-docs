@@ -7,6 +7,9 @@ came from - the feature usually called split-horizon DNS. Poweradmin exposes two
 it: **Views**, which assigns zone variants to a view, and **Networks**, which maps client
 networks to views.
 
+> **Note:** PowerDNS documents [Views](https://doc.powerdns.com/authoritative/views.html) as an
+> **experimental** feature. Expect the behaviour and configuration to change between releases.
+
 ![Views](../screenshots/views-list.png)
 
 ## Requirements
@@ -19,6 +22,7 @@ rather than in Poweradmin:
 | PowerDNS 5.0 or newer | Older servers make the page report "Views require PowerDNS 5.0 or newer" instead of rendering |
 | **The LMDB backend** | Views are an LMDB-only feature. The generic SQL backends (`gmysql`, `gpgsql`, `gsqlite3`) do not implement them |
 | **`views=yes` in `pdns.conf`** | The setting is off by default, even on LMDB |
+| **The zone cache enabled** | `zone-cache-refresh-interval` must be non-zero. It defaults to `300`, so this only bites if you have explicitly set it to `0` |
 | Poweradmin's API backend | `dns.backend` must be `api`; see [PowerDNS API](../configuration/powerdns-api.md) |
 | Superuser | Both pages are superuser-only |
 
