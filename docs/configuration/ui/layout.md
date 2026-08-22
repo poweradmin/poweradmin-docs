@@ -30,13 +30,13 @@ return [
 1. Create a `custom` directory inside your active theme
 2. Add either or both files (see sections below)
 
-```
-templates/
-└── default/
-    └── custom/
-        ├── header.html
-        └── footer.html
-```
+    ```
+    templates/
+    └── default/
+        └── custom/
+            ├── header.html
+            └── footer.html
+    ```
 
 #### Custom Header (templates/default/custom/header.html)
 

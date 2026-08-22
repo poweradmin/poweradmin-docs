@@ -49,18 +49,18 @@ To enable DNSSEC:
 1. Configure your PowerDNS server with API access
 2. Update your Poweradmin configuration file with the following settings:
 
-```php
-return [
-    'dnssec' => [
-        'enabled' => true,
-        'debug' => false,
-    ],
-    'pdns_api' => [
-        'url' => 'http://localhost:8081',
-        'key' => 'your-api-key',
-    ],
-];
-```
+    ```php
+    return [
+        'dnssec' => [
+            'enabled' => true,
+            'debug' => false,
+        ],
+        'pdns_api' => [
+            'url' => 'http://localhost:8081',
+            'key' => 'your-api-key',
+        ],
+    ];
+    ```
 
 Working through the API means:
 

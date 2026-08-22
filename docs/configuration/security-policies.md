@@ -182,16 +182,16 @@ Protect login forms from automated attacks using Google reCAPTCHA:
 2. Create a new site and get your site key and secret key
 3. Configure the keys in your settings:
 
-```php
-'security' => [
-    'recaptcha' => [
-        'enabled' => true,
-        'site_key' => 'your_site_key_here',
-        'secret_key' => 'your_secret_key_here',
-        'version' => 'v3',
-        'v3_threshold' => 0.5,
+    ```php
+    'security' => [
+        'recaptcha' => [
+            'enabled' => true,
+            'site_key' => 'your_site_key_here',
+            'secret_key' => 'your_secret_key_here',
+            'version' => 'v3',
+            'v3_threshold' => 0.5,
+        ],
     ],
-],
-```
+    ```
 
 For more information about password policies, see the [Password Policies documentation](./password-policies.md).

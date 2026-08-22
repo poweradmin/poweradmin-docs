@@ -14,37 +14,37 @@ This guide explains how to configure Poweradmin to use PostgreSQL as your databa
 
 1. Create a configuration file at `/config/settings.php` based on the example below:
 
-```php
-<?php
-/**
- * Poweradmin PostgreSQL Configuration
- */
-return [
+    ```php
+    <?php
     /**
-     * Database Settings
+     * Poweradmin PostgreSQL Configuration
      */
-    'database' => [
-        'type' => 'pgsql',            // Set database type to PostgreSQL
-        'host' => 'localhost',        // PostgreSQL server hostname
-        'port' => '5432',             // Default PostgreSQL port
-        'user' => 'poweradmin',       // Database username
-        'password' => 'your_password', // Database password (change this!)
-        'name' => 'powerdns',         // Database name
-        'charset' => 'UTF8',          // PostgreSQL uses uppercase charset names
-        'file' => '',                 // Not used for PostgreSQL
-        'debug' => false,             // Set to true to see SQL queries for debugging
+    return [
+        /**
+         * Database Settings
+         */
+        'database' => [
+            'type' => 'pgsql',            // Set database type to PostgreSQL
+            'host' => 'localhost',        // PostgreSQL server hostname
+            'port' => '5432',             // Default PostgreSQL port
+            'user' => 'poweradmin',       // Database username
+            'password' => 'your_password', // Database password (change this!)
+            'name' => 'powerdns',         // Database name
+            'charset' => 'UTF8',          // PostgreSQL uses uppercase charset names
+            'file' => '',                 // Not used for PostgreSQL
+            'debug' => false,             // Set to true to see SQL queries for debugging
 
-        // SSL/TLS Settings (optional, added in 4.1.0)
-        'ssl' => false,               // Enable SSL/TLS connection
-        'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
-        'ssl_ca' => '',               // Path to CA certificate file (sslrootcert)
-        'ssl_key' => '',              // Path to client private key (sslkey)
-        'ssl_cert' => '',             // Path to client certificate (sslcert)
-    ],
+            // SSL/TLS Settings (optional, added in 4.1.0)
+            'ssl' => false,               // Enable SSL/TLS connection
+            'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
+            'ssl_ca' => '',               // Path to CA certificate file (sslrootcert)
+            'ssl_key' => '',              // Path to client private key (sslkey)
+            'ssl_cert' => '',             // Path to client certificate (sslcert)
+        ],
 
-    // Other configuration sections remain the same as in settings.defaults.php
-];
-```
+        // Other configuration sections remain the same as in settings.defaults.php
+    ];
+    ```
 
 ## Database Creation
 

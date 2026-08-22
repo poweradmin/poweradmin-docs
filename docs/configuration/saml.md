@@ -195,29 +195,29 @@ Each provider requires IdP-specific configuration:
 5. Set Reply URL (ACS): `https://your-poweradmin.com/saml/acs`
 6. Download the Certificate (Base64)
 
-```php
-'saml' => [
-    'enabled' => true,
-    'providers' => [
-        'azure' => [
-            'name' => 'Microsoft Azure AD',
-            'display_name' => 'Sign in with Microsoft',
-            'entity_id' => 'https://sts.windows.net/{tenant-id}/',
-            'sso_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
-            'slo_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
-            'x509cert' => 'MIICnTCCAYUCBgF...', // Base64 cert body, or a full PEM string
-            'user_mapping' => [
-                'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
-                'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-                'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-                'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
-                'display_name' => 'http://schemas.microsoft.com/identity/claims/displayname',
-                'groups' => 'http://schemas.microsoft.com/ws/2008/06/identity/claims/groups',
+    ```php
+    'saml' => [
+        'enabled' => true,
+        'providers' => [
+            'azure' => [
+                'name' => 'Microsoft Azure AD',
+                'display_name' => 'Sign in with Microsoft',
+                'entity_id' => 'https://sts.windows.net/{tenant-id}/',
+                'sso_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
+                'slo_url' => 'https://login.microsoftonline.com/{tenant-id}/saml2',
+                'x509cert' => 'MIICnTCCAYUCBgF...', // Base64 cert body, or a full PEM string
+                'user_mapping' => [
+                    'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
+                    'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+                    'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+                    'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
+                    'display_name' => 'http://schemas.microsoft.com/identity/claims/displayname',
+                    'groups' => 'http://schemas.microsoft.com/ws/2008/06/identity/claims/groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Okta (SAML)
 
@@ -228,28 +228,28 @@ Each provider requires IdP-specific configuration:
 5. Configure attribute statements
 6. Download the IdP metadata or certificate
 
-```php
-'saml' => [
-    'enabled' => true,
-    'providers' => [
-        'okta' => [
-            'name' => 'Okta',
-            'display_name' => 'Sign in with Okta',
-            'entity_id' => 'http://www.okta.com/{app-id}',
-            'sso_url' => 'https://{domain}.okta.com/app/{app-name}/{app-id}/sso/saml',
-            'slo_url' => 'https://{domain}.okta.com/app/{app-name}/{app-id}/slo/saml',
-            'x509cert' => 'MIIDpDCCAoygAwIBAgIGAX...', // Certificate
-            'user_mapping' => [
-                'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
-                'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-                'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-                'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
-                'groups' => 'http://schemas.xmlsoap.org/claims/Group',
+    ```php
+    'saml' => [
+        'enabled' => true,
+        'providers' => [
+            'okta' => [
+                'name' => 'Okta',
+                'display_name' => 'Sign in with Okta',
+                'entity_id' => 'http://www.okta.com/{app-id}',
+                'sso_url' => 'https://{domain}.okta.com/app/{app-name}/{app-id}/sso/saml',
+                'slo_url' => 'https://{domain}.okta.com/app/{app-name}/{app-id}/slo/saml',
+                'x509cert' => 'MIIDpDCCAoygAwIBAgIGAX...', // Certificate
+                'user_mapping' => [
+                    'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name',
+                    'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+                    'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+                    'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
+                    'groups' => 'http://schemas.xmlsoap.org/claims/Group',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Auth0 (SAML)
 
@@ -258,28 +258,28 @@ Each provider requires IdP-specific configuration:
 3. Configure SAML settings
 4. Download IdP metadata
 
-```php
-'saml' => [
-    'enabled' => true,
-    'providers' => [
-        'auth0' => [
-            'name' => 'Auth0',
-            'display_name' => 'Sign in with Auth0',
-            'entity_id' => 'urn:auth0:{tenant}:{connection}',
-            'sso_url' => 'https://{tenant}.auth0.com/samlp/{client-id}',
-            'slo_url' => 'https://{tenant}.auth0.com/samlp/{client-id}/logout',
-            'x509cert' => 'MIIDDTCCAfWgAwIBAgIJAP...', // Certificate
-            'user_mapping' => [
-                'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier',
-                'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
-                'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
-                'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
-                'groups' => 'http://schemas.auth0.com/roles',
+    ```php
+    'saml' => [
+        'enabled' => true,
+        'providers' => [
+            'auth0' => [
+                'name' => 'Auth0',
+                'display_name' => 'Sign in with Auth0',
+                'entity_id' => 'urn:auth0:{tenant}:{connection}',
+                'sso_url' => 'https://{tenant}.auth0.com/samlp/{client-id}',
+                'slo_url' => 'https://{tenant}.auth0.com/samlp/{client-id}/logout',
+                'x509cert' => 'MIIDDTCCAfWgAwIBAgIJAP...', // Certificate
+                'user_mapping' => [
+                    'username' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier',
+                    'email' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress',
+                    'first_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname',
+                    'last_name' => 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname',
+                    'groups' => 'http://schemas.auth0.com/roles',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Keycloak (SAML)
 
@@ -288,29 +288,29 @@ Each provider requires IdP-specific configuration:
 3. Set Client ID: `https://your-poweradmin.com/saml/metadata` (Keycloak uses the client ID as the SP entity ID, so it must carry no provider suffix)
 4. Configure endpoints and download certificate
 
-```php
-'saml' => [
-    'enabled' => true,
-    'providers' => [
-        'keycloak' => [
-            'name' => 'Keycloak',
-            'display_name' => 'Sign in with Keycloak',
-            'entity_id' => 'https://keycloak.example.com/realms/{realm}',
-            'sso_url' => 'https://keycloak.example.com/realms/{realm}/protocol/saml',
-            'slo_url' => 'https://keycloak.example.com/realms/{realm}/protocol/saml',
-            'x509cert' => 'MIIClTCCAX0CBgF...', // Certificate
-            'user_mapping' => [
-                'username' => 'username',
-                'email' => 'email',
-                'first_name' => 'firstName',
-                'last_name' => 'lastName',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'saml' => [
+        'enabled' => true,
+        'providers' => [
+            'keycloak' => [
+                'name' => 'Keycloak',
+                'display_name' => 'Sign in with Keycloak',
+                'entity_id' => 'https://keycloak.example.com/realms/{realm}',
+                'sso_url' => 'https://keycloak.example.com/realms/{realm}/protocol/saml',
+                'slo_url' => 'https://keycloak.example.com/realms/{realm}/protocol/saml',
+                'x509cert' => 'MIIClTCCAX0CBgF...', // Certificate
+                'user_mapping' => [
+                    'username' => 'username',
+                    'email' => 'email',
+                    'first_name' => 'firstName',
+                    'last_name' => 'lastName',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Generic SAML Provider
 

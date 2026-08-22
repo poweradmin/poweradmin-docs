@@ -61,13 +61,13 @@ Poweradmin supports custom themes through the theme templates system. To create 
 2. Create a directory structure in your theme base path (see below)
 3. Customize the template files to match your organization's branding
 
-```
-templates/
-└── custom/
-    ├── header.html
-    ├── footer.html
-    └── other template files...
-```
+    ```
+    templates/
+    └── custom/
+        ├── header.html
+        ├── footer.html
+        └── other template files...
+    ```
 
 ## Theme Customization
 

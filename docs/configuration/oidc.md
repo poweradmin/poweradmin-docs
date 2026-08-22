@@ -298,32 +298,32 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 3. Create a client secret
 4. Configure optional claims for groups if needed
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'azure' => [
-            'name' => 'Microsoft Azure AD',
-            'display_name' => 'Sign in with Microsoft',
-            'client_id' => 'your-client-id',
-            'client_secret' => 'your-client-secret',
-            'tenant' => 'your-tenant-id',  // or 'common' for multi-tenant
-            'auto_discovery' => true,
-            'metadata_url' => 'https://login.microsoftonline.com/{tenant}/v2.0/.well-known/openid-configuration',
-            'logout_url' => 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/logout',
-            'scopes' => 'openid profile email',
-            'user_mapping' => [
-                'username' => 'email',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'azure' => [
+                'name' => 'Microsoft Azure AD',
+                'display_name' => 'Sign in with Microsoft',
+                'client_id' => 'your-client-id',
+                'client_secret' => 'your-client-secret',
+                'tenant' => 'your-tenant-id',  // or 'common' for multi-tenant
+                'auto_discovery' => true,
+                'metadata_url' => 'https://login.microsoftonline.com/{tenant}/v2.0/.well-known/openid-configuration',
+                'logout_url' => 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/logout',
+                'scopes' => 'openid profile email',
+                'user_mapping' => [
+                    'username' => 'email',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 **Note**: For group claims, configure "Group claims" in Azure AD App > Token configuration.
 
@@ -333,30 +333,30 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 2. Create an OAuth 2.0 Client ID
 3. Add authorized redirect URI: `https://your-poweradmin.com/oidc/callback`
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'google' => [
-            'name' => 'Google',
-            'display_name' => 'Sign in with Google',
-            'client_id' => 'your-client-id.apps.googleusercontent.com',
-            'client_secret' => 'your-client-secret',
-            'auto_discovery' => true,
-            'metadata_url' => 'https://accounts.google.com/.well-known/openid-configuration',
-            'logout_url' => 'https://accounts.google.com/logout',
-            'scopes' => 'openid profile email',
-            'user_mapping' => [
-                'username' => 'email',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'google' => [
+                'name' => 'Google',
+                'display_name' => 'Sign in with Google',
+                'client_id' => 'your-client-id.apps.googleusercontent.com',
+                'client_secret' => 'your-client-secret',
+                'auto_discovery' => true,
+                'metadata_url' => 'https://accounts.google.com/.well-known/openid-configuration',
+                'logout_url' => 'https://accounts.google.com/logout',
+                'scopes' => 'openid profile email',
+                'user_mapping' => [
+                    'username' => 'email',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Keycloak
 
@@ -365,33 +365,33 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 3. Add valid redirect URI: `https://your-poweradmin.com/oidc/callback`
 4. Enable "groups" scope if using group mapping
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'keycloak' => [
-            'name' => 'Keycloak',
-            'display_name' => 'Sign in with Keycloak',
-            'client_id' => 'poweradmin',
-            'client_secret' => 'your-client-secret',
-            'base_url' => 'https://keycloak.example.com',
-            'realm' => 'master',
-            'auto_discovery' => true,
-            'metadata_url' => '{base_url}/realms/{realm}/.well-known/openid-configuration',
-            'logout_url' => '{base_url}/realms/{realm}/protocol/openid-connect/logout',
-            'scopes' => 'openid profile email groups',
-            'user_mapping' => [
-                'username' => 'preferred_username',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'keycloak' => [
+                'name' => 'Keycloak',
+                'display_name' => 'Sign in with Keycloak',
+                'client_id' => 'poweradmin',
+                'client_secret' => 'your-client-secret',
+                'base_url' => 'https://keycloak.example.com',
+                'realm' => 'master',
+                'auto_discovery' => true,
+                'metadata_url' => '{base_url}/realms/{realm}/.well-known/openid-configuration',
+                'logout_url' => '{base_url}/realms/{realm}/protocol/openid-connect/logout',
+                'scopes' => 'openid profile email groups',
+                'user_mapping' => [
+                    'username' => 'preferred_username',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Okta
 
@@ -399,32 +399,32 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 2. Set Sign-in redirect URI: `https://your-poweradmin.com/oidc/callback`
 3. Note your Okta domain (e.g., your-org.okta.com)
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'okta' => [
-            'name' => 'Okta',
-            'display_name' => 'Sign in with Okta',
-            'client_id' => 'your-client-id',
-            'client_secret' => 'your-client-secret',
-            'domain' => 'your-org.okta.com',
-            'auto_discovery' => true,
-            'metadata_url' => 'https://{domain}/.well-known/openid-configuration',
-            'logout_url' => 'https://{domain}/oauth2/v1/logout',
-            'scopes' => 'openid profile email groups',
-            'user_mapping' => [
-                'username' => 'preferred_username',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'okta' => [
+                'name' => 'Okta',
+                'display_name' => 'Sign in with Okta',
+                'client_id' => 'your-client-id',
+                'client_secret' => 'your-client-secret',
+                'domain' => 'your-org.okta.com',
+                'auto_discovery' => true,
+                'metadata_url' => 'https://{domain}/.well-known/openid-configuration',
+                'logout_url' => 'https://{domain}/oauth2/v1/logout',
+                'scopes' => 'openid profile email groups',
+                'user_mapping' => [
+                    'username' => 'preferred_username',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Authentik
 
@@ -432,33 +432,33 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 2. Create an Application linked to the provider
 3. Add redirect URI: `https://your-poweradmin.com/oidc/callback`
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'authentik' => [
-            'name' => 'Authentik',
-            'display_name' => 'Sign in with Authentik',
-            'client_id' => 'your-client-id',
-            'client_secret' => 'your-client-secret',
-            'base_url' => 'https://authentik.example.com',
-            'application_slug' => 'poweradmin',
-            'auto_discovery' => true,
-            'metadata_url' => '{base_url}/application/o/{application_slug}/.well-known/openid-configuration',
-            'logout_url' => '{base_url}/application/o/{application_slug}/end-session/',
-            'scopes' => 'openid profile email',
-            'user_mapping' => [
-                'username' => 'preferred_username',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'authentik' => [
+                'name' => 'Authentik',
+                'display_name' => 'Sign in with Authentik',
+                'client_id' => 'your-client-id',
+                'client_secret' => 'your-client-secret',
+                'base_url' => 'https://authentik.example.com',
+                'application_slug' => 'poweradmin',
+                'auto_discovery' => true,
+                'metadata_url' => '{base_url}/application/o/{application_slug}/.well-known/openid-configuration',
+                'logout_url' => '{base_url}/application/o/{application_slug}/end-session/',
+                'scopes' => 'openid profile email',
+                'user_mapping' => [
+                    'username' => 'preferred_username',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Auth0
 
@@ -466,32 +466,32 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
 2. Set Application Type to "Regular Web Application"
 3. Add callback URL: `https://your-poweradmin.com/oidc/callback`
 
-```php
-'oidc' => [
-    'enabled' => true,
-    'providers' => [
-        'auth0' => [
-            'name' => 'Auth0',
-            'display_name' => 'Sign in with Auth0',
-            'client_id' => 'your-client-id',
-            'client_secret' => 'your-client-secret',
-            'domain' => 'your-tenant.auth0.com',
-            'auto_discovery' => true,
-            'metadata_url' => 'https://{domain}/.well-known/openid-configuration',
-            'logout_url' => 'https://{domain}/v2/logout',
-            'scopes' => 'openid profile email',
-            'user_mapping' => [
-                'username' => 'nickname',
-                'email' => 'email',
-                'first_name' => 'given_name',
-                'last_name' => 'family_name',
-                'display_name' => 'name',
-                'groups' => 'groups',
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'auth0' => [
+                'name' => 'Auth0',
+                'display_name' => 'Sign in with Auth0',
+                'client_id' => 'your-client-id',
+                'client_secret' => 'your-client-secret',
+                'domain' => 'your-tenant.auth0.com',
+                'auto_discovery' => true,
+                'metadata_url' => 'https://{domain}/.well-known/openid-configuration',
+                'logout_url' => 'https://{domain}/v2/logout',
+                'scopes' => 'openid profile email',
+                'user_mapping' => [
+                    'username' => 'nickname',
+                    'email' => 'email',
+                    'first_name' => 'given_name',
+                    'last_name' => 'family_name',
+                    'display_name' => 'name',
+                    'groups' => 'groups',
+                ],
             ],
         ],
     ],
-],
-```
+    ```
 
 ### Generic OIDC Provider
 

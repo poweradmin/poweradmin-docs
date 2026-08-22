@@ -16,37 +16,37 @@ This guide explains how to configure Poweradmin to use MySQL or MariaDB as your 
 
 1. Create a configuration file at `/config/settings.php` based on the example below:
 
-```php
-<?php
-/**
- * Poweradmin MySQL Configuration
- */
-return [
+    ```php
+    <?php
     /**
-     * Database Settings
+     * Poweradmin MySQL Configuration
      */
-    'database' => [
-        'type' => 'mysql',            // Set database type to MySQL
-        'host' => 'localhost',        // MySQL server hostname
-        'port' => '3306',             // Default MySQL port
-        'user' => 'poweradmin',       // Database username
-        'password' => 'your_password', // Database password (change this!)
-        'name' => 'powerdns',         // Database name
-        'charset' => 'utf8mb4',       // Recommended: utf8mb4 for full Unicode support
-        'file' => '',                 // Not used for MySQL
-        'debug' => false,             // Set to true to see SQL queries for debugging
+    return [
+        /**
+         * Database Settings
+         */
+        'database' => [
+            'type' => 'mysql',            // Set database type to MySQL
+            'host' => 'localhost',        // MySQL server hostname
+            'port' => '3306',             // Default MySQL port
+            'user' => 'poweradmin',       // Database username
+            'password' => 'your_password', // Database password (change this!)
+            'name' => 'powerdns',         // Database name
+            'charset' => 'utf8mb4',       // Recommended: utf8mb4 for full Unicode support
+            'file' => '',                 // Not used for MySQL
+            'debug' => false,             // Set to true to see SQL queries for debugging
 
-        // SSL/TLS Settings (optional, added in 4.1.0)
-        'ssl' => false,               // Enable SSL/TLS connection
-        'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
-        'ssl_ca' => '',               // Path to CA certificate file
-        'ssl_key' => '',              // Path to client private key (for mTLS)
-        'ssl_cert' => '',             // Path to client certificate (for mTLS)
-    ],
+            // SSL/TLS Settings (optional, added in 4.1.0)
+            'ssl' => false,               // Enable SSL/TLS connection
+            'ssl_verify' => false,        // Verify server certificate (requires ssl=true)
+            'ssl_ca' => '',               // Path to CA certificate file
+            'ssl_key' => '',              // Path to client private key (for mTLS)
+            'ssl_cert' => '',             // Path to client certificate (for mTLS)
+        ],
 
-    // Other configuration sections remain the same as in settings.defaults.php
-];
-```
+        // Other configuration sections remain the same as in settings.defaults.php
+    ];
+    ```
 
 ## Database Creation
 
