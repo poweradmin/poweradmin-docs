@@ -72,5 +72,6 @@ templates/
 ## Theme Customization
 
 For more information on customizing themes, see:
+
 - [Custom UI Layout](./layout.md) (includes custom header and footer setup)
 - [Custom CSS](./custom-css.md) (for additional style customization)

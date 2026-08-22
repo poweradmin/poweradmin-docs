@@ -86,6 +86,7 @@ For detailed setup instructions for each database type, including schema creatio
 - [SQLite Setup](../database/sqlite.md)
 
 These guides provide comprehensive information about:
+
 - Creating users and databases
 - Setting up permissions
 - Installing schema files

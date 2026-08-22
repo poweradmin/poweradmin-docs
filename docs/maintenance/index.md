@@ -9,6 +9,7 @@ This section provides guidance on maintaining your Poweradmin installation and e
 Regular database maintenance helps keep your Poweradmin installation running smoothly:
 
 #### MySQL/MariaDB
+
 ```sql
 -- Optimize tables to reclaim space and improve performance
 OPTIMIZE TABLE users;
@@ -28,6 +29,7 @@ ANALYZE TABLE domainmetadata;
 ```
 
 #### PostgreSQL
+
 ```sql
 -- Update statistics
 VACUUM ANALYZE users;
@@ -39,6 +41,7 @@ VACUUM ANALYZE domainmetadata;
 ```
 
 #### SQLite
+
 ```sql
 -- Rebuild the database to optimize performance
 VACUUM;

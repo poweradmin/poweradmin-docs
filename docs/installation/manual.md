@@ -19,16 +19,19 @@ Unpack the Poweradmin archive in a location accessible via your web server. Ensu
 Import the Poweradmin database structure as a database superuser. The schema bundles the tables Poweradmin needs alongside the PowerDNS tables your authoritative server already uses.
 
 #### For MySQL/MariaDB:
+
 ```bash
 mysql -u root -p powerdns < sql/poweradmin-mysql-db-structure.sql
 ```
 
 #### For PostgreSQL:
+
 ```bash
 psql -U postgres -d powerdns -f sql/poweradmin-pgsql-db-structure.sql
 ```
 
 #### For SQLite:
+
 ```bash
 sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 ```
@@ -40,6 +43,7 @@ sqlite3 /path/to/your/powerdns.db < sql/poweradmin-sqlite-db-structure.sql
 After importing the schema, create a database user with SELECT, INSERT, UPDATE, DELETE rights on the database. Grant the runtime user only what it needs - never reuse the superuser credentials from step 2 in `config/settings.php`.
 
 #### For MySQL/MariaDB:
+
 ```sql
 CREATE USER 'poweradmin'@'localhost' IDENTIFIED BY 'secure_password';
 GRANT SELECT, INSERT, UPDATE, DELETE ON powerdns.* TO 'poweradmin'@'localhost';
@@ -218,9 +222,9 @@ Make sure to adjust the following settings for your environment:
 1. Configure web server permissions
 2. Set up proper DNS settings (see [DNS Settings](../configuration/dns-settings.md))
 3. Configure additional features as needed:
-    * [LDAP Integration](../configuration/ldap.md)
-    * [PowerDNS API](../configuration/powerdns-api.md)
-    * [DNSSEC](../configuration/dnssec.md)
+    - [LDAP Integration](../configuration/ldap.md)
+    - [PowerDNS API](../configuration/powerdns-api.md)
+    - [DNSSEC](../configuration/dnssec.md)
 
 ## Troubleshooting
 

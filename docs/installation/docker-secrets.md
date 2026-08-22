@@ -254,6 +254,7 @@ docker logs poweradmin | grep -i secret
 ```
 
 Look for messages like:
+
 ```
 [2025-01-18 10:30:00] Getting secret DB_PASS from /run/secrets/db_password
 ```

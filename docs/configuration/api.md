@@ -359,12 +359,14 @@ Starting with v4.0.3, Poweradmin supports Basic Authentication for accessing Pow
 Starting with v4.0.1, pagination is optional for zones and users endpoints (issue #803). You can now request all records without pagination limits.
 
 **Without pagination (returns all results):**
+
 ```bash
 GET /api/v2/zones
 GET /api/v2/users
 ```
 
 **With pagination:**
+
 ```bash
 GET /api/v2/zones?page=1&per_page=50
 GET /api/v2/users?page=2&per_page=25
@@ -396,6 +398,7 @@ GET /api/v2/users?page=2&per_page=25
 ## Version History
 
 ### v4.5.0
+
 - **Removed:** API v1; its paths answer `410 Gone`
 - **Added:** Granular API keys - read-only, allowed operations, and per-zone scoping
 - **Added:** Zone DNSSEC endpoints (API v2)
@@ -403,43 +406,51 @@ GET /api/v2/users?page=2&per_page=25
 - **Added:** Per-request API logging via `logging.api_request_logging`
 
 ### v4.3.0
+
 - **Added:** Zone metadata endpoints (API v2)
 - **Added:** Separate `log_api` table for API log entries
 
 ### v4.2.0
+
 - **Added:** Zone template CRUD endpoints (API v2)
 - **Added:** Zone owners endpoints with batch assignment (API v2)
 - **Added:** Group management endpoints - members and zones (API v2)
 
 ### v4.1.0
+
 - **Added:** API v2 with consistent response wrapping
 - **Added:** Permission validation for API endpoints
 - **Added:** RRset endpoints (API v2)
 - **Added:** Bulk record creation endpoint (API v2)
 
 ### v4.0.4
+
 - **Fixed:** Basic Auth TypeError when LDAP authentication is enabled (issue #799)
-  - Resolves compatibility issues between Basic Auth and LDAP
-  - Properly handles authentication context
+    - Resolves compatibility issues between Basic Auth and LDAP
+    - Properly handles authentication context
 
 ### v4.0.3
+
 - **Added:** Basic Auth support for PowerDNS metrics endpoint (issue #800)
-  - Enables authentication for metrics API calls
-  - Supports username/password in addition to API keys
+    - Enables authentication for metrics API calls
+    - Supports username/password in addition to API keys
 
 ### v4.0.2
+
 - **Fixed:** Routing and method validation issues (issue #767)
 - **Fixed:** Graceful handling of missing optional fields (issue #818)
 
 ### v4.0.1
+
 - **Added:** Optional pagination for zones and users endpoints (issue #803)
-  - Can now request all records without pagination
-  - Backward compatible with paginated requests
+    - Can now request all records without pagination
+    - Backward compatible with paginated requests
 - **Fixed:** SOA serial updates on all record operations (issue #804)
-  - Ensures zone serial increments properly
-  - Maintains DNS propagation consistency
+    - Ensures zone serial increments properly
+    - Maintains DNS propagation consistency
 
 ### v4.0.0
+
 - Initial API implementation
 - API key management system
 - RESTful endpoints for zones, records, users

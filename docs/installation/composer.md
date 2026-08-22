@@ -139,6 +139,7 @@ php -r 'echo password_hash("your_secure_password", PASSWORD_BCRYPT, ["cost" => 1
 This matches what the web installer does (bcrypt with cost 12). The default cost is configurable via `security.password_cost` in `config/settings.php`.
 
 Copy the resulting hash which will look something like:
+
 ```
 $2y$10$abcdefghijklmnopqrstuOzxLkPHAUXTCg9vRMf/Q4WrCQI3K.0jK
 ```

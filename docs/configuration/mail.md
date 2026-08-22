@@ -5,6 +5,7 @@ This document describes how to configure email settings in Poweradmin.
 ## Overview
 
 Poweradmin supports sending emails for various purposes:
+
 - User registration confirmations
 - Password reset requests
 - DNS zone changes notifications
@@ -136,6 +137,7 @@ If you're experiencing issues with TLS encryption:
 **Solution:** Upgrade to v4.0.3 or later, which implements proper line wrapping for email content.
 
 This particularly affects:
+
 - Long DKIM signatures
 - Extensive HTML email templates
 - Large text blocks in password reset emails
@@ -176,28 +178,32 @@ This particularly affects:
 ## Version History
 
 ### v4.1.0
+
 - **Fixed:** TLS/STARTTLS connection handling (issue #861)
-  - Properly handles different encryption modes
-  - Resolves connection failures with certain SMTP servers
+    - Properly handles different encryption modes
+    - Resolves connection failures with certain SMTP servers
 
 ### v4.0.3
+
 - **Added:** Comprehensive debug and operational logging
-  - Detailed SMTP transaction logging
-  - Authentication process visibility
-  - Error message improvements
+    - Detailed SMTP transaction logging
+    - Authentication process visibility
+    - Error message improvements
 - **Fixed:** Email rejection due to long lines (issue #798)
-  - Implements RFC 5322 compliant line wrapping
-  - Prevents SMTP server rejections
+    - Implements RFC 5322 compliant line wrapping
+    - Prevents SMTP server rejections
 
 ### v4.0.2
+
 - **Fixed:** Invalid SMTP headers causing server rejections (issue #774)
-  - Removed non-standard headers
-  - Improved RFC compliance
+    - Removed non-standard headers
+    - Improved RFC compliance
 - **Fixed:** SMTP authentication and response parsing issues
-  - Better error handling
-  - More reliable authentication
+    - Better error handling
+    - More reliable authentication
 
 ### v4.0.0
+
 - New Twig-based email template system
 - Support for custom email templates
 - Dark mode email templates

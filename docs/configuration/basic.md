@@ -158,6 +158,7 @@ For more DNS options, see [DNS Settings](dns-settings.md).
 | `misc.template_cache_path` | *(empty)* | Directory for compiled templates; empty uses `var/cache/twig` (v4.5.0+) |
 
 \* Conflict resolution strategies:
+
 - `last_writer_wins` - Latest save overwrites previous
 - `only_latest_version` - Reject if record was modified
 - `3_way_merge` - Attempt automatic merge

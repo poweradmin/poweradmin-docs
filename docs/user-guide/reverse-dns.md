@@ -144,7 +144,7 @@ Goal: the client manages PTRs for 10.0.0.64 through 10.0.0.127.
 From **Zones → Add master zone**, create:
 
 - **Zone name**: `64/26.0.0.10.in-addr.arpa` (slash notation - preferred)
-  - Range notation `64-127.0.0.10.in-addr.arpa` is also accepted.
+    - Range notation `64-127.0.0.10.in-addr.arpa` is also accepted.
 - **Owner**: the client user (or a group the client belongs to)
 
 Poweradmin's hostname validator accepts both notations. The slash form follows the RFC 2317 example syntax most resolvers and dig output assume.

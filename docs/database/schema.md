@@ -542,5 +542,6 @@ When backing up Poweradmin, ensure you backup:
 3. **Configuration Files**: `config/settings.php` and related files
 
 For more information about database setup and migration, see:
+
 - [Database Configuration](./mysql-configuration.md)
 - [Upgrading to v4.0.0](../upgrading/v4.0.0.md)

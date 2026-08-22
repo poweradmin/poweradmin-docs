@@ -67,4 +67,5 @@ Upgrading from v3.x? The equivalent flat variables were `$logger_type`, `$logger
 4.1.0 - see [Legacy Configuration](legacy-configuration.md).
 
 For more advanced logging configuration, environment-specific examples, and best practices, see:
+
 - [Advanced Logging Configuration](../advanced/logging-config.md)

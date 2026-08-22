@@ -103,18 +103,21 @@ not the full list:
 ## Example Configurations
 
 ### Basic Web Server Configuration
+
 ```php
 'domain_record_types' => ['A', 'AAAA', 'CNAME', 'MX', 'TXT'],
 'reverse_record_types' => ['PTR', 'NS', 'SOA'],
 ```
 
 ### DNSSEC-Focused Configuration
+
 ```php
 'domain_record_types' => ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'SOA', 'TXT', 'DNSKEY', 'DS'],
 'reverse_record_types' => ['PTR', 'NS', 'SOA'],
 ```
 
 ### Full-Featured Configuration
+
 ```php
 'domain_record_types' => [
     'A', 'AAAA', 'CNAME', 'MX', 'NS', 'SOA', 'TXT', 'SRV', 'CAA', 

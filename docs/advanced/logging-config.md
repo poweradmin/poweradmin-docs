@@ -121,6 +121,7 @@ If using `native` logging, you can control the log file location by configuring 
 ### Log Rotation
 
 For production systems, ensure log rotation is configured at the system level:
+
 - For syslog: Configure logrotate for your syslog files
 - For PHP error logs: Configure logrotate for your PHP error log files
 - For database logs: Implement periodic pruning of old log entries

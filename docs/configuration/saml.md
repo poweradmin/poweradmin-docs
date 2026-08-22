@@ -349,6 +349,7 @@ For other SAML identity providers:
 SAML attributes are mapped to Poweradmin user fields. Common attribute formats:
 
 **XML URI Format** (Azure AD, Okta, Auth0):
+
 ```
 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress
 http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname
@@ -356,6 +357,7 @@ http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname
 ```
 
 **Simple Format** (Keycloak):
+
 ```
 email
 firstName

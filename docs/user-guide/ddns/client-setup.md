@@ -10,13 +10,13 @@ The Dynamic DNS update system supports several ways to update records:
 
 ### Supported Parameters
 
-* `username` - Your Poweradmin username (if not using HTTP Basic Auth)
-* `password` - Your Poweradmin password (if not using HTTP Basic Auth)
-* `hostname` - The FQDN to update
-* `myip` or `ip` - IP address(es), comma-separated. Either address family is accepted, and each address in the list is routed to an A or AAAA record according to its own family, so a single list may mix IPv4 and IPv6
-* `myip6` or `ip6` - IPv6 address(es), comma-separated. When supplied, this is authoritative for the IPv6 side and any IPv6 address in `myip` is ignored rather than merged into it
-* `dualstack_update` - Set to 1 to update both IPv4 and IPv6
-* `verbose` - Include this query parameter to receive human-readable response messages. Only its presence is checked, so `verbose=0` enables verbose output too
+- `username` - Your Poweradmin username (if not using HTTP Basic Auth)
+- `password` - Your Poweradmin password (if not using HTTP Basic Auth)
+- `hostname` - The FQDN to update
+- `myip` or `ip` - IP address(es), comma-separated. Either address family is accepted, and each address in the list is routed to an A or AAAA record according to its own family, so a single list may mix IPv4 and IPv6
+- `myip6` or `ip6` - IPv6 address(es), comma-separated. When supplied, this is authoritative for the IPv6 side and any IPv6 address in `myip` is ignored rather than merged into it
+- `dualstack_update` - Set to 1 to update both IPv4 and IPv6
+- `verbose` - Include this query parameter to receive human-readable response messages. Only its presence is checked, so `verbose=0` enables verbose output too
 
 ### Response Codes
 
@@ -67,12 +67,12 @@ If any of these return a short error code like `!yours` or `badauth`, re-run the
 
 When using multiple IPs:
 
-* Omitted record types are preserved
-* Use `dualstack_update=1` to clean up both A and AAAA records
-* Records not included in the update are automatically removed
-* An unparseable address anywhere in `myip` or `myip6` is rejected with `dnserr`, and no records are changed. Since the list is the complete record set, silently skipping a bad entry would delete the record it was meant to keep, so the whole request is refused instead
-* Omitting a parameter and supplying an invalid one are not the same thing - the first preserves that record type, the second is a malformed request
-* Records are inserted and deleted one statement at a time - the update is not wrapped in a database transaction
+- Omitted record types are preserved
+- Use `dualstack_update=1` to clean up both A and AAAA records
+- Records not included in the update are automatically removed
+- An unparseable address anywhere in `myip` or `myip6` is rejected with `dnserr`, and no records are changed. Since the list is the complete record set, silently skipping a bad entry would delete the record it was meant to keep, so the whole request is refused instead
+- Omitting a parameter and supplying an invalid one are not the same thing - the first preserves that record type, the second is a malformed request
+- Records are inserted and deleted one statement at a time - the update is not wrapped in a database transaction
 
 ## Using the Shell Script
 

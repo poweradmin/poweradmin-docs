@@ -41,6 +41,7 @@ For patch releases within the same minor version (e.g., 4.0.0 → 4.0.3, or 4.0.
 **Alternative: Symlink Strategy**
 
 For easier rollbacks, consider using symlinks:
+
 ```bash
 # Extract new version to versioned directory
 tar -xzf poweradmin-4.0.4.tar.gz -C /var/www/

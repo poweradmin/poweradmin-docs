@@ -5,11 +5,13 @@ The easiest way to evaluate Poweradmin is to use the Docker image, which provide
 ## Quick Demo
 
 ### 1. Get the Docker Image
+
 ```bash
 docker pull poweradmin/poweradmin:latest
 ```
 
 ### 2. Run the Container
+
 ```bash
 docker run -d --name poweradmin -p 80:80 \
   -e DB_TYPE=sqlite \
@@ -51,6 +53,7 @@ The Docker image is based on [FrankenPHP](https://frankenphp.dev/), providing:
 ## Demo with External Database
 
 ### MySQL Demo
+
 ```bash
 docker run -d --name poweradmin -p 80:80 \
   -e DB_TYPE=mysql \
@@ -65,6 +68,7 @@ docker run -d --name poweradmin -p 80:80 \
 ```
 
 ### PostgreSQL Demo
+
 ```bash
 docker run -d --name poweradmin -p 80:80 \
   -e DB_TYPE=pgsql \
@@ -81,6 +85,7 @@ docker run -d --name poweradmin -p 80:80 \
 ## Demo with Docker Compose
 
 ### Basic Demo
+
 ```yaml
 services:
   poweradmin:
@@ -98,6 +103,7 @@ volumes:
 ```
 
 ### Complete Demo with MySQL
+
 ```yaml
 version: '3.8'
 services:

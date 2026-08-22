@@ -54,6 +54,7 @@ You can customize which record types are available in the zone editing interface
 - **top_record_types** (4.4.0): Array of record types to pin to the top of record type selectors, in the given order. Remaining types follow alphabetically. Set to `null` to keep the original alphabetical order.
 
 Example custom configuration:
+
 ```php
 'dns' => [
     'domain_record_types' => ['A', 'AAAA', 'CNAME', 'MX', 'NS', 'SOA', 'TXT', 'SRV', 'CAA'],
