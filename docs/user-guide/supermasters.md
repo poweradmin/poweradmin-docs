@@ -3,7 +3,9 @@
 A supermaster is a primary server that Poweradmin's PowerDNS instance trusts to create zones on
 its own. When that server sends a NOTIFY for a zone the secondary does not have, PowerDNS
 provisions the slave zone automatically instead of ignoring it. This saves adding every new zone
-by hand on the secondary.
+by hand on the secondary. PowerDNS documents the mechanism, including the NOTIFY-matching rules
+Poweradmin cannot enforce, under
+[Autoprimary operation](https://doc.powerdns.com/authoritative/modes-of-operation.html#autoprimary-operation).
 
 ![Supermasters](../screenshots/supermasters.png)
 

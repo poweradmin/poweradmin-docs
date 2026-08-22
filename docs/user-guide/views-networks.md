@@ -20,7 +20,7 @@ rather than in Poweradmin:
 | Requirement | Detail |
 |---|---|
 | PowerDNS 5.0 or newer | Older servers make the page report "Views require PowerDNS 5.0 or newer" instead of rendering |
-| **The LMDB backend** | Views are an LMDB-only feature. The generic SQL backends (`gmysql`, `gpgsql`, `gsqlite3`) do not implement them |
+| **The [LMDB backend](https://doc.powerdns.com/authoritative/backends/lmdb.html)** | Views are an LMDB-only feature. The generic SQL backends (`gmysql`, `gpgsql`, `gsqlite3`) do not implement them |
 | **`views=yes` in `pdns.conf`** | The setting is off by default, even on LMDB |
 | **The zone cache enabled** | `zone-cache-refresh-interval` must be non-zero. It defaults to `300`, so this only bites if you have explicitly set it to `0` |
 | Poweradmin's API backend | `dns.backend` must be `api`; see [PowerDNS API](../configuration/powerdns-api.md) |
@@ -92,8 +92,9 @@ not delete the zone.
 
 ![Network views](../screenshots/networks-list.png)
 
-The Networks page is at `/networks`. Each network maps to exactly one view, and every
-resolver in that network sees only the zone variants belonging to it.
+The Networks page is at `/networks`. Each network maps to exactly one view. A resolver in that
+network sees the zone variants assigned to the view; zones with no variant in it are still
+served normally, as their variantless contents.
 
 PowerDNS evaluates networks **longest-prefix first**. A more specific subnet wins over a
 broader one, so `10.0.1.0/24` mapped to `office` overrides `10.0.0.0/8` mapped to `internal`

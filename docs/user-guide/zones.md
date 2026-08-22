@@ -16,7 +16,7 @@ Choose the type based on your DNS architecture:
 
 ### Catalog zones
 
-PowerDNS 4.7 and later add two more kinds, used to distribute a list of zones between servers rather than to hold ordinary records. Poweradmin offers them on the add-zone form only when the connected server reports 4.7 or newer.
+PowerDNS 4.7 and later add two more kinds, used to distribute a list of zones between servers rather than to hold ordinary records. See [Catalog Zones](https://doc.powerdns.com/authoritative/catalog.html) for the RFC 9432 semantics PowerDNS implements. Poweradmin offers them on the add-zone form only when the connected server reports 4.7 or newer.
 
 - **Producer** - the catalog itself, on a primary. PowerDNS generates its contents from the member zones, so you do not add records to it by hand.
 - **Consumer** - the receiving end, on a secondary. It works like a Slave zone and needs the IP address of the primary it transfers the catalog from, so the add-zone form asks for one when you select it. Because its contents arrive by transfer, no template or DNSSEC option applies.
@@ -128,8 +128,9 @@ You can sort records by clicking column headers. This helps when working with la
 ## Zone Metadata
 
 Starting in v4.3.0, the **Metadata** button on the zone editor opens an editor for the zone's
-PowerDNS domain metadata - the per-zone settings that control transfers, notifies, serial
-policy and DNSSEC behaviour. Each row is a metadata *kind* and one value.
+[PowerDNS domain metadata](https://doc.powerdns.com/authoritative/domainmetadata.html) - the
+per-zone settings that control transfers, notifies, serial policy and DNSSEC behaviour. Each row
+is a metadata *kind* and one value; the PowerDNS page above defines what each kind does.
 
 Kinds with a fixed set of valid values (`SOA-EDIT`, `SOA-EDIT-API`, `SOA-EDIT-DNSUPDATE`,
 `API-RECTIFY`, `NSEC3NARROW`) offer a dropdown instead of a free-text field. Kinds your

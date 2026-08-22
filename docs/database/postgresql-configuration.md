@@ -89,7 +89,7 @@ see [SSL/TLS Configuration](#ssltls-configuration) for encrypting the connection
 The SQL schema files are located in the `sql/` directory:
 
 - For a new installation: Use `sql/poweradmin-pgsql-db-structure.sql`
-- For PowerDNS schema: Check the appropriate version in `sql/pdns/[version]/schema.pgsql.sql`
+- For PowerDNS schema: Check the appropriate version in `sql/pdns/[version]/schema.pgsql.sql`. Only 4.5 through 4.9 are bundled; for PowerDNS 5.x use the [official schema](https://doc.powerdns.com/authoritative/backends/generic-postgresql.html#default-schema)
 
 ```bash
 psql -U poweradmin -d powerdns -f sql/poweradmin-pgsql-db-structure.sql

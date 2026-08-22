@@ -218,7 +218,7 @@ then append the [official PowerDNS MySQL schema](https://doc.powerdns.com/author
 matching your PowerDNS version:
 
 ```bash
-curl https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-4.9.x/modules/gmysqlbackend/schema.mysql.sql >> init.sql
+curl https://raw.githubusercontent.com/PowerDNS/pdns/rel/auth-5.1.x/modules/gmysqlbackend/schema.mysql.sql >> init.sql
 ```
 
 ## Admin User Creation

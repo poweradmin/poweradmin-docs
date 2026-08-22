@@ -21,6 +21,9 @@ DNSKEY records, and unsign the zone.
 
 ## Basic Concepts
 
+These are PowerDNS's own terms; see the
+[DNSSEC introduction](https://doc.powerdns.com/authoritative/dnssec/intro.html) for the full primer.
+
 - **Zone Signing Keys (ZSK)**: Used to sign the actual DNS records
 - **Key Signing Keys (KSK)**: Used to sign the ZSK and establish trust
 - **DS Records**: Delegation Signer records that help establish the trust chain
@@ -139,4 +142,5 @@ The export is always delivered as a file download (`Content-Type: application/x-
 For more details on DNSSEC and PowerDNS:
 
 - [PowerDNS DNSSEC Documentation](https://doc.powerdns.com/authoritative/dnssec/index.html)
+- [PowerDNS Cryptokey API](https://doc.powerdns.com/authoritative/http-api/cryptokey.html) - the endpoints behind the key import/export above
 - [PowerDNS API Documentation](https://doc.powerdns.com/authoritative/http-api/index.html)
