@@ -35,6 +35,27 @@ jobs:
             --version "$(grep -oE "'[0-9]+\.[0-9]+\.[0-9]+'" poweradmin/lib/Version.php | head -1 | tr -d "'")" \
             --out docs/configuration/settings-reference.md --check
 
+      # The OpenAPI spec is committed here so local builds and deploys need no
+      # PHP. Regenerating it weekly is what keeps that copy honest.
+      - name: Set up PHP
+        if: always()
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.2'
+
+      - name: OpenAPI spec is current
+        if: always()
+        working-directory: poweradmin
+        run: |
+          composer install --prefer-dist --no-progress --quiet
+          vendor/bin/openapi lib/Application/Controller/Api/V2/ --output /tmp/openapi.json
+          if ! diff -q /tmp/openapi.json ../docs/api/openapi.json >/dev/null; then
+            echo "::error::docs/api/openapi.json is stale; regenerate it from the poweradmin source"
+            diff /tmp/openapi.json ../docs/api/openapi.json | head -40
+            exit 1
+          fi
+          echo "docs/api/openapi.json matches the source annotations"
+
       # DOCKER.md lives in the code repo by design; this only reports on it.
       - name: Docker variables are documented
         if: always()
