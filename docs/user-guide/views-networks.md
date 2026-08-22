@@ -82,7 +82,8 @@ pdnsutil zone create example.com..trusted ns1.example.com
 ```
 
 - **View names accept letters, digits, dots, underscores and hyphens.** Anything else is
-  rejected.
+  rejected. PowerDNS itself also permits spaces, so a view created with a space through
+  `pdnsutil` cannot be managed from Poweradmin.
 
 To assign a zone, enter the view name (`trusted`) and the full variant zone name
 (`example.com..trusted`). Removing an assignment takes the zone back out of the view; it does

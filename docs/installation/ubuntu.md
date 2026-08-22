@@ -6,7 +6,7 @@ This guide will help you install Poweradmin on Ubuntu systems. Tested on Ubuntu 
 
 ### Install PowerDNS
 
-Poweradmin is a frontend for an existing PowerDNS authoritative server - it does not install or run PowerDNS itself. If you do not already have PowerDNS running, install it first and configure a database backend (MySQL/MariaDB, PostgreSQL, or SQLite). See the [PowerDNS installation guide](https://doc.powerdns.com/authoritative/installation.html) for details.
+Poweradmin is a frontend for an existing PowerDNS authoritative server - it does not install or run PowerDNS itself. If you do not already have PowerDNS running, install it first and configure a database backend (MySQL/MariaDB, PostgreSQL, or SQLite). See the [PowerDNS installation guide](https://doc.powerdns.com/authoritative/installation.html) for packaging, and [Backends](https://doc.powerdns.com/authoritative/backends/index.html) for configuring one.
 
 ### Install PHP and Extensions
 

@@ -37,7 +37,7 @@ Stores DNS records within zones.
 | `domain_id` | int | Foreign key to domains.id |
 | `name` | varchar(255) | Record name |
 | `type` | varchar(10) | Record type (A, AAAA, CNAME, etc.) |
-| `content` | varchar(65000) | Record content/value |
+| `content` | varchar(64000) on MySQL, varchar(65535) on PostgreSQL/SQLite | Record content/value |
 | `ttl` | int | Time to live |
 | `prio` | int | Priority (for MX, SRV records) |
 | `disabled` | tinyint | Record disabled flag |
