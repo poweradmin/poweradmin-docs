@@ -94,6 +94,7 @@ nav:
 
   - Installation:
       - Overview: installation/index.md
+      - Architecture and Ports: installation/architecture.md
       - Docker:
           - Docker Installation: installation/docker.md
           - Docker Secrets: installation/docker-secrets.md
