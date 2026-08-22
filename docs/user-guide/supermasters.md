@@ -7,9 +7,11 @@ by hand on the secondary.
 
 ![Supermasters](../screenshots/supermasters.png)
 
-> **Note:** PowerDNS renamed this concept to **autoprimary** in 4.6. Poweradmin follows the
-> connected server: the UI says "Autoprimaries" when the server supports the autoprimary API and
-> "Supermasters" when it does not. The URLs, permissions and database table keep the older
+> **Note:** PowerDNS renamed this concept to **autoprimary** in
+> [4.5.0](https://doc.powerdns.com/authoritative/modes-of-operation.html#autoprimary-operation);
+> 4.6 is when it gained an API and `pdnsutil` commands for managing autoprimaries. Poweradmin
+> follows the connected server: the UI says "Autoprimaries" when the server supports the
+> autoprimary API (4.6+) and "Supermasters" when it does not. The URLs, permissions and database table keep the older
 > `supermaster` name in both cases, so this page uses whichever term matches what you will see.
 
 ## Finding the page

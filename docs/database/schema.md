@@ -22,7 +22,7 @@ Stores DNS zones/domains.
 | `name` | varchar(255) | Domain name |
 | `master` | varchar(128) | Master server for slave zones |
 | `last_check` | int | Last check timestamp |
-| `type` | varchar(6) | Zone type (MASTER, SLAVE, NATIVE) |
+| `type` | varchar(8) | Zone type (MASTER, SLAVE, NATIVE, and PRODUCER/CONSUMER on PowerDNS 4.7+; widened from `varchar(6)` in 4.7 to fit them) |
 | `notified_serial` | int | Last notified serial |
 | `account` | varchar(40) | Account identifier |
 | `options` | text | Zone options |

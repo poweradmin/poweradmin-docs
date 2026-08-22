@@ -178,5 +178,6 @@ Poweradmin maintains compatibility across PowerDNS versions due to its architect
 
 For production environments, prefer a branch that is still receiving upstream fixes. PowerDNS publishes its own [End of Life (EOL) schedule](https://doc.powerdns.com/authoritative/appendices/EOL.html), which is the authoritative source - the dates below were correct at the time of writing but move forward with each release.
 
-- **PowerDNS 4.8.x / 4.9.x**: EOL as of 2025. Plan an upgrade.
-- **PowerDNS 5.0.x and newer**: Current stable branch with active support.
+- **PowerDNS 5.1.x**: The current release train, receiving correctness, stability and security updates.
+- **PowerDNS 5.0.x and 4.9.x**: Critical updates only. 5.0 goes end of life after 5.3 is released, 4.9 after 5.2.
+- **PowerDNS 4.8.x and older**: End of life - no updates at all. Plan an upgrade.
