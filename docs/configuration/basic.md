@@ -133,6 +133,7 @@ For password policies and MFA settings, see [Security Policies](security-policie
 | `interface.rows_per_page` | 10 | Rows per page in lists |
 | `interface.session_timeout` | 1800 | Session timeout (seconds) |
 | `interface.title` | Poweradmin | Application title |
+| `interface.web_enabled` | true | Serve the web interface; `false` runs API-only |
 | `interface.display_serial_in_zone_list` | false | Show serial in zone list |
 | `interface.display_template_in_zone_list` | false | Show template in zone list |
 | `interface.show_zone_comments` | true | Enable zone comments |

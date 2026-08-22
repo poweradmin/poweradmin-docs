@@ -46,8 +46,10 @@ MySQL or PostgreSQL with the `DB_*` variables described in
 
 ## 2. Create an API key
 
-API keys are issued through the web UI. This is a one-time step; once the key
-exists, you can do everything else from scripts.
+API keys are issued through the web interface. This is a one-time step; once the
+key exists, you can do everything else from scripts - including turning the
+interface off, see [Turning the web interface
+off](#turning-the-web-interface-off).
 
 1. Open [http://localhost:8080](http://localhost:8080) and log in.
 2. Go to **Settings -> API Keys** (`/settings/api-keys`).
@@ -130,8 +132,54 @@ This setup is a good fit when:
   or the
   [external-dns-poweradmin-webhook](https://github.com/poweradmin/external-dns-poweradmin-webhook)
 
-The web UI remains available for operators who prefer it; nothing about
-enabling the API turns it off.
+The web interface remains available for operators who prefer it. If you would
+rather it were not reachable at all, see [Turning the web interface
+off](#turning-the-web-interface-off) below.
+
+## Turning the web interface off
+
+Added in 4.5.0. Setting `interface.web_enabled` to `false` runs Poweradmin
+API-only: the router registers just the API routes and everything else answers
+a JSON 404.
+
+```php
+// config/settings.php
+'interface' => [
+    'web_enabled' => false,
+],
+```
+
+With Docker, set `PA_WEB_ENABLED=false` instead and restart the container.
+
+### What stays reachable
+
+| Path | Notes |
+|------|-------|
+| `/api/v2/*` | The public API, subject to `api.enabled` |
+| `/api/docs`, `/api/docs/json` | Subject to `api.docs_enabled` |
+| `/api/health`, `/ping` | Subject to `health.enabled` / `health.ping_enabled` |
+| `/api/v1/*` | Still answers 410 Gone, so retired clients get a clear error |
+
+Everything else - the login page, OIDC and SAML callbacks, the settings area,
+and the session-based `/api/internal/*` endpoints used by the interface's own
+JavaScript - returns 404. Poweradmin also skips starting a session entirely in
+this mode, since the API carries its identity on the API key.
+
+Two paths are files rather than routes, so this setting does not affect them:
+`install/` (delete the directory after installing, as usual) and
+`dynamic_update.php`.
+
+### Issue the API key first
+
+API keys are created in the web interface, so this is a post-installation
+setting rather than an installation one. The order is:
+
+1. Install normally, with the interface enabled.
+2. Create your admin user and issue an API key at **Settings -> API Keys**.
+3. Set `web_enabled` to `false` and restart.
+
+Nothing is locked away: to rotate a key or change a setting the interface owns,
+set `web_enabled` back to `true`, restart, do the work, and turn it off again.
 
 ## What is *not* covered by the API yet
 
