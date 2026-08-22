@@ -1,0 +1,59 @@
+name: Documentation Issue
+description: Report something wrong, missing, or unclear on docs.poweradmin.org
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. The page URL is the most useful thing you can give us - it tells us
+        exactly which file to fix.
+
+        For bugs in Poweradmin itself rather than the documentation, please use the
+        [main repository](https://github.com/poweradmin/poweradmin/issues) instead.
+
+  - type: input
+    id: page-url
+    attributes:
+      label: Page
+      description: The URL of the page, or its title if you do not have the link handy.
+      placeholder: "https://docs.poweradmin.org/configuration/dnssec/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong?
+      description: What does the page say, and what should it say instead?
+      placeholder: |
+        Quote the part that is wrong if you can.
+        Example: "The page says to set `dnssec=yes` in pdns.conf, but PowerDNS has no such setting."
+    validations:
+      required: true
+
+  - type: input
+    id: poweradmin-version
+    attributes:
+      label: Poweradmin version
+      description: Which version were you following the documentation for?
+      placeholder: "e.g. 4.5.0, 4.3.x, master"
+    validations:
+      required: false
+
+  - type: input
+    id: powerdns-version
+    attributes:
+      label: PowerDNS version
+      description: Relevant when the page describes PowerDNS behaviour, which changes between releases.
+      placeholder: "e.g. 4.9.x, 5.1.x"
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Screenshots, links to the PowerDNS documentation that contradicts ours, or related issues.
+    validations:
+      required: false

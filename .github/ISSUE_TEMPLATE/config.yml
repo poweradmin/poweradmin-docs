@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Poweradmin bug or feature request
+    url: https://github.com/poweradmin/poweradmin/issues/new/choose
+    about: For problems with Poweradmin itself rather than its documentation.
