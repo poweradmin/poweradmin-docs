@@ -76,10 +76,7 @@ jobs:
             exit 1
           fi
 
-      # Advisory: the house style predates this check and existing pages still
-      # violate it. Fix them as they are touched, then drop continue-on-error.
       - name: markdownlint
-        continue-on-error: true
         uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
         with:
           globs: 'docs/**/*.md'
