@@ -1,0 +1,21 @@
+# Placeholder and example hosts that appear in configuration snippets.
+# RFC 2606 reserved domains, which never resolve.
+^https?://([a-z0-9-]+\.)*example\.(com|org|net)
+# Local and in-container addresses.
+^https?://localhost
+^https?://127\.0\.0\.1
+^https?://(powerdns|powerdns-server|poweradmin_upstream|yourhost|dns_server_ip)(:|/|$)
+^https?://proxy\.internal
+# "replace this" stand-ins.
+^https?://your-
+^https?://yourserver\.com
+^https?://YOUR_HOSTNAME
+^https?://\$host
+# Anything with a {placeholder} in the host or the path.
+\{
+# SAML entity IDs, claim names and algorithm URIs. Identifiers, not pages.
+^https?://schemas\.(xmlsoap|microsoft|auth0)\.
+^https?://sts\.windows\.net
+# Per-tenant identity endpoints; not fetchable without a real tenant.
+^https?://login\.microsoftonline\.com/
+^https?://www\.w3\.org/2001/04/
