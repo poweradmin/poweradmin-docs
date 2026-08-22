@@ -93,7 +93,7 @@ This gate is a convenience, not a substitute for removing `install/` once setup 
 
 ## Post-Installation
 
-1. Log in at `/login` with username **`admin`** and the Poweradmin account password from step 4.
+1. Log in at `/login` with username **`admin`** and the Poweradmin account password from step 4. [First Steps](../getting-started/first-steps.md) walks through what to do from there.
 2. Configure web server permissions (see your distribution's installation guide).
 3. Set up DNS defaults (see [DNS Settings](../configuration/dns-settings.md)).
 4. Configure additional features as needed:

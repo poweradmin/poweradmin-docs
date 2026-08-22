@@ -34,6 +34,7 @@ Pick the path that matches how you want to use Poweradmin:
 - **Web UI**: [Docker Demo](getting-started/docker-demo.md) - one container, log in, manage zones in the browser
 - **Headless / API-first**: [Headless Quickstart](getting-started/headless-quickstart.md) - bring the API up and drive PowerDNS from scripts in about five minutes
 - **Production install**: [Installation Overview](installation/index.md) - Docker, Debian, Ubuntu, CentOS, or manual setups
+- **Just installed it**: [First Steps](getting-started/first-steps.md) - from first login to a zone PowerDNS is answering for
 - **Configuration**: [Basic Configuration](configuration/basic.md) - all settings explained
 - **User Management**: [Users and Roles](user-guide/users-roles.md) - users, groups, permissions, MFA
 

@@ -81,6 +81,7 @@ nav:
       - Quick Evaluation:
           - Docker Demo: getting-started/docker-demo.md
           - Headless / API-First Quickstart: getting-started/headless-quickstart.md
+      - First Steps: getting-started/first-steps.md
       - System Requirements: getting-started/requirements.md
 
   - What's New:
@@ -160,6 +161,7 @@ nav:
           - Supermasters and Autoprimaries: user-guide/supermasters.md
           - DNS Templates: user-guide/dns-templates.md
           - Reverse DNS (PTR): user-guide/reverse-dns.md
+          - DNSSEC: user-guide/dnssec.md
           - Bulk and Batch Operations: user-guide/bulk-operations.md
           - Record Change Log: user-guide/record-change-log.md
           - Secondary Zone Import: user-guide/secondary-zone-import.md
