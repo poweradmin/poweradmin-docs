@@ -19,3 +19,5 @@
 # Per-tenant identity endpoints; not fetchable without a real tenant.
 ^https?://login\.microsoftonline\.com/
 ^https?://www\.w3\.org/2001/04/
+# Bot protection rejects the CI runner with 403; verified reachable (200) from a normal client.
+^https?://opencollective\.com/
