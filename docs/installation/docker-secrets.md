@@ -6,6 +6,8 @@ For production deployments, use Docker secrets to securely manage sensitive conf
 
 Any Poweradmin environment variable can be provided via a file by appending `__FILE` to the variable name. The container reads the file contents and uses them as the actual value.
 
+> **Note:** This is a container feature, implemented in the Docker entrypoint. On a non-container install, protect `config/settings.php` with file permissions instead - see [Protecting Credentials Outside Docker](../configuration/basic.md#protecting-credentials-outside-docker).
+
 ```bash
 # Instead of this:
 -e DB_PASS=mySecretPassword

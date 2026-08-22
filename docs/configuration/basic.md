@@ -42,6 +42,36 @@ When using Docker, configuration is loaded in this order (later overrides earlie
 
 > **Note:** A secret and its plain environment variable are mutually exclusive, not layered. If both `PA_FOO` and `PA_FOO__FILE` are set, the container logs an error and exits rather than preferring one over the other.
 
+## Protecting Credentials Outside Docker
+
+`config/settings.php` holds the database password and the session key in plain text, so on a
+non-container install the file permissions are the protection.
+
+- Make the file readable by the web server user and nobody else. With Apache or php-fpm running as
+  `www-data`, that is `chown root:www-data config/settings.php` and `chmod 640 config/settings.php`.
+- Keep it out of version control and out of any backup that is world-readable.
+- Rotate `security.session_key` if the file is ever exposed; it signs session data.
+
+Two things that work in Docker do **not** apply here:
+
+- **The `__FILE` secrets convention is a container feature.** It is implemented in
+  `docker-entrypoint.sh`, which translates `PA_FOO__FILE` into `PA_FOO` before PHP starts. Nothing
+  in the application reads it, so `PA_DB_PASS__FILE` has no effect on a bare-metal install. See
+  [Docker Secrets](../installation/docker-secrets.md) for what it does cover.
+- **`PA_*` environment variables are also entrypoint-driven.** They are turned into settings while
+  the container starts, not read at runtime.
+
+The one environment variable the application itself reads is `PA_CONFIG_PATH`, which points at an
+alternative settings file:
+
+```bash
+PA_CONFIG_PATH=/etc/poweradmin/settings.php
+```
+
+That lets you keep configuration outside the document root - on a read-only deployment, or where
+the application directory is replaced wholesale on upgrade. When it is unset, Poweradmin falls back
+to `config/settings.php`.
+
 ## Configuration Sections
 
 The configuration is organized into logical sections:
