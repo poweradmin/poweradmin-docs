@@ -1,0 +1,14 @@
+{
+  // Only the rules that encode the house style in CLAUDE.md. Prose rules are
+  // deliberately left off: MD013 (line length), MD033 (inline HTML), MD024
+  // (upgrade guides reuse section names by design), MD041, MD046.
+  "config": {
+    "default": false,
+    "MD004": { "style": "dash" },  // dashes for bullets
+    "MD007": { "indent": 4 },      // four spaces for nested items
+    "MD031": true,                 // blank lines around fences
+    "MD032": true                  // blank lines around lists
+  },
+  "globs": ["docs/**/*.md"],
+  "ignores": ["site/**"]
+}

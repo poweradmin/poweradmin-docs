@@ -44,3 +44,42 @@ jobs:
           path: site/
           retention-days: 7
 
+  lint:
+    name: Markdown
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # A code fence that is not indented by four spaces terminates the list it
+      # follows, so the items after it restart at 1. Blocking, but only on the
+      # pages this change touches - existing pages predate the rule and are
+      # fixed as they are edited.
+      - name: Check fences in changed pages
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || 'origin/main' }}
+        run: |
+          # A 'docs/**/*.md' pathspec does not match docs/index.md under
+          # git's default globbing, so filter the extension separately.
+          changed=$(git diff --name-only --diff-filter=d "$BASE"...HEAD -- docs | grep '\.md$' || true)
+          if [ -z "$changed" ]; then
+            echo "No changed pages."
+            exit 0
+          fi
+          echo "$changed"
+          # shellcheck disable=SC2086
+          if grep -PzoH '(?m)^\d+\.[^\n]*\n\n```' $changed | tr '\0' '\n'; then
+            echo "::error::Indent these fences by four spaces so they stay inside the list item."
+            exit 1
+          fi
+
+      # Advisory: the house style predates this check and existing pages still
+      # violate it. Fix them as they are touched, then drop continue-on-error.
+      - name: markdownlint
+        continue-on-error: true
+        uses: DavidAnson/markdownlint-cli2-action@21c1be1b93ad9ed58fa840aacc3f279cde2a72ff # v24.2.0
+        with:
+          globs: 'docs/**/*.md'
