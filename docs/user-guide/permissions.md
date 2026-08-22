@@ -9,12 +9,14 @@ This document provides detailed explanations of all user permissions available i
 - Allows the user to add a master zone
 - User can create new authoritative DNS zones
 - Required for creating zones from templates
+- Also governs the **Producer** catalog kind on PowerDNS 4.7+, since a producer catalog is authored locally like any primary zone
 
 ### zone_slave_add
 
 - Allows the user to add a slave zone
 - User can create zones that pull data from a master server
 - Requires specifying the IP address of the master server
+- Also governs the **Consumer** catalog kind on PowerDNS 4.7+, because a consumer replicates from a remote primary, which is what this permission covers. Without it, Consumer is not offered on the add-zone form
 
 ### zone_content_view_own
 
