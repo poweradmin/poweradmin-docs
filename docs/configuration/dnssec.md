@@ -97,6 +97,43 @@ Your schema must include the DNSSEC tables (`domainmetadata`, `cryptokeys`, `tsi
 [Enabling the API](https://doc.powerdns.com/authoritative/http-api/index.html#enabling-the-api)
 for the `api` and `api-key` settings.
 
+## Presigned Zones
+
+A zone whose `PRESIGNED` metadata is set is signed somewhere else - typically at a primary that
+transfers it in already signed - and PowerDNS serves the existing signatures rather than producing
+its own. Poweradmin detects this and refuses key operations on such a zone instead of failing
+halfway:
+
+- Signing and unsigning are blocked, with "This zone is presigned; DNSSEC keys are managed at the
+  primary server."
+- Adding, editing, deleting, importing, exporting and activating keys are blocked the same way.
+- The DNSSEC page still renders, so you can read the existing DS and DNSKEY records.
+
+Manage the keys at the server that signs the zone. See
+[PRESIGNED](https://doc.powerdns.com/authoritative/domainmetadata.html#metadata-presigned) and
+[Pre-signed records](https://doc.powerdns.com/authoritative/dnssec/modes-of-operation.html).
+
+> **Note:** `PRESIGNED` is one of the metadata kinds PowerDNS exposes read-only over the API, so
+> Poweradmin can see it but cannot set or clear it. Use `pdnsutil` or the database for that.
+
+## Automatic Rectify
+
+Signed zones must be rectified after their contents change, or the NSEC/NSEC3 chain and the
+`ordername` values go stale and resolvers start getting bogus denial-of-existence answers.
+Poweradmin calls PowerDNS's rectify endpoint for you after record writes - adding, editing and
+deleting single records, batch and bulk record operations, PTR creation, and zone creation from a
+template. You do not need to run `pdnsutil rectify-zone` by hand for changes made through
+Poweradmin.
+
+Two things to know:
+
+- Rectify goes through the PowerDNS API, so it only happens when `pdns_api.url` and `pdns_api.key`
+  are set. Without them Poweradmin loads a no-op DNSSEC provider and rectify silently does nothing,
+  along with every other DNSSEC action.
+- Changes made outside Poweradmin - direct SQL, another tool - are not rectified by Poweradmin.
+  Set the [`API-RECTIFY`](https://doc.powerdns.com/authoritative/domainmetadata.html#metadata-api-rectify)
+  metadata on the zone so PowerDNS rectifies after its own API edits, or rectify manually.
+
 ## Verification
 
 Check DNSSEC status using:
