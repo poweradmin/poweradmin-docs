@@ -179,6 +179,7 @@ nav:
   # near-empty tabs.
   - Operations:
       - Overview: maintenance/index.md
+      - Health Checks: operations/health-checks.md
       - Database Consistency Check: maintenance/consistency-check.md
       - Logging:
           - Log Configuration: advanced/logging-config.md

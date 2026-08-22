@@ -242,6 +242,20 @@ Membership changes after creation go through
 | `PUT` | `/zone-templates/{template_id}/records/{id}` | Update template record |
 | `DELETE` | `/zone-templates/{template_id}/records/{id}` | Delete template record |
 
+## Health endpoints (v4.5.0+)
+
+These sit outside the versioned API and outside the API key model. They take no
+credentials, are **disabled by default**, and return `404` while disabled. Paths are
+absolute, not relative to `/api/v2`.
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/api/health` | Readiness: database and PowerDNS API reachability. `200` healthy, `503` otherwise |
+| `GET` | `/ping` | Liveness: returns `ok` and checks nothing else |
+
+They are not part of the OpenAPI specification, and they answer regardless of whether
+`api.enabled` is set. See [Health Checks](../operations/health-checks.md).
+
 ## API v1 endpoints
 
 **Removed in 4.5.0.** On 4.5.0 and later, every `/api/v1` path answers

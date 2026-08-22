@@ -474,6 +474,19 @@ The interface has many more settings than the four above; see
 | `PA_LOGGING_SYSLOG_IDENTITY` | poweradmin | Syslog program identity |
 | `PA_LOGGING_SYSLOG_FACILITY` | LOG_USER | Syslog facility (`LOG_USER`, `LOG_LOCAL0`-`LOG_LOCAL7`) |
 
+### Health endpoints *(v4.5.0+)*
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_HEALTH_ENABLED` | false | Unauthenticated readiness endpoint at `/api/health` |
+| `PA_HEALTH_PING_ENABLED` | false | Unauthenticated liveness endpoint at `/ping` |
+| `PA_HEALTH_DB_TIMEOUT` | 2 | Database connect timeout in seconds used by the health check |
+| `PA_HEALTH_PDNS_TIMEOUT` | 2 | PowerDNS API timeout in seconds used by the health check |
+
+The image's `HEALTHCHECK` requests `/`, which succeeds even with a dead database. To have
+container status track real readiness, enable `PA_HEALTH_ENABLED` and override the
+healthcheck to request `/api/health`. See [Health Checks](../operations/health-checks.md).
+
 Anything not listed on this page is in
 [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md), which
 tracks the code and is tagged with each release.

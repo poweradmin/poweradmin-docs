@@ -108,6 +108,13 @@ tar -czf poweradmin_config_$(date +%Y%m%d).tar.gz /path/to/poweradmin/config/
 
 ## Monitoring
 
+### Health Endpoints *(v4.5.0+)*
+
+Poweradmin can expose an unauthenticated readiness endpoint at `/api/health` and a liveness
+endpoint at `/ping`, so a monitoring system notices a dead database or an unreachable
+PowerDNS API before a user does. Both are disabled by default. See
+[Health Checks](../operations/health-checks.md).
+
 ### Performance Monitoring
 
 Monitor system resource usage:

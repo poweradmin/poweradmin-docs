@@ -199,3 +199,24 @@ Caddy automatically provisions TLS certificates via Let's Encrypt.
 ```
 
 Requires `mod_proxy`, `mod_proxy_http`, and `mod_ssl` modules.
+
+## Health endpoints *(v4.5.0+)*
+
+If you enable the health endpoints, restrict them at the proxy. They answer without a
+session and without an API key, so anyone who can reach the path can call them.
+
+```nginx
+location ~ ^/(ping|api/health)$ {
+    allow 10.0.0.0/8;
+    deny all;
+    try_files $uri /index.php$is_args$args;
+}
+```
+
+```apache
+<LocationMatch "^/(ping|api/health)$">
+    Require ip 10.0.0.0/8
+</LocationMatch>
+```
+
+See [Health Checks](../operations/health-checks.md).

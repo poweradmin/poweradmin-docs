@@ -141,6 +141,7 @@ Features without a version marker have been present since 3.x or earlier.
 | Changesets with an optional or required reason | 4.5.0 | [Record Change Log](../user-guide/record-change-log.md) |
 | Emailed change digest from cron | 4.5.0 | [Record Change Log](../user-guide/record-change-log.md) |
 | Per-request API logging with retention | 4.5.0 | [Database Logging](../configuration/database-logging.md) |
+| Unauthenticated health and liveness endpoints for external monitoring | 4.5.0 | [Health Checks](../operations/health-checks.md) |
 
 ## Interface
 

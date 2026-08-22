@@ -5,6 +5,10 @@ Poweradmin supports two authentication methods for API requests: API keys
 `config/settings.php` before they can be used; see
 [API Configuration](../configuration/api.md) for the settings.
 
+The health endpoints `/api/health` and `/ping` are the exception: they take no
+credentials at all and are disabled by default. See
+[Health Checks](../operations/health-checks.md).
+
 ## API key authentication
 
 API keys are the recommended method for scripts, CI, and any

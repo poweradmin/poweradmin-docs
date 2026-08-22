@@ -122,6 +122,11 @@ curl -u username:password \
 
 ## API Endpoints
 
+Poweradmin also exposes two health endpoints, `/api/health` and `/ping`, that take no
+credentials and are disabled by default. They sit outside the versioned API and the API key
+model, and answer regardless of `api.enabled`. See
+[Health Checks](../operations/health-checks.md).
+
 API v2 (introduced in v4.1.0) is the current API and is recommended for every integration. API v1 was deprecated in 4.3.0 and removed in 4.5.0; on 4.2.x-4.4.x it is still available for backward compatibility.
 
 ### API v2 Endpoints *(v4.1.0+)*

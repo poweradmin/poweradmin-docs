@@ -82,6 +82,15 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `dnssec.enabled` {#setting-dnssec-enabled} | `false` | Enable DNSSEC functionality | 2.1.7 |
 | `dnssec.debug` {#setting-dnssec-debug} | `false` | Enable DNSSEC debug logging | 2.1.9 |
 
+## health
+
+| Setting | Default | Description | Added in |
+|---|---|---|---|
+| `health.enabled` {#setting-health-enabled} | `false` | Enable unauthenticated health endpoint at /api/health | 4.5.0 |
+| `health.ping_enabled` {#setting-health-ping-enabled} | `false` | Enable unauthenticated liveness endpoint at /ping | 4.5.0 |
+| `health.db_timeout` {#setting-health-db-timeout} | `2` | Database connect timeout in seconds used by the health check | 4.5.0 |
+| `health.pdns_timeout` {#setting-health-pdns-timeout} | `2` | PowerDNS API timeout in seconds used by the health check | 4.5.0 |
+
 ## interface
 
 | Setting | Default | Description | Added in |
