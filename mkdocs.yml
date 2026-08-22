@@ -63,6 +63,11 @@ markdown_extensions:
       permalink: true
 
 validation:
+  # Every page under docs/ is expected to be reachable from the nav; under
+  # --strict these warnings become build failures.
+  nav:
+    omitted_files: warn
+    not_found: warn
   links:
     absolute_links: relative_to_docs
     anchors: warn
