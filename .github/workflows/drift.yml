@@ -24,7 +24,9 @@ jobs:
         with:
           repository: poweradmin/poweradmin
           path: poweradmin
-          ref: master
+          # develop, not master: the site documents the current release line,
+          # which is ahead of the latest tag (develop is 4.5.0, master 4.4.1).
+          ref: develop
 
       - name: Settings reference is current
         run: |
