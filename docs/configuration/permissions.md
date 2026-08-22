@@ -7,7 +7,7 @@ Poweradmin supports two permission management approaches that can be used indepe
 
 Both systems are enabled by default. You can hide either one from the UI by setting the corresponding toggle to `false` in your `settings.php` file.
 
-For the full list of individual permission flags (such as `zone_content_edit_own_as_client`, which lets users edit records in their own zones except SOA and NS), see [User Permissions](../user-guide/permissions.md).
+For the full list of individual permission flags (such as `zone_content_edit_own_as_client`, which lets users edit records in their own zones except SOA, NS and LUA), see [User Permissions](../user-guide/permissions.md).
 
 ## Configuration
 

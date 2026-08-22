@@ -57,11 +57,12 @@ This document provides detailed explanations of all user permissions available i
 
 ### zone_content_edit_own_as_client
 
-- Allows the user to edit record content in zones they own, except SOA and NS records
+- Allows the user to edit record content in zones they own, except SOA, NS and LUA records
 - Limited permission for users who should only modify certain record types
 - Provides restricted zone management capabilities
-- Common use case: tenant or end-customer self-service, where users can manage their own A/AAAA/CNAME/MX/TXT records but must not touch the zone's authority (SOA) or delegation (NS) records
-- Enforced uniformly in the web UI and across the record APIs (since 4.2.3); creating, editing, or deleting an SOA or NS record returns HTTP 403 for users limited to this permission
+- Common use case: tenant or end-customer self-service, where users can manage their own A/AAAA/CNAME/MX/TXT records but must not touch the zone's authority (SOA), its delegation (NS), or [LUA records](https://doc.powerdns.com/authoritative/lua-records/index.html), which execute code on the DNS server
+- Enforced uniformly in the web UI and across the record APIs (since 4.2.3); creating, editing, or deleting an SOA, NS or LUA record returns HTTP 403 for users limited to this permission
+- LUA is held to a stricter standard inside zone templates: seeding one requires full `all` or `own` edit rights, because template records are written straight to the backend and land in every zone created from that template
 - To additionally allow managing delegation NS records for subdomains, grant `zone_content_edit_ns_subzone`
 
 ### zone_content_edit_ns_subzone
