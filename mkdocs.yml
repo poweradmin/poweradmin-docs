@@ -115,6 +115,7 @@ nav:
 
   - Configuration:
       - Basic Configuration: configuration/basic.md
+      - Settings Reference: configuration/settings-reference.md
       - DNS Settings: configuration/dns-settings.md
       - DNS Wizards: configuration/dns-wizards.md
       - Database Configuration: configuration/database.md
