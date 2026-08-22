@@ -153,7 +153,7 @@ Configure which information is displayed in the user interface:
 - **display_template_in_zone_list**: Show template information in zone list. Default: `false`
 - **display_owner_in_zone_list**: Show owner column in zone lists (v4.5.0+). Default: `true`
 - **display_group_in_zone_list**: Show group column in zone lists (v4.5.0+). Default: `true`
-- **show_zone_record_count**: Show record count column in zone lists. Each user can override this in their preferences. Default: `true`. In API backend mode this costs one PowerDNS request per zone shown on the page; turn it off to skip those
+- **show_zone_record_count**: Show record count column in zone lists (v4.5.0+). Each user can override this in their preferences. Default: `true`. In API backend mode this costs one PowerDNS request per zone shown on the page; turn it off to skip those
 
 ```php
 return [
@@ -240,7 +240,7 @@ Tracking snippets (Matomo, Plausible, Google Analytics) and additional meta tags
 3. Open `templates/custom/header.html` and paste your snippet immediately before `</head>`. For example, a Matomo `<noscript>` tracker:
 
     ```html
-        <script type="text/javascript" src="{{ base_url_prefix }}/assets/userSettings.js?time={{ file_version }}"></script>
+        <script type="text/javascript" src="{{ base_url_prefix }}/assets/formBusy.js?time={{ file_version }}"></script>
         <noscript><p><img src="https://analytics.example.com/matomo.php?idsite=23" style="border:0;" alt="" /></p></noscript>
     </head>
     ```
