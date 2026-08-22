@@ -1,0 +1,42 @@
+name: Check Drift Against Poweradmin
+
+# Scheduled rather than blocking: this drift is caused by changes in the
+# poweradmin repo, not by the docs commit under test, so it must not fail a
+# deploy. Same reasoning as the external link check.
+on:
+  schedule:
+    - cron: '0 7 * * 1'  # Mondays, 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout docs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Checkout poweradmin
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: poweradmin/poweradmin
+          path: poweradmin
+          ref: master
+
+      - name: Settings reference is current
+        run: |
+          python3 scripts/gen_settings_reference.py \
+            --settings poweradmin/config/settings.defaults.php \
+            --version "$(grep -oE "'[0-9]+\.[0-9]+\.[0-9]+'" poweradmin/lib/Version.php | head -1 | tr -d "'")" \
+            --out docs/configuration/settings-reference.md --check
+
+      # DOCKER.md lives in the code repo by design; this only reports on it.
+      - name: Docker variables are documented
+        if: always()
+        run: |
+          python3 scripts/check_docker_env.py \
+            --entrypoint poweradmin/docker-entrypoint.sh \
+            --docs poweradmin/DOCKER.md
