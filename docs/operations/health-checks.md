@@ -84,8 +84,21 @@ so the instance is not ready.
 ### What the response does not contain
 
 The endpoint is unauthenticated, so a check either passed or it did not. The response
-carries no version number, hostname, database driver, or error text. Connection errors go
-to the PHP error log, where an administrator can read them.
+carries no version number, hostname, database driver, or error text.
+
+The reason a check failed goes to the application's diagnostic log instead. That log is
+off by default, so set `logging.type` to `native` (`PA_LOGGING_TYPE=native` in Docker) to
+have connection errors written to the PHP error log:
+
+```php
+'logging' => [
+    'type' => 'native',
+],
+```
+
+With diagnostic logging left at its `null` default, a failing check is reported as `down`
+and nothing is written anywhere. That is deliberate: an endpoint scraped every few seconds
+would otherwise fill the log with one line per scrape for as long as the outage lasts.
 
 ### Response time
 
