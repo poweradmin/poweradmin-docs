@@ -141,6 +141,13 @@ Some kinds accept several values - `ALLOW-AXFR-FROM`, `ALLOW-DNSUPDATE-FROM`, `A
 `TSIG-ALLOW-AXFR`, `TSIG-ALLOW-DNSUPDATE`, `GSS-ALLOW-AXFR-PRINCIPAL` and `PUBLISH-CDS`. Add
 one row per value. Every other kind holds a single value.
 
+Two kinds are gated on the connected server's version, because PowerDNS added them recently:
+
+- **`SIGNALING-ZONE`** (PowerDNS 5.0+) - set to `1` on a signed zone using NSEC3 narrow mode to
+  make PowerDNS synthesize CDS/CDNSKEY records for the other zones it serves, per
+  [RFC 9615](https://doc.powerdns.com/authoritative/domainmetadata.html#signaling-zone).
+- **`CATALOG-HASH`** and the catalog kinds appear on 4.7+ as described above.
+
 ### Restrictions with the PowerDNS API backend
 
 When Poweradmin talks to PowerDNS over its HTTP API rather than directly to the database,
