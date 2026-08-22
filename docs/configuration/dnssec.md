@@ -73,13 +73,26 @@ Working through the API means:
 
 ## PowerDNS Configuration
 
-Make sure to enable DNSSEC in your PowerDNS configuration:
+DNSSEC processing is enabled per backend, not by a global switch - there is no `dnssec` setting in
+`pdns.conf`. Use the setting that matches your backend:
 
 ```conf
-dnssec=yes
+# MySQL/MariaDB backend
+gmysql-dnssec=yes
+
+# PostgreSQL backend: gpgsql-dnssec=yes
+# SQLite backend:     gsqlite3-dnssec=yes
+
 api=yes
 api-key=your_api_key
 ```
+
+See [gmysql-dnssec](https://doc.powerdns.com/authoritative/backends/generic-mysql.html#setting-gmysql-dnssec),
+[gpgsql-dnssec](https://doc.powerdns.com/authoritative/backends/generic-postgresql.html#setting-gpgsql-dnssec)
+and [gsqlite3-dnssec](https://doc.powerdns.com/authoritative/backends/generic-sqlite3.html#setting-gsqlite3-dnssec).
+Your schema must include the DNSSEC tables (`domainmetadata`, `cryptokeys`, `tsigkeys`); see
+[Enabling the API](https://doc.powerdns.com/authoritative/http-api/index.html#enabling-the-api)
+for the `api` and `api-key` settings.
 
 ## Verification
 
