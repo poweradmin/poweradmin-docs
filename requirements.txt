@@ -4,3 +4,4 @@ mkdocs==1.6.1
 mkdocs-material==9.7.7
 mkdocs-glightbox==0.5.2
 pymdown-extensions==11.0.1
+mkdocs-swagger-ui-tag==0.8.1

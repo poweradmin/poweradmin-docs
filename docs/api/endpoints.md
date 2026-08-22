@@ -1,9 +1,12 @@
 # API Endpoints
 
-The fastest way to discover the full set of endpoints with request and
-response schemas is the interactive OpenAPI explorer that ships with
-Poweradmin. This page is a high-level map; the explorer is the source of
-truth.
+This page is a task-shaped map of the API, not the complete list. The
+[API Reference](reference.md) is generated from the source and documents every
+operation with its full request and response schemas - use that when you need
+the authoritative answer, and this page when you want to find the right
+endpoint for a job.
+
+A running instance can also serve the same specification interactively.
 
 ## Interactive API documentation
 
@@ -98,8 +101,9 @@ interface that routers expect.
 |--------|------|---------|
 | `GET` | `/zones/{id}/records` | List records in a zone |
 | `POST` | `/zones/{id}/records` | Create record |
-| `PUT` | `/zones/{id}/records/{record_id}` | Update record |
-| `DELETE` | `/zones/{id}/records/{record_id}` | Delete record |
+| `GET` | `/zones/{id}/records/{recordId}` | Fetch a single record |
+| `PUT` | `/zones/{id}/records/{recordId}` | Update record |
+| `DELETE` | `/zones/{id}/records/{recordId}` | Delete record |
 | `POST` | `/zones/{id}/records/bulk` | Bulk create records |
 | `GET` | `/zones/{id}/rrsets` | List RRsets |
 | `GET` | `/zones/{id}/rrsets/{name}/{type}` | Get a specific RRset |

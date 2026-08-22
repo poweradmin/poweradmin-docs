@@ -243,6 +243,7 @@ nav:
 
   - API Reference:
       - API Overview: api/overview.md
+      - API Reference: api/reference.md
       - Authentication: api/authentication.md
       - Endpoints: api/endpoints.md
 
@@ -254,6 +255,7 @@ nav:
 
 plugins:
   - search
+  - swagger-ui-tag
   - glightbox:
       touchNavigation: true
       loop: false
