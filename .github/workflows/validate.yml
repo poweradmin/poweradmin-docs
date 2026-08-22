@@ -56,7 +56,10 @@ jobs:
       # the list instead of inside the item it belongs to.
       - name: Check fences inside ordered lists
         run: |
-          if grep -rPzoH '(?m)^\d+\.[^\n]*\n\n```' docs --include='*.md' | tr '\0' '\n'; then
+          # Capture first: the exit status of a pipeline is tr's, which is always 0.
+          hits=$(grep -rPzoH '(?m)^\d+\.[^\n]*\n\n```' docs --include='*.md' | tr '\0' '\n' || true)
+          if [ -n "$hits" ]; then
+            echo "$hits"
             echo "::error::Indent these fences by four spaces so they stay inside the list item."
             exit 1
           fi
