@@ -51,27 +51,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
 
-      # A code fence that is not indented by four spaces terminates the list it
-      # follows, so the items after it restart at 1. Blocking, but only on the
-      # pages this change touches - existing pages predate the rule and are
-      # fixed as they are edited.
-      - name: Check fences in changed pages
-        env:
-          BASE: ${{ github.event.pull_request.base.sha || 'origin/main' }}
+      # A code fence that is not indented by four spaces renders as a sibling of
+      # the list instead of inside the item it belongs to.
+      - name: Check fences inside ordered lists
         run: |
-          # A 'docs/**/*.md' pathspec does not match docs/index.md under
-          # git's default globbing, so filter the extension separately.
-          changed=$(git diff --name-only --diff-filter=d "$BASE"...HEAD -- docs | grep '\.md$' || true)
-          if [ -z "$changed" ]; then
-            echo "No changed pages."
-            exit 0
-          fi
-          echo "$changed"
-          # shellcheck disable=SC2086
-          if grep -PzoH '(?m)^\d+\.[^\n]*\n\n```' $changed | tr '\0' '\n'; then
+          if grep -rPzoH '(?m)^\d+\.[^\n]*\n\n```' docs --include='*.md' | tr '\0' '\n'; then
             echo "::error::Indent these fences by four spaces so they stay inside the list item."
             exit 1
           fi
