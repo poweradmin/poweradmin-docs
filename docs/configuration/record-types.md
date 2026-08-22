@@ -25,7 +25,34 @@ By default, both settings are set to `null`, which means Poweradmin uses its bui
 - **Forward zones**: the common types (A, AAAA, CNAME, MX, NS, SOA, SRV, TXT) plus a larger set of less common but valid types (CAA, DNAME, HTTPS, NAPTR, SSHFP, SVCB, TLSA, URI and others). DNSSEC types (DNSKEY, DS, CDS, CDNSKEY, RRSIG, NSEC, NSEC3, NSEC3PARAM, ZONEMD) are merged in only when `dnssec.enabled` is true.
 - **Reverse zones**: only six types - CNAME, LOC, NS, PTR, SOA, TXT.
 
-Types the connected PowerDNS does not support are filtered out.
+Types the connected PowerDNS does not support are filtered out. Only the types whose support
+actually changed across recent releases are gated; everything else is assumed supported:
+
+| Record type | Requires PowerDNS |
+|---|---|
+| `SVCB`, `HTTPS`, `APL` | 4.4.0 |
+| `CSYNC`, `NID`, `L32`, `L64`, `LP` | 4.5.0 |
+| `ZONEMD` | 4.8.0 |
+| `RESINFO`, `WALLET`, `HHIT`, `BRID` | 5.1.0 |
+
+So if `SVCB` is missing from the dropdown on a 4.3 server, that is the gate rather than a
+configuration problem. See the
+[PowerDNS supported record types](https://doc.powerdns.com/authoritative/appendices/types.html).
+
+### ALIAS and LUA records
+
+Two types have requirements on the PowerDNS side beyond simply being enabled here:
+
+- **`ALIAS`** resolves a target name at query time and returns its A/AAAA records, which lets you
+  put a CNAME-like record at a zone apex. PowerDNS needs a resolver configured (`resolver=` in
+  `pdns.conf`) or it cannot expand the target. See
+  [the ALIAS guide](https://doc.powerdns.com/authoritative/guides/alias.html).
+- **`LUA`** records execute a Lua expression on the DNS server at query time. PowerDNS ignores them
+  unless the zone carries the `ENABLE-LUA-RECORDS` metadata, which is neither readable nor writable
+  over the API - set it with `pdnsutil` or in the database. Because they run code on the server,
+  Poweradmin also restricts them: users limited to `zone_content_edit_own_as_client` cannot create
+  or edit them, and seeding one into a zone template needs full edit rights. See
+  [LUA records](https://doc.powerdns.com/authoritative/lua-records/index.html).
 
 ## Customizing Domain (Forward) Zone Record Types
 
