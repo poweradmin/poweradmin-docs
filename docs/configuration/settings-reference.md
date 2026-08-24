@@ -107,7 +107,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `interface.logo_path` {#setting-interface-logo-path} | `''` | Custom header logo path or URL; empty uses the bundled assets/logo.png | 4.4.0 |
 | `interface.base_url_prefix` {#setting-interface-base-url-prefix} | `''` | Base URL prefix for deployments (default: '', subdirectory example: '/poweradmin') | 4.1.0 |
 | `interface.application_url` {#setting-interface-application-url} | `''` | Full application URL for emails and absolute links - required for password reset, OIDC and SAML (example: 'https://dns.example.com/poweradmin') | 4.1.0 |
-| `interface.web_enabled` {#setting-interface-web-enabled} | `true` | Serve the web interface; `false` runs API-only (headless) - see the [Headless Quickstart](../getting-started/headless-quickstart.md#turning-the-web-interface-off) | 4.5.0 |
+| `interface.web_enabled` {#setting-interface-web-enabled} | `true` | Serve the web interface; false runs API-only (headless) | 4.5.0 |
 | `interface.show_record_id` {#setting-interface-show-record-id} | `false` | Show record ID column in edit mode | 3.9.0 |
 | `interface.show_add_record_form` {#setting-interface-show-add-record-form} | `false` | Show or hide add record form | 4.1.0 |
 | `interface.show_record_edit_button` {#setting-interface-show-record-edit-button} | `false` | Show individual edit button per record | 4.1.0 |
