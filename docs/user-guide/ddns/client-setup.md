@@ -129,7 +129,7 @@ home.example.com
 
 Run `ddclient -daemon=0 -debug -verbose -noquiet` to watch the exchange. The server returns either `good\n` (no IP suffix on older builds) or the dyndns2-compliant `good <ip>\n` depending on Poweradmin version. Both forms are accepted by `ddclient`.
 
-`ddclient` 3.11 and later, configured for dual-stack, sends both addresses in a single `myip` list rather than using `myip6`. Poweradmin routes each address to the matching record type from 4.4.1 and 4.5.0 onwards. Earlier versions moved the whole list to the IPv6 side and dropped the IPv4 address, which combined with `dualstack_update=1` removed the host's existing A records - if you run an earlier version, keep the families in separate `myip` and `myip6` parameters.
+`ddclient` 3.11 and later, configured for dual-stack, sends both addresses in a single `myip` list rather than using `myip6`. Poweradmin routes each address to the matching record type from 4.4.1 and 4.5.0 onwards. Earlier versions treat `myip` as IPv4 only and answer `dnserr` when it carries an IPv6 address, leaving the records unchanged - if you run an earlier version, keep the families in separate `myip` and `myip6` parameters.
 
 ### Other clients
 
