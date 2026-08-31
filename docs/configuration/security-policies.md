@@ -53,6 +53,14 @@ These settings help prevent brute force attacks by temporarily locking accounts 
 
 These settings govern the password stage only. The second factor is throttled separately - see [Second-factor attempt limit](#second-factor-attempt-limit) below.
 
+## Login Response Timing
+
+A login for a username that does not exist takes the same time as one for a username that does. Previously a failed login against a real account spent time verifying the password hash while an unknown name returned straight away, and the gap was wide enough to read from a single request - enough to confirm which accounts exist without ever guessing a password (added in 3.9.12, 4.2.6, 4.3.5 and 4.4.1).
+
+There is nothing to configure. The delay tracks `password_cost`, so raising that value slows both cases together. Accounts provisioned through LDAP, OIDC or SAML store no local password hash and are padded in the same way, so they are not distinguishable either.
+
+Account lockout does not cover this on its own. It ships disabled, and an attempt against a name that matches no user is never recorded against it, so the limit would not apply even when enabled.
+
 ## Second-Factor Attempt Limit
 
 A six-digit second factor is small enough to guess, so MFA verification is rate limited on its own, independently of the account lockout above. This limit is always active when MFA is enabled: it does not require `enable_lockout`, which ships disabled (added in 4.5.0).
