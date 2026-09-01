@@ -21,6 +21,33 @@ The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the init
 
 ![Template Editor](../screenshots/template-editor.png)
 
+### Record validation
+
+*Available since v4.2.6, v4.3.5, v4.4.1 and v4.5.0.*
+
+Template records are checked against the validator for their record type when you add or edit
+them, on the web form and on the API v2 endpoints. Earlier releases stored template records
+without any type checking, so a template written before the upgrade may hold a record that the
+validator now rejects when you next save it. A failed check returns `400` over the API with the
+validator message.
+
+Two points to know before editing an older template:
+
+- **MX and SRV priority belongs in the priority field, not in the content.** Write `mail.[ZONE]`
+  with priority `10`, not `10 mail.[ZONE]`. This is the most common reason an existing template
+  record stops saving.
+- **Placeholders are resolved against a sample zone before validation**, so a record is judged on
+  whether it could be valid, not against this install's nameserver configuration.
+
+The check is deliberately lenient in three places, so the following are not bugs:
+
+- A short SOA rdata is completed with default timers for the check.
+- An unquoted TXT value is quoted for the check only, and stored exactly as you typed it.
+- A record containing a placeholder Poweradmin does not recognise is stored without checking.
+
+Existing template records are only validated when saved. Applying a template to a zone, viewing
+it, and deleting a record are unaffected.
+
 ### Saving an existing zone as a template
 
 *Available since v4.2.0.*
