@@ -163,7 +163,7 @@ Secure password reset functionality with rate limiting:
 
 ### `interface.application_url` is required
 
-When password reset is enabled, `interface.application_url` must be set to the full public URL of the Poweradmin install, e.g. `https://dns.example.com/poweradmin`. The reset link in the email is built from this value only - request headers such as `Host` are never used. If `application_url` is empty, the password-reset endpoint accepts requests but does not send mail and logs an error: `Password reset email NOT sent: interface.application_url must be configured to build a trustworthy reset link`.
+When password reset is enabled, `interface.application_url` must be set to the full public URL of the Poweradmin install, e.g. `https://dns.example.com/poweradmin`. The reset link in the email is built from this value only - request headers such as `Host` are never used. If `application_url` is empty, the password-reset endpoint accepts requests but does not send mail and logs an error: `Password reset email NOT sent: interface.application_url must be configured to build a trustworthy reset link`. Because that failure is otherwise invisible to the user requesting the reset, from 4.2.6, 4.3.5, 4.4.1 and 4.5.0 superusers also see a warning on the dashboard whenever password reset is enabled and `application_url` is empty.
 
 ```php
 return [

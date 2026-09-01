@@ -11,6 +11,21 @@ Poweradmin supports sending emails for various purposes:
 - DNS zone changes notifications
 - System alerts
 
+## Requirements
+
+Any email that contains a link also needs `interface.application_url`. Links are built from that
+setting alone, because a request header cannot be trusted for a URL that is sent to someone else.
+From 4.2.6, 4.3.5, 4.4.1 and 4.5.0, with it unset:
+
+- **Password reset mail is not sent at all.** The request is accepted and the interface still
+  reports success, but nothing is delivered and only a line is written to the server log. From
+  the same releases, superusers see a warning on the dashboard when password reset is enabled
+  and `application_url` is empty.
+- **Username recovery and zone access notifications are still sent, but without their link.**
+
+See [Security Policies](security-policies.md) for the reset-specific detail and
+[Username Recovery](username-recovery.md).
+
 ## Configuration Options
 
 The mail settings are configured in the `config/settings.php` file under the `mail` section:
