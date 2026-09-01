@@ -112,6 +112,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.2.x Series:**
 
+- **v4.2.6** (Sep 2026) - `interface.application_url` required for OIDC, SAML and password reset; Docker containers with SSO enabled refuse to start without a URL source; API user creation without `perm_templ` no longer yields an administrator; deactivating a user revokes their API keys; zone template records validated on save; five confirmation flows moved to POST (re-sync forked themes). No database migration
 - **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.2.4** (Jun 2026) - Same fixes as v4.3.3 for the 4.2.x line
 - **v4.2.3** (May 2026) - `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, PostgreSQL `record_comment_links` strict-typing fix, bulk record CSV escaping, CNAME validator accepts numeric-string IDs, API record edits honor `zone_content_edit_own_as_client`, Users API `auth_method`/`use_ldap` sync, zone template column and content-listing fixes
