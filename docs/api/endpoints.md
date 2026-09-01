@@ -139,7 +139,9 @@ assignment returns `403`:
 
 Omitting `perm_templ` on create assigns the least-privileged non-superuser template,
 whoever the caller is; it no longer falls back to template id 1. If no such template
-exists, the request fails rather than granting administrator rights.
+exists, the request fails rather than granting administrator rights. This applies from
+v4.2.6, v4.3.5, v4.4.1 and v4.5.0 - on earlier releases, omitting the field created an
+administrator, so check any client that relies on the old default.
 
 #### Permission template and groups on reads (v4.5.0+)
 
@@ -241,6 +243,11 @@ Membership changes after creation go through
 | `POST` | `/zone-templates/{id}/records` | Add template record |
 | `PUT` | `/zone-templates/{template_id}/records/{id}` | Update template record |
 | `DELETE` | `/zone-templates/{template_id}/records/{id}` | Delete template record |
+
+From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, adding or updating a template record validates the
+content against the record type and returns `400` with the validator message when it fails.
+See [Record validation](../user-guide/dns-templates.md#record-validation) for the rules,
+including where MX and SRV priority belongs.
 
 ## Health endpoints (v4.5.0+)
 

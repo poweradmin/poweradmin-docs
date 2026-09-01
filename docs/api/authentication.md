@@ -44,6 +44,11 @@ The key inherits the permissions of the user it belongs to. If that user can
 edit zone X in the web UI, the key can edit zone X over the API; if they
 cannot, the key cannot either.
 
+From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the owning account must also be active.
+Deactivating the user, or deleting the account, revokes every key they hold:
+the key is rejected with `401`, not `403`. A key whose owner can no longer be
+determined is rejected the same way.
+
 ### Restricting what a key can do
 
 *Available since v4.5.0.*
@@ -91,6 +96,9 @@ From **Settings -> API Keys** you can:
 - **Regenerate** a key (invalidates the old value, issues a new one)
 - **Disable** a key temporarily without deleting it
 - **Delete** a key permanently
+
+Deactivating the owning user revokes all of their keys at once, which is the
+coarsest option when an account rather than a single key is the concern.
 
 Rotate keys on a schedule that matches your security policy, and revoke
 immediately if a key may have leaked.
