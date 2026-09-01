@@ -36,7 +36,9 @@ Set it to the full public URL of the install:
 
 Alternatively, set `sp.entity_id`, `sp.assertion_consumer_service_url` and `sp.single_logout_service_url` explicitly (see [Service Provider Configuration](#service-provider-sp-configuration)). Those are then used as given and nothing is derived, so `application_url` is not required for SAML.
 
-Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback has been removed: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could advertise an attacker's ACS URL to an IdP that consumes SP metadata dynamically.
+`interface.base_url` is also still accepted as a source for the derived SP URLs. It is a legacy fallback kept so that installs which set it by hand are not broken; prefer `interface.application_url` for new configuration.
+
+Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback was removed in 4.2.6, 4.3.5, 4.4.1 and 4.5.0; on earlier releases of those lines the host is still derived from the request. After the removal: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could advertise an attacker's ACS URL to an IdP that consumes SP metadata dynamically.
 
 ## Global Settings
 
@@ -434,11 +436,15 @@ Use environment variables with the `PA_SAML_` prefix:
 
 ```yaml
 environment:
+  PA_APPLICATION_URL: "https://dns.example.com"
   PA_SAML_ENABLED: "true"
   PA_SAML_AUTO_PROVISION: "true"
+  PA_SAML_AZURE_ENABLED: "true"
   PA_SAML_AZURE_ENTITY_ID: "https://sts.windows.net/tenant-id/"
   PA_SAML_AZURE_SSO_URL: "https://login.microsoftonline.com/tenant-id/saml2"
 ```
+
+> **Note:** SAML needs a URL source. From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the container exits at startup unless one of `PA_APPLICATION_URL`, `PA_BASE_URL`, or all three of `PA_SAML_SP_ENTITY_ID`, `PA_SAML_SP_ACS_URL` and `PA_SAML_SP_SLS_URL` is set. At least one provider must also be enabled - `PA_SAML_AZURE_ENABLED` above - or startup fails with "SAML is enabled but no SAML providers are configured". Both checks run only when the entrypoint generates the config.
 
 > **Note:** The `permission_template_mapping` and `group_mapping` settings can be configured via environment variables using the `=` delimiter and comma-separated entries:
 >

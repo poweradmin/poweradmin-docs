@@ -424,6 +424,15 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | `PA_LDAP_GROUP_MAPPING` | - | LDAP group to Poweradmin group mapping, `group:PAGroup` comma-separated (v4.5.0+) |
 | `PA_OIDC_ENABLED` | false | Enable OpenID Connect |
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
+| `PA_APPLICATION_URL` | *(empty)* | Public base URL. Required when OIDC or SAML is enabled, and for password reset and emailed links |
+| `PA_BASE_URL` | *(empty)* | Legacy base URL. Accepted as a URL source for SAML only |
+
+From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the container refuses to start when OIDC or SAML is enabled
+without a URL source, because the redirect and SP URLs can no longer be derived from the request.
+OIDC accepts only `PA_APPLICATION_URL`; SAML also accepts `PA_BASE_URL`, or all three of
+`PA_SAML_SP_ENTITY_ID`, `PA_SAML_SP_ACS_URL` and `PA_SAML_SP_SLS_URL`. The check runs only when the
+entrypoint generates the configuration - if you mount your own `settings.php` (see above), these
+variables are ignored and the check is skipped.
 
 The LDAP rows above are enough for a working LDAP setup. OIDC and SAML are not - each provider
 needs its own block of variables (`PA_OIDC_AZURE_*`, `PA_SAML_OKTA_*` and so on), and there are

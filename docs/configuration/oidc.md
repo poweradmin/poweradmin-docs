@@ -34,7 +34,7 @@ Set it to the full public URL of the install, matching the redirect URI register
 ],
 ```
 
-Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback has been removed: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could redirect the authorization code to another host.
+Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback was removed in 4.2.6, 4.3.5, 4.4.1 and 4.5.0; on earlier releases of those lines the host is still derived from the request. After the removal: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could redirect the authorization code to another host.
 
 ## Global Settings
 
@@ -547,6 +547,7 @@ The entrypoint can generate three OIDC providers: `azure` (`PA_OIDC_AZURE_*`), `
 
 ```yaml
 environment:
+  PA_APPLICATION_URL: "https://dns.example.com"
   PA_OIDC_ENABLED: "true"
   PA_OIDC_AUTO_PROVISION: "true"
   PA_OIDC_DEFAULT_PERMISSION_TEMPLATE: "Guest"
@@ -558,6 +559,8 @@ environment:
   PA_OIDC_GENERIC_AUTO_DISCOVERY: "true"
   PA_OIDC_GENERIC_METADATA_URL: "https://keycloak.example.com/realms/master/.well-known/openid-configuration"
 ```
+
+> **Note:** `PA_APPLICATION_URL` is required. From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the container exits at startup if OIDC is enabled without it, because the OAuth `redirect_uri` cannot be derived from the request. OIDC accepts no alternative source - `PA_BASE_URL` does not satisfy it. The check runs only when the entrypoint generates the config; a mounted `settings.php` is used as-is.
 
 > **Note:** There are no `PA_OIDC_KEYCLOAK_*` variables. To run a named Keycloak provider alongside another IdP, configure it in `config/settings.php` instead - the entrypoint only writes the three providers above.
 
