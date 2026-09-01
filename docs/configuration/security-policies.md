@@ -63,16 +63,17 @@ Account lockout does not cover this on its own. It ships disabled, and an attemp
 
 ## Second-Factor Attempt Limit
 
-A six-digit second factor is small enough to guess, so MFA verification is rate limited on its own, independently of the account lockout above. This limit is always active when MFA is enabled: it does not require `enable_lockout`, which ships disabled (added in 4.5.0).
+A six-digit second factor is small enough to guess, so MFA verification is rate limited on its own, independently of the account lockout above. This limit is always active when MFA is enabled: it does not require `enable_lockout`, which ships disabled. The limit itself exists on every supported line; the two settings below are configurable from 4.5.0 onwards, and are fixed at 5 attempts and 15 minutes on the 4.2.x, 4.3.x and 4.4.x lines.
 
-- **mfa.max_verify_attempts**: Wrong MFA codes tolerated before verification is refused. Default: `5`
-- **mfa.verify_lockout_duration**: Minutes to keep refusing attempts once the limit is reached. Default: `15`
+- **mfa.max_verify_attempts**: Wrong MFA codes tolerated before verification is refused. Default: `5` (added in 4.5.0)
+- **mfa.verify_lockout_duration**: Minutes to keep refusing attempts once the limit is reached. Default: `15` (added in 4.5.0)
 
 Three behaviours differ from the password lockout, all deliberate:
 
 - MFA failures are counted per account across every source address. `track_ip_address` does not apply, because an attacker rotating addresses would otherwise reset the counter on each request.
 - `whitelist_ip_addresses` does not exempt the second factor. The whitelist exists so a bot cannot lock staff out of password login; the second factor is the only barrier left once a password is known, so it is never waived. The blacklist still applies.
 - Reaching the limit invalidates any pending emailed code, and no replacement is sent until the lockout expires.
+- Recovery codes are refused during a lockout from 4.5.0 onwards. On the 4.2.x, 4.3.x and 4.4.x lines a recovery code is still accepted while locked, so it remains the way back into the account.
 
 MFA failures are tracked separately from password failures, so a wrong code never blocks a later password login, and a fresh password login does not reset the MFA counter. Setting either value to `0` is treated as `1` rather than as "unlimited"; to remove the limit entirely, disable MFA.
 
