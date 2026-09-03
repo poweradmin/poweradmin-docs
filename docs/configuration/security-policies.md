@@ -73,7 +73,7 @@ Three behaviours differ from the password lockout, all deliberate:
 - MFA failures are counted per account across every source address. `track_ip_address` does not apply, because an attacker rotating addresses would otherwise reset the counter on each request.
 - `whitelist_ip_addresses` does not exempt the second factor. The whitelist exists so a bot cannot lock staff out of password login; the second factor is the only barrier left once a password is known, so it is never waived. The blacklist still applies.
 - Reaching the limit invalidates any pending emailed code, and no replacement is sent until the lockout expires.
-- Recovery codes are refused during a lockout from 4.5.0 onwards. On the 4.2.x, 4.3.x and 4.4.x lines a recovery code is still accepted while locked, so it remains the way back into the account.
+- Recovery codes are still accepted during a lockout on every line, so they remain the way back into the account. A wrong recovery code during the lockout is written to the audit log but does not count as a further attempt. A blacklisted source address is refused regardless.
 
 MFA failures are tracked separately from password failures, so a wrong code never blocks a later password login, and a fresh password login does not reset the MFA counter. Setting either value to `0` is treated as `1` rather than as "unlimited"; to remove the limit entirely, disable MFA.
 

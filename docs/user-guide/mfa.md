@@ -76,7 +76,7 @@ If you have no remaining recovery codes and cannot access your authenticator, co
 
 After several wrong codes the verification screen stops accepting attempts for a while, and reports too many failed attempts. If you use email verification, any pending code is discarded and no replacement is sent until the wait is over.
 
-In 4.5.0 and later, recovery codes are refused during that period too, so a wrong-code lockout cannot be worked around with one. In the 4.2.x, 4.3.x and 4.4.x lines a recovery code is still accepted while the second factor is locked, and is the documented way back into the account.
+A recovery code is still accepted while the second factor is locked, on 4.5.0 as well as the 4.2.x, 4.3.x and 4.4.x lines, and is the documented way back into the account. A wrong recovery code during the lockout is written to the audit log but does not extend the wait.
 
 Wait for the period to pass and try again with a fresh code. In 4.5.0 and later, administrators can change how many attempts are allowed and how long the wait lasts - see [Configuration](#configuration). On the 4.2.x, 4.3.x and 4.4.x lines the limit is fixed at 5 attempts and a 15-minute wait.
 
