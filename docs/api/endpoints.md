@@ -44,6 +44,12 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 | `POST` | `/zones/{id}/owners` | Add owner(s), supports batch (v4.2.0+) |
 | `DELETE` | `/zones/{id}/owners/{user_id}` | Remove owner (v4.2.0+) |
 
+From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, changing a zone's `name`, `type` or `master` through
+`PUT /zones/{id}` requires the zone metadata permission (`zone_meta_edit_own` or
+`zone_meta_edit_others`), the same gate as the web edit form; record content permissions alone
+return `403`. A value that matches what is stored is not treated as a change, so clients that
+resend every field on update keep working.
+
 #### Setting the serial policy on create (v4.5.0+)
 
 `POST /zones` accepts an optional `soa_edit_api` string that sets the zone's
@@ -248,6 +254,10 @@ From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, adding or updating a template record val
 content against the record type and returns `400` with the validator message when it fails.
 See [Record validation](../user-guide/dns-templates.md#record-validation) for the rules,
 including where MX and SRV priority belongs.
+
+From the same releases, `GET /zone-templates` and `GET /zone-templates/{id}/records` are also
+readable with `zone_master_add` or `zone_slave_add`, matching the add-zone form, which offers
+templates to anyone who may add a zone. Writing a template still needs the template permissions.
 
 ## Health endpoints (v4.5.0+)
 

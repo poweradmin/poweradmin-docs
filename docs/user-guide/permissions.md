@@ -214,7 +214,7 @@ templates above.
 
 - Allows the user to create new zone templates
 - Also required to save an existing zone's records as a new template
-- Together with `zone_templ_edit`, gates access to the zone template list
+- Together with `zone_templ_edit`, gates access to the zone template list; from 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the API template listing is also readable with `zone_master_add` or `zone_slave_add`
 
 ### zone_templ_edit
 
