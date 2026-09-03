@@ -103,8 +103,13 @@ The following versions include important database structure changes:
 
 The following releases are bug fix updates. Unless marked otherwise, no special upgrade steps are required - simply replace files and preserve your configuration. Releases marked **requires SQL migration** need their `sql/` update script run first:
 
+**v4.4.x Series:**
+
+- **v4.4.1** (Sep 2026) - Same fixes as v4.3.5 for the 4.4.x line, plus dynamic DNS routing each `myip` address to its own record family, bulk record paths matched before single-record lookup, the PowerDNS metrics URL derived from `pdns_api.url`, and container variables for the 4.4.0 settings. No database migration
+
 **v4.3.x Series:**
 
+- **v4.3.5** (Sep 2026) - Same fixes as v4.2.6 for the 4.3.x line, plus LUA records restricted for client-level editors on every surface, one canonical zone id in API backend mode, and container config generation that escapes secrets and emits valid booleans. No database migration
 - **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.3.3** (Jun 2026) - Permission and authorization hardening across API and DNSSEC, API-backend mode polish (record ordering, dashboard resilience), template sync correctness, Docker schema initialization
 - **v4.3.2** (May 2026) - API-mode zone handling (reverse zone owner display, DNSSEC status on forward zones, record counts from PowerDNS, zone kind sync), template fixes (correct sync column, preserved spaces, API-mode safe), `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, DNSSEC sign events in activity feed
@@ -141,6 +146,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v3.9.x Series (LTS):**
 
+- **v3.9.12** (Sep 2026) - Permission checks on template, user and zone changes; template, supermaster and DNSSEC key changes require a confirmed POST; login timing equalised; session key warning distinguishes the shipped default; log and error output escaped; public suffix and TLD data refreshed. No database migration
 - **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates
 - **v3.9.10** (Mar 2026) - Translation updates for all locales
 - **v3.9.9** (Jan 2026) - Allow HTML characters in TXT records, fix record name handling
@@ -182,9 +188,9 @@ We recommend planning your migration to 4.x when your schedule allows, while the
 
 | Branch | Status | PHP Versions |
 |--------|--------|--------------|
-| **4.4.x** | Fresh release line (4.4.0, Jul 2026) - no dedicated branch yet | 8.2 - 8.5 |
+| **4.4.x** | Current feature line (4.4.1, Sep 2026) - tags are cut on master, no dedicated branch yet | 8.2 - 8.5 |
 | **4.3.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
-| **4.2.x** | Maintenance - security fixes only | 8.2 - 8.5 |
+| **4.2.x** | Maintenance - security fixes only; 4.2.6 is expected to be the last release | 8.2 - 8.5 |
 | **4.1.x** | End of support - upgrade to 4.3.x | 8.1 - 8.5 |
 | **4.0.x** | End of support - upgrade to 4.3.x | 8.1 - 8.5 |
 | **3.9.x** | LTS | 8.1 - 8.5 |
