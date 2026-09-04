@@ -17,7 +17,7 @@ The image tags published for production and development use are:
 |----------|----------------------|-------------|
 | `stable` | `release/4.3.x`      | Tracks the latest tagged release on the stable line - **recommended for production**. |
 | `4.3.x`  | `release/4.3.x`      | Stable line; updates on every commit to the branch (more frequent than `stable`). |
-| `4.4`    | Version tags on `master` | Newest release line (4.4.0) - fresh, still hardening; no dedicated branch yet. |
+| `4.4.x`  | `release/4.4.x`      | Newest release line (4.4.1) - fresh, still hardening; updates on every commit to the branch. |
 | `4.2.x`  | `release/4.2.x`      | Maintenance line, winding down - security fixes only. |
 | `latest` | `master`             | Tracks `master`, which carries the newest release line between patch releases. |
 | `dev`    | `develop`            | Development tip - not for production. |

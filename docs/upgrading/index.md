@@ -188,7 +188,7 @@ We recommend planning your migration to 4.x when your schedule allows, while the
 
 | Branch | Status | PHP Versions |
 |--------|--------|--------------|
-| **4.4.x** | Current feature line (4.4.1, Sep 2026) - tags are cut on master, no dedicated branch yet | 8.2 - 8.5 |
+| **4.4.x** | Current feature line (4.4.1, Sep 2026) on `release/4.4.x` | 8.2 - 8.5 |
 | **4.3.x** | **Current stable line** (recommended for production) | 8.2 - 8.5 |
 | **4.2.x** | Maintenance - security fixes only; 4.2.6 is expected to be the last release | 8.2 - 8.5 |
 | **4.1.x** | End of support - upgrade to 4.3.x | 8.1 - 8.5 |
