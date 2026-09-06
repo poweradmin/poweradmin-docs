@@ -55,6 +55,54 @@ ln -s /etc/poweradmin/settings.php /var/www/poweradmin/config/settings.php
 
 This allows quick rollback by simply changing the symlink back to the previous version.
 
+## Upgrading a Docker or Docker Compose Deployment
+
+The official image does not migrate an existing database. On startup the entrypoint loads the Poweradmin schema only into an empty database; a database created by an older version is left as it is. Upgrading a container therefore means: back up, switch the image tag, restart, and run the release's migration script yourself. The image ships the `sql/` directory together with the `psql`, `mysql` and `sqlite3` clients, and the `DB_*` variables are already in the container's environment, so the script can be run from inside the new container.
+
+The examples below assume the Compose service names `poweradmin` and `postgres` (or `mysql`) and an upgrade from 4.3.x to 4.4.1. Adjust the names and the script version to your setup.
+
+1. **Back up the database:**
+
+    ```bash
+    # PostgreSQL
+    docker compose exec postgres pg_dump -U poweradmin poweradmin > poweradmin-before-4.4.sql
+
+    # MySQL / MariaDB
+    docker compose exec mysql mysqldump -u poweradmin -p poweradmin > poweradmin-before-4.4.sql
+    ```
+
+2. **Switch the image tag** in your Compose file (for example `poweradmin/poweradmin:4.4.1`), then pull and recreate only the application container:
+
+    ```bash
+    docker compose pull poweradmin
+    docker compose up -d poweradmin
+    ```
+
+3. **Run the migration script from inside the new container:**
+
+    ```bash
+    # PostgreSQL
+    docker compose exec poweradmin sh -c 'PGPASSWORD="$DB_PASS" psql -h "$DB_HOST" ${DB_PORT:+-p "$DB_PORT"} -U "$DB_USER" -d "$DB_NAME" -v ON_ERROR_STOP=1 -f /app/sql/poweradmin-pgsql-update-to-4.4.0.sql'
+
+    # MySQL / MariaDB
+    docker compose exec poweradmin sh -c 'mysql -h "$DB_HOST" ${DB_PORT:+-P "$DB_PORT"} -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < /app/sql/poweradmin-mysql-update-to-4.4.0.sql'
+
+    # SQLite (database file on the volume)
+    docker compose exec poweradmin sh -c 'sqlite3 "${DB_FILE:-/db/pdns.db}" < /app/sql/poweradmin-sqlite-update-to-4.4.0.sql'
+    ```
+
+    If the password is supplied through a Docker secret (`DB_PASS__FILE`), `$DB_PASS` is not set in the `exec` shell; use `$(cat "$DB_PASS__FILE")` in its place.
+
+4. **Check the application** - log in and open the zone templates and add zone pages.
+
+Notes:
+
+- Run one script per version, in order, and never skip a version. Coming from 4.2.x, run the 4.3.0 script before the 4.4.0 one.
+- Between the container restart and the migration, pages that read the new schema fail with "An error occurred while processing the request" (on 4.4.x: zone templates and add zone). The rest of the application keeps working, so the window is short but real; run the script right after the restart.
+- Run each script once. The scripts are not idempotent: a second run stops with an error such as `column "is_default" of relation "zone_templ" already exists`, which is harmless but means the script was already applied.
+- Patch releases (4.4.0 to 4.4.1) need no script unless their release notes say otherwise; switching the tag and restarting is enough.
+- A volume-mounted `config/settings.php` is left untouched. Check the release notes for new settings or container variables you may want to set.
+
 ## Important Considerations
 
 - Always read the release notes for the version you're upgrading to and any intermediate versions
