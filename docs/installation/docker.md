@@ -22,9 +22,9 @@ The image tags published for production and development use are:
 | `latest` | `master`             | Tracks `master`, which carries the newest release line between patch releases. |
 | `dev`    | `develop`            | Development tip - not for production. |
 | `lts`    | `release/3.x`        | Long-term support for the 3.x series. |
-| `4.3.5`  | Tagged release       | Pin to a specific version. Image tags carry no `v` prefix: the `v4.3.5` git tag is published as `4.3.5` (plus `4.3` and `4`). |
+| `4.3.5`, `4.4.1` | Tagged release | Pin to a specific version, for example `4.3.5` on the stable line or `4.4.1` on the newest line. Image tags carry no `v` prefix: the `v4.4.1` git tag is published as `4.4.1` (plus `4.4` and `4`). |
 
-> **Note:** The `next` tag was removed when the release branch structure changed. The `stable` and per-version (`4.3.5`) tags are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
+> **Note:** The `next` tag was removed when the release branch structure changed. The `stable` and per-version (`4.3.5`, `4.4.1`) tags are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
 
 ## Quick Start
 
