@@ -140,7 +140,7 @@ the healthcheck:
 ```yaml
 services:
   poweradmin:
-    image: poweradmin/poweradmin:v4.5.0
+    image: poweradmin/poweradmin:4.5.0
     environment:
       - PA_HEALTH_ENABLED=true
     healthcheck:
