@@ -98,7 +98,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `interface.language` {#setting-interface-language} | `'en_EN'` | Default language for the interface | - |
 | `interface.enabled_languages` {#setting-interface-enabled-languages} | `'ar_SA,bg_BG,bs_BA,cs_CZ,da_DK,de_DE,el_GR,en_EN,es_ES,et_EE,fa_IR,fi_FI,fr_FR,ga_IE,he_IL,hi_IN,hr_HR,hu_HU,id_ID,it_IT,ja_JP,ko_KR,lt_LT,lv_LV,ms_MY,nb_NO,nl_NL,pl_PL,pt_BR,pt_PT,ro_RO,ru_RU,sk_SK,sl_SI,sq_AL,sr_RS,sv_SE,th_TH,tr_TR,uk_UA,vi_VN,zh_CN,zh_TW'` | Added in 3.8.0 | - |
 | `interface.title` {#setting-interface-title} | `'Poweradmin'` | Application title (browser tab and header logo). Useful for distinguishing multiple server instances | 2.1.5 |
-| `interface.session_timeout` {#setting-interface-session-timeout} | `1800` | Session timeout in seconds (30 minutes) | - |
+| `interface.session_timeout` {#setting-interface-session-timeout} | `1800` | Session timeout in seconds (30 minutes); must be above 0, the timeout cannot be disabled | - |
 | `interface.rows_per_page` {#setting-interface-rows-per-page} | `10` | - | - |
 | `interface.theme` {#setting-interface-theme} | `'default'` | Theme name to use (default, custom, etc.) | 4.0.0 |
 | `interface.style` {#setting-interface-style} | `'light'` | UI Style options: 'light', 'dark' | 4.0.0 |

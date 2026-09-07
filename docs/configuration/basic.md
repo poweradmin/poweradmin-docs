@@ -131,7 +131,7 @@ For password policies and MFA settings, see [Security Policies](security-policie
 | `interface.theme` | default | Theme name (`default`, `modern`, or your own directory under `theme_base_path`) |
 | `interface.style` | light | UI style: `light` or `dark` |
 | `interface.rows_per_page` | 10 | Rows per page in lists |
-| `interface.session_timeout` | 1800 | Session timeout (seconds) |
+| `interface.session_timeout` | 1800 | Session timeout in seconds. Must be above 0; `0` does not disable the timeout, it logs users out on their next request. Use a large value instead |
 | `interface.title` | Poweradmin | Application title |
 | `interface.application_url` | *(empty)* | Public base URL of the install. Required for OIDC, SAML, password reset and emailed links |
 | `interface.web_enabled` | true | Serve the web interface; `false` runs API-only - see the [Headless Quickstart](../getting-started/headless-quickstart.md#turning-the-web-interface-off) |
