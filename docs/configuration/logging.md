@@ -62,6 +62,11 @@ return [
 ];
 ```
 
+`syslog_facility` takes the PHP constant itself, not its name as a string. A quoted
+value such as `'LOG_USER'`, often carried over from an old `config.inc.php`, is
+rejected by the configuration check; on versions without that check it produced a
+blank page after login with an `openlog()` type error.
+
 Upgrading from v3.x? The equivalent flat variables were `$logger_type`, `$logger_level`,
 `$syslog_use`, `$syslog_ident`, `$syslog_facility` and `$dblog_use`. That format was removed in
 4.1.0 - see [Legacy Configuration](legacy-configuration.md).
