@@ -45,6 +45,8 @@ Published at the zone apex. Tells receivers which servers may send mail on behal
 
 Replace `_spf.example.com` with the include host your email or marketing provider gave you. A domain should have exactly one SPF record. If the third party gives you a second `v=spf1` string, merge it into your existing record's `include:` chain instead of adding a second TXT.
 
+Use the `TXT` type, not the `SPF` record type. The `SPF` type was deprecated by RFC 7208 and mail servers only look at TXT, so a policy stored as `SPF` is ignored. Poweradmin still lists the type, marked deprecated, for zones that already have one.
+
 ### DKIM (DomainKeys Identified Mail)
 
 Published at a selector-specific hostname provided by the email service. The public key is long and almost always exceeds 255 bytes.
