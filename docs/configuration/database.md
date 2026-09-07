@@ -34,6 +34,57 @@ return [
 ];
 ```
 
+## Moving Poweradmin Tables to Their Own Database
+
+Many older installations keep the Poweradmin tables in the PowerDNS database.
+On MySQL/MariaDB you can split them without re-importing anything, because
+`RENAME TABLE` moves a table between databases on the same server atomically
+and keeps its data.
+
+1. Bring the schema up to date first. Run any missing update scripts against the
+   shared database (see [Which update scripts have already run?](../upgrading/index.md#which-update-scripts-have-already-run)).
+2. Take a dump of the shared database.
+3. Create the new database and grant the Poweradmin user access to it:
+
+    ```sql
+    CREATE DATABASE poweradmin CHARACTER SET utf8mb4;
+    GRANT ALL ON poweradmin.* TO 'poweradmin'@'%';
+    ```
+
+4. Generate the rename statements. Everything in the shared database that is not
+   one of PowerDNS's own tables belongs to Poweradmin:
+
+    ```sql
+    SELECT CONCAT('RENAME TABLE `powerdns`.`', table_name, '` TO `poweradmin`.`', table_name, '`;')
+    FROM information_schema.tables
+    WHERE table_schema = 'powerdns'
+      AND table_name NOT IN ('domains', 'records', 'supermasters', 'comments',
+                             'domainmetadata', 'cryptokeys', 'tsigkeys');
+    ```
+
+    Review the output, then run it.
+
+5. Point Poweradmin at the new layout in `config/settings.php`:
+
+    ```php
+    'database' => [
+        'name' => 'poweradmin',
+        'pdns_db_name' => 'powerdns',
+        // ...
+    ],
+    ```
+
+6. Log in and open the zone list, users, and zone templates pages.
+
+A name server that replicates the database can now replicate only `powerdns`.
+Future update scripts run against the `poweradmin` database. The 4.3.0 script
+reads the PowerDNS `domains` table; its header explains how to qualify that
+name when `pdns_db_name` is set.
+
+PostgreSQL and SQLite do not support `pdns_db_name`. To separate the databases
+there, switch to [API backend mode](powerdns-api.md#migrating-from-sql-to-api-backend),
+which needs only the Poweradmin tables.
+
 ## Database Types
 
 Poweradmin supports multiple database backends:
