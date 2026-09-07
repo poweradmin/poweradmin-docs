@@ -132,11 +132,11 @@ Save it as `/usr/local/etc/caddy/Caddyfile`. As with Nginx, the example's `php_f
 
 ### Obtain Poweradmin Source Code
 
-Download the latest release from the [stable line](https://github.com/poweradmin/poweradmin/releases) (currently the 4.3.x series). Always check the releases page for the most recent version - the example below uses v4.3.4. `fetch` is in the base system, but `unzip` is not:
+Download the latest release from the [stable line](https://github.com/poweradmin/poweradmin/releases) (currently the 4.3.x series). Always check the releases page for the most recent version - the example below uses v4.3.5. `fetch` is in the base system, but `unzip` is not:
 
 ```bash
 pkg install unzip
-VERSION=4.3.4
+VERSION=4.3.5
 fetch https://github.com/poweradmin/poweradmin/archive/refs/tags/v${VERSION}.zip
 unzip v${VERSION}.zip
 ```
