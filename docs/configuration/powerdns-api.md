@@ -10,6 +10,11 @@ Poweradmin can interact with PowerDNS through its REST API in two ways:
 
 This document explains how to configure both modes.
 
+In both modes one Poweradmin installation manages one PowerDNS server, the one
+named by `pdns_api.server_name`. Managing several servers from a single
+installation is an open request, tracked in
+[#660](https://github.com/poweradmin/poweradmin/issues/660).
+
 ## Prerequisites
 
 - PowerDNS server with API enabled
