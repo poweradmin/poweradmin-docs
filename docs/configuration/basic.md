@@ -193,7 +193,6 @@ For more DNS options, see [DNS Settings](dns-settings.md).
 
 - `last_writer_wins` - Latest save overwrites previous
 - `only_latest_version` - Reject if record was modified
-- `3_way_merge` - Attempt automatic merge
 
 ### Template caching
 

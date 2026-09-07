@@ -200,7 +200,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `misc.display_stats` {#setting-misc-display-stats} | `false` | Display memory usage and execution time | - |
 | `misc.timezone` {#setting-misc-timezone} | `'UTC'` | Default timezone (e.g. 'Europe/Berlin', 'Asia/Shanghai') | - |
 | `misc.record_comments_sync` {#setting-misc-record-comments-sync} | `false` | Enable bidirectional comment sync between A and PTR records | 3.9.0 |
-| `misc.edit_conflict_resolution` {#setting-misc-edit-conflict-resolution} | `'last_writer_wins'` | Options: 'last_writer_wins', 'only_latest_version', '3_way_merge' | - |
+| `misc.edit_conflict_resolution` {#setting-misc-edit-conflict-resolution} | `'last_writer_wins'` | Options: 'last_writer_wins', 'only_latest_version' | - |
 | `misc.display_errors` {#setting-misc-display-errors} | `false` | Display PHP errors (false for production) | 4.0.0 |
 | `misc.show_generated_passwords` {#setting-misc-show-generated-passwords} | `true` | Show generated passwords on user creation | 4.0.0 |
 | `misc.template_cache` {#setting-misc-template-cache} | `false` | Cache compiled templates on disk for faster rendering | 4.5.0 |
