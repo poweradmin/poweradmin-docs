@@ -142,3 +142,17 @@ Parse error: syntax error, unexpected 'password' in config/settings.php on line 
 4. Change the password to use only alphanumeric characters and basic symbols
 
 This issue occurs because the configuration file generator does not properly escape special PHP characters in password values during installation.
+
+### PowerDNS Answers REFUSED for Public Names
+
+Names inside your zones resolve, but `dig @your-server example.com` or any other
+public name returns `REFUSED`. This is how PowerDNS Authoritative Server works:
+it answers only for the zones it holds and never recurses. No Poweradmin setting
+changes that, and neither do secondary zones or supermasters; a secondary zone
+transfers one zone in, and a supermaster only auto-creates secondary zones when a
+listed primary sends a NOTIFY.
+
+If clients need both your zones and the public internet, run a resolver in front
+(PowerDNS Recursor, Unbound, BIND), point the clients at it, and forward only your
+own zones to the authoritative server. The old `recursor=` option in `pdns.conf`
+was removed in PowerDNS Authoritative 4.1.
