@@ -254,3 +254,45 @@ If you encounter issues during or after an upgrade:
 2. Verify database connectivity and permissions
 3. Ensure file permissions are set correctly
 4. Review the specific upgrade instructions for the version you're upgrading to
+
+### Which update scripts have already run?
+
+Poweradmin does not record the schema version in the database (the `migrations`
+table that some scripts create is never written to), so on an inherited or
+long-neglected installation you have to work it out from what each script adds.
+Check the markers below from the top; the first one that is missing tells you
+which script to run first. Then run every later script in order.
+
+| Script | Marker that shows it has run |
+|--------|------------------------------|
+| 2.1.5 | column `zones.zone_templ_id` |
+| 2.1.7 | table `records_zone_templ`, column `users.use_ldap` |
+| 3.2.0 | tables `log_users`, `log_zones` |
+| 3.9.0 | none (widens a column type only; safe to re-run) |
+| 4.0.0 | tables `user_mfa`, `api_keys`, `login_attempts`, column `zone_templ.created_by` |
+| 4.0.2 | none (changes a column type only; safe to re-run) |
+| 4.1.0 | column `users.auth_method`, tables `oidc_user_links`, `saml_user_links` |
+| 4.2.0 | tables `user_groups`, `zones_groups`, column `perm_templ.template_type` |
+| 4.3.0 | columns `zones.zone_name`, `zones.zone_type`, `users.perm_templ_source`, table `log_api` |
+| 4.4.0 | column `zone_templ.is_default` |
+| 4.5.0 | columns `api_keys.is_readonly`, `login_attempts.attempt_type`, table `log_record_changes` |
+
+To check a column or table:
+
+```sql
+-- MySQL/MariaDB
+SHOW COLUMNS FROM zones LIKE 'zone_name';
+SHOW TABLES LIKE 'log_api';
+
+-- PostgreSQL (psql)
+\d zones
+\dt log_api
+
+-- SQLite
+PRAGMA table_info(zones);
+.tables log_api
+```
+
+Do not re-run a script whose marker is already present. Scripts up to 4.0.0
+have no `IF NOT EXISTS` guards and stop at the first duplicate column or table,
+which can leave the rest of that script unapplied. Take a dump before you start.
