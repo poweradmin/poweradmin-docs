@@ -3,7 +3,7 @@
 
 # Settings Reference
 
-Every setting in `config/settings.defaults.php` as of Poweradmin 4.5.0, with its
+Every setting in `config/settings.defaults.php` as of Poweradmin 4.6.0, with its
 shipped default. This page is generated from the source file, so it is complete by
 construction - but it is an index, not an explanation. The pages under **Configuration**
 describe what these settings actually do and when to change them.
