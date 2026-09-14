@@ -31,6 +31,7 @@ DNS settings in Poweradmin are configured through the `config/settings.php` file
 | dns.zone_ownership_mode | both | Controls how zone ownership can be assigned on creation and ownership pages. Options: `both`, `users_only`, `groups_only`. | 4.4.0 |
 | dns.sync_zone_owner_to_account | false | Mirror the zone owner's username into the PowerDNS `account` field on zone creation and ownership changes. With multiple owners, the oldest owner is used; a zone left without a direct owner gets an empty account. When enabled, this overwrites account values set through the API or external tools whenever ownership changes. | 4.4.0 |
 | dns.prevent_duplicate_ptr | true | Prevent creation of multiple PTR records for same IP in batch operations. | 4.0.0 |
+| dns.bump_serial_on_unchanged_save | true | Bump the SOA serial even when a zone or record save changes nothing, so saving can force a NOTIFY. Set to `false` to leave the serial alone on such saves. | 4.6.0 |
 | dns.domain_record_types | null | Custom record types for domain zones (null uses defaults). | 4.0.0 |
 | dns.reverse_record_types | null | Custom record types for reverse zones (null uses defaults). | 4.0.0 |
 | dns.top_record_types | null | Pin selected record types to the top of record type selectors, in the given order. Null = alphabetical only. | 4.4.0 |
@@ -44,6 +45,24 @@ The SOA settings are configured as individual parameters:
 - **retry**: The time interval that should elapse before a failed refresh should be retried. Default: `7200` (2 hours)
 - **expire**: The upper limit on the time interval that can elapse before the zone is no longer authoritative. Default: `604800` (1 week)
 - **minimum**: The negative result TTL. Default: `86400` (24 hours)
+
+## Serial Bump on Unchanged Saves
+
+Saving a zone that has no record changes still increments the SOA serial. This is deliberate: it is the supported way to force a NOTIFY and a transfer to the secondaries, and the zone editor says so ("No record changes were made, but SOA serial was incremented").
+
+From 4.6.0, `bump_serial_on_unchanged_save` lets an installation opt out. With `false`:
+
+- A zone save that changes no record leaves the serial untouched and reports that nothing changed.
+- Editing a single record and submitting it unchanged leaves the serial untouched. With the PowerDNS API backend the write itself is skipped, because PowerDNS would otherwise bump the serial through `SOA-EDIT-API`.
+- A save that does change a record still bumps the serial once, as before.
+
+DNSSEC signing, and the public API record and RRset endpoints, keep bumping the serial regardless of this setting.
+
+```php
+'dns' => [
+    'bump_serial_on_unchanged_save' => false,
+],
+```
 
 ## Record Type Configuration
 
