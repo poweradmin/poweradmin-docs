@@ -70,6 +70,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `dns.parent_zone_ownership_check` {#setting-dns-parent-zone-ownership-check} | `true` | Block creating a zone that overlaps an existing zone (forward or reverse) owned by another user | 4.5.0 |
 | `dns.txt_auto_quote` {#setting-dns-txt-auto-quote} | `false` | Automatically quote TXT records | 3.9.2 |
 | `dns.prevent_duplicate_ptr` {#setting-dns-prevent-duplicate-ptr} | `true` | Prevent creation of multiple PTR records for same IP in batch operations | 4.0.0 |
+| `dns.bump_serial_on_unchanged_save` {#setting-dns-bump-serial-on-unchanged-save} | `true` | false = leave the SOA serial alone when a save changes no record; true keeps save-to-NOTIFY | 4.6.0 |
 | `dns.custom_tlds` {#setting-dns-custom-tlds} | `[]` | Whitelist of non-IANA TLDs allowed in hostnames and CNAME targets when strict_tld_check is on (e.g., ['lan', 'corp', 'dn42']) | - |
 | `dns.domain_record_types` {#setting-dns-domain-record-types} | `null` | Uses default domain zone record types | - |
 | `dns.reverse_record_types` {#setting-dns-reverse-record-types} | `null` | Uses default reverse zone record types | - |
