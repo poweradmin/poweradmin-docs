@@ -31,7 +31,9 @@ return [
 ];
 ```
 
-> **Note:** There are no `PA_AVATAR_*` environment variables. The Docker entrypoint writes no avatar keys, so configure avatars in `config/settings.php` (bind-mount the file into the container if needed).
+In Docker, from 4.6.0 the same four settings are `PA_AVATAR_OAUTH_ENABLED`, `PA_AVATAR_GRAVATAR_ENABLED`, `PA_AVATAR_PRIORITY` and `PA_AVATAR_SIZE`.
+
+> **Note:** Before 4.6.0 there are no `PA_AVATAR_*` environment variables. The Docker entrypoint writes no avatar keys, so configure avatars in `config/settings.php` (bind-mount the file into the container if needed).
 
 ## Avatar Priority
 

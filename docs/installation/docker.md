@@ -302,8 +302,9 @@ name; see [Docker Secrets](docker-secrets.md).
 | `PA_PASSWORD_REQUIRE_LOWERCASE` | true | Require at least one lowercase letter |
 | `PA_PASSWORD_REQUIRE_NUMBERS` | true | Require at least one number |
 | `PA_PASSWORD_REQUIRE_SPECIAL` | false | Require at least one special character |
+| `PA_PASSWORD_SPECIAL_CHARACTERS` | `!@#$%^&*()+-=[]{}\|;:,.<>?` | Characters that count as special for the rule above (v4.6.0+) |
 
-See [Password Policies](../configuration/password-policies.md) for the full policy, including the allowed special-character set, which has no environment variable and must be set in `settings.php`.
+See [Password Policies](../configuration/password-policies.md) for the full policy. Before 4.6.0 the special-character set has no environment variable and must be set in `settings.php`.
 
 #### Account lockout
 
@@ -314,8 +315,10 @@ See [Password Policies](../configuration/password-policies.md) for the full poli
 | `PA_LOCKOUT_DURATION` | 15 | Lockout duration in minutes |
 | `PA_LOCKOUT_TRACK_IP` | true | Lock accounts based on IP address |
 | `PA_LOCKOUT_CLEAR_ON_SUCCESS` | true | Clear failed attempts after a successful login |
+| `PA_LOCKOUT_WHITELIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are never locked out; wins over the blacklist (v4.6.0+) |
+| `PA_LOCKOUT_BLACKLIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are always blocked (v4.6.0+) |
 
-The IP whitelist and blacklist have no environment variables; set them in `settings.php`. See [Security Policies](../configuration/security-policies.md).
+Before 4.6.0 the IP whitelist and blacklist have no environment variables and must be set in `settings.php`. See [Security Policies](../configuration/security-policies.md).
 
 #### Multi-factor authentication
 
