@@ -62,6 +62,8 @@ To change the records in a read-only zone, edit them on the primary server - the
 
 From 4.6.0, when Poweradmin uses the [PowerDNS API backend](../configuration/powerdns-api.md), the edit page of a Secondary zone offers **Retrieve from primary** next to the primary IP. It asks PowerDNS to transfer the zone from its primary right away instead of waiting for the next SOA refresh, and reports whether the request was accepted. The button needs the zone meta edit permission. With the SQL backend there is no way to trigger a transfer, so the button is not shown and PowerDNS pulls on its own schedule.
 
+![Retrieve from primary](../screenshots/retrieve-from-primary.png)
+
 ## Creating Zones
 
 ### Adding a Master Zone
