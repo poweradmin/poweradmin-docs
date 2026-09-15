@@ -256,6 +256,7 @@ nav:
       - Coding Standards: contributing/coding-standards.md
       - Testing: contributing/testing.md
       - Translations: contributing/translations.md
+      - Class Reference: https://docs.poweradmin.org/reference/
 
 plugins:
   - search

@@ -57,6 +57,30 @@ jobs:
           path: poweradmin.github.io
           token: ${{ secrets.DEPLOY_TOKEN }}
 
+      # The class reference is generated, not committed: Doctum renders lib/ from the
+      # develop branch into docs/reference, and mkdocs copies it to the site verbatim.
+      - name: Checkout poweradmin
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: poweradmin/poweradmin
+          ref: develop
+          path: poweradmin
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: '8.2'
+
+      - name: Build the class reference
+        working-directory: poweradmin
+        env:
+          DOCTUM_BUILD_DIR: ${{ github.workspace }}/docs/reference
+          DOCTUM_CACHE_DIR: ${{ runner.temp }}/doctum-cache
+        run: |
+          composer doctum:install
+          php .doctum/doctum.phar update doctum.php --ignore-parse-errors --no-progress
+          test -f "$DOCTUM_BUILD_DIR/index.html"
+
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:

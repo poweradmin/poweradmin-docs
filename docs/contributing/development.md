@@ -90,8 +90,10 @@ composer docs:api -- --output ../poweradmin-docs/docs/api/openapi.json
 A running instance also serves the same specification live at `/api/docs/v2/json` when
 `api.docs_enabled` is on.
 
-A browsable class reference for `lib/` can be built locally with Doctum. The script downloads
-the phar on first use and writes static HTML to `docs/reference/`, which is not committed:
+A browsable class reference for `lib/` is published from the `develop` branch at
+[docs.poweradmin.org/reference](https://docs.poweradmin.org/reference/). The docs deploy builds it
+with Doctum on every run, so it is never committed. To build it locally (the script downloads the
+phar on first use and writes static HTML to `docs/reference/`, also ignored):
 
 ```bash
 composer docs:reference
