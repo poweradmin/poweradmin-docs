@@ -79,18 +79,16 @@ See the [Testing Guide](testing.md).
 
 ## Documentation
 
-API reference documentation can be generated from the source with phpDocumentor. The Composer
-script downloads the phar on first use, so no separate installation is needed:
+The public API is described by `docs/api/openapi.json` in the docs repository, generated
+from the controller attributes. Regenerate it from a poweradmin checkout after changing
+the API (the docs repository's drift check fails when it is stale):
 
 ```bash
-composer docs
+composer docs:api -- --output ../poweradmin-docs/docs/api/openapi.json
 ```
 
-The OpenAPI specification for the public API is generated separately:
-
-```bash
-composer docs:api
-```
+A running instance also serves the same specification live at `/api/docs/v2/json` when
+`api.docs_enabled` is on.
 
 ## Testing
 
