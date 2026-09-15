@@ -87,6 +87,12 @@ composer lint:themes
 
 # Playwright assertions must not hide behind existence guards
 composer lint:e2e-assertions
+
+# @param tags must match the method signature (also what the class reference renders)
+composer lint:docblocks
+
+# lib/ does not use traits: share behaviour through a service or an abstract class
+composer lint:no-traits
 ```
 
 ### Everything at once
