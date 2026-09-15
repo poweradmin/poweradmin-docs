@@ -194,6 +194,10 @@ For more DNS options, see [DNS Settings](dns-settings.md).
 - `last_writer_wins` - Latest save overwrites previous
 - `only_latest_version` - Reject if record was modified
 
+From 4.6.0 a rejected save keeps the submitted records and comment on the page, marks the rows that differ from what the zone holds, and lets you resubmit instead of retyping.
+
+![Stale zone save](../screenshots/stale-zone-save.png)
+
 ### Template caching
 
 Enabling `misc.template_cache` compiles Twig templates to PHP once and reuses them, which takes the
