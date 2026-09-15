@@ -24,10 +24,6 @@ Checks for coding standard violations. PHPCBF fixes most of them automatically.
 Static analysis at level 4, with a baseline in `phpstan-baseline.neon`. This is the gate that runs
 on pull requests.
 
-### PHP-CS-Fixer
-
-Additional style fixing, complementing PHPCS. Configured in `.php-cs-fixer.php`.
-
 ### Psalm
 
 Used for taint analysis rather than as a second type checker, so it is a periodic check rather
@@ -48,9 +44,6 @@ composer check:all
 
 # Auto-fix what can be fixed
 composer format:all
-
-# Run PHP-CS-Fixer
-composer style:all
 ```
 
 ### Static analysis
@@ -124,13 +117,12 @@ For a consistent development experience, configure your IDE to use these coding 
 Consider setting up Git pre-commit hooks to automatically check or fix code style before commits:
 
 1. Install [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged)
-2. Configure lint-staged to run PHP_CodeSniffer or PHP-CS-Fixer on staged PHP files
+2. Configure lint-staged to run PHP_CodeSniffer on staged PHP files
 
 ## Additional Resources
 
 - [PSR-12 Documentation](https://www.php-fig.org/psr/psr-12/)
 - [PHP_CodeSniffer Documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki)
-- [PHP-CS-Fixer Documentation](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
 - [PHPStan Documentation](https://phpstan.org/user-guide/getting-started)
 - [Psalm Documentation](https://psalm.dev/docs/)
 - [Phan Documentation](https://github.com/phan/phan/wiki)
