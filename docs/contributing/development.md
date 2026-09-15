@@ -90,6 +90,17 @@ composer docs:api -- --output ../poweradmin-docs/docs/api/openapi.json
 A running instance also serves the same specification live at `/api/docs/v2/json` when
 `api.docs_enabled` is on.
 
+A browsable class reference for `lib/` can be built locally with Doctum. The script downloads
+the phar on first use and writes static HTML to `docs/reference/`, which is not committed:
+
+```bash
+composer docs:reference
+open docs/reference/index.html
+```
+
+`composer lint:docblocks` runs the same parser without building and fails on any `@param`
+tag that does not match the method signature. It is part of `composer lint:all` and CI.
+
 ## Testing
 
 Poweradmin has unit, integration, functional, API and end-to-end tests. See the
