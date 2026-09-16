@@ -49,6 +49,7 @@ This document provides detailed explanations of all user permissions available i
 
 - Allows the user to edit the content of zones owned by other users
 - User can modify records in zones they don't own
+- Required to make another user the owner of a new zone, on the web forms and through the API
 - Powerful permission that should be granted cautiously
 
 ### zone_meta_edit_others

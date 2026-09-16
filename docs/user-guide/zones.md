@@ -219,6 +219,8 @@ A zone can have both individual user owners and group owners simultaneously. Per
 
 > **Note:** When creating a zone, you must select at least one owner. Administrators can reassign ownership later.
 
+Making another user the owner of a new zone requires `zone_content_edit_others`; without it the zone is owned by the user creating it. The same rule applies to `owner_user_id` in the API.
+
 ### Restricting Ownership Assignment
 
 Starting in v4.4.0, the `dns.zone_ownership_mode` setting controls which ownership pickers are available on the zone creation form, the bulk registration form, the zone import form, and the zone ownership page:
