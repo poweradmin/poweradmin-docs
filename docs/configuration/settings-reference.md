@@ -81,7 +81,6 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | Setting | Default | Description | Added in |
 |---|---|---|---|
 | `dnssec.enabled` {#setting-dnssec-enabled} | `false` | Enable DNSSEC functionality | 2.1.7 |
-| `dnssec.debug` {#setting-dnssec-debug} | `false` | Enable DNSSEC debug logging | 2.1.9 |
 
 ## health
 
