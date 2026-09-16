@@ -43,7 +43,7 @@ DNSSEC settings are configured in the `config/settings.php` file under the `dnss
 | Setting | Default value | Description | Added in version |
 |---------|---------------|-------------|-----------------|
 | dnssec.enabled | false | Enable (true) or disable (false) DNSSEC support | 2.1.7 |
-| dnssec.debug | false | Enable debug for DNSSEC operations | 2.1.9 |
+| dnssec.debug | false | Enable debug for DNSSEC operations. Has had no effect since the pdnsutil provider was dropped; removed in 4.6.0 | 2.1.9 |
 
 ## Enabling DNSSEC
 
