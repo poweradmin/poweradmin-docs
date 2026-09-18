@@ -270,6 +270,7 @@ name; see [Docker Secrets](docker-secrets.md).
 | `DB_NAME` | - | Database name |
 | `PA_PDNS_DB_NAME` | - | Separate PowerDNS database (MySQL only) |
 | `PA_INIT_PDNS_SCHEMA` | false | Load PowerDNS schema into an empty `DB_NAME` on startup (MySQL/PostgreSQL; skipped when `PA_PDNS_DB_NAME` is set) |
+| `DB_WAIT_TIMEOUT` | 30 | Seconds to wait for the MySQL/PostgreSQL server before schema initialization is skipped |
 
 ### DNS
 
@@ -495,9 +496,31 @@ The interface has many more settings than the four above; see
 | `PA_HEALTH_DB_TIMEOUT` | 2 | Database connect timeout in seconds used by the health check |
 | `PA_HEALTH_PDNS_TIMEOUT` | 2 | PowerDNS API timeout in seconds used by the health check |
 
-The image's `HEALTHCHECK` requests `/`, which succeeds even with a dead database. To have
-container status track real readiness, enable `PA_HEALTH_ENABLED` and override the
-healthcheck to request `/api/health`. See [Health Checks](../operations/health-checks.md).
+The image's `HEALTHCHECK` requests `/ping` when `PA_HEALTH_PING_ENABLED=true` (so a
+headless container with `PA_WEB_ENABLED=false` still reports healthy) and `/` otherwise.
+Both succeed even with a dead database. To have container status track real readiness,
+enable `PA_HEALTH_ENABLED` and override the healthcheck to request `/api/health`.
+See [Health Checks](../operations/health-checks.md).
+
+### API and CORS
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CORS_ALLOW_ORIGIN` | `*` | `Access-Control-Allow-Origin` sent on `/api/*` responses and preflight requests. The web interface never sends CORS headers |
+
+### PHP settings
+
+PHP runs on `php.ini-production` with these overrides:
+
+| Setting | Value |
+|---------|-------|
+| `memory_limit` | `256M` |
+| `upload_max_filesize` / `post_max_size` | `16M` / `20M` |
+| `expose_php` | `Off` |
+| `opcache.validate_timestamps` | `0` (code is cached until the container restarts) |
+
+To change any of them, mount an ini file into `/usr/local/etc/php/conf.d/`; files load in
+name order, so call it `zz-custom.ini` or later to win.
 
 Anything not listed on this page is in
 [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md), which
