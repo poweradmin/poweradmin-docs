@@ -178,7 +178,7 @@ The dashboard may report "0 zones" until the sync has run at least once in API m
 ### Migrating from SQL to API Backend
 
 1. Ensure the PowerDNS API is enabled and accessible
-2. Run the v4.3.0 database migration (adds required columns to `zones` table)
+2. Run the v4.3.0 database migration (adds required columns to `zones` table). On MySQL/MariaDB with `pdns_db_name`, check afterwards that `SELECT COUNT(*) FROM zones WHERE zone_name IS NULL` returns 0; if not, the backfill was skipped and the [4.3.0 upgrade guide](../upgrading/v4.3.0.md#step-3-run-database-updates) shows how to run it with the qualified table name
 3. Add `pdns_api.url` and `pdns_api.key` to `config/settings.php` and verify the API is reachable (see Testing Connection above)
 4. Change `dns.backend` from `sql` to `api`
 5. Load any page - the zone sync service automatically populates cached zone metadata
