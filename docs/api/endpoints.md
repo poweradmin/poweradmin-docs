@@ -35,7 +35,7 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/zones` | List zones |
+| `GET` | `/zones` | List zones; each entry carries `canonical_id`, the identifier the other zone endpoints take |
 | `POST` | `/zones` | Create zone |
 | `GET` | `/zones/{id}` | Get zone |
 | `PUT` | `/zones/{id}` | Update zone |
@@ -133,7 +133,9 @@ zone are routed through review, the record write endpoints below answer `403` wi
 When `ttl` is omitted on a record create call, Poweradmin applies the
 configured default (`dns.ttl_reverse` for PTR records in reverse zones when
 set, `dns.ttl` otherwise). See
-[DNS settings](../configuration/dns-settings.md) for details.
+[DNS settings](../configuration/dns-settings.md) for details. A `ttl` of `0`
+is accepted (do not cache); negative values and fractional strings such as
+`"0.5"` are refused with `400`.
 
 Records in **Secondary** and **Consumer** zones are read-only - they replicate
 from a primary. Create, update, delete, and bulk-write calls against such a
