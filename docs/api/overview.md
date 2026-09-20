@@ -63,6 +63,7 @@ Paginated list endpoints add a `pagination` block alongside `data`.
 - **Users**: full CRUD; user responses include the groups the user belongs to (v4.5.0+)
 - **Zone metadata and DNSSEC**: read and write zone metadata, read DNSSEC status, sign and unsign zones
 - **Dynamic DNS**: update a record from a dynamic DNS client
+- **Change requests**: file, list, approve, reject and cancel change requests when the approval workflow is on (v4.6.0+)
 - **Groups**: full CRUD, manage members and zone assignments (v4.2.0+)
 - **Permission templates**: full CRUD
 - **Zone templates**: full CRUD, manage template records (v4.2.0+)

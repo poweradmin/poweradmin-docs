@@ -502,6 +502,16 @@ Both succeed even with a dead database. To have container status track real read
 enable `PA_HEALTH_ENABLED` and override the healthcheck to request `/api/health`.
 See [Health Checks](../operations/health-checks.md).
 
+### Change approval *(v4.6.0+)*
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_APPROVAL_ENABLED` | false | Route zone changes of request-only users through review |
+| `PA_APPROVAL_REQUIRE_REVIEW_FOR_ALL` | false | Every zone change becomes a change request, even for editors and admins |
+| `PA_NOTIFICATION_CHANGE_REQUEST` | false | Mail reviewers on new change requests and requesters on decisions; needs `PA_MAIL_ENABLED` |
+
+See [Change Requests](../user-guide/change-requests.md).
+
 ### API and CORS
 
 | Variable | Default | Description |

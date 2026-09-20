@@ -20,6 +20,13 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `api.docs_enabled` {#setting-api-docs-enabled} | `false` | Enable API documentation at /api/docs endpoint | - |
 | `api.max_keys_per_user` {#setting-api-max-keys-per-user} | `5` | Maximum number of API keys per user (admin users have no limit) | - |
 
+## approval
+
+| Setting | Default | Description | Added in |
+|---|---|---|---|
+| `approval.enabled` {#setting-approval-enabled} | `false` | Route changes of request-only users through review | 4.6.0 |
+| `approval.require_review_for_all` {#setting-approval-require-review-for-all} | `false` | Every zone change becomes a request, even for editors and admins | 4.6.0 |
+
 ## database
 
 | Setting | Default | Description | Added in |
@@ -252,6 +259,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | Setting | Default | Description | Added in |
 |---|---|---|---|
 | `notifications.zone_access_enabled` {#setting-notifications-zone-access-enabled} | `false` | Enable/disable zone access change notifications | - |
+| `notifications.change_request_enabled` {#setting-notifications-change-request-enabled} | `false` | Mail reviewers on new change requests and requesters on decisions | 4.6.0 |
 
 ## oidc
 

@@ -165,6 +165,7 @@ nav:
           - DNSSEC: user-guide/dnssec.md
           - Bulk and Batch Operations: user-guide/bulk-operations.md
           - Record Change Log: user-guide/record-change-log.md
+          - Change Requests: user-guide/change-requests.md
           - Secondary Zone Import: user-guide/secondary-zone-import.md
           - Views and Networks: user-guide/views-networks.md
           - NAPTR Records: user-guide/naptr-records.md
@@ -192,6 +193,7 @@ nav:
   - Upgrading:
       - Overview: upgrading/index.md
       - v4.x Series:
+          - v4.6.0: upgrading/v4.6.0.md
           - v4.5.0: upgrading/v4.5.0.md
           - v4.4.0: upgrading/v4.4.0.md
           - v4.3.0: upgrading/v4.3.0.md

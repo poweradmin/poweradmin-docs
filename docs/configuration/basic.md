@@ -90,7 +90,8 @@ The configuration is organized into logical sections:
 | `oidc` | OpenID Connect authentication |
 | `saml` | SAML authentication |
 | `modules` | Optional modules: CSV export (`modules.csv_export`), zone import/export (`modules.zone_import_export`), secondary zone import over AXFR (`modules.secondary_zone_import`), WHOIS (`modules.whois`), RDAP (`modules.rdap`), DNS wizards (`modules.dns_wizards`), mail template previews (`modules.email_previews`) |
-| `notifications` | Notification toggles, currently `notifications.zone_access_enabled` (default `false`) for zone access change emails |
+| `notifications` | Notification toggles: `notifications.zone_access_enabled` (default `false`) for zone access change emails, `notifications.change_request_enabled` (default `false`, v4.6.0+) for change request emails |
+| `approval` | Change approval workflow: `approval.enabled` and `approval.require_review_for_all` (v4.6.0+) - see [Change Requests](../user-guide/change-requests.md) |
 | `api` | REST API configuration |
 | `user_agreement` | User agreement system |
 | `misc` | Timezone, conflict handling, etc. |
@@ -175,6 +176,15 @@ For UI customization, see [UI Customization](ui/overview.md).
 | `dns.txt_auto_quote` | false | Auto-quote TXT records |
 
 For more DNS options, see [DNS Settings](dns-settings.md).
+
+## Change Approval Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `approval.enabled` | false | Route the zone changes of request-only users through review (v4.6.0+) |
+| `approval.require_review_for_all` | false | Every zone change becomes a change request, even for editors and administrators (v4.6.0+) |
+
+Email for filed and decided requests is a separate switch, `notifications.change_request_enabled`, and needs `mail.enabled`. See [Change Requests](../user-guide/change-requests.md).
 
 ## Miscellaneous Settings
 

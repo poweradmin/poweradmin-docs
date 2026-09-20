@@ -115,6 +115,37 @@ This document provides detailed explanations of all user permissions available i
 - Administrative permission for managing all zones
 - Added in v4.1.0
 
+### zone_change_request_own
+
+- Allows the user to request changes to zones they own instead of writing them directly
+- Only has an effect with `approval.enabled` on, and only for zones the user cannot edit; a user who can edit the zone writes directly unless `approval.require_review_for_all` is on
+- Covers record adds, edits, deletes and zone deletion; bulk tools stay unavailable to requesters
+- Still requires `zone_content_view_own` to open the zone
+- See [Change Requests](change-requests.md)
+- Added in v4.6.0
+
+### zone_change_request_others
+
+- Allows the user to request changes to any zone
+- Same rules as `zone_change_request_own`, for zones the user does not own
+- Added in v4.6.0
+
+### zone_change_approve_own
+
+- Allows the user to review change requests for zones they own: approve and apply, or reject
+- Reviewing also requires the edit permission for the zone (`zone_content_edit_own`); approval applies the changes as the reviewer, so this permission adds to edit rights and never replaces them
+- Approving a zone deletion request additionally requires `zone_delete_own` or `zone_delete_others`
+- Grants the **Change requests** menu entry with a pending count for the user's zones
+- See [Change Requests](change-requests.md)
+- Added in v4.6.0
+
+### zone_change_approve_others
+
+- Allows the user to review change requests for any zone
+- Same rules as `zone_change_approve_own`, paired with `zone_content_edit_others`
+- Superusers review every request without holding this permission
+- Added in v4.6.0
+
 ## Search Permissions
 
 ### search

@@ -146,6 +146,7 @@ The following versions include important database structure changes:
 - [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
 - [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
 - [v4.5.0](v4.5.0.md) (unreleased - complete on the master branch, awaiting its tag) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
+- [v4.6.0](v4.6.0.md) (in development on the develop branch) - Change approval workflow (`zone_change_requests` table, four permissions)
 
 ### Recent Patch Releases
 
@@ -276,6 +277,7 @@ which script to run first. Then run every later script in order.
 | 4.3.0 | columns `zones.zone_name`, `zones.zone_type`, `users.perm_templ_source`, table `log_api` |
 | 4.4.0 | column `zone_templ.is_default` |
 | 4.5.0 | columns `api_keys.is_readonly`, `login_attempts.attempt_type`, table `log_record_changes` |
+| 4.6.0 | table `zone_change_requests` |
 
 To check a column or table:
 

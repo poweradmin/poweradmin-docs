@@ -101,6 +101,22 @@ described in [Dynamic DNS](../user-guide/ddns/overview.md). Both remain
 supported; the standalone script keeps the dyndns2-compatible query-string
 interface that routers expect.
 
+### Change requests (v4.6.0+)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/zones/{id}/change-requests` | File a change request for a zone |
+| `GET` | `/change-requests` | List change requests in the caller's review scope plus the caller's own |
+| `GET` | `/change-requests/{id}` | Get a change request with its stale actions |
+| `POST` | `/change-requests/{id}/approve` | Approve and apply a change request |
+| `POST` | `/change-requests/{id}/reject` | Reject a change request |
+| `DELETE` | `/change-requests/{id}` | Cancel the caller's own pending change request |
+
+All of them answer `404` while `approval.enabled` is off. When the caller's changes to a
+zone are routed through review, the record write endpoints below answer `403` with
+"Changes to this zone require approval; create a change request instead". See
+[Change Requests](../user-guide/change-requests.md#api-v2).
+
 ### Records
 
 | Method | Path | Purpose |
