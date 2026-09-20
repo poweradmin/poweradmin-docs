@@ -136,6 +136,13 @@ request permission for the zone but not the delete permission, or when
 same reason field, and the zone stays until a reviewer approves. Approving deletes the whole
 zone with all of its records.
 
+Before the zone is deleted, a copy of it is stored with the request as a BIND zone file.
+The review page of the approved request offers **Download zone file taken before
+deletion**, and the API returns it in the `snapshot` field of the request. Re-import it
+through the zone import tool to bring the zone back. The copy is visible to the requester,
+to reviewers and to users who may view the zone, and is skipped when it exceeds 60000
+bytes.
+
 Deleting several zones at once from the zone list stays direct-only.
 
 ### Following your own requests
@@ -147,6 +154,9 @@ pending. Cancelling is limited to the person who filed it.
 
 The **Change requests** page under the **Zones** menu lists your own requests when you
 hold a request permission but no review scope, with a status filter.
+
+The zone lists show a count next to each zone that has pending requests you may list,
+linking to the requests page filtered to that zone.
 
 ## Reviewing
 
@@ -199,8 +209,14 @@ delete the zone, or when the backend reports an error.
 On the SQL backend the actions of a records request are applied in one transaction, so a
 failure leaves the zone untouched and the error says "Nothing was applied." On the PowerDNS
 API backend the actions land one at a time, and the error names the actions that had
-already been applied before the failure. A failed request is not retried; the requester
-files a new one.
+already been applied before the failure.
+
+Once the cause is fixed, a reviewer opens the failed request and presses **Try again**,
+which applies it once more. Actions that already landed in full are skipped: an addition
+whose record exists with the requested name, type, content, TTL, priority and disabled
+flag, an edit whose record already holds the requested state, and a deletion whose record
+is gone. The API does the same through the approve endpoint. Rejecting or cancelling a
+failed request is not possible.
 
 ## Notifications
 
@@ -224,11 +240,18 @@ warning is logged.
 
 | Event | Recipients | Subject |
 |-------|------------|---------|
-| Request filed | Every active user who may review the zone (approve level plus edit permission, administrators included) and has an email address. The requester is skipped | `Change Request #N Filed: example.com` |
+| Request filed | Every active user who may review the zone (approve level plus edit permission, administrators included) and has an email address. The requester is skipped. With `notifications.change_request_soa_contact` on, the mailbox from the zone's SOA record as well | `Change Request #N Filed: example.com` |
 | Request approved, rejected or failed | The requester, when they have an email address | `Change Request #N Approved: example.com` (or `Rejected`, `Failed`) |
 
-A cancelled request sends no mail. The messages link to the review page, so set
-`interface.application_url` for the link to be right. A mail failure never undoes the
+A cancelled request sends no mail. The filed message carries the requester's address as
+`Reply-To`, so a reviewer can answer them directly. The messages link to the review page, so
+set `interface.application_url` for the link to be right.
+
+The SOA contact is derived from the RNAME field of the SOA record: the first label becomes
+the mailbox, an escaped dot in it stays a dot, and the rest becomes the domain, so
+`hostmaster.example.com.` is mailed as `hostmaster@example.com`. It is off by default
+(`PA_NOTIFICATION_CHANGE_REQUEST_SOA_CONTACT` in Docker) because that mailbox may belong to
+someone outside the installation. A mail failure never undoes the
 request or the decision; it is logged and the workflow continues.
 
 Templates are `templates/emails/change-request-filed.*.twig` and
@@ -401,11 +424,10 @@ keep `require_review_for_all` off for installations that rely on DDNS.
 - A request carries the record itself only: the "Add PTR", "Add A/AAAA" and "Update PTR"
   companion options are not offered in request mode. File the reverse record separately.
 - Zone creation is not reviewed.
-- Deleting several zones at once from the zone list is not reviewed.
+- Deleting several zones at once from the zone list is not reviewed and keeps no snapshot.
 - Self-approval is allowed; there is no rule that the reviewer must differ from the
   requester.
 - Stale requests warn but can still be approved.
-- A failed request cannot be retried; file a new one.
 - Requests are kept indefinitely. Prune the `zone_change_requests` table on your own
   schedule.
 

@@ -260,6 +260,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 |---|---|---|---|
 | `notifications.zone_access_enabled` {#setting-notifications-zone-access-enabled} | `false` | Enable/disable zone access change notifications | - |
 | `notifications.change_request_enabled` {#setting-notifications-change-request-enabled} | `false` | Mail reviewers on new change requests and requesters on decisions | 4.6.0 |
+| `notifications.change_request_soa_contact` {#setting-notifications-change-request-soa-contact} | `false` | Also mail the zone's SOA contact about new change requests | 4.6.0 |
 
 ## oidc
 

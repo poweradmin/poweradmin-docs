@@ -509,6 +509,7 @@ See [Health Checks](../operations/health-checks.md).
 | `PA_APPROVAL_ENABLED` | false | Route zone changes of request-only users through review |
 | `PA_APPROVAL_REQUIRE_REVIEW_FOR_ALL` | false | Every zone change becomes a change request, even for editors and admins |
 | `PA_NOTIFICATION_CHANGE_REQUEST` | false | Mail reviewers on new change requests and requesters on decisions; needs `PA_MAIL_ENABLED` |
+| `PA_NOTIFICATION_CHANGE_REQUEST_SOA_CONTACT` | false | Also mail the zone's SOA contact about new change requests |
 
 See [Change Requests](../user-guide/change-requests.md).
 

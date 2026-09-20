@@ -90,7 +90,7 @@ The configuration is organized into logical sections:
 | `oidc` | OpenID Connect authentication |
 | `saml` | SAML authentication |
 | `modules` | Optional modules: CSV export (`modules.csv_export`), zone import/export (`modules.zone_import_export`), secondary zone import over AXFR (`modules.secondary_zone_import`), WHOIS (`modules.whois`), RDAP (`modules.rdap`), DNS wizards (`modules.dns_wizards`), mail template previews (`modules.email_previews`) |
-| `notifications` | Notification toggles: `notifications.zone_access_enabled` (default `false`) for zone access change emails, `notifications.change_request_enabled` (default `false`, v4.6.0+) for change request emails |
+| `notifications` | Notification toggles: `notifications.zone_access_enabled` (default `false`) for zone access change emails, `notifications.change_request_enabled` (default `false`, v4.6.0+) for change request emails, `notifications.change_request_soa_contact` (default `false`, v4.6.0+) to include the zone's SOA contact |
 | `approval` | Change approval workflow: `approval.enabled` and `approval.require_review_for_all` (v4.6.0+) - see [Change Requests](../user-guide/change-requests.md) |
 | `api` | REST API configuration |
 | `user_agreement` | User agreement system |
