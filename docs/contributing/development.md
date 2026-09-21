@@ -55,12 +55,45 @@ and is overwritten on upgrade.
 
 ### Core components
 
-- **lib/**: core library code, following Domain-Driven Design
-    - **Domain/**: business logic, entities and value objects
-    - **Application/**: controllers and services
-    - **Infrastructure/**: database access, the PowerDNS API client, LDAP and other external services
+- **lib/**: core library code in three layers; a lower layer never imports a higher one
+  (`composer analyse:all` enforces this)
+    - **Domain/**: business rules with no framework or storage dependency
+        - `Model/`, `ValueObject/`, `Enum/`: entities, value objects and constant tables
+        - `Port/`: the interfaces the application and infrastructure layers implement
+          (backend providers, DNSSEC, audit logging, record change writer, password hashing)
+        - `Repository/`: repository interfaces, split into narrow roles such as
+          `UserLookupInterface` and `RecordListingInterface`
+        - `Service/Auth/`, `Service/Zone/`, `Service/Template/`, `Service/Dns/`,
+          `Service/User/`, `Service/Database/`, `Service/Consistency/`: the use cases,
+          grouped by the concern that changes them
+        - `Service/DnsValidation/`: one validator per record type
+        - `Database/`: SQL dialect helpers (`DbCompat`, `TableNameService`, `CanonicalZoneSql`)
+          shared by the domain services that still own SQL
+        - `Module/`: the `ModuleInterface` bundled modules implement
+    - **Application/**: everything that faces a request
+        - `Controller/`: web controllers grouped by route (`Zone/`, `Record/`, `Dnssec/`,
+          `Auth/`, `User/`, `Template/`, `Log/`, `System/`) plus `Api/` and the shared
+          `BaseController`
+        - `Service/`: application services, the composition-root factories
+          (`ControllerServiceFactory` and the concern factories under `Service/Factory/`),
+          and `Service/Auth/` for the login pipeline
+        - `Boot/`, `Http/`, `Routing/`, `Web/`, `Presenter/`, `Module/`: bootstrap, request
+          handling, routing, page rendering, view models and the module manifest
+    - **Infrastructure/**: adapters for the outside world: `Repository/` (PDO), `Api/`
+      (the PowerDNS API client), `Service/` (backend providers), `Logger/`, `Session/`,
+      `Configuration/`, `Utility/`
+    - **Module/**: the bundled modules (DNS wizards, zone import/export, WHOIS, RDAP,
+      secondary zone import, CSV export, email previews), registered in
+      `Application/Module/ModuleManifest.php`
 
 Entry points are `index.php`, `dynamic_update.php` and `install/index.php`.
+
+Modules extend `Application\Controller\BaseController`, implement
+`Domain\Module\ModuleInterface`, and otherwise depend on the `Domain\Port`,
+`Domain\Repository` and `Domain\Service` namespaces plus a few application services
+(`RecordAddService`, `ZoneCreateRequest`, `ZoneOwnershipFormResolver`, the `*Messages`
+catalogues). Treat those as the module surface; the rest of `lib/` may move between
+releases without notice.
 
 ### Frontend
 
