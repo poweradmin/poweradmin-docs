@@ -40,7 +40,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `database.charset` {#setting-database-charset} | `'latin1'` | or 'utf8' | 2.1.8 |
 | `database.file` {#setting-database-file} | `''` | Only used for SQLite, provide full path to database file | 2.1.6 |
 | `database.debug` {#setting-database-debug} | `false` | Show all SQL queries | 2.1.6 |
-| `database.pdns_db_name` {#setting-database-pdns-db-name} | `''` | Separate database for PowerDNS | 3.8.0 |
+| `database.pdns_db_name` {#setting-database-pdns-db-name} | `''` | Separate database for PowerDNS, MySQL/MariaDB only | 3.8.0 |
 | `database.ssl` {#setting-database-ssl} | `false` | Enable SSL/TLS connection | - |
 | `database.ssl_verify` {#setting-database-ssl-verify} | `false` | Verify server SSL certificate (requires ssl=true) | - |
 | `database.ssl_ca` {#setting-database-ssl-ca} | `''` | Path to CA certificate file for server verification | - |
