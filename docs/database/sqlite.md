@@ -78,3 +78,48 @@ After creating your SQLite database, run the Poweradmin installer and select SQL
 When the installation is complete, the installer will generate the configuration file content. Create the `config/settings.php` file with the provided content:
 
 ![Generated configuration file](../screenshots/install-step7-config.png)
+
+## Write-ahead logging
+
+From 4.6.0 Poweradmin opens SQLite in WAL mode. PowerDNS reads the same file
+Poweradmin writes, and in SQLite's default rollback journal a reader blocks a
+writer outright, so a zone save could fail with `database is locked`. WAL lets a
+reader and a writer work at the same time. Recent PowerDNS already opens its own
+connection in WAL by default, so many databases are in this mode already.
+
+The switch happens on connect and is a one-off: WAL is a property of the file,
+not of the connection. If the file or its directory is not writable, or another
+connection is mid-read at that moment, Poweradmin keeps the existing journal mode
+and carries on rather than failing to start.
+
+### Backups
+
+WAL keeps recently written pages in a `poweradmin.sqlite-wal` file next to the
+database, and a long-lived PowerDNS connection means that file is never fully
+folded back in. Copying the `.sqlite` file alone can therefore miss the most
+recent commits. Back up with:
+
+```bash
+sqlite3 /path/to/your/poweradmin.sqlite ".backup '/path/to/backup.sqlite'"
+```
+
+or stop both services and copy the `.sqlite`, `-wal` and `-shm` files together.
+
+### Network filesystems
+
+Do not run a WAL database from NFS, SMB or any other network filesystem. WAL
+coordinates readers and writers through shared memory, which those filesystems do
+not provide reliably, and SQLite cannot detect them, so the switch appears to
+succeed. Keep the database on local storage, or force the old journal mode:
+
+```bash
+sqlite3 /path/to/your/poweradmin.sqlite "PRAGMA journal_mode = DELETE;"
+```
+
+### Serving the database over the web
+
+Keep the database outside the web root. If it must live inside, note that the
+bundled `.htaccess`, Dockerfile and devcontainer web server configuration deny
+`-wal` and `-shm` alongside the database file itself. A custom web server
+configuration needs the same patterns, because the `-wal` file holds recently
+written rows.
