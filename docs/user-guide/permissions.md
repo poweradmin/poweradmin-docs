@@ -34,10 +34,25 @@ This document provides detailed explanations of all user permissions available i
 
 - Allows the user to add additional owners to their zone (if user_view_others is set to true)
 - User can remove owners (including themselves)
-- User cannot orphan a zone (at least one user must remain)
+- User cannot orphan a zone (at least one owner, user or group, must remain)
 - User can change zone type (i.e. from native to slave)
 - User can set IP of master server for slave zone
 - User can change used zone template (requires `zone_content_edit_own` plus either `zone_master_add` or `zone_slave_add`)
+
+### Zones always keep an owner
+
+A zone is owned directly (a user) or through a group, and Poweradmin refuses any
+action that would leave it with neither. The rule is applied wherever ownership
+can be dropped, so the last owner cannot be removed by:
+
+- removing an owner from the zone, or removing the zone from a group
+- the quick-remove control on the group and zone pages
+- removing several zones from a group at once
+- deleting a group that is the last owner of a zone
+
+The refusal names the zone so the next step is clear: add another owner first,
+then repeat the action. The same rule applies through the v2 API, which answers
+409 with the same message.
 
 ### zone_content_view_others
 
