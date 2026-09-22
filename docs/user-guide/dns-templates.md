@@ -11,11 +11,15 @@ Templates are managed through the Poweradmin interface and stored in the databas
 Templates support placeholders that are automatically substituted:
 
 - `[ZONE]` - replaced with the actual domain name
+- `[DOMAIN]` - replaced with the registrable label of the zone, so `example` for `example.com.pl`
+- `[TLD]` - replaced with the public suffix of the zone, so `com.pl` for `example.com.pl`
 - `[SERIAL]` - replaced with current date + sequence (YYYYMMDD00)
 - `[UNIXTIME]` - replaced with the current UNIX timestamp
 - `[COUNTER]` - replaced with 1, the starting value for a simple incremental serial
 - `[NS1]`, `[NS2]`, etc. - replaced with configured nameservers
 - `[HOSTMASTER]` - replaced with configured hostmaster email
+
+`[DOMAIN]` and `[TLD]` are split on the public suffix boundary using the IANA list, so a zone under a multi-label suffix such as `co.uk` or `com.pl` divides where registration actually happens rather than on the last dot.
 
 The serial placeholders (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`) control the initial SOA serial of a zone created from the template; later record changes increment the serial automatically. When Poweradmin runs against the PowerDNS API backend, the `SOA-EDIT-API` zone metadata governs how subsequent serials are generated - it can be chosen per zone on the add-zone form or on the zone metadata page (`EPOCH` pairs with `[UNIXTIME]`, `INCREASE` with `[COUNTER]`), with defaults from `dns.soa_edit_api`.
 

@@ -134,6 +134,7 @@ Defines permission templates (roles).
 | `id` | int | Primary key |
 | `name` | varchar(128) | Template name |
 | `descr` | varchar(1024) | Template description |
+| `template_type` | enum('user','group') | Whether the template applies to users or to groups (default `user`, added in 4.2.0) |
 
 ### `perm_templ_items`
 Links permission templates to specific permissions.
@@ -168,6 +169,7 @@ Defines zone templates for bulk zone creation.
 | `descr` | varchar(1024) | Template description |
 | `owner` | int | Foreign key to users.id |
 | `created_by` | int | Foreign key to users.id (creator) |
+| `is_default` | tinyint | Marks the system-wide default template (default 0, added in 4.4.0) |
 
 ### `zone_templ_records`
 Stores record templates within zone templates.
@@ -204,6 +206,7 @@ Tracks login attempts for security purposes.
 | `ip_address` | varchar(45) | IP address |
 | `timestamp` | int | Attempt timestamp (Unix) |
 | `successful` | tinyint | Success flag |
+| `attempt_type` | varchar(16) | Which credential was tried, `password` or `mfa`, so the two are throttled separately (default `password`, added in 4.5.0) |
 
 ### `api_keys`
 Stores API keys for authentication.
@@ -338,6 +341,31 @@ Tracks zone template synchronization.
 | `needs_sync` | tinyint | Sync needed flag |
 | `created_at` | timestamp | Creation timestamp |
 | `updated_at` | timestamp | Update timestamp |
+
+### `zone_change_requests`
+Holds record and zone-deletion changes awaiting review, for the change approval
+workflow. Present from 4.6.0; the table is only read when `approval.enabled` is on.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int | Primary key |
+| `zone_id` | int | Foreign key to domains.id |
+| `zone_name` | varchar(255) | Zone name, kept so history survives zone deletion |
+| `kind` | varchar(16) | `records` or `zone_delete` |
+| `status` | varchar(16) | `pending`, `approved`, `rejected`, `cancelled` or `failed` |
+| `requester_id` | int | Foreign key to users.id (nullable) |
+| `requester_name` | varchar(64) | Requester name, kept if the account is removed |
+| `request_comment` | text | Reason given when filing |
+| `base_serial` | varchar(32) | SOA serial the form was rendered with, for staleness detection |
+| `payload` | text | JSON action list describing the requested change |
+| `reviewer_id` | int | Foreign key to users.id (nullable) |
+| `reviewer_name` | varchar(64) | Reviewer name |
+| `review_comment` | text | Reason given when approving or rejecting |
+| `created_at` | timestamp | When the request was filed |
+| `reviewed_at` | timestamp | When it was approved or rejected |
+| `applied_at` | timestamp | When the change was written |
+| `error` | text | Failure detail when status is `failed` |
+| `snapshot` | text | Record state captured for the review diff |
 
 ## Logging Tables
 
