@@ -64,36 +64,45 @@ and is overwritten on upgrade.
         - `Repository/`: repository interfaces, split into narrow roles such as
           `UserLookupInterface` and `RecordListingInterface`
         - `Service/Auth/`, `Service/Zone/`, `Service/Template/`, `Service/Dns/`,
-          `Service/User/`, `Service/Database/`, `Service/Consistency/`: the use cases,
-          grouped by the concern that changes them
-        - `Service/DnsValidation/`: one validator per record type
+          `Service/User/`, `Service/Consistency/`, `Service/Validation/`: the use cases,
+          grouped by the concern that changes them. They write through the repository
+          interfaces, take the acting user as `Port\ActorInterface`, and report failures
+          as result objects carrying a `Refusal`, never an HTTP status
+        - `Service/DnsValidation/`: one validator per record type, sharing one
+          `HostnameValidator` built from a `HostnamePolicy`
         - `Database/`: SQL dialect helpers (`DbCompat`, `TableNameService`, `CanonicalZoneSql`)
-          shared by the domain services that still own SQL
         - `Module/`: the `ModuleInterface` bundled modules implement
     - **Application/**: everything that faces a request
         - `Controller/`: web controllers grouped by route (`Zone/`, `Record/`, `Dnssec/`,
-          `Auth/`, `User/`, `Template/`, `Log/`, `System/`) plus `Api/` and the shared
-          `BaseController`
-        - `Service/`: application services, the composition-root factories
-          (`ControllerServiceFactory` and the concern factories under `Service/Factory/`),
-          and `Service/Auth/` for the login pipeline
-        - `Boot/`, `Http/`, `Routing/`, `Web/`, `Presenter/`, `Module/`: bootstrap, request
-          handling, routing, page rendering, view models and the module manifest
-    - **Infrastructure/**: adapters for the outside world: `Repository/` (PDO), `Api/`
-      (the PowerDNS API client), `Service/` (backend providers), `Logger/`, `Session/`,
-      `Configuration/`, `Utility/`
+          `Auth/`, `User/`, `Template/`, `Log/`, `System/`) plus `Api/` (with the v2
+          resource shapers under `Api/V2/Resource/`) and the shared `BaseController`
+        - `Service/`: application services grouped like the domain ones (`Auth/`, `User/`,
+          `Zone/`, `Record/`, `Backend/`, `Mail/`, `Web/`), and the composition root
+          (`ControllerServiceFactory` with the concern factories under `Service/Factory/`)
+        - `Boot/`: the `Kernel` every entry point boots through, `Http/` (request, refusal
+          to status mapping), `Routing/`, `Web/` (page rendering), `Presenter/` (view
+          models), `Module/` (module manifest, registry and the `ModuleServices` contract),
+          `Console/` (the `bin/poweradmin` commands)
+    - **Infrastructure/**: adapters for the outside world: `Repository/` (PDO and the
+      PowerDNS API repositories, incl. search), `Api/` (the PowerDNS API client), `Service/`
+      (backend providers), `Database/` (schema, credentials, seed data), `Logger/`,
+      `Session/`, `Configuration/`, `Utility/`. Infrastructure imports nothing from the
+      layers above it
     - **Module/**: the bundled modules (DNS wizards, zone import/export, WHOIS, RDAP,
       secondary zone import, CSV export, email previews), registered in
       `Application/Module/ModuleManifest.php`
 
-Entry points are `index.php`, `dynamic_update.php` and `install/index.php`.
+Entry points are `index.php`, `dynamic_update.php`, `install/index.php` and
+`bin/poweradmin`; all four boot through `Application\Boot\Kernel`.
 
 Modules extend `Application\Controller\BaseController`, implement
-`Domain\Module\ModuleInterface`, and otherwise depend on the `Domain\Port`,
-`Domain\Repository` and `Domain\Service` namespaces plus a few application services
-(`RecordAddService`, `ZoneCreateRequest`, `ZoneOwnershipFormResolver`, the `*Messages`
-catalogues). Treat those as the module surface; the rest of `lib/` may move between
-releases without notice.
+`Domain\Module\ModuleInterface`, obtain core services through
+`$this->moduleServices()` (`Application\Module\ModuleServices`), and otherwise depend on
+the `Domain\Port`, `Domain\Repository` and `Domain\Service` namespaces plus the SDK value
+types (`RecordAddResult`, `RecordAddAccess`, `ZoneCreateRequest`, `ZoneCreateFormMessages`,
+`ChangeRequestMessages`). `composer analyse:all` rejects other imports of application
+services from a module. Treat that as the module surface; the rest of `lib/` may move
+between releases without notice.
 
 ### Frontend
 
