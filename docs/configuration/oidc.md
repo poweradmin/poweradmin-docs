@@ -43,6 +43,7 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `oidc.enabled` | false | Enable OIDC authentication |
 | `oidc.auto_provision` | true | Auto-create users from OIDC provider |
 | `oidc.link_by_email` | true | Link OIDC accounts to existing users by email |
+| `oidc.require_verified_email` | false | Only link by email when the provider sends `email_verified` |
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
 | `oidc.default_permission_template` | "Guest" | Default permission template for new users |
 
@@ -70,13 +71,35 @@ id is normally the bundled Administrator template.
 
 `oidc.link_by_email` only links an incoming identity to an existing local account when:
 
-- the ID token carries no `email_verified` claim, or carries one that is true. An
+- the provider sends no `email_verified` claim, or sends one that is true. An
   address the provider has not vouched for is not treated as proof of identity.
+  The claim is read from the userinfo response and from the ID token, because some
+  providers return it in only one of the two; the userinfo response wins when both
+  carry it.
 - the matched local account does not hold `user_is_ueberuser`. A superuser account
   is never claimed by email; link it explicitly by subject instead.
 
 Both checks are logged when they block a link, so a login that stops working after
 an upgrade can be traced in the application log.
+
+### Requiring a verified address
+
+Providers are not obliged to send `email_verified` at all, and an absent claim is
+accepted by default so that linking keeps working with providers that never send it.
+Set `oidc.require_verified_email` to true to demand the claim instead: an identity
+whose provider stays silent about the address then gets a new account rather than
+the existing one. Turn it on when your provider does send the claim, which makes an
+absent claim a sign that something other than your provider answered.
+
+```php
+'oidc' => [
+    'link_by_email' => true,
+    'require_verified_email' => true,
+],
+```
+
+The option only governs the absent case. A provider that says `email_verified` is
+false is refused either way.
 
 ## Permission Template Mapping
 

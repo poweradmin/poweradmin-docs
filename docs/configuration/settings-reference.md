@@ -269,6 +269,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `oidc.enabled` {#setting-oidc-enabled} | `false` | Enable OIDC authentication | - |
 | `oidc.auto_provision` {#setting-oidc-auto-provision} | `true` | Automatically create user accounts from OIDC | - |
 | `oidc.link_by_email` {#setting-oidc-link-by-email} | `true` | Link OIDC accounts to existing users by email | - |
+| `oidc.require_verified_email` {#setting-oidc-require-verified-email} | `false` | Only link by email when the provider sends email_verified | 4.5.0 |
 | `oidc.allow_superuser_provisioning` {#setting-oidc-allow-superuser-provisioning} | `false` | Let OIDC mappings grant user_is_ueberuser | 4.5.0 |
 | `oidc.sync_user_info` {#setting-oidc-sync-user-info} | `true` | Sync user information (name, email) from OIDC provider | - |
 | `oidc.default_permission_template` {#setting-oidc-default-permission-template} | `'Guest'` | Default permission template for new OIDC users (minimal access until assigned proper role) | - |
