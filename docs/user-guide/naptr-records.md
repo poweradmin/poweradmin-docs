@@ -15,7 +15,7 @@ The content field has this layout:
 | order       | Number 0-65535. Lower order is processed first.                                        |
 | preference  | Number 0-65535. Tie-breaker when two records share the same order.                     |
 | flags       | Quoted. Usually `"S"`, `"A"`, `"U"`, `"P"`, or `""`.                                   |
-| service     | Quoted. For example `"SIP+D2U"` or `"E2U+sip"`.                                        |
+| service     | Quoted. For example `"SIP+D2U"` or `"E2U+sip"`. Plus signs separate the parts; each part starts with a letter and holds only letters, digits, hyphens or colons, up to 32 characters. |
 | regexp      | Quoted substitution like `"!^.*$!sip:user@example.com!"`, or `""` if not used.         |
 | replacement | A domain name, or `.` when the regexp is used.                                         |
 
@@ -45,6 +45,7 @@ The Priority column in the add/edit form is not used by NAPTR - the order and pr
 - Leaving off the quotes around flags, service, or regexp. All three must be quoted, even when empty (`""`).
 - Setting a Priority other than `0`. NAPTR carries its own order/preference, so the row's Priority must stay at `0`.
 - Mixing a non-empty regexp with a domain replacement. Use `.` as the replacement when the regexp is filled in.
+- Ending the service with a plus sign (`"E2U+"`) or leaving a part of it empty (`"aaa++diameter"`). The plus sign joins two parts, so there has to be one on each side of it.
 
 ## ENUM Records
 
