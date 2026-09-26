@@ -90,7 +90,14 @@ With the PowerDNS API properly configured, Poweradmin gains the following capabi
 - Direct server statistics access
 
 The **PowerDNS Server Status** page reports whether the server is reachable, its version, daemon
-type and uptime, and the connectivity of each configured autoprimary.
+type and uptime, and the connectivity of each configured autoprimary. It is shown when
+`interface.show_pdns_status` is `true`. Administrators can always open it; since v4.5.0 other
+users need the `server_status_view` permission, which makes a dedicated monitoring account
+possible without administrator rights.
+
+The same data is available to monitoring systems as `GET /api/v2/server/status`, which uses
+Poweradmin's API keys and permissions instead of the PowerDNS API key. See
+[API Endpoints](../api/endpoints.md#server-status-v450).
 
 ![PowerDNS Server Status](../screenshots/pdns-status.png)
 

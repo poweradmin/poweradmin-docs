@@ -109,6 +109,16 @@ then repeat the action. The same rule applies through the v2 API, which answers
 - Useful for hiding the customer list in multi-tenant installations while leaving record access intact
 - Added in v4.5.0
 
+### server_status_view
+
+- Allows the user to view the PowerDNS server status: the status page, its dashboard card, and `GET /api/v2/server/status`
+- Meant for monitoring users and status-page tools, which previously needed full administrator rights
+- Read-only. Administrators have it implicitly, and no default template includes it
+- The page and card still need `interface.show_pdns_status`; the API endpoint does not
+- The autoprimary list on the page and in the API also needs `supermaster_view`
+- See [PowerDNS API](../configuration/powerdns-api.md)
+- Added in v4.5.0
+
 ### zone_dnssec_manage_own
 
 - Allows the user to manage DNSSEC keys for zones they own: add, edit, activate, deactivate, delete, and import or export keys

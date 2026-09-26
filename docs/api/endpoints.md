@@ -90,6 +90,38 @@ applied.
 | `GET` | `/zones/{id}/dnssec` | Get DNSSEC status and keys (v4.5.0+) |
 | `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone (v4.5.0+) |
 
+### Server status (v4.5.0+)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/server/status` | PowerDNS version, uptime and statistics, for monitoring |
+
+Requires the `server_status_view` permission (administrators have it implicitly) and the
+PowerDNS API to be configured. It works with read-only keys; keys restricted to specific zones
+get `403` because the status is not tied to a zone. The endpoint does not depend on
+`interface.show_pdns_status`.
+
+- `?metrics=uptime,udp-queries` returns only the named metrics
+- `?include=slaves` also probes the configured autoprimary servers, which is slower. It needs
+  `supermaster_view` as well, since it lists their addresses
+- `501` means the PowerDNS API is not configured, `503` means PowerDNS is not reachable, so a
+  monitoring check can rely on the status code alone
+
+```json
+{
+  "success": true,
+  "message": "Server status retrieved successfully",
+  "data": {
+    "running": true,
+    "server_id": "localhost",
+    "daemon_type": "authoritative",
+    "version": "4.9.4",
+    "uptime_seconds": 86400,
+    "metrics": { "udp-queries": "1234", "uptime": "86400" }
+  }
+}
+```
+
 ### Dynamic DNS
 
 | Method | Path | Purpose |
