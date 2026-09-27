@@ -85,6 +85,9 @@ gmysql-dnssec=yes
 
 # PostgreSQL backend: gpgsql-dnssec=yes
 # SQLite backend:     gsqlite3-dnssec=yes
+# BIND backend:       bind-dnssec-db=/var/lib/powerdns/bind-dnssec.db
+# GeoIP backend:      geoip-dnssec-keydir=/var/lib/powerdns/keys
+# LMDB backend:       nothing to set, DNSSEC is always available
 
 api=yes
 api-key=your_api_key
@@ -93,6 +96,8 @@ api-key=your_api_key
 See [gmysql-dnssec](https://doc.powerdns.com/authoritative/backends/generic-mysql.html#setting-gmysql-dnssec),
 [gpgsql-dnssec](https://doc.powerdns.com/authoritative/backends/generic-postgresql.html#setting-gpgsql-dnssec)
 and [gsqlite3-dnssec](https://doc.powerdns.com/authoritative/backends/generic-sqlite3.html#setting-gsqlite3-dnssec).
+Poweradmin reads these settings from the PowerDNS API to decide whether DNSSEC is available, and
+since 4.5.0 it also recognises the BIND, GeoIP and LMDB backends.
 Your schema must include the DNSSEC tables (`domainmetadata`, `cryptokeys`, `tsigkeys`); see
 [Enabling the API](https://doc.powerdns.com/authoritative/http-api/index.html#enabling-the-api)
 for the `api` and `api-key` settings.
