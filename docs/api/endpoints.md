@@ -89,6 +89,17 @@ applied.
 | `DELETE` | `/zones/{id}/metadata/{kind}` | Remove one metadata kind (v4.3.0+) |
 | `GET` | `/zones/{id}/dnssec` | Get DNSSEC status and keys (v4.5.0+) |
 | `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone (v4.5.0+) |
+| `GET` | `/zones/{id}/dnssec/keys` | List the zone's keys with their DNSKEY and DS (v4.5.0+) |
+| `POST` | `/zones/{id}/dnssec/keys` | Add a key (`type`, `algorithm`, `bits`, optional `active`) (v4.5.0+) |
+| `GET` | `/zones/{id}/dnssec/keys/{key_id}` | Get one key (v4.5.0+) |
+| `PATCH` | `/zones/{id}/dnssec/keys/{key_id}` | Activate or deactivate a key (v4.5.0+) |
+| `DELETE` | `/zones/{id}/dnssec/keys/{key_id}` | Delete a key (v4.5.0+) |
+| `POST` | `/zones/{id}/dnssec/rectify` | Rectify a signed primary zone (v4.5.0+) |
+
+Reading keys needs view access to the zone; the other key endpoints need `zone_dnssec_manage_own`
+on the zone (or administrator rights) and the PowerDNS API. For API key scopes, adding a key is a
+`create` operation and rectifying is an `update`. New keys are created inactive unless `active` is
+`true`, as in the web UI.
 
 ### Server status (v4.5.0+)
 
