@@ -132,7 +132,8 @@ Two things to know:
   along with every other DNSSEC action.
 - Changes made outside Poweradmin - direct SQL, another tool - are not rectified by Poweradmin.
   Set the [`API-RECTIFY`](https://doc.powerdns.com/authoritative/domainmetadata.html#metadata-api-rectify)
-  metadata on the zone so PowerDNS rectifies after its own API edits, or rectify manually.
+  metadata on the zone so PowerDNS rectifies after its own API edits, or rectify manually, for
+  example with `POST /api/v2/zones/{id}/dnssec/rectify` (4.5.0+).
 
 ## Verification
 
@@ -173,6 +174,14 @@ The export is always delivered as a file download (`Content-Type: application/x-
 - DS and DNSKEY records on the same page can be copied to clipboard with a single click. This is handy when handing the DS record to a registrar.
 - The CSK guidance alert that used to sit on top of every DNSSEC page only appears on legacy pre-4.0 PowerDNS servers now. On 4.x+ the standard split-key advice no longer applies, and the alert was just adding noise.
 - Sign and unsign actions are both recorded in the zone activity feed (sign was missing before 4.4.0).
+
+## REST API
+
+From 4.5.0 the v2 API covers the key management of the web pages: signing status, listing keys
+with their DNSKEY and DS records, adding keys, activating and deactivating them, deleting them,
+and rectifying a signed zone. Changes need `zone_dnssec_manage_own` on the zone, or administrator
+rights. Key import and export are still web-only. See
+[API endpoints](../api/endpoints.md#zone-metadata-and-dnssec).
 
 ## More Information
 
