@@ -48,6 +48,13 @@ templates/default/style/
 └── custom_dark.css              # Your dark theme customizations (create this)
 ```
 
+### Docker
+
+Mount `custom_light.css` and `custom_dark.css` as single files, not the whole `style/` or
+`templates/` directory. A mounted directory hides the image's own theme files, and templates
+from another version break the interface after an upgrade. See
+[Customizing the interface](../../installation/docker.md#customizing-the-interface).
+
 ## Example Customizations
 
 ### Custom Brand Colors

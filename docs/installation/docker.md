@@ -530,8 +530,10 @@ PHP runs on `php.ini-production` with these overrides:
 | `expose_php` | `Off` |
 | `opcache.validate_timestamps` | `0` (code is cached until the container restarts) |
 
-To change any of them, mount an ini file into `/usr/local/etc/php/conf.d/`; files load in
-name order, so call it `zz-custom.ini` or later to win.
+To change any of them, mount an ini file into `/usr/local/etc/php/conf.d/`. The image's
+own overrides load first, so any file you mount there wins.
+
+PHP warnings go to the container log (`docker logs`), not into the page *(v4.4.2+)*.
 
 Anything not listed on this page is in
 [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md), which
@@ -543,6 +545,31 @@ tracks the code and is tagged with each release.
 |------|-------------|
 | `/db` | SQLite database directory |
 | `/app/config` | Configuration files (optional) |
+
+## Customizing the interface
+
+Mount only the files you customize, never the whole `/app/templates` directory or `/app`.
+Templates change together with the code that renders them, so a templates directory from
+another Poweradmin version keeps serving outdated pages after an upgrade. That breaks forms in
+ways that are hard to trace, for example saving records failing with a PHP `max_input_vars`
+warning.
+
+[Custom CSS](../configuration/ui/custom-css.md) files are not shipped with the image, so mount
+them one by one:
+
+```bash
+docker run -d --name poweradmin -p 80:80 \
+  -v ./custom_light.css:/app/templates/default/style/custom_light.css:ro \
+  -v ./custom_dark.css:/app/templates/default/style/custom_dark.css:ro \
+  poweradmin/poweradmin
+```
+
+Use `modern` instead of `default` in the path when `PA_THEME` is `modern`. Do not mount the
+whole `style/` directory: it hides the theme's own `light.css` and `dark.css`.
+
+A custom header or footer (`/app/templates/<theme>/custom/header.html` and `footer.html`)
+starts as a copy of the theme's own file, so compare it with the new version after each
+upgrade.
 
 ## Secrets
 
