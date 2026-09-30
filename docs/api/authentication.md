@@ -80,6 +80,13 @@ Operations map onto HTTP methods: `POST` is create, `PUT` and `PATCH` are update
 thing in a single request, such as a dynamic DNS upsert or a bulk record change,
 must satisfy every operation they perform.
 
+Replacing an RRset and dynamic DNS updates need `create` and `update`. When the
+new set has fewer records than the current one, records are removed, so the key
+also needs `delete`. Replacing two A records with one needs it, and so does a
+dual-stack dynamic DNS update that sends only an IPv4 address and would clear the
+AAAA records. Replacing records with the same number of new ones, or changing the
+TTL, only needs `create` and `update`.
+
 Restrictions only narrow access - they never widen it. A read-only key belonging to
 a user with no zone permissions still cannot read anything.
 
