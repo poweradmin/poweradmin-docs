@@ -90,7 +90,7 @@ writing your own client:
 
 | Project | Use it for | Distributed as |
 |---|---|---|
-| [terraform-provider-poweradmin](https://github.com/poweradmin/terraform-provider-poweradmin) | Managing zones, records, RRsets, users, groups and group zone assignments, permissions and zone templates as Terraform or OpenTofu resources | Terraform Registry |
+| [terraform-provider-poweradmin](https://github.com/poweradmin/terraform-provider-poweradmin) | Managing zones, records, RRsets, users, groups and group zone assignments, permissions, zone templates, DNSSEC keys and zone signing as Terraform or OpenTofu resources | Terraform Registry |
 | [external-dns-poweradmin-webhook](https://github.com/poweradmin/external-dns-poweradmin-webhook) | Using Poweradmin as a backend for Kubernetes ExternalDNS, so records follow your Ingresses and Services | Container image |
 | [cert-manager-webhook-poweradmin](https://github.com/poweradmin/cert-manager-webhook-poweradmin) | DNS-01 ACME challenges in Kubernetes, for automated Let's Encrypt issuance through cert-manager | Helm chart, Artifact Hub |
 | [certbot-dns-poweradmin](https://github.com/poweradmin/certbot-dns-poweradmin) | DNS-01 ACME challenges from Certbot outside Kubernetes | PyPI |
