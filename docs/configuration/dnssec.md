@@ -148,30 +148,28 @@ Check DNSSEC status using:
 dig +dnssec example.com SOA
 ```
 
-## Importing and Exporting PEM Keys
+## Importing and Exporting Keys
 
-PowerDNS 4.7 and newer expose endpoints for importing PEM-encoded private keys into a zone and exporting the active ones back out. Poweradmin wires both into the zone's DNSSEC page so you can move signed zones between servers without dropping out to `pdnsutil`.
+From 4.5.0 the zone's DNSSEC page imports private keys into a zone and exports them back out, so you can move signed zones between servers without dropping out to `pdnsutil`. Both need PowerDNS 4.1 or newer; on older servers, or when version detection could not reach the API, the import form stays hidden.
 
-The buttons only appear when the connected PowerDNS reports version 4.7 or newer. On older servers (or when capability detection couldn't reach the API), they stay hidden - you can still sign and unsign zones, but not import or export key material.
+In 4.4.x the import form took only PEM keys, which the PowerDNS API does not accept, so imports there always failed. Upgrade to 4.5.0 to import keys.
 
 ### Importing a Key
 
 Open the zone's DNSSEC page and use the **Import key** form:
 
 1. Pick the key type - **KSK**, **ZSK**, or **CSK**.
-2. Pick the algorithm. The dropdown only shows algorithms the connected PowerDNS supports, so what you see is what will actually work. Common picks are `ecdsa256` and `ed25519`; legacy zones often use `rsasha256`.
-3. Paste the full PEM block, including the `-----BEGIN PRIVATE KEY-----` and `-----END PRIVATE KEY-----` lines.
+2. Pick the algorithm the key was made for. For RSA keys the hash (SHA1, SHA256 or SHA512) cannot be read from the key, so the selection decides it; for ECDSA and EdDSA keys a selection that does not match the key is refused.
+3. Paste the private key, either in BIND format (`Private-key-format: v1.x`, as exported here or written by `dnssec-keygen`) or as an unencrypted PEM key: RSA, ECDSA P-256 or P-384, Ed25519 or Ed448, in PKCS#8, PKCS#1 or SEC1 form. A PEM key is converted to the BIND format before it is sent, because that is the only format the PowerDNS API reads. Encrypted PEM keys are refused.
 4. Submit.
 
-If PowerDNS rejects the format (wrong algorithm for the key, malformed PEM, etc.) the error from the API is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
+Imported keys start inactive; activate them from the key list. If PowerDNS rejects the key, an error is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
 
 Importing requires the `zone_dnssec_manage_own` permission on the zone (ueberusers always pass). This is a separate permission from zone editing: full zone-edit rights without it are refused, and content-edit rights with it are accepted. The same gate applies to export.
 
 ### Exporting a Key
 
-Each key row on the DNSSEC page now has an **Export** action. Clicking it returns the PEM block for the active private key so you can copy it into another server or store it offline. Treat the export the same way you would treat any private key - whoever holds it can sign records for the zone.
-
-The export is always delivered as a file download (`Content-Type: application/x-pem-file`), named `<zone>-key-<id>.pem`. The PEM is never rendered inline in the page.
+Each key row on the DNSSEC page has an **Export** action. It downloads the private key in BIND format as `<zone>-key-<id>.private` (`Content-Type: text/plain`), the same format `dnssec-keygen` writes and the import form takes, so you can copy it into another server or store it offline. The key is never rendered inline in the page. Treat the export the same way you would treat any private key - whoever holds it can sign records for the zone.
 
 ### Notes
 

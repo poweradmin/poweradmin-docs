@@ -59,7 +59,7 @@ Features without a version marker have been present since 3.x or earlier.
 |---|---|---|
 | DNSSEC configuration and key management | | [DNSSEC](../configuration/dnssec.md) |
 | Pre-flight zone validation before signing | 4.1.0 | [DNSSEC](../configuration/dnssec.md) |
-| PEM private key import and export, PowerDNS 4.7+ | 4.4.0 | [DNSSEC](../configuration/dnssec.md) |
+| Private key import (BIND or PEM) and export, PowerDNS 4.1+ | 4.5.0 | [DNSSEC](../configuration/dnssec.md) |
 | Copy DS and DNSKEY records to the clipboard | 4.4.0 | [DNSSEC](../configuration/dnssec.md) |
 | Presigned zone awareness | 4.5.0 | [DNSSEC](../configuration/dnssec.md) |
 | Delegated key management through `zone_dnssec_manage_own` | 4.5.0 | [Permissions](../user-guide/permissions.md) |

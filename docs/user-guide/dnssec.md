@@ -64,9 +64,9 @@ alongside the old one, wait out the parent's TTL, then deactivate and remove the
 gives you the individual steps - activating, deactivating and deleting keys - but does not automate
 the timing, so plan the waits.
 
-Importing and exporting PEM key material is covered in
-[DNSSEC Configuration](../configuration/dnssec.md#importing-and-exporting-pem-keys); it needs
-PowerDNS 4.7 or newer.
+Importing and exporting private keys is covered in
+[DNSSEC Configuration](../configuration/dnssec.md#importing-and-exporting-keys); from 4.5.0 it
+takes BIND or PEM keys and needs PowerDNS 4.1 or newer.
 
 ## Editing records on a signed zone
 
