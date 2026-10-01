@@ -104,7 +104,7 @@ The following distributions are EOL or otherwise out of support and ship a PHP v
 
 | Distribution        | Default PHP | Reason                                                         |
 |---------------------|-------------|----------------------------------------------------------------|
-| Debian 11 (Bullseye) | 7.4         | LTS support ended June 2026.                                  |
+| Debian 11 (Bullseye) | 7.4         | LTS support ended August 2026.                                |
 | Ubuntu 20.04 LTS     | 7.4         | Standard support ended April 2025.                            |
 | Rocky/AlmaLinux 8.x  | 7.2         | PHP below minimum; consider upgrading to 9.x or 10.x.         |
 
