@@ -99,8 +99,9 @@ applied.
 Reading keys needs view access to the zone; the other key endpoints need `zone_dnssec_manage_own`
 on the zone (or administrator rights) and the PowerDNS API. For API key scopes, adding a key is a
 `create` operation and rectifying is an `update`. New keys are created inactive unless `active` is
-`true`, as in the web UI. Rectify is refused for Secondary and Consumer zones, and when PowerDNS
-cannot be reached the key and rectify endpoints answer `502`.
+`true`, as in the web UI. Rectify is refused for Secondary and Consumer zones. When PowerDNS
+cannot be reached, the status, sign/unsign, key and rectify endpoints answer `502` rather than
+reporting the zone as unsigned.
 
 ### Server status (v4.5.0+)
 
