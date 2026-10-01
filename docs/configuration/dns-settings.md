@@ -54,9 +54,11 @@ From 4.6.0, `bump_serial_on_unchanged_save` lets an installation opt out. With `
 
 - A zone save that changes no record leaves the serial untouched and reports that nothing changed.
 - Editing a single record and submitting it unchanged leaves the serial untouched. With the PowerDNS API backend the write itself is skipped, because PowerDNS would otherwise bump the serial through `SOA-EDIT-API`.
+- A zone save, or an approved change request, whose only change is a record comment leaves the serial untouched. A changed zone comment still bumps it.
+- The API v2 record, RRset and bulk endpoints leave the serial untouched for a write that changes nothing.
 - A save that does change a record still bumps the serial once, as before.
 
-DNSSEC signing, and the public API record and RRset endpoints, keep bumping the serial regardless of this setting.
+DNSSEC signing keeps bumping the serial regardless of this setting.
 
 ```php
 'dns' => [
