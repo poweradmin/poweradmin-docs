@@ -9,7 +9,7 @@ Groups are available starting from Poweradmin v4.2.0.
 - **Groups** are collections of users that share access to a set of zones
 - A user can belong to **multiple groups** simultaneously
 - A zone can be owned by a **user, one or more groups, or both**
-- Each group has a **permission template** that defines what its members can do with the group's zones
+- Each group has a **permission template** whose permissions every member receives
 - Permissions from all sources (user template + group memberships) are **combined** - if any source grants access, the user has it
 
 ## Group List
@@ -25,7 +25,7 @@ Navigate to **Groups** in the top navigation bar to access the group list.
 1. Click **Add group** from the group list
 2. Enter a **Group Name** (must be unique)
 3. Optionally add a **Description**
-4. Select a **Permission template** - this determines what permissions group members have for zones owned by this group
+4. Select a **Permission template** - every member receives its permissions, see [How Permissions Work](#how-permissions-work)
 5. Click **Create Group**
 
 After creation, you can add members and assign zones.
@@ -62,26 +62,36 @@ All group members get access to owned zones based on the group's permission temp
 
 Poweradmin combines permissions from all sources. A user's effective permissions are the union of:
 
-- Their **personal permission template** (applies globally)
-- Permissions from **each group they belong to** (apply only to that group's zones)
+- Their **personal permission template**
+- The permission template of **each group they belong to**
 
-For example, if a user has a "Viewer" personal template but belongs to an "Editors" group that owns `example.com`, that user can edit records in `example.com` while having read-only access to everything else.
+Permissions are not tied to the group that granted them. An "own" permission such as
+`zone_content_edit_own` applies to every zone the user owns, whether directly or through any
+of their groups. An "others" permission applies to every zone.
 
-> **Note:** Zone-scoped permissions from a group template apply only to zones that group owns - they do not extend to zones the user owns personally or through other groups.
+For example, a user with a "Viewer" personal template who belongs to an "Editors" group that
+owns `example.com` can edit records in `example.com`. If that user also owns `example.org`
+personally, or through another group, they can edit records there too, because the edit
+permission covers every zone they own.
+
+> **Note:** A user who needs different rights on different sets of zones cannot get that
+> from two groups with different templates: the user receives both templates and the broader
+> one wins on all their zones. Give each such user a single level, or use the
+> [change approval workflow](change-requests.md) to route their edits through review.
 >
-> This scoping is about *zones*, not about the permission set itself. Permissions that are
-> not zone-scoped take effect globally for every member: a group template carrying
-> `user_is_ueberuser` makes each member a full administrator everywhere, not just within
-> the group's zones. The installer ships an `Administrators` group bound to exactly such a
-> template. Creating and editing groups, and changing who belongs to one, is therefore
-> restricted to administrators.
+> Permissions that are not about zones take effect the same way: a group template carrying
+> `user_is_ueberuser` makes each member a full administrator everywhere. The installer ships
+> an `Administrators` group bound to exactly such a template. Creating and editing groups,
+> and changing who belongs to one, is therefore restricted to administrators.
 
 ## Permission Templates
 
 Permission templates come in two types:
 
-- **User templates** - assigned directly to users, apply globally
-- **Group templates** - assigned to groups, apply only to group-owned zones
+- **User templates** - assigned directly to users
+- **Group templates** - assigned to groups, and received by every member
+
+Both kinds grant permissions the same way, see [How Permissions Work](#how-permissions-work).
 
 You can manage permission templates under **Permissions** in the navigation bar. See [Permissions](permissions.md) for details on available permissions.
 
