@@ -1,7 +1,7 @@
 # Upgrading Poweradmin
 
 Coming from another PowerDNS web interface, such as PowerDNS-Admin, Opera DNS UI, nsedit or PDNS Manager? See
-[Migrating from Other Tools](from-other-tools.md).
+[Migrating from Other Tools](../migrating/index.md).
 
 ## General Upgrade Instructions
 

@@ -2,7 +2,7 @@
 
 [Opera DNS UI](https://github.com/operasoftware/dns-ui) (dns-ui) is a PHP interface for PowerDNS with LDAP
 login, per-zone access levels and a change review workflow. It talks to PowerDNS only over the HTTP API and keeps
-users, access and history in its own PostgreSQL database. See [Migrating from Other Tools](from-other-tools.md)
+users, access and history in its own PostgreSQL database. See [Migrating from Other Tools](index.md)
 for the general approach.
 
 There is no import tool. This page describes a manual migration. Try it on a test copy first.

@@ -192,12 +192,6 @@ nav:
 
   - Upgrading:
       - Overview: upgrading/index.md
-      - Migrating from Other Tools:
-          - Overview: upgrading/from-other-tools.md
-          - PowerDNS-Admin: upgrading/from-powerdns-admin.md
-          - Opera DNS UI: upgrading/from-dns-ui.md
-          - nsedit: upgrading/from-nsedit.md
-          - PDNS Manager: upgrading/from-pdnsmanager.md
       - v4.x Series:
           - v4.6.0: upgrading/v4.6.0.md
           - v4.5.0: upgrading/v4.5.0.md
@@ -253,6 +247,13 @@ nav:
               - v2.1.2: upgrading/v2.1.2.md
               - v2.1.1: upgrading/v2.1.1.md
               - v2.1.0: upgrading/v2.1.0.md
+
+  - Migrating:
+      - Overview: migrating/index.md
+      - PowerDNS-Admin: migrating/powerdns-admin.md
+      - Opera DNS UI: migrating/opera-dns-ui.md
+      - nsedit: migrating/nsedit.md
+      - PDNS Manager: migrating/pdns-manager.md
 
   - API Reference:
       - API Overview: api/overview.md

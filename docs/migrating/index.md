@@ -9,8 +9,8 @@ What you have to move depends on where the old tool keeps the DNS data.
 
 | Where the records live | Tools | What you migrate |
 |---|---|---|
-| In PowerDNS, written over the PowerDNS API | [PowerDNS-Admin](from-powerdns-admin.md), [Opera DNS UI](from-dns-ui.md), [nsedit](from-nsedit.md) | Users, permissions and zone ownership. The records are already in place |
-| In the PowerDNS database, written with SQL | [PDNS Manager](from-pdnsmanager.md) | Users, permissions and zone ownership, plus the tool's own tables in the PowerDNS database |
+| In PowerDNS, written over the PowerDNS API | [PowerDNS-Admin](powerdns-admin.md), [Opera DNS UI](opera-dns-ui.md), [nsedit](nsedit.md) | Users, permissions and zone ownership. The records are already in place |
+| In the PowerDNS database, written with SQL | [PDNS Manager](pdns-manager.md) | Users, permissions and zone ownership, plus the tool's own tables in the PowerDNS database |
 | In the tool's own database, exported to PowerDNS | NicTool | The zones themselves, see [below](#tools-with-their-own-zone-store) |
 
 When the records are already in PowerDNS, connect Poweradmin to the same PowerDNS server and the zones show up.
@@ -21,13 +21,13 @@ side while you do this, since both write to the same PowerDNS.
 
 | Tool | Last activity | Talks to PowerDNS through | Guide |
 |---|---|---|---|
-| PowerDNS-Admin | Active, CalVer releases since 2026.08 | API | [Migrating from PowerDNS-Admin](from-powerdns-admin.md) |
-| Opera DNS UI (dns-ui) | Occasional commits, last release v0.2.8 (2023) | API | [Migrating from Opera DNS UI](from-dns-ui.md) |
-| nsedit | Occasional commits, last in 2025 | API | [Migrating from nsedit](from-nsedit.md) |
-| PDNS Manager (pdnsmanager.org) | No commits since 2021 | SQL, MySQL/MariaDB only | [Migrating from PDNS Manager](from-pdnsmanager.md) |
+| PowerDNS-Admin | Active, CalVer releases since 2026.08 | API | [Migrating from PowerDNS-Admin](powerdns-admin.md) |
+| Opera DNS UI (dns-ui) | Occasional commits, last release v0.2.8 (2023) | API | [Migrating from Opera DNS UI](opera-dns-ui.md) |
+| nsedit | Occasional commits, last in 2025 | API | [Migrating from nsedit](nsedit.md) |
+| PDNS Manager (pdnsmanager.org) | No commits since 2021 | SQL, MySQL/MariaDB only | [Migrating from PDNS Manager](pdns-manager.md) |
 
 Most other PowerDNS web interfaces have had no commits for years. If yours stores its data in PowerDNS, the
-[PowerDNS-Admin guide](from-powerdns-admin.md) is a good template: the Poweradmin side of the steps is the same.
+[PowerDNS-Admin guide](powerdns-admin.md) is a good template: the Poweradmin side of the steps is the same.
 
 ## Common Steps
 

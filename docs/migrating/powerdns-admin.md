@@ -1,11 +1,9 @@
 # Migrating from PowerDNS-Admin
 
-PowerDNS-Admin and Poweradmin are two separate projects with similar names. PowerDNS-Admin is a Python/Flask
-application. Poweradmin is a PHP application. Both are web interfaces for the PowerDNS authoritative server.
-Current PowerDNS-Admin releases (CalVer, 2026.08 and later) support only PowerDNS 5.0 and newer. Poweradmin supports
-PowerDNS 4.0.0 and newer, so it works with the PowerDNS you already run, see
-[System Requirements](../getting-started/requirements.md). See [Migrating from Other Tools](from-other-tools.md)
-for the other tools this section covers.
+[PowerDNS-Admin](https://github.com/PowerDNS-Admin/PowerDNS-Admin) is a Python/Flask interface for PowerDNS with
+accounts, roles and several login methods. It talks to PowerDNS only over the HTTP API and keeps users, accounts,
+API keys, settings and history in its own database. Despite the similar name, it is a separate project from
+Poweradmin. See [Migrating from Other Tools](index.md) for the general approach.
 
 There is no import tool. This page describes a manual migration. Try it on a test copy first.
 
@@ -14,8 +12,9 @@ There is no import tool. This page describes a manual migration. Try it on a tes
 
 ## What Carries Over
 
-Records live in PowerDNS. Neither tool stores them itself, so there is nothing to export or convert. Point
-Poweradmin at the same PowerDNS and the zones are there.
+Records live in PowerDNS. Point Poweradmin at the same PowerDNS and the zones are there. Current PowerDNS-Admin
+releases (2026.08 and later) need PowerDNS 5.0 or newer; Poweradmin works with PowerDNS 4.0.0 and newer, so it
+runs against the server you already have, see [System Requirements](../getting-started/requirements.md).
 
 PowerDNS-Admin keeps a copy of the zone list in its own database and refreshes it from the PowerDNS API. It also
 stores users, accounts, roles, zone-to-user mappings, API keys, settings and history there. None of that carries
@@ -30,7 +29,7 @@ over. The migration is mostly about users and permissions.
 | | Login setup (LDAP, OIDC, SAML) |
 | | Settings, domain templates |
 
-History is not migrated.
+The PowerDNS-Admin history is not migrated.
 
 ## Before You Start
 
@@ -129,8 +128,6 @@ accounts and roles; recreate that with the group and template mappings of the OI
 
 Two-factor login is off by default, set `security.mfa.enabled`. Each user enrolls again, see
 [MFA](../user-guide/mfa.md).
-
-#### Optional: Copy Password Hashes
 
 PowerDNS-Admin stores local passwords as bcrypt hashes starting with `$2b$`. Poweradmin does not recognize that
 prefix, but the same hash with the prefix changed to `$2y$` verifies. To let local users keep their passwords,

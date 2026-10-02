@@ -2,7 +2,7 @@
 
 [PDNS Manager](https://pdnsmanager.org/) is a PHP and Angular interface for PowerDNS. It writes the PowerDNS
 database directly with SQL and supports MySQL/MariaDB only. It has had no commits since 2021. See
-[Migrating from Other Tools](from-other-tools.md) for the general approach.
+[Migrating from Other Tools](index.md) for the general approach.
 
 There is no import tool. This page describes a manual migration. Try it on a copy of the database first.
 

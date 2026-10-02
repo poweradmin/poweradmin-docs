@@ -1,7 +1,7 @@
 # Migrating from nsedit
 
 [nsedit](https://github.com/tuxis-ie/nsedit) is a small PHP editor for PowerDNS. It talks to PowerDNS only over
-the HTTP API and keeps its users in an SQLite file. See [Migrating from Other Tools](from-other-tools.md) for the
+the HTTP API and keeps its users in an SQLite file. See [Migrating from Other Tools](index.md) for the
 general approach.
 
 There is no import tool. This page describes a manual migration. Try it on a test copy first.
