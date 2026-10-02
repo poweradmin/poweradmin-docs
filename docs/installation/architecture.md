@@ -63,7 +63,7 @@ Browser ──443──▶ Poweradmin ──8081──▶ PowerDNS ──53─�
                      └──3306/5432──▶ Poweradmin database
 ```
 
-This mode was added in 4.3.0 and is still marked experimental. It is the right choice when
+This mode was added in 4.3.0. It is the right choice when
 Poweradmin has no network route to the PowerDNS database - see
 [Remote Setup](remote-setup-guide.md) and [PowerDNS API](../configuration/powerdns-api.md).
 

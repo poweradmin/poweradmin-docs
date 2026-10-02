@@ -51,7 +51,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 
 | Setting | Default | Description | Added in |
 |---|---|---|---|
-| `dns.backend` {#setting-dns-backend} | `'sql'` | DNS data backend: 'sql' (default, direct database) or 'api' (PowerDNS REST API, experimental) | 4.3.0 |
+| `dns.backend` {#setting-dns-backend} | `'sql'` | DNS data backend: 'sql' (default, direct database) or 'api' (PowerDNS REST API) | 4.3.0 |
 | `dns.hostmaster` {#setting-dns-hostmaster} | `'hostmaster.example.com'` | Default hostmaster email address | - |
 | `dns.ns1` {#setting-dns-ns1} | `'ns1.example.com'` | - | - |
 | `dns.ns2` {#setting-dns-ns2} | `'ns2.example.com'` | - | - |
