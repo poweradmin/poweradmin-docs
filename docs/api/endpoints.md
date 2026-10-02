@@ -50,6 +50,10 @@ From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, changing a zone's `name`, `type` or `mas
 return `403`. A value that matches what is stored is not treated as a change, so clients that
 resend every field on update keep working.
 
+In API backend mode, `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this
+zone: its ID is shared with another zone" when the id belongs to two zones. See
+[Zone IDs Shared by Two Zones](../configuration/powerdns-api.md#zone-ids-shared-by-two-zones).
+
 #### Setting the serial policy on create (v4.5.0+)
 
 `POST /zones` accepts an optional `soa_edit_api` string that sets the zone's
@@ -91,13 +95,16 @@ applied.
 | `POST` | `/zones/{id}/dnssec` | Sign or unsign the zone (v4.5.0+) |
 | `GET` | `/zones/{id}/dnssec/keys` | List the zone's keys with their DNSKEY and DS (v4.5.0+) |
 | `POST` | `/zones/{id}/dnssec/keys` | Add a key (`type`, `algorithm`, `bits`, optional `active`) (v4.5.0+) |
+| `POST` | `/zones/{id}/dnssec/keys/import` | Import a key from a BIND-format private key (`type`, `privatekey`, optional `active`) (v4.6.0+) |
 | `GET` | `/zones/{id}/dnssec/keys/{key_id}` | Get one key (v4.5.0+) |
 | `PATCH` | `/zones/{id}/dnssec/keys/{key_id}` | Activate or deactivate a key (v4.5.0+) |
 | `DELETE` | `/zones/{id}/dnssec/keys/{key_id}` | Delete a key (v4.5.0+) |
 | `POST` | `/zones/{id}/dnssec/rectify` | Rectify a signed primary zone (v4.5.0+) |
 
 Reading keys needs view access to the zone; the other key endpoints need `zone_dnssec_manage_own`
-on the zone (or administrator rights) and the PowerDNS API. For API key scopes, adding a key is a
+on the zone (or administrator rights) and the PowerDNS API. From 4.6.0, adding, importing,
+updating and deleting keys also needs view access to the zone, as on the web DNSSEC pages, and
+answers `403` without it. For API key scopes, adding a key is a
 `create` operation and rectifying is an `update`. New keys are created inactive unless `active` is
 `true`, as in the web UI. A key's `type` is the role PowerDNS derives on every read (`ksk` or
 `zsk` only while an active SEP and an active non-SEP key share an algorithm, otherwise `csk`); from
@@ -105,6 +112,10 @@ on the zone (or administrator rights) and the PowerDNS API. For API key scopes, 
 and Consumer zones. When PowerDNS
 cannot be reached, the status, sign/unsign, key and rectify endpoints answer `502` rather than
 reporting the zone as unsigned.
+
+An imported key must use an algorithm offered for new keys on the connected PowerDNS version.
+Any other algorithm answers `400` with "The private key uses an unsupported algorithm (one of:
+...)", listing the accepted ones.
 
 ### Server status (v4.5.0+)
 
@@ -365,6 +376,10 @@ given, and `per_page` is capped at 10000.
 > **Warning:** The parameter is `per_page`, not `limit`. An unrecognised
 > parameter is ignored rather than rejected, so `?limit=50` silently returns
 > every row.
+
+From 4.6.0, a query parameter sent as an array, such as `?type[]=A`, answers `400` with
+"Query parameter 'type' must be a single value". This applies to every v2 endpoint and to the
+internal API.
 
 Paginated responses include a `pagination` block alongside `data`:
 

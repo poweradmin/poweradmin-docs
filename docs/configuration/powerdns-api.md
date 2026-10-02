@@ -205,13 +205,30 @@ The dashboard may report "0 zones" until the sync has run at least once in API m
 4. Change `dns.backend` from `sql` to `api`
 5. Load any page - the zone sync service automatically populates cached zone metadata
 
-All existing zone ownership, group assignments, and permissions are preserved. The migration is reversible by changing `dns.backend` back to `sql`.
+All existing zone ownership, group assignments, and permissions are preserved, except on a zone id two zones share (see [Zone IDs Shared by Two Zones](#zone-ids-shared-by-two-zones)). The migration is reversible by changing `dns.backend` back to `sql`.
 
 **What changes at runtime:**
 
 - All zone and record writes go through the PowerDNS API, so cache flush and DNSSEC rectify/signing are triggered automatically. In SQL mode these required manual `pdns_control cache-flush` calls.
 - NOTIFY is *not* sent as a side effect of an API write. PowerDNS only sends one from the explicit `PUT /zones/{id}/notify` endpoint, which Poweradmin does not call, or from the primary's periodic serial-check loop - which needs `primary=yes` (formerly `master=yes`) in `pdns.conf` and behaves the same way in SQL mode.
 - The Poweradmin app no longer needs credentials for the PowerDNS database. You can remove `pdns_db_*` settings and revoke the corresponding database grants.
+
+### Zone IDs Shared by Two Zones
+
+A zone created in API backend mode and a zone migrated from SQL mode can end up with the same
+zone id. From 4.6.0 Poweradmin handles this as follows:
+
+- The id opens one of the two zones.
+- Extra owners and group grants keyed by the shared id are ignored. Only the direct owner of the
+  zone the id opens keeps access; administrators are not affected.
+- Adding owners or groups to a shared id is refused. The web forms say so, and the API v2
+  `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this zone: its ID is
+  shared with another zone".
+- Deleting either zone also removes the owner and group grants keyed by the shared id.
+
+The [Database Consistency Check](../maintenance/consistency-check.md) lists every shared id with
+both zone names, so an administrator can separate them. Poweradmin does not separate them
+automatically.
 
 ### Zone Sync Service
 

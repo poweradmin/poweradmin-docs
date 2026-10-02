@@ -163,7 +163,7 @@ Open the zone's DNSSEC page and use the **Import key** form:
 3. Paste the private key, either in BIND format (`Private-key-format: v1.x`, as exported here or written by `dnssec-keygen`) or as an unencrypted PEM key: RSA, ECDSA P-256 or P-384, Ed25519 or Ed448, in PKCS#8, PKCS#1 or SEC1 form. A PEM key is converted to the BIND format before it is sent, because that is the only format the PowerDNS API reads. Encrypted PEM keys are refused.
 4. Submit.
 
-Imported keys start inactive; activate them from the key list. If PowerDNS rejects the key, an error is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
+Imported keys start inactive; activate them from the key list. From 4.6.0, a key whose algorithm is not one offered for new keys on the connected PowerDNS version is refused before it is sent. If PowerDNS rejects the key, an error is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
 
 Importing requires the `zone_dnssec_manage_own` permission on the zone (ueberusers always pass). This is a separate permission from zone editing: full zone-edit rights without it are refused, and content-edit rights with it are accepted. The same gate applies to export.
 
@@ -183,7 +183,8 @@ Each key row on the DNSSEC page has an **Export** action. It downloads the priva
 From 4.5.0 the v2 API covers the key management of the web pages: signing status, listing keys
 with their DNSKEY and DS records, adding keys, activating and deactivating them, deleting them,
 and rectifying a signed zone. Changes need `zone_dnssec_manage_own` on the zone, or administrator
-rights. Key import and export are still web-only. See
+rights. From 4.6.0 changing keys also needs view access to the zone, and keys can be imported
+with `POST /zones/{id}/dnssec/keys/import`; export is still web-only. See
 [API endpoints](../api/endpoints.md#zone-metadata-and-dnssec).
 
 ## More Information

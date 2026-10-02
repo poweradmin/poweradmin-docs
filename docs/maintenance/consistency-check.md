@@ -2,7 +2,7 @@
 
 The consistency check looks for zones and records that are structurally broken - a zone nobody
 owns, a slave zone with no master, records left behind by a deleted zone - and offers a one-click
-fix for each. It is reached from **Tools → Database Consistency Check** (`/tools/database-consistency`).
+fix for most of them. It is reached from **Tools → Database Consistency Check** (`/tools/database-consistency`).
 
 ![Database Consistency Check](../screenshots/database-consistency.png)
 
@@ -34,6 +34,7 @@ total issues, errors and warnings.
 | Orphaned records | Error | Records whose zone no longer exists | **Delete** the record |
 | Duplicate SOA records | Error | Zones carrying more than one SOA | **Fix** keeps the first SOA and deletes the rest |
 | Zones without SOA | Error | Zones missing an SOA record entirely | **Fix** creates a default SOA |
+| Zone IDs shared by two zones (4.6.0+) | Warning | Zone ids two zones share in API backend mode, with both zone names and the number of ignored owners and group grants | None - report only |
 
 Every fix is a POST protected by a CSRF token, and destructive actions ask for confirmation first.
 
@@ -42,13 +43,18 @@ Every fix is a POST protected by a CSRF token, and destructive actions ask for c
 The checks run against whichever backend is configured, so they work in
 [API backend mode](../configuration/powerdns-api.md) as well as against the database.
 
-Two differences apply there:
+Three differences apply there:
 
 - The orphaned-records check is skipped and always reports success. PowerDNS owns the
   zone-to-record relationship in API mode, so the condition cannot arise.
 - If the PowerDNS API is unreachable, or any zone read fails partway through, the page reports a
   single error instead of results. This is deliberate: a partial read could otherwise make a
   healthy zone look like it was missing its SOA.
+- The shared zone id check can only find something here. A zone created in API mode and a zone
+  migrated from SQL mode can get the same id; extra owners and group grants on that id are
+  ignored until an administrator separates the zones. See
+  [Zone IDs Shared by Two Zones](../configuration/powerdns-api.md#zone-ids-shared-by-two-zones).
+  In SQL mode every zone has its own id, so the check always reports none.
 
 ## When to run it
 
