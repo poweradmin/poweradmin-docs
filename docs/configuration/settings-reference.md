@@ -71,6 +71,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `dns.default_zone_template` {#setting-dns-default-zone-template} | `null` | Pre-selected template on the add-zone form. Template id (int) or name (string); null for "none" | 4.4.0 |
 | `dns.zone_ownership_mode` {#setting-dns-zone-ownership-mode} | `'both'` | Options: 'both', 'users_only', 'groups_only' | 4.4.0 |
 | `dns.sync_zone_owner_to_account` {#setting-dns-sync-zone-owner-to-account} | `false` | Mirror the oldest zone owner's username into the PowerDNS account field on ownership changes | 4.4.0 |
+| `dns.adopt_zone_owner_from_account` {#setting-dns-adopt-zone-owner-from-account} | `false` | Ownerless zones (e.g. from an autoprimary) go to the user their PowerDNS account names: API-mode zone sync, or the consistency repair | 4.6.0 |
 | `dns.strict_tld_check` {#setting-dns-strict-tld-check} | `false` | Strict validation of TLDs | - |
 | `dns.top_level_tld_check` {#setting-dns-top-level-tld-check} | `false` | Prevent creation of top-level domains | 2.1.7 |
 | `dns.third_level_check` {#setting-dns-third-level-check} | `false` | Prevent creation of third-level domains | 2.1.7 |

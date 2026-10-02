@@ -40,14 +40,25 @@ Each entry has three fields, which map directly to PowerDNS's `supermasters` tab
 |-------|-------------|
 | IP address | The address the primary sends NOTIFY from. PowerDNS matches on this exactly, so it must be the source address, not just a name that resolves to it |
 | Hostname in NS record | The nameserver hostname that appears in the zone's NS records |
-| Account | A Poweradmin username. Zones auto-created from this supermaster are assigned to that user |
+| Account | A Poweradmin username. PowerDNS copies it into the `account` field of every zone it creates from this entry |
 
 The IP address and hostname together form the primary key, so the same IP can appear more than
 once with different nameserver hostnames. Editing and deleting identify an entry by both values.
 
-Setting **Account** matters in practice: without it, auto-created zones arrive with no owner and
-are invisible to non-administrator users. Those show up under "zones without owners" in the
+PowerDNS creates these zones itself, so Poweradmin does not give them an owner by default. They
+are invisible to non-administrator users and show up under "zones without owners" in the
 [Database Consistency Check](../maintenance/consistency-check.md).
+
+Since v4.6.0, set `dns.adopt_zone_owner_from_account` to `true` (Docker:
+`PA_DNS_ADOPT_ZONE_OWNER_FROM_ACCOUNT=true`) to give such a zone to the user named in **Account**:
+
+- With the API backend, the zone sync does it as soon as it finds the new zone.
+- With either backend, the "zones without owners" repair in the consistency check assigns the
+  zone to that user instead of the administrator who runs the repair. This also covers zones
+  that arrived before the setting was turned on.
+
+The account must match the username exactly, including case. A zone that already has an owner
+or a group is never changed.
 
 ## Adding an entry
 
