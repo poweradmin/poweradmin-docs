@@ -2,9 +2,15 @@
 
 PowerDNS-Admin and Poweradmin are two separate projects with similar names. PowerDNS-Admin is a Python/Flask
 application. Poweradmin is a PHP application. Both are web interfaces for the PowerDNS authoritative server.
-Poweradmin supports PowerDNS 4.0.0 and newer, see [System Requirements](../getting-started/requirements.md).
+Current PowerDNS-Admin releases (CalVer, 2026.08 and later) support only PowerDNS 5.0 and newer. Poweradmin supports
+PowerDNS 4.0.0 and newer, so it works with the PowerDNS you already run, see
+[System Requirements](../getting-started/requirements.md). See [Migrating from Other Tools](from-other-tools.md)
+for the other tools this section covers.
 
 There is no import tool. This page describes a manual migration. Try it on a test copy first.
+
+> **Note:** A few steps rely on features added in Poweradmin 4.5.0 and 4.6.0, marked where they appear. See
+> [What's New](../whats-new/v4.6.0.md) for which versions are released.
 
 ## What Carries Over
 
@@ -50,10 +56,25 @@ JOIN user u ON u.id = au.user_id
 LEFT JOIN domain d ON d.account_id = a.id;
 ```
 
+```sql
+-- API keys, their role, and the zones or accounts each is limited to
+SELECT k.id, k.description, r.name AS role, d.name AS zone, a.name AS account
+FROM apikey k
+JOIN role r ON r.id = k.role_id
+LEFT JOIN domain_apikey dk ON dk.apikey_id = k.id
+LEFT JOIN domain d ON d.id = dk.domain_id
+LEFT JOIN apikey_account ka ON ka.apikey_id = k.id
+LEFT JOIN account a ON a.id = ka.account_id;
+```
+
 Also write down:
 
-- API keys that scripts use, and which zones or accounts each key is limited to.
+- Which scripts use which API key.
 - Hosts that send dynamic DNS updates to PowerDNS-Admin.
+
+PowerDNS-Admin keeps its settings in the `setting` table, but an environment variable or the Python config file
+with the same name overrides the database value. Check the container environment as well when you note the
+settings, especially for LDAP, OAuth and SAML.
 
 Back up the PowerDNS database and the PowerDNS-Admin database.
 
@@ -74,8 +95,7 @@ PowerDNS-Admin only ever talks to PowerDNS over the HTTP API. Poweradmin can wor
   [Database Configuration](../configuration/database.md) and set `pdns_api.url` and `pdns_api.key`.
 - API backend mode. Set `dns.backend` to `api`, plus `pdns_api.url` and `pdns_api.key`. Poweradmin then needs no
   access to the PowerDNS database. This is the closest match to how PowerDNS-Admin works, but some features are
-  limited in this mode. See
-  [Restrictions with the PowerDNS API backend](../user-guide/zones.md#restrictions-with-the-powerdns-api-backend).
+  limited in this mode. See [API Backend Mode](../configuration/powerdns-api.md#api-backend-mode-v430).
 
 SQL mode has the full feature set. Use API backend mode when Poweradmin cannot reach the PowerDNS database. See
 [PowerDNS API](../configuration/powerdns-api.md) for the settings in both modes.
@@ -87,7 +107,8 @@ Sign in as the administrator and open the zone list. You should see the existing
 ### 3. Recreate Roles as Permission Templates
 
 PowerDNS-Admin has three roles: Administrator, Operator and User. Whether a User may create or delete zones, or
-view history, is a global setting there. In Poweradmin these are individual permissions grouped into a
+view history, is a global setting there (`allow_user_create_domain`, `allow_user_remove_domain`,
+`allow_user_view_history`). In Poweradmin these are individual permissions grouped into a
 [permission template](../user-guide/users-roles.md). Create one template for each role you use, and more if some
 users need different rights. The full list of permissions is in [User Permissions](../user-guide/permissions.md).
 
@@ -100,12 +121,39 @@ permissions on a group instead (next step). The `permissions.show_user_access_te
 `permissions.show_group_access_templates` settings control which of the two is shown in the interface, see
 [Permissions Settings](../configuration/permissions.md).
 
-Poweradmin does not import password hashes. Users set new passwords, or sign in through an external system.
-Poweradmin supports [LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md) and
-[SAML](../configuration/saml.md). PowerDNS-Admin also offers Google, GitHub and Azure login. These have no direct
-equivalent; check whether your provider offers OIDC or SAML.
+Users set new passwords, or sign in through an external system. Poweradmin supports
+[LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md) and [SAML](../configuration/saml.md). Google
+and Microsoft Entra ID (formerly Azure AD) login, which PowerDNS-Admin offers through OAuth, work through
+Poweradmin's OIDC provider presets. GitHub login has no equivalent. PowerDNS-Admin can also map IdP groups to
+accounts and roles; recreate that with the group and template mappings of the OIDC or SAML settings.
 
-Two-factor login is off by default, set `mfa.enabled`. Each user enrolls again, see [MFA](../user-guide/mfa.md).
+Two-factor login is off by default, set `security.mfa.enabled`. Each user enrolls again, see
+[MFA](../user-guide/mfa.md).
+
+#### Optional: Copy Password Hashes
+
+PowerDNS-Admin stores local passwords as bcrypt hashes starting with `$2b$`. Poweradmin does not recognize that
+prefix, but the same hash with the prefix changed to `$2y$` verifies. To let local users keep their passwords,
+create them in Poweradmin first, then copy the hashes with the prefix changed. Users from LDAP, OAuth or SAML have
+`*` in place of a hash; skip them. This is a manual database change with no tool support, so test it on a copy
+first. For each user, the value to write is:
+
+```sql
+-- run against the PowerDNS-Admin database
+-- MySQL/MariaDB and PostgreSQL
+SELECT username, CONCAT('$2y$', SUBSTR(password, 5)) AS poweradmin_hash
+FROM user
+WHERE password LIKE '$2b$%';
+
+-- SQLite
+SELECT username, '$2y$' || SUBSTR(password, 5) AS poweradmin_hash
+FROM user
+WHERE password LIKE '$2b$%';
+```
+
+Write each value into Poweradmin's `users.password` for the same `username`, only for users whose `auth_method` is
+`sql`. On PostgreSQL, quote `user` as `"user"`. Poweradmin rehashes a password at the next login if its own
+settings call for a different algorithm or cost.
 
 ### 5. Recreate Accounts as Groups and Assign Zones
 
@@ -121,24 +169,34 @@ Zones that a user reaches directly (the `domain_user` table) become user ownersh
 then its ownership page (`/zones/{id}/ownership`), and add the user. A zone can have user owners and group owners at
 the same time. See [Zone Ownership](../user-guide/zones.md#zone-ownership).
 
+PowerDNS-Admin writes the account name into each zone's `account` field in PowerDNS. Poweradmin's
+`dns.adopt_zone_owner_from_account` setting (4.6.0+, off by default) would give such a zone to a user whose username
+equals the account name. Leave it off unless that is what you want.
+
 There is no "change owner" action for several zones on the zone list. For many zones, assign them through a group
 or script it with the API: `/api/v2/zones/{id}/owners` for users and `/api/v2/groups/{id}/zones` for groups.
 
 ### 6. Recreate API Keys
 
-PowerDNS-Admin API keys carry a role and are limited to a set of zones or accounts. Poweradmin API keys belong to
-a user and can do what that user can do. To keep a key limited to some zones, create a service user for the script,
-give it a permission template and make it owner of those zones (or a member of a group that owns them), then create
-the key under that user.
+PowerDNS-Admin API keys carry a role and are limited to a set of zones or accounts. A Poweradmin API key belongs to
+the user who creates it and can do at most what that user can do. Since 4.5.0 a key can be narrowed further: made
+read-only, limited to some operations, or limited to some zones, see
+[Restricting what a key can do](../api/authentication.md#restricting-what-a-key-can-do). For a script, create a
+service user with the rights it needs, sign in as that user and create the key there.
 
 Enable the API (`api.enabled = true`) and create keys under **Settings -> API Keys** (`/settings/api-keys`), see
 [API Authentication](../api/authentication.md). A regular user can hold up to `api.max_keys_per_user` keys
 (default 5). Administrators have no limit.
 
 The API itself is different. Poweradmin's API is `/api/v2`, authenticated with the `X-API-Key` header, see
-[API Overview](../api/overview.md). Scripts that use PowerDNS-Admin's own endpoints (`/api/v1/pdnsadmin/...`)
-must be rewritten. PowerDNS-Admin also passes `/api/v1/servers/...` calls through to PowerDNS. Scripts that use
-those can usually be pointed at the PowerDNS API directly, with a PowerDNS API key.
+[API Overview](../api/overview.md). PowerDNS-Admin has two kinds of endpoint:
+
+- `/api/v1/pdnsadmin/...` manages users, accounts and zones, and takes a username and password with HTTP Basic
+  authentication, not an API key. Scripts that use it must be rewritten against Poweradmin's API.
+- `/api/v1/servers/...` is passed through to PowerDNS, filtered by the API key's role and zones. Scripts that use it
+  can be pointed at the PowerDNS API directly. A PowerDNS API key is not limited to any zones, so keep it away from
+  scripts that should only reach a few. Rewriting them against Poweradmin's API with a restricted key keeps the
+  limits.
 
 ### 7. Move Dynamic DNS Clients
 
@@ -156,10 +214,11 @@ Change the URL in each client. Users who authenticate with a password need their
 - [DNS templates](../user-guide/dns-templates.md) replace PowerDNS-Admin domain templates. Recreate them by hand.
 - [DNSSEC](../user-guide/dnssec.md) management is off by default, set `dnssec.enabled`. See
   [DNSSEC configuration](../configuration/dnssec.md). Existing keys stay in PowerDNS.
-- [Change requests](../user-guide/change-requests.md) add a review step before changes are applied. Off by default,
-  set `approval.enabled`. PowerDNS-Admin has nothing like this.
+- [Change requests](../user-guide/change-requests.md) (4.6.0+) add a review step before changes are applied. Off by
+  default, set `approval.enabled`. PowerDNS-Admin has nothing like this.
 
-PowerDNS-Admin stores its settings in its database. Poweradmin reads them from `config/settings.php`, see
+PowerDNS-Admin stores its settings in its database, overridable from the environment. Poweradmin reads them from
+`config/settings.php`, see
 [Settings Reference](../configuration/settings-reference.md).
 
 ### 9. Switch Over
@@ -180,11 +239,12 @@ PowerDNS-Admin stores its settings in its database. Poweradmin reads them from `
 | Role: Administrator | User with `user_is_ueberuser` |
 | Role: Operator, User | [Permission template](../user-guide/users-roles.md) |
 | Domain-user mapping | [Zone ownership](../user-guide/zones.md#zone-ownership) by user |
-| API key with role and zone scope | [API key](../api/authentication.md) owned by a user |
+| API key with role and zone scope | [API key](../api/authentication.md) owned by a user, restricted to zones (4.5.0+) |
 | Domain template | [DNS template](../user-guide/dns-templates.md) |
 | History | [Record change log](../user-guide/record-change-log.md) and the zone logs at `/zones/logs`, not migrated |
 | LDAP, OIDC, SAML login | [LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md), [SAML](../configuration/saml.md) |
-| Google, GitHub, Azure login | No direct equivalent |
+| Google, Microsoft Entra ID login | [OIDC](../configuration/oidc.md) provider presets |
+| GitHub login | No equivalent |
 | TOTP two-factor login | [MFA](../user-guide/mfa.md), users enroll again |
 | `/nic/update` | `/dynamic_update.php` or `POST /api/v2/dynamic-dns`, see [Dynamic DNS](../user-guide/ddns/overview.md) |
 | Settings in database | `config/settings.php`, see [Settings Reference](../configuration/settings-reference.md) |
