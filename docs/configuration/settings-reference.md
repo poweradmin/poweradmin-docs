@@ -177,7 +177,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `logging.type` {#setting-logging-type} | `'null'` | Options: 'null' (disabled), 'native' (PHP error_log) | 3.9.0 |
 | `logging.level` {#setting-logging-level} | `'info'` | Options: 'debug', 'info', 'notice', 'warning', 'error', 'critical', 'alert', 'emergency' | 3.9.0 |
 | `logging.database_enabled` {#setting-logging-database-enabled} | `false` | Write audit events to database log tables (log_users, log_zones, log_groups, log_record_changes) | 3.2.0 |
-| `logging.require_change_comment` {#setting-logging-require-change-comment} | `false` | Require a reason for bulk record changes | 4.5.0 |
+| `logging.require_change_comment` {#setting-logging-require-change-comment} | `false` | Require a reason for bulk record changes and change requests | 4.5.0 |
 | `logging.api_request_logging` {#setting-logging-api-request-logging} | `false` | Log every public API request; permission violations (401/403) are logged regardless | 4.5.0 |
 | `logging.api_log_retention_days` {#setting-logging-api-log-retention-days} | `0` | Days to keep API log rows; 0 = keep forever | 4.5.0 |
 | `logging.syslog_enabled` {#setting-logging-syslog-enabled} | `false` | Write audit events to syslog | 2.1.6 |
