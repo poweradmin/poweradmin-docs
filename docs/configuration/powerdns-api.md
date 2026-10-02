@@ -88,6 +88,7 @@ With the PowerDNS API properly configured, Poweradmin gains the following capabi
 - Real-time zone transfers
 - Metadata management
 - Direct server statistics access
+- New zones served at once in SQL mode (v4.6.0+), see below
 
 The **PowerDNS Server Status** page reports whether the server is reachable, its version, daemon
 type and uptime, and the connectivity of each configured autoprimary. It is shown when
@@ -100,6 +101,20 @@ Poweradmin's API keys and permissions instead of the PowerDNS API key. See
 [API Endpoints](../api/endpoints.md#server-status-v450).
 
 ![PowerDNS Server Status](../screenshots/pdns-status.png)
+
+### New Zones and the PowerDNS Zone Cache
+
+PowerDNS 4.5 and later keeps a list of the zones it serves in memory and reloads it from the database every
+`zone-cache-refresh-interval` seconds (300 by default). In SQL mode Poweradmin writes new zones straight to the
+database, so without help a new zone answers REFUSED until the next reload. Record changes can also show up late,
+because PowerDNS caches answers for `cache-ttl` and `negquery-cache-ttl` seconds.
+
+Since v4.6.0, when `pdns_api.url` and `pdns_api.key` are set, Poweradmin calls the PowerDNS cache flush after
+creating or deleting a zone and after changing records. PowerDNS 4.6 and later then serves the change at once. A
+failed flush is logged and does not fail the save. In API backend mode PowerDNS handles this itself.
+
+Without the API, Poweradmin cannot tell PowerDNS about a change. If the wait for new zones matters, lower
+`zone-cache-refresh-interval` in `pdns.conf`, for example to 60.
 
 ## API Backend Mode (v4.3.0+)
 

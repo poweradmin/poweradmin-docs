@@ -1,5 +1,8 @@
 # Upgrading Poweradmin
 
+Coming from PowerDNS-Admin, a separate project? See
+[Migrating from PowerDNS-Admin](from-powerdns-admin.md).
+
 ## General Upgrade Instructions
 
 When upgrading Poweradmin from any version to a newer one, follow these general steps:
