@@ -175,7 +175,7 @@ Each key row on the DNSSEC page has an **Export** action. It downloads the priva
 
 - Imports and exports go through the PowerDNS API, so a working `pdns_api.url` and `pdns_api.key` are required.
 - DS and DNSKEY records on the same page can be copied to clipboard with a single click. This is handy when handing the DS record to a registrar.
-- The CSK guidance alert that used to sit on top of every DNSSEC page only appears on legacy pre-4.0 PowerDNS servers now. On 4.x+ the standard split-key advice no longer applies, and the alert was just adding noise.
+- The CSK guidance alert that used to sit on top of every DNSSEC page only appears on legacy pre-4.0 PowerDNS servers now. On 4.x+ the Add key page instead explains how PowerDNS lists key types: a key shows as KSK or ZSK only while the zone has an active KSK and an active ZSK with the same algorithm, otherwise as CSK, even when KSK or ZSK was picked. PowerDNS stores only whether a key is a secure entry point and derives the type on every read.
 - Sign and unsign actions are both recorded in the zone activity feed (sign was missing before 4.4.0).
 
 ## REST API

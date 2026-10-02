@@ -59,6 +59,11 @@ Until then the zone is signed but unvalidated, which is harmless.
 dropdown only lists what the connected PowerDNS actually supports, so anything shown will work;
 `ecdsa256` and `ed25519` are the usual modern picks, with `rsasha256` on older zones.
 
+The key list shows the type PowerDNS reports, not the one you picked. PowerDNS lists a key as KSK or
+ZSK only while the zone has an active KSK and an active ZSK with the same algorithm; otherwise it
+lists the key as CSK. A KSK added on its own, or next to an inactive ZSK, therefore shows as CSK
+until the matching ZSK is active.
+
 A key rollover is the same operations in a safe order: add the new key, publish the new DS
 alongside the old one, wait out the parent's TTL, then deactivate and remove the old key. Poweradmin
 gives you the individual steps - activating, deactivating and deleting keys - but does not automate
