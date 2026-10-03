@@ -35,6 +35,7 @@ total issues, errors and warnings.
 | Duplicate SOA records | Error | Zones carrying more than one SOA | **Fix** keeps the first SOA and deletes the rest |
 | Zones without SOA | Error | Zones missing an SOA record entirely | **Fix** creates a default SOA |
 | Zone IDs shared by two zones (4.6.0+) | Warning | Zone ids two zones share in API backend mode, with both zone names and the number of ignored owners and group grants | None - report only |
+| Group assignments under a zone row ID (4.6.0+) | Warning | Group assignments made through the API before 4.6.0 whose stored id is a migrated zone's row id and names no zone now | None - report only; remove the assignment and assign the zone again |
 
 Every fix is a POST protected by a CSRF token, and destructive actions ask for confirmation first.
 
