@@ -35,7 +35,7 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/zones` | List zones; each entry carries `canonical_id`, the identifier the other zone endpoints take |
+| `GET` | `/zones` | List zones; `id` is the identifier the other zone endpoints take (`canonical_id` carries the same value) |
 | `POST` | `/zones` | Create zone |
 | `GET` | `/zones/{id}` | Get zone |
 | `PUT` | `/zones/{id}` | Update zone |
