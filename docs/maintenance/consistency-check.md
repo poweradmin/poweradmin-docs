@@ -35,6 +35,7 @@ total issues, errors and warnings.
 | Duplicate SOA records | Error | Zones carrying more than one SOA | **Fix** keeps the first SOA and deletes the rest |
 | Zones without SOA | Error | Zones missing an SOA record entirely | **Fix** creates a default SOA |
 | Zone IDs shared by two zones (4.6.0+) | Warning | Zone ids two zones share in API backend mode, with both zone names and the number of ignored owners and group grants | None - report only |
+| Zones without a stored name (4.6.0+) | Warning | SQL backend: zones with owners, group grants or API key restrictions but no zone row carrying their exact name, which a switch to the API backend would add again without them | **Fix** stores the name from PowerDNS, adding an ownerless row for a zone that has none; **Repair all** does the whole list |
 | Group assignments under a zone row ID (4.6.0+) | Warning | Group assignments made through the API before 4.6.0 whose stored id is a migrated zone's row id and names no zone now | None - report only; remove the assignment and assign the zone again |
 
 Every fix is a POST protected by a CSRF token, and destructive actions ask for confirmation first.
@@ -44,7 +45,7 @@ Every fix is a POST protected by a CSRF token, and destructive actions ask for c
 The checks run against whichever backend is configured, so they work in
 [API backend mode](../configuration/powerdns-api.md) as well as against the database.
 
-Three differences apply there:
+Four differences apply there:
 
 - The orphaned-records check is skipped and always reports success. PowerDNS owns the
   zone-to-record relationship in API mode, so the condition cannot arise.
@@ -56,6 +57,8 @@ Three differences apply there:
   ignored until an administrator separates the zones. See
   [Zone IDs Shared by Two Zones](../configuration/powerdns-api.md#zone-ids-shared-by-two-zones).
   In SQL mode every zone has its own id, so the check always reports none.
+- The stored zone name check only applies to SQL mode, where it prepares a later switch to the API
+  backend. The zone sync names every zone it keeps, so in API mode it always reports success.
 
 ## When to run it
 

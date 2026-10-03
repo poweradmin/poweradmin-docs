@@ -200,18 +200,35 @@ The dashboard may report "0 zones" until the sync has run at least once in API m
 ### Migrating from SQL to API Backend
 
 1. Ensure the PowerDNS API is enabled and accessible
-2. Run the v4.3.0 database migration (adds required columns to `zones` table). On MySQL/MariaDB with `pdns_db_name`, check afterwards that `SELECT COUNT(*) FROM zones WHERE zone_name IS NULL` returns 0; if not, the backfill was skipped and the [4.3.0 upgrade guide](../upgrading/v4.3.0.md#step-3-run-database-updates) shows how to run it with the qualified table name
-3. Add `pdns_api.url` and `pdns_api.key` to `config/settings.php` and verify the API is reachable (see Testing Connection above)
-4. Change `dns.backend` from `sql` to `api`
-5. Load any page - the zone sync service automatically populates cached zone metadata
+2. Run every database update script up to the installed version
+3. Back up the database. The switch is one-way (see below), and the backup is the way back
+4. Check that every zone has a stored name: the API backend finds zones by it, and a zone without one comes back as a new zone with no owners. Open the [Database Consistency Check](../maintenance/consistency-check.md) and fix any **Zones Without A Stored Name**, or run this query and expect 0:
 
-All existing zone ownership, group assignments, and permissions are preserved, except on a zone id two zones share (see [Zone IDs Shared by Two Zones](#zone-ids-shared-by-two-zones)). The migration is reversible by changing `dns.backend` back to `sql`.
+    ```sql
+    SELECT COUNT(*) FROM domains d
+    WHERE NOT EXISTS (SELECT 1 FROM zones n WHERE n.domain_id = d.id AND n.zone_name = d.name)
+      AND (EXISTS (SELECT 1 FROM zones z WHERE z.domain_id = d.id)
+           OR EXISTS (SELECT 1 FROM zones_groups g WHERE g.domain_id = d.id)
+           OR EXISTS (SELECT 1 FROM api_key_zones k WHERE k.zone_id = d.id));
+    ```
+
+    With `pdns_db_name`, qualify `domains` with that database name.
+
+    From 4.6.0 the SQL backend stores the name whenever it writes a zone row, so only zones last changed by an older version can be affected.
+5. Add `pdns_api.url` and `pdns_api.key` to `config/settings.php` and verify the API is reachable (see Testing Connection above)
+6. Change `dns.backend` from `sql` to `api`
+7. Load any page - the zone sync service automatically populates cached zone metadata
+
+All existing zone ownership, group assignments, and permissions are preserved, except on a zone id two zones share (see [Zone IDs Shared by Two Zones](#zone-ids-shared-by-two-zones)).
+
+**The switch is one-way.** Zone ids the API backend writes are not valid PowerDNS domain ids, so under the SQL backend owners, group grants, API key restrictions and logs would point at other zones. From 4.6.0 Poweradmin refuses to run with `dns.backend` set to `sql` on a database the API backend has written zones to: web pages show the error, the API answers `503`, and the command line and dynamic DNS updates stop with the same message. A database used with the API backend before 4.6.0 is recognised from its zone rows the first time the SQL backend starts. To go back, restore the backup taken before the switch. If Poweradmin refuses a database that was never used with the API backend (possible on SQLite when a zone was deleted outside Poweradmin and its id given to a new zone), set the `backend.zone_ids` row in `app_settings` to `sql`. The `/api/health` endpoint reports the database as `down` while the backend is refused.
 
 **What changes at runtime:**
 
 - All zone and record writes go through the PowerDNS API, so cache flush and DNSSEC rectify/signing are triggered automatically. In SQL mode these required manual `pdns_control cache-flush` calls.
 - NOTIFY is *not* sent as a side effect of an API write. PowerDNS only sends one from the explicit `PUT /zones/{id}/notify` endpoint, which Poweradmin does not call, or from the primary's periodic serial-check loop - which needs `primary=yes` (formerly `master=yes`) in `pdns.conf` and behaves the same way in SQL mode.
 - The Poweradmin app no longer needs credentials for the PowerDNS database. You can remove `pdns_db_*` settings and revoke the corresponding database grants.
+- When PowerDNS no longer lists more than half of the zones Poweradmin knows, the automatic zone sync changes nothing and logs a warning, because that usually means `pdns_api.url` points at the wrong or an empty server. An administrator's manual sync on the Forward Zones page applies the changes.
 
 ### Zone IDs Shared by Two Zones
 
