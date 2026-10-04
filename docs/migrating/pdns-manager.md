@@ -161,8 +161,8 @@ WHERE d.account IS NULL OR d.account = '';
 ### 6. Fix Zones Without SOA
 
 The [Database Consistency Check](../maintenance/consistency-check.md) lists zones with no SOA record under "Zones
-without SOA". **Fix** creates a placeholder SOA, `ns1.<zone> hostmaster.<zone>` with a serial from today's date.
-It does not use the `dns.*` settings, so edit each SOA afterwards to name your real primary nameserver and contact.
+without SOA". **Fix** creates the same default SOA a new zone gets, from `dns.ns1`, `dns.hostmaster`, the SOA timer
+settings and `dns.ttl` (before 4.6.0 it wrote a placeholder `ns1.<zone> hostmaster.<zone>` SOA).
 For many zones it is quicker to insert the SOA records with SQL.
 
 ### 7. Move Dynamic DNS Clients

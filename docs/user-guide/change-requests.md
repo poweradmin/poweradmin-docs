@@ -29,8 +29,9 @@ return [
 |---------|---------|-------------|
 | `approval.enabled` | `false` | Route the zone changes of request-only users through review |
 | `approval.require_review_for_all` | `false` | Every zone change becomes a change request, even for editors and administrators |
+| `approval.allow_self_approval` | `true` | Whether the requester may approve their own request; `false` needs a second reviewer (v4.6.0+) |
 
-Docker deployments set `PA_APPROVAL_ENABLED` and `PA_APPROVAL_REQUIRE_REVIEW_FOR_ALL`.
+Docker deployments set `PA_APPROVAL_ENABLED`, `PA_APPROVAL_REQUIRE_REVIEW_FOR_ALL` and `PA_APPROVAL_ALLOW_SELF_APPROVAL`.
 Email notifications are a separate toggle, see [Notifications](#notifications).
 
 The 4.6.0 update script creates the `zone_change_requests` table and registers the four
@@ -68,8 +69,12 @@ So a request permission matters only for zones the user cannot edit. A user who 
 files requests for everyone else's.
 
 `require_review_for_all` turns every save into a request, for editors and administrators
-too. The reviewer may be the requester: self-approval is allowed, so an administrator who
-files a request under this mode can approve it right away.
+too. By default the reviewer may be the requester, so an administrator who files a request
+under this mode can approve it right away. Set `approval.allow_self_approval` to `false` for a
+four-eyes rule: the requester can then still reject or cancel their request, but approving it
+(or retrying a failed one) needs another reviewer, through the web page and the API alike
+(`403` "You cannot approve your own change request."). The request list marks requests that
+nobody but the requester could approve with **No reviewer other than the requester**.
 
 Request-only users still need `zone_content_view_own` or `zone_content_view_others` to open
 the zone at all.
@@ -425,8 +430,7 @@ keep `require_review_for_all` off for installations that rely on DDNS.
   companion options are not offered in request mode. File the reverse record separately.
 - Zone creation is not reviewed.
 - Deleting several zones at once from the zone list is not reviewed and keeps no snapshot.
-- Self-approval is allowed; there is no rule that the reviewer must differ from the
-  requester.
+- Self-approval is allowed unless `approval.allow_self_approval` is `false`.
 - Stale requests warn but can still be approved.
 - Requests are kept indefinitely. Prune the `zone_change_requests` table on your own
   schedule.

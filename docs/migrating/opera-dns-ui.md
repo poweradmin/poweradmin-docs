@@ -167,7 +167,7 @@ dns-ui's SOA and NS templates fill in the zone creation form. In Poweradmin the 
   [Notifications](../user-guide/change-requests.md#notifications).
 - **Zone deletion.** dns-ui needs a second admin to confirm a deletion. In Poweradmin a deletion goes through review
   only for users who request changes instead of editing directly, or for everyone with
-  `approval.require_review_for_all`. A reviewer may approve their own request.
+  `approval.require_review_for_all`. A reviewer may approve their own request unless `approval.allow_self_approval` is `false`.
 - **Reverse records.** dns-ui adds a PTR for each new A or AAAA record. Poweradmin offers the same as a checkbox
   when `interface.add_reverse_record` is on (the default).
 - **Classification.** dns-ui shows the PowerDNS `account` field as a free-text "classification". Poweradmin does

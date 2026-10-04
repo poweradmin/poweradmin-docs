@@ -26,6 +26,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 |---|---|---|---|
 | `approval.enabled` {#setting-approval-enabled} | `false` | Route changes of request-only users through review | 4.6.0 |
 | `approval.require_review_for_all` {#setting-approval-require-review-for-all} | `false` | Every zone change becomes a request, even for editors and admins | 4.6.0 |
+| `approval.allow_self_approval` {#setting-approval-allow-self-approval} | `true` | False: a requester cannot approve their own change request | 4.6.0 |
 
 ## database
 
