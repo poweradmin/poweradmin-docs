@@ -160,7 +160,7 @@ Open the zone's DNSSEC page and use the **Import key** form:
 
 1. Pick the key type - **KSK**, **ZSK**, or **CSK**.
 2. Pick the algorithm the key was made for. For RSA keys the hash (SHA1, SHA256 or SHA512) cannot be read from the key, so the selection decides it; for ECDSA and EdDSA keys a selection that does not match the key is refused.
-3. Paste the private key, either in BIND format (`Private-key-format: v1.x`, as exported here or written by `dnssec-keygen`) or as an unencrypted PEM key: RSA, ECDSA P-256 or P-384, Ed25519 or Ed448, in PKCS#8, PKCS#1 or SEC1 form. A PEM key is converted to the BIND format before it is sent, because that is the only format the PowerDNS API reads. Encrypted PEM keys are refused.
+3. Paste the private key, either in BIND format (`Private-key-format: v1.x`, as exported here or written by `dnssec-keygen`) or as an unencrypted PEM key: RSA, ECDSA P-256 or P-384, Ed25519 or Ed448, in PKCS#8, PKCS#1 or SEC1 form. A PEM key is converted to the BIND format before it is sent, because that is the only format the PowerDNS API reads. Encrypted PEM keys are refused. From 4.6.0, Ed25519 and Ed448 keys are also read in the PKCS#8 v2 form, which carries the public key next to the private one; 4.5.0 reads only the v1 form that `openssl genpkey` writes.
 4. Submit.
 
 Imported keys start inactive; activate them from the key list. From 4.6.0, a key whose algorithm is not one offered for new keys on the connected PowerDNS version is refused before it is sent. If PowerDNS rejects the key, an error is shown above the form. Successful imports are recorded in the zone activity log as a key-add event.
