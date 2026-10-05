@@ -89,6 +89,7 @@ With the PowerDNS API properly configured, Poweradmin gains the following capabi
 - Metadata management
 - Direct server statistics access
 - New zones served at once in SQL mode (v4.6.0+), see below
+- **Send NOTIFY** and **Retrieve from primary** on the zone edit page in SQL mode (v4.6.0+)
 
 The **PowerDNS Server Status** page reports whether the server is reachable, its version, daemon
 type and uptime, and the connectivity of each configured autoprimary. It is shown when
