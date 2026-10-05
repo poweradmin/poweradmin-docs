@@ -110,6 +110,32 @@ Records are edited in the table itself:
 
 Enabling `interface.show_record_edit_button` adds an **Actions** column with a per-record edit button that opens the record on its own page. It is off by default, as is `interface.show_record_delete_button`, so a default install has no Actions column.
 
+### Editing the SOA Record
+
+From 4.6.0 the SOA record has its own editor. Tick the SOA row and click **Edit selected**,
+or use its edit button when the Actions column is on. The record page then shows the SOA
+fields separately instead of one content string:
+
+- **Primary nameserver** and **Hostmaster**. The hostmaster can be typed as an email address
+  (`hostmaster@example.com`) or in DNS form (`hostmaster.example.com`); Poweradmin converts
+  the address and escapes dots in the part before the `@`.
+- **Serial** is read-only. Poweradmin increments it on every change to the zone.
+- **Refresh**, **Retry**, **Expire** and **Minimum TTL** are in seconds. The box next to each
+  value shows it as a duration, such as `3h` or `1w`, while you type.
+- **Use defaults** fills the four timers from `dns.soa_refresh`, `dns.soa_retry`,
+  `dns.soa_expire` and `dns.soa_minimum`.
+- **Edit as text** switches to the raw content string, for a custom serial or a serial
+  placeholder (`[SERIAL]`, `[UNIXTIME]`, `[COUNTER]`). **Edit as fields** switches back once
+  the string has seven fields again.
+
+![SOA record editor](../screenshots/soa-editor.png)
+
+An SOA record that does not have seven fields, or a browser with JavaScript off, gets the
+plain content field.
+
+In the record list the SOA row keeps its single content field. Its **Details** toggle shows the
+seven fields with labels, and each timer with its duration.
+
 ### Adding Records
 
 By default the zone editor shows an **Add record** button that opens a separate page (`/zones/{id}/records/add`). Set `interface.show_add_record_form` to `true` to get an input row in the record table instead. Either way:
