@@ -26,13 +26,14 @@ Navigate to **Groups** in the top navigation bar to access the group list.
 2. Enter a **Group Name** (must be unique)
 3. Optionally add a **Description**
 4. Select a **Permission template** - every member receives its permissions, see [How Permissions Work](#how-permissions-work)
-5. Click **Create Group**
+5. Optionally set a **Zone limit** - how many zones the group may own; empty uses the default, see [Zone Limits](users-roles.md#zone-limits)
+6. Click **Create Group**
 
 After creation, you can add members and assign zones.
 
 ## Editing a Group
 
-The edit page shows the group details on the left, with members and zones on the right. You can update the group name, description, and permission template. Members and zones can be quickly removed from here, or managed in bulk through dedicated screens.
+The edit page shows the group details on the left, with members and zones on the right. You can update the group name, description, permission template and zone limit; the zone limit field also shows how many zones the group owns. Members and zones can be quickly removed from here, or managed in bulk through dedicated screens.
 
 ![Edit group view](../screenshots/groups-edit.png)
 

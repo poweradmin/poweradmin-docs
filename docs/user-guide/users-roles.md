@@ -35,6 +35,34 @@ Ownership is a designation that marks users as "owners" for specific zones. Howe
 privileges for these zones. The actual abilities are determined by the permissions in the user's assigned template. For
 example, if a user owns zones but lacks the `zone_content_view_own` permission, they won't be able to see those zones.
 
+## Zone Limits
+
+Since version 4.6.0 a superuser can cap how many zones a user or a group may own.
+
+- A **user** counts the zones they own directly. Zones that reach them through a group do not count.
+- A **group** counts the zones assigned to it.
+- Superusers are never limited, whatever their limit says.
+
+Set the limit in the **Zone limit** field on the add and edit forms for users and groups. Leave it
+empty to use the default from `dns.default_max_zones_per_user` or `dns.default_max_zones_per_group`
+(unlimited unless configured). `0` means the user or group may not own any zone. Only superusers
+see and change the field, on the web and in the API (`max_zones`).
+
+The limit applies to the owner, whoever makes the change. Creating a zone, adding an owner or a
+group, and moving zones to another user when a user is deleted are refused once the receiving
+owner would go past the limit; the message names the owner and the numbers, for example
+"Zone limit reached: alice owns 10 of 10 zones." The API answers 409 with the same text.
+Zones that the background sync adopts (autoprimary, `dns.adopt_zone_owner_from_account`) are not
+refused.
+
+Lowering a limit never removes zones. The user or group keeps what they own and cannot take on
+new zones until they are below the limit again; the form warns when you save a limit below the
+current count. The add-zone pages show how many more zones the signed-in user may own, and
+`interface.show_zone_limit_column` adds the owned count and limit to the users and groups lists.
+
+Two requests at the same moment can both pass the check, so a user can end up one zone over the
+limit; the next request is refused.
+
 ## Edit Access and Zone Integrity
 
 Poweradmin assumes that users with edit permissions for a zone can be trusted with full access to that zone's contents,

@@ -140,6 +140,7 @@ For password policies and MFA settings, see [Security Policies](security-policie
 | `interface.display_template_in_zone_list` | false | Show template in zone list |
 | `interface.show_zone_comments` | true | Enable zone comments |
 | `interface.show_record_comments` | false | Enable record comments |
+| `interface.show_zone_limit_column` | false | Show owned zones and the zone limit in the users and groups lists (4.6.0) |
 | `interface.add_reverse_record` | true | Show PTR record checkbox |
 | `interface.add_domain_record` | true | Show A/AAAA checkbox in reverse view |
 | `interface.show_record_id` | false | Show record ID in edit form |

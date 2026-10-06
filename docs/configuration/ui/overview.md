@@ -24,6 +24,7 @@ The following settings control the user interface appearance and behavior:
 - **position_save_button_top**: Position the "Save changes" button at the top of the page. Default: `false`
 - **show_zone_comments**: Show or hide zone comments. Default: `true`
 - **show_record_comments**: Show or hide record comments. Default: `false`
+- **show_zone_limit_column**: Show owned zones and the zone limit in the users and groups lists (v4.6.0+). Default: `false`
 - **display_serial_in_zone_list**: Display serial number in zone list. Default: `false`
 - **display_signed_serial_in_zone_list**: Display the serial served by PowerDNS with SOA-EDIT applied (the "signed" serial) in zone lists. Requires the API backend and PowerDNS 4.3+ (v4.5.0+). Default: `false`
 - **display_template_in_zone_list**: Display template information in zone list. Default: `false`

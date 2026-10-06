@@ -71,6 +71,8 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `dns.zone_type_default` {#setting-dns-zone-type-default} | `'MASTER'` | Options: 'MASTER', 'NATIVE' | 2.1.9 |
 | `dns.default_zone_template` {#setting-dns-default-zone-template} | `null` | Pre-selected template on the add-zone form. Template id (int) or name (string); null for "none" | 4.4.0 |
 | `dns.zone_ownership_mode` {#setting-dns-zone-ownership-mode} | `'both'` | Options: 'both', 'users_only', 'groups_only' | 4.4.0 |
+| `dns.default_max_zones_per_user` {#setting-dns-default-max-zones-per-user} | `null` | How many zones a user may own directly when the user has no own limit; null = unlimited, 0 = none. Superusers are never limited | 4.6.0 |
+| `dns.default_max_zones_per_group` {#setting-dns-default-max-zones-per-group} | `null` | How many zones a group may own when the group has no own limit; null = unlimited, 0 = none | 4.6.0 |
 | `dns.sync_zone_owner_to_account` {#setting-dns-sync-zone-owner-to-account} | `false` | Mirror the oldest zone owner's username into the PowerDNS account field on ownership changes | 4.4.0 |
 | `dns.adopt_zone_owner_from_account` {#setting-dns-adopt-zone-owner-from-account} | `false` | Ownerless zones (e.g. from an autoprimary) go to the user their PowerDNS account names: API-mode zone sync, or the consistency repair | 4.6.0 |
 | `dns.strict_tld_check` {#setting-dns-strict-tld-check} | `false` | Strict validation of TLDs | - |
@@ -131,6 +133,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `interface.display_owner_in_zone_list` {#setting-interface-display-owner-in-zone-list} | `true` | Show owner column in zone lists | 4.5.0 |
 | `interface.display_group_in_zone_list` {#setting-interface-display-group-in-zone-list} | `true` | Show group column in zone lists | 4.5.0 |
 | `interface.show_zone_record_count` {#setting-interface-show-zone-record-count} | `true` | Show record count column in zone lists | 4.5.0 |
+| `interface.show_zone_limit_column` {#setting-interface-show-zone-limit-column} | `false` | Show owned zones and zone limit in the users and groups lists | 4.6.0 |
 | `interface.display_fullname_in_zone_list` {#setting-interface-display-fullname-in-zone-list} | `false` | Show user's full name instead of username in zone lists | 4.0.0 |
 | `interface.search_group_records` {#setting-interface-search-group-records} | `false` | Group records by name and content in search results | 3.8.0 |
 | `interface.reverse_zone_sort` {#setting-interface-reverse-zone-sort} | `'natural'` | Reverse zone sorting algorithm: 'natural' (default) or 'hierarchical' (experimental) | 4.0.0 |
