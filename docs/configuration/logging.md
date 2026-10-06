@@ -71,6 +71,39 @@ Upgrading from v3.x? The equivalent flat variables were `$logger_type`, `$logger
 `$syslog_use`, `$syslog_ident`, `$syslog_facility` and `$dblog_use`. That format was removed in
 4.1.0 - see [Legacy Configuration](legacy-configuration.md).
 
+## Docker Configuration
+
+In the Docker image each setting has an environment variable, so logging can be turned on
+without a configuration file or a volume:
+
+| Variable | Setting | Default |
+|----------|---------|---------|
+| `PA_LOGGING_TYPE` | `logging.type` | `null` |
+| `PA_LOGGING_LEVEL` | `logging.level` | `info` |
+| `PA_LOGGING_DATABASE_ENABLED` | `logging.database_enabled` | `false` |
+| `PA_LOGGING_API_REQUEST_LOGGING` | `logging.api_request_logging` | `false` |
+| `PA_LOGGING_API_LOG_RETENTION_DAYS` | `logging.api_log_retention_days` | `0` |
+| `PA_LOGGING_SYSLOG_ENABLED` | `logging.syslog_enabled` | `false` |
+| `PA_LOGGING_SYSLOG_IDENTITY` | `logging.syslog_identity` | `poweradmin` |
+| `PA_LOGGING_SYSLOG_FACILITY` | `logging.syslog_facility` | `LOG_USER` |
+
+```yaml
+environment:
+  PA_LOGGING_TYPE: "native"
+  PA_LOGGING_LEVEL: "warning"
+  PA_LOGGING_DATABASE_ENABLED: "true"
+```
+
+With `PA_LOGGING_TYPE=native` the diagnostic messages go to the container output, so
+`docker logs` or `podman logs` shows them.
+
+If you mount your own directory over `/app/config` to supply a `settings.php`, the container
+copies `settings.defaults.php` back into that directory at startup. A `settings.php` that holds
+only a `logging` block is enough; everything else keeps its default.
+
+The full variable list is in
+[DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md#logging-configuration).
+
 For more advanced logging configuration, environment-specific examples, and best practices, see:
 
 - [Advanced Logging Configuration](../advanced/logging-config.md)
