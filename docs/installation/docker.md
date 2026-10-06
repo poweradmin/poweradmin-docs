@@ -440,9 +440,58 @@ variables are ignored and the check is skipped.
 
 The LDAP rows above are enough for a working LDAP setup. OIDC and SAML are not - each provider
 needs its own block of variables (`PA_OIDC_AZURE_*`, `PA_SAML_OKTA_*` and so on), and there are
-137 authentication variables in total across LDAP, OIDC and SAML. They are listed in
+137 authentication variables in total across LDAP, OIDC and SAML (web server authentication is listed below). They are listed in
 [DOCKER.md](https://github.com/poweradmin/poweradmin/blob/master/DOCKER.md); the settings behind
 them are explained in [OIDC](../configuration/oidc.md) and [SAML](../configuration/saml.md).
+
+### Web server authentication (REMOTE_USER)
+
+Signs users in as the user name an authenticating web server or reverse proxy supplies. Added in 4.6.0. See [Web Server Authentication](../configuration/remote-user.md) for how it works and the security requirements.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_REMOTE_USER_ENABLED` | false | Enable web server authentication |
+| `PA_REMOTE_USER_SERVER_VARIABLE` | REMOTE_USER | Server variable that holds the user name |
+| `PA_REMOTE_USER_HEADER` | *(empty)* | Read the user name from this request header instead (header mode), e.g. `Remote-User` |
+| `PA_REMOTE_USER_TRUSTED_PROXIES` | *(empty)* | Comma-separated proxy IPs or CIDRs allowed to send the header. Empty means the header is ignored. Required in header mode |
+| `PA_REMOTE_USER_STRIP_REALM` | false | Turn `user@REALM` and `DOMAIN\user` into `user` |
+| `PA_REMOTE_USER_EMAIL_ATTRIBUTE` | *(empty)* | Variable or header holding the email address, e.g. `Remote-Email` |
+| `PA_REMOTE_USER_NAME_ATTRIBUTE` | *(empty)* | Variable or header holding the full name, e.g. `Remote-Name` |
+| `PA_REMOTE_USER_GROUPS_ATTRIBUTE` | *(empty)* | Variable or header holding the groups, e.g. `Remote-Groups` |
+| `PA_REMOTE_USER_GROUPS_SEPARATOR` | `,` | Separator between groups in the groups attribute |
+| `PA_REMOTE_USER_LOGOUT_URL` | *(empty)* | Where to send users after logout, to end the proxy's own session |
+| `PA_REMOTE_USER_HIDE_LOGIN_FORM` | false | Hide the password form while the web server signs users in |
+| `PA_REMOTE_USER_AUTO_PROVISION` | true | Create an account on first sign-in |
+| `PA_REMOTE_USER_ALLOW_SUPERUSER_PROVISIONING` | false | Let group mappings grant the superuser flag |
+| `PA_REMOTE_USER_SYNC_USER_INFO` | true | Update name and email from the attributes on each sign-in |
+| `PA_REMOTE_USER_DEFAULT_PERMISSION_TEMPLATE` | Guest | Permission template for new accounts when no mapping matches |
+| `PA_REMOTE_USER_PERMISSION_TEMPLATE_MAPPING` | *(empty)* | Map groups to permission templates (format: `group1=Template1,group2=Template2`) |
+| `PA_REMOTE_USER_GROUP_MAPPING` | *(empty)* | Map groups to Poweradmin groups (format: `group1=PaGroup1,group2=PaGroup2`) |
+
+Notes:
+
+- The image's Caddy server does not authenticate users itself. In Docker this is normally used in header mode, behind an authenticating proxy (Authelia, oauth2-proxy, Authentik outpost) that sets `Remote-User`.
+- `PA_REMOTE_USER_TRUSTED_PROXIES` must list the proxy's address as Poweradmin sees it. It is not taken from `TRUSTED_PROXIES`. With a header set but no trusted proxies the header is ignored, and the container logs a warning at startup.
+- The container must not be reachable except through that proxy, and the proxy must overwrite or strip any `Remote-User` header the client sends.
+
+```yaml
+services:
+  poweradmin:
+    image: poweradmin/poweradmin:latest
+    environment:
+      PA_REMOTE_USER_ENABLED: "true"
+      PA_REMOTE_USER_HEADER: Remote-User
+      PA_REMOTE_USER_TRUSTED_PROXIES: 172.20.0.5
+      PA_REMOTE_USER_EMAIL_ATTRIBUTE: Remote-Email
+      PA_REMOTE_USER_NAME_ATTRIBUTE: Remote-Name
+      PA_REMOTE_USER_GROUPS_ATTRIBUTE: Remote-Groups
+      PA_REMOTE_USER_GROUP_MAPPING: dns-admins=Administrators
+      PA_REMOTE_USER_PERMISSION_TEMPLATE_MAPPING: dns-admins=Administrator
+      PA_REMOTE_USER_LOGOUT_URL: https://auth.example.com/logout
+    networks:
+      app:
+        ipv4_address: 172.20.0.10   # reachable only from the proxy network, no published ports
+```
 
 ### Custom CA Certificate
 

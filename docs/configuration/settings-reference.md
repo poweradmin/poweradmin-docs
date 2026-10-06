@@ -298,6 +298,28 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `permissions.show_user_access_templates` {#setting-permissions-show-user-access-templates} | `true` | Show per-user permission template assignment | 4.3.0 |
 | `permissions.show_group_access_templates` {#setting-permissions-show-group-access-templates} | `true` | Show group-based permission template management | 4.3.0 |
 
+## remote_user
+
+| Setting | Default | Description | Added in |
+|---|---|---|---|
+| `remote_user.enabled` {#setting-remote-user-enabled} | `false` | Sign users in from the web server's authenticated user | 4.6.0 |
+| `remote_user.server_variable` {#setting-remote-user-server-variable} | `'REMOTE_USER'` | Server variable the web server sets to the user name (client-settable HTTP_* and PHP_AUTH_* names are refused) | 4.6.0 |
+| `remote_user.header` {#setting-remote-user-header} | `''` | Read the user from this proxy header instead (e.g. 'Remote-User'), which the proxy must overwrite, not append to; empty = use server_variable | 4.6.0 |
+| `remote_user.trusted_proxies` {#setting-remote-user-trusted-proxies} | `[]` | Proxy IPs/CIDRs allowed to send 'header', as PHP sees them (::ffff:10.0.0.5 is not 10.0.0.5); empty = header ignored | 4.6.0 |
+| `remote_user.strip_realm` {#setting-remote-user-strip-realm} | `false` | Turn user@REALM and DOMAIN\user into user (one realm only: alice@A and alice@B become the same account) | 4.6.0 |
+| `remote_user.email_attribute` {#setting-remote-user-email-attribute} | `''` | Variable (or header, in header mode) holding the email address, e.g. 'Remote-Email' | 4.6.0 |
+| `remote_user.name_attribute` {#setting-remote-user-name-attribute} | `''` | Variable (or header) holding the full name, e.g. 'Remote-Name' | 4.6.0 |
+| `remote_user.groups_attribute` {#setting-remote-user-groups-attribute} | `''` | Variable (or header) holding the groups, e.g. 'Remote-Groups' | 4.6.0 |
+| `remote_user.groups_separator` {#setting-remote-user-groups-separator} | `','` | Separator between groups in groups_attribute | 4.6.0 |
+| `remote_user.logout_url` {#setting-remote-user-logout-url} | `''` | Where to send users after logout to end the web server's own session; empty = Poweradmin login page | 4.6.0 |
+| `remote_user.hide_login_form` {#setting-remote-user-hide-login-form} | `false` | Hide the password form while the web server signs someone in (posted passwords still work) | 4.6.0 |
+| `remote_user.auto_provision` {#setting-remote-user-auto-provision} | `true` | Create an account on first sign-in | 4.6.0 |
+| `remote_user.allow_superuser_provisioning` {#setting-remote-user-allow-superuser-provisioning} | `false` | Let mappings grant user_is_ueberuser | 4.6.0 |
+| `remote_user.sync_user_info` {#setting-remote-user-sync-user-info} | `true` | Update name and email from the attributes on each sign-in | 4.6.0 |
+| `remote_user.default_permission_template` {#setting-remote-user-default-permission-template} | `'Guest'` | Permission template for new accounts (no permissions until an admin assigns a role) | 4.6.0 |
+| `remote_user.permission_template_mapping` {#setting-remote-user-permission-template-mapping} | `[]` | Group => permission template name, as for 'saml' | 4.6.0 |
+| `remote_user.group_mapping` {#setting-remote-user-group-mapping} | `[]` | Group => Poweradmin group name or list of names, as for 'saml' | 4.6.0 |
+
 ## saml
 
 | Setting | Default | Description | Added in |

@@ -128,6 +128,7 @@ nav:
       - LDAP Integration: configuration/ldap.md
       - OIDC Authentication: configuration/oidc.md
       - SAML Authentication: configuration/saml.md
+      - Web Server Authentication: configuration/remote-user.md
       - Mail Configuration: configuration/mail.md
       - Record Type Customization: configuration/record-types.md
       - UI Customization:
