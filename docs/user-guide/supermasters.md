@@ -58,7 +58,8 @@ Since v4.6.0, set `dns.adopt_zone_owner_from_account` to `true` (Docker:
   that arrived before the setting was turned on.
 
 The account must match the username exactly, including case. A zone that already has an owner
-or a group is never changed.
+or a group is never changed. A user at their [zone limit](users-roles.md#zone-limits) adopts no
+more zones: the sync leaves the zone ownerless, and the repair gives it to the administrator.
 
 ## Adding an entry
 

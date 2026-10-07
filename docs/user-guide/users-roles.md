@@ -48,20 +48,25 @@ empty to use the default from `dns.default_max_zones_per_user` or `dns.default_m
 (unlimited unless configured). `0` means the user or group may not own any zone. Only superusers
 see and change the field, on the web and in the API (`max_zones`).
 
+![Zone limit on the user form](../screenshots/user-zone-limit.png)
+
 The limit applies to the owner, whoever makes the change. Creating a zone, adding an owner or a
 group, and moving zones to another user when a user is deleted are refused once the receiving
 owner would go past the limit; the message names the owner and the numbers, for example
 "Zone limit reached: alice owns 10 of 10 zones." The API answers 409 with the same text.
-Zones that the background sync adopts (autoprimary, `dns.adopt_zone_owner_from_account`) are not
-refused.
+Concurrent requests are checked one at a time per owner, so two requests at the same moment cannot
+both take the last free slot.
+
+With `dns.adopt_zone_owner_from_account`, a zone is only adopted by a user who has room under their
+limit. Otherwise the zone sync leaves it without an owner and logs a warning, and the "zones without
+owners" repair in the consistency check gives it to the administrator running the repair instead.
+
+![Remaining zones on the add-zone page](../screenshots/add-zone-limit-note.png)
 
 Lowering a limit never removes zones. The user or group keeps what they own and cannot take on
 new zones until they are below the limit again; the form warns when you save a limit below the
 current count. The add-zone pages show how many more zones the signed-in user may own, and
 `interface.show_zone_limit_column` adds the owned count and limit to the users and groups lists.
-
-Two requests at the same moment can both pass the check, so a user can end up one zone over the
-limit; the next request is refused.
 
 ## Edit Access and Zone Integrity
 

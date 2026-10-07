@@ -66,6 +66,8 @@ The edit page of a Master or Producer zone offers **Send NOTIFY** in the same pl
 
 ![Retrieve from primary](../screenshots/retrieve-from-primary.png)
 
+![Send NOTIFY](../screenshots/send-notify.png)
+
 ## Creating Zones
 
 ### Adding a Master Zone

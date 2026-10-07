@@ -76,6 +76,8 @@ four-eyes rule: the requester can then still reject or cancel their request, but
 (`403` "You cannot approve your own change request."). The request list marks requests that
 nobody but the requester could approve with **No reviewer other than the requester**.
 
+![A reviewer's own request](../screenshots/change-request-self-approval.png)
+
 Request-only users still need `zone_content_view_own` or `zone_content_view_others` to open
 the zone at all.
 
@@ -109,6 +111,8 @@ A requester gets the normal zone editor. The difference is what the save button 
 - The inline add form files one request per record. A record that already exists in the
   zone is refused before anything is filed.
 - The single record edit page and the delete confirmation page file requests the same way.
+
+![Zone editor in request mode](../screenshots/change-request-editor.png)
 
 Rows are validated when the request is filed, with the same rules as a direct save, so a
 reviewer never sees a request the zone would refuse.
@@ -183,6 +187,8 @@ time, and the serial the form was rendered at - followed by the actions. An edit
 stored row above the requested row with the changed fields in bold, an addition shows the
 new row, a deletion shows the row that goes away. A changed zone comment is listed after
 the rows.
+
+![Reviewing a change request](../screenshots/change-request-review.png)
 
 Two warnings can appear on a pending request:
 
