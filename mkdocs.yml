@@ -190,6 +190,7 @@ nav:
       - Troubleshooting:
           - Debugging: troubleshooting/debugging.md
           - Reset Admin Password: troubleshooting/reset-admin-password.md
+          - Login Keeps Returning to the Login Page: troubleshooting/login-loop.md
 
   - Upgrading:
       - Overview: upgrading/index.md
