@@ -15,16 +15,16 @@ The image tags published for production and development use are:
 
 | Tag      | Source branch        | Description |
 |----------|----------------------|-------------|
-| `stable` | `release/4.3.x`      | Tracks the latest tagged release on the stable line - **recommended for production**. |
-| `4.3.x`  | `release/4.3.x`      | Stable line; updates on every commit to the branch (more frequent than `stable`). |
-| `4.4.x`  | `release/4.4.x`      | Newest release line (4.4.1) - fresh, still hardening; updates on every commit to the branch. |
-| `4.2.x`  | `release/4.2.x`      | Maintenance line, winding down - security fixes only. |
+| `stable` | `release/4.3.x`      | Tracks the latest tagged release on `release/4.3.x`. |
+| `4.4.x`  | `release/4.4.x`      | LTS line until December 2027; updates on every commit to the branch. |
+| `4.3.x`  | `release/4.3.x`      | Maintenance line, end of life three months after the 4.5.0 release; updates on every commit to the branch. |
+| `4.2.x`  | `release/4.2.x`      | Maintenance line, end of life three months after the 4.5.0 release; updates on every commit to the branch. |
 | `latest` | `master`             | Tracks `master`, which carries the newest release line between patch releases. |
 | `dev`    | `develop`            | Development tip - not for production. |
 | `lts`    | `release/3.x`        | Long-term support for the 3.x series. |
-| `4.3.5`, `4.4.1` | Tagged release | Pin to a specific version, for example `4.3.5` on the stable line or `4.4.1` on the newest line. Image tags carry no `v` prefix: the `v4.4.1` git tag is published as `4.4.1` (plus `4.4` and `4`). |
+| `4.4.1`, `4.3.5` | Tagged release | Pin to a specific version, for example `4.4.1` on the LTS line - **recommended for production**. Image tags carry no `v` prefix: the `v4.4.1` git tag is published as `4.4.1` (plus `4.4` and `4`). |
 
-> **Note:** The `next` tag was removed when the release branch structure changed. The `stable` and per-version (`4.3.5`, `4.4.1`) tags are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
+> **Note:** The `next` tag was removed when the release branch structure changed. The per-version tags (`4.4.1`) are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`, `4.4.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
 
 ## Quick Start
 
