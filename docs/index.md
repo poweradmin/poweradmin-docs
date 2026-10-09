@@ -6,6 +6,11 @@ Welcome to the official documentation for Poweradmin, an administration tool for
 
 Poweradmin manages PowerDNS zones and records with the same validation rules whether you go through the web interface or the REST API. Use the UI for day-to-day operations, the API for scripts, CI, and infrastructure-as-code, or run completely headless after the initial setup.
 
+**DNSSEC-safe via the PowerDNS API.** In [API backend mode](configuration/powerdns-api.md#api-backend-mode-v430) (v4.3.0+) every
+change goes through the PowerDNS REST API, so PowerDNS itself keeps NSEC/NSEC3 chains correct and Poweradmin needs no
+access to its database. With the default SQL backend, set the PowerDNS API URL and key, and Poweradmin will
+[rectify signed zones](configuration/dnssec.md#automatic-rectify) through the API after each change it makes.
+
 ## Which version do these docs describe?
 
 This site publishes a single version of the documentation - the current release line. If you run
@@ -21,6 +26,7 @@ them, for example `(v4.3.0+)` or "added in 4.5.0". Two places track this per rel
 
 - **User Management**: Manage users and roles with different permissions
 - **DNS Management**: Create, update, and delete DNS zones and records
+- **DNSSEC-safe backends**: Run entirely through the PowerDNS API, or keep the SQL backend with API-driven DNSSEC and rectify
 - **Templates**: Use templates for bulk operations
 - **Dynamic DNS**: Configure and manage dynamic DNS settings
 - **Security**: Implement best practices for securing your DNS infrastructure

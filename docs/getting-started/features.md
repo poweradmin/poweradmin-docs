@@ -58,6 +58,8 @@ Features without a version marker have been present since 3.x or earlier.
 | Feature | Since | More |
 |---|---|---|
 | DNSSEC configuration and key management | | [DNSSEC](../configuration/dnssec.md) |
+| DNSSEC-safe writes: PowerDNS API backend mode, no direct database access | 4.3.0 | [PowerDNS API](../configuration/powerdns-api.md#api-backend-mode-v430) |
+| Automatic rectify of signed zones through the PowerDNS API after each change (SQL backend) | | [DNSSEC](../configuration/dnssec.md#automatic-rectify) |
 | Pre-flight zone validation before signing | 4.1.0 | [DNSSEC](../configuration/dnssec.md) |
 | Private key import (BIND or PEM) and export, PowerDNS 4.1+ | 4.5.0 | [DNSSEC](../configuration/dnssec.md) |
 | Copy DS and DNSKEY records to the clipboard | 4.4.0 | [DNSSEC](../configuration/dnssec.md) |
