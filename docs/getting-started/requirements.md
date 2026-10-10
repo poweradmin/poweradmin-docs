@@ -149,24 +149,60 @@ Poweradmin officially supports **PowerDNS Authoritative Server 4.0.0 and newer**
 - **PowerDNS 4.x series** (4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9)
 - **PowerDNS 5.x series** (5.0 and newer)
 
-### Community-Reported Compatibility
+### Tested PowerDNS Versions
 
-While official testing is conducted with PowerDNS 4.7.4, community users have successfully reported using Poweradmin with:
+The development environment of 4.5.x and newer runs PowerDNS 5.1 by default and can switch to
+4.5, 4.6, 4.7, 4.8, 4.9 or 5.0. Versions older than 4.5 are not tested. See
+[Tested Environments](#tested-environments) for each release line.
 
-- PowerDNS 4.8.x
-- PowerDNS 4.9.x
-- PowerDNS 5.0.x and newer
+### PowerDNS in Distributions
+
+Many stable distributions still ship PowerDNS 4.x, which is why Poweradmin keeps supporting it.
+Versions below are from each distribution's default repository.
+
+| Distribution                    | PowerDNS | Upstream status     |
+|---------------------------------|----------|---------------------|
+| Debian 13 (Trixie)              | 4.9      | Critical fixes only |
+| Debian 12 (Bookworm)            | 4.7      | End of life         |
+| Ubuntu 26.04 LTS                | 5.0      | Critical fixes only |
+| Ubuntu 24.04 LTS                | 4.8      | End of life         |
+| Ubuntu 22.04 LTS                | 4.5      | End of life         |
+| Rocky/AlmaLinux 9 and 10 (EPEL) | 5.0      | Critical fixes only |
+| Rocky/AlmaLinux 8 (EPEL)        | 4.8      | End of life         |
+| Fedora 43 / 44                  | 5.0      | Critical fixes only |
+| openSUSE Leap 15.6              | 4.8      | End of life         |
+| Alpine 3.23 / 3.24              | 5.0      | Critical fixes only |
+| FreeBSD, OpenBSD, Arch Linux    | 5.1      | Supported           |
+
+Distributions usually patch security issues in their own package even after the upstream end of
+life. For a newer version on Debian, Ubuntu or RHEL-based systems, use the official
+[PowerDNS repositories](https://repo.powerdns.com/), which provide 5.1 for Debian 11-13,
+Ubuntu 22.04-26.04 and EL 8-10, or the official Docker images.
+
+### Features That Need a Newer PowerDNS
+
+Poweradmin reads the PowerDNS version through the API and hides features the server does not
+support. Everything else works on any supported version.
+
+| PowerDNS | Features                                                                                           |
+|----------|----------------------------------------------------------------------------------------------------|
+| 4.4      | SVCB, HTTPS and APL records                                                                        |
+| 4.5      | CSYNC, NID, L32, L64 and LP records; ED448 DNSSEC keys                                              |
+| 4.6      | Autoprimary management in API backend mode                                                         |
+| 4.7      | Catalog zones (Producer and Consumer)                                                              |
+| 4.8      | ZONEMD records                                                                                     |
+| 5.0      | [Views and networks](../user-guide/views-networks.md) (LMDB backend only); RFC 9615 DNSSEC bootstrapping |
+| 5.1      | RESINFO, WALLET, HHIT and BRID records; `dohpath`, `ohttp` and `tls-supported-groups` SVCB parameters |
 
 ### API Backend Mode
 
 API backend mode (`dns.backend = api`) works on any supported version, but it is
-noticeably faster from **PowerDNS 4.7** onward:
+noticeably faster from **PowerDNS 5.0** onward:
 
-- **4.7+**: zone lists fetch only the SOA record when drawing zone health badges. Older servers ignore the filter and return the whole zone, so listing pages transfer far more data.
+- **5.0+**: zone lists and record edits fetch only the records they need, for example the SOA record when drawing zone health badges. Older servers leave disabled records out of these narrowed reads, so Poweradmin fetches the whole zone instead, and listing pages transfer far more data.
 - **4.3+**: zone lists skip the per-zone DNSSEC lookup when no column needs it.
 
-Nothing breaks on older versions - PowerDNS ignores query parameters it does not
-know - so this is a performance recommendation, not a requirement.
+Nothing breaks on older versions, so this is a performance recommendation, not a requirement.
 
 ### Why Poweradmin Has Broad PowerDNS Compatibility
 
