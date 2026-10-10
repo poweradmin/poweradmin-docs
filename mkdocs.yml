@@ -52,7 +52,11 @@ markdown_extensions:
   - md_in_html
   - tables
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.inlinehilite
   - pymdownx.highlight:
       anchor_linenums: true
@@ -83,6 +87,7 @@ nav:
           - Headless / API-First Quickstart: getting-started/headless-quickstart.md
       - First Steps: getting-started/first-steps.md
       - System Requirements: getting-started/requirements.md
+      - Platform Lifecycle: getting-started/lifecycle.md
       - Project History: getting-started/history.md
 
   - What's New:

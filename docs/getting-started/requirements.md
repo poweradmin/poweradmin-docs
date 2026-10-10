@@ -25,7 +25,7 @@ exceeds the recommended requirements.
         - `pdo-sqlite`
     - `ldap` (optional)
 - **Database**: MariaDB 10.6+, MySQL 8.x, PostgreSQL, or SQLite
-- **PowerDNS**: PowerDNS authoritative server 4.0.0+ (including 4.x and 5.x series)
+- **PowerDNS**: PowerDNS Authoritative Server 4.x or 5.x, tested from 4.5
 - **Web Server**: Apache or NGINX
 - **Operating System**: Linux or BSD
 
@@ -144,10 +144,9 @@ Poweradmin has been tested with the following software combinations:
 
 Poweradmin manages the PowerDNS Authoritative Server only; the PowerDNS Recursor is not managed.
 
-Poweradmin officially supports **PowerDNS Authoritative Server 4.0.0 and newer**, including:
-
-- **PowerDNS 4.x series** (4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9)
-- **PowerDNS 5.x series** (5.0 and newer)
+Poweradmin supports **PowerDNS Authoritative Server 4.x and 5.x**. It is tested from 4.5 onward.
+Versions 4.0-4.4 are expected to work but are not tested, and all of them are end of life upstream.
+See [Platform Lifecycle](lifecycle.md) for PowerDNS and distribution support dates.
 
 ### Tested PowerDNS Versions
 
@@ -199,7 +198,7 @@ support. Everything else works on any supported version.
 API backend mode (`dns.backend = api`) works on any supported version, but it is
 noticeably faster from **PowerDNS 5.0** onward:
 
-- **5.0+**: zone lists and record edits fetch only the records they need, for example the SOA record when drawing zone health badges. Older servers leave disabled records out of these narrowed reads, so Poweradmin fetches the whole zone instead, and listing pages transfer far more data.
+- **5.0+**: record edits and comment reads fetch only the RRset they need, and zone lists with the record count column hidden fetch only the SOA record. Older servers leave disabled records out of these narrowed reads, so Poweradmin fetches the whole zone instead.
 - **4.3+**: zone lists skip the per-zone DNSSEC lookup when no column needs it.
 
 Nothing breaks on older versions, so this is a performance recommendation, not a requirement.
