@@ -29,6 +29,11 @@ The `user_is_ueberuser` permission overrules any other permission the user may o
 full access to all features that would otherwise require specific permissions. This is typically reserved for
 administrators.
 
+The last remaining super admin cannot be deleted or disabled, and the API `PATCH` that changes a user's template
+refuses to take super admin away from them. The user edit form and API `PUT` apply the same rule when
+`security.protect_last_admin_on_edit` is `true` (added in 4.6.0, off by default). See
+[Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v460).
+
 ## Zone Ownership
 
 Ownership is a designation that marks users as "owners" for specific zones. However, ownership alone doesn't grant any

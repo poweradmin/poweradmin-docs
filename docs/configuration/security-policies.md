@@ -9,6 +9,8 @@ Poweradmin offers various security features to protect your DNS management syste
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`
 - **login_token_validation**: Enable token validation for login form. Default: `true`
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
+- **protect_last_admin_on_edit**: Refuse a user edit that moves the last super admin to a template without super admin. Default: `false` (added in 4.6.0). See [Opt-in Hardening](#opt-in-hardening-v460)
+- **strict_session_gates**: Apply required MFA setup and the user agreement to internal API calls and to pages with `api` in their path. Default: `false` (added in 4.6.0). See [Opt-in Hardening](#opt-in-hardening-v460)
 - **trusted_proxies**: Reverse proxy addresses allowed to set forwarded client-IP headers (`X-Forwarded-For`, `X-Real-IP`, `Client-IP`). Supports IPs, CIDRs (IPv4/IPv6), and IPv4 wildcards. Private and loopback peers are always trusted; add public proxy addresses here so their forwarded headers are honored. Default: `[]` (added in 4.5.0)
 
 ## Rotating the Session Key
@@ -131,6 +133,29 @@ return [
 ];
 ```
 
+## Opt-in Hardening (v4.6.0+)
+
+These settings tighten behaviour that earlier releases allowed. They are off by default so an upgrade changes
+nothing; turn them on after checking the notes below.
+
+| Setting | What it changes | Check before enabling |
+|---|---|---|
+| `security.protect_last_admin_on_edit` | The user edit form and API `PUT /users/{id}` refuse to give the last super admin a template without `user_is_ueberuser`. Delete, disable and `PATCH` always refuse this | Super admin rights held only through a group are not counted, so with that setup a valid change can be refused; give the remaining admin a super admin template directly |
+| `security.strict_session_gates` | While a user still has to set up enforced MFA or accept the user agreement, internal API calls answer 403 instead of being let through, and pages such as `/settings/api/logs` redirect to the setup or agreement page. Reading user preferences stays allowed so the setup pages render | Nothing for normal use; scripts that drive the internal API with a browser session of such a user stop working until the user completes setup |
+| `security.password_reset.single_use_claim` | A reset link is marked as used before the new password is saved | If saving the password fails, the link is spent and the user requests a new one |
+
+```php
+return [
+    'security' => [
+        'protect_last_admin_on_edit' => true,
+        'strict_session_gates' => true,
+        'password_reset' => [
+            'single_use_claim' => true,
+        ],
+    ],
+];
+```
+
 ## Security Best Practices
 
 1. **Always change the default session key** to a unique, random string
@@ -160,6 +185,9 @@ Secure password reset functionality with rate limiting:
 - **rate_limit_attempts**: Maximum reset attempts per time window. Default: `5`
 - **rate_limit_window**: Rate limit window in seconds. Default: `3600` (1 hour)
 - **min_time_between_requests**: Minimum seconds between requests. Default: `60` (1 minute)
+- **single_use_claim**: Mark the link as used before the new password is saved, so one link sets one password even when it is submitted twice at the same moment. Default: `false` (added in 4.6.0)
+
+The reset token never appears in the application log: since 4.6.0 log lines carry a short fingerprint of it instead, so entries about the same link can still be matched.
 
 ### `interface.application_url` is required
 

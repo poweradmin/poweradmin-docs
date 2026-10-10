@@ -91,6 +91,10 @@ whose provider stays silent about the address then gets a new account rather tha
 the existing one. Turn it on when your provider does send the claim, which makes an
 absent claim a sign that something other than your provider answered.
 
+Since 4.6.0, every link made without the claim is logged as a warning ("Matched OIDC identity to existing
+account ... although the provider sent no email_verified claim"). Search the log for it before turning
+`require_verified_email` on, to see which accounts rely on unverified linking.
+
 ```php
 'oidc' => [
     'link_by_email' => true,

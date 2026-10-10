@@ -80,7 +80,9 @@ id is normally the bundled Administrator template.
   is never claimed by email; link it explicitly by subject instead.
 
 Both checks are logged when they block a link, so a login that stops working after
-an upgrade can be traced in the application log.
+an upgrade can be traced in the application log. Since 4.6.0 a link made without an
+`email_verified` claim is also logged as a warning; set `saml.require_verified_email`
+to refuse such links.
 
 ## Permission Template Mapping
 

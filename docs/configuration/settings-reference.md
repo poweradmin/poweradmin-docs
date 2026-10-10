@@ -353,6 +353,8 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `security.login_token_validation` {#setting-security-login-token-validation} | `true` | Enable token validation for login form | 3.9.0 |
 | `security.global_token_validation` {#setting-security-global-token-validation} | `true` | Enable token validation for all forms | 3.9.0 |
 | `security.trusted_proxies` {#setting-security-trusted-proxies} | `[]` | Reverse proxy IPs/CIDRs/wildcards allowed to set X-Forwarded-For/X-Real-IP; private/loopback peers are always trusted | 4.5.0 |
+| `security.protect_last_admin_on_edit` {#setting-security-protect-last-admin-on-edit} | `false` | Refuse a user edit that moves the last super admin to a template without super admin; delete, disable and API PATCH always refuse | 4.6.0 |
+| `security.strict_session_gates` {#setting-security-strict-session-gates} | `false` | Hold internal API calls with a 403, and match API paths by segment, while required MFA setup or a user agreement is pending | 4.6.0 |
 | `security.password_policy.enable_password_rules` {#setting-security-password-policy-enable-password-rules} | `true` | Enable password policy enforcement | - |
 | `security.password_policy.min_length` {#setting-security-password-policy-min-length} | `6` | Minimum password length | - |
 | `security.password_policy.require_uppercase` {#setting-security-password-policy-require-uppercase} | `true` | Require at least one uppercase letter | - |
@@ -381,6 +383,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `security.password_reset.rate_limit_attempts` {#setting-security-password-reset-rate-limit-attempts} | `5` | Max reset attempts per time window | - |
 | `security.password_reset.rate_limit_window` {#setting-security-password-reset-rate-limit-window} | `3600` | Rate limit window in seconds (1 hour) | - |
 | `security.password_reset.min_time_between_requests` {#setting-security-password-reset-min-time-between-requests} | `60` | Minimum seconds between requests (1 minute) | - |
+| `security.password_reset.single_use_claim` {#setting-security-password-reset-single-use-claim} | `false` | Claim the link before the password changes, so one link sets one password even under parallel requests | 4.6.0 |
 | `security.username_recovery.enabled` {#setting-security-username-recovery-enabled} | `false` | Enable/disable username recovery functionality | - |
 | `security.username_recovery.rate_limit_attempts` {#setting-security-username-recovery-rate-limit-attempts} | `5` | Max recovery attempts per time window | - |
 | `security.username_recovery.rate_limit_window` {#setting-security-username-recovery-rate-limit-window} | `3600` | Rate limit window in seconds (1 hour) | - |
