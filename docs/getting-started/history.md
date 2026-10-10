@@ -33,8 +33,12 @@ See [What's New](../whats-new/index.md) for details of recent releases.
 
 ## Thanks
 
-Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to Rejo Zenger, Scott Harvanek, Peter Beernink, Okky Octaviano and Fabian Dammekens.
+Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to [Rejo Zenger](https://github.com/rejozenger), [Scott Harvanek](https://github.com/mgob), [Peter Beernink](https://github.com/pbeernink), Okky Octaviano and [Fabian Dammekens](https://github.com/fdammeke).
 
-Later releases gained a lot from outside contributions: Arsen Stasic (DNSSEC and automatic PTR records), Alex Fisher (LDAP authentication and logging), Keenan Tims (rectify-zone handling), Josh Soref (record validation and spelling fixes), Jeroen Boonstra (the Vagrant development VM), and more recently Muckl (German translation, mail and UI fixes), benchea dan (UI refresh and LUA records) and Patrick Omland (DNSSEC key management and other API v2 work).
+The 2.x releases gained a lot from outside contributions: [Arsen Stasic](https://github.com/stasic) (DNSSEC and automatic PTR records), [Alex Fisher](https://github.com/alexjfisher) (LDAP authentication and logging), [Keenan Tims](https://github.com/ktims) (rectify-zone handling), [Josh Soref](https://github.com/jsoref) (record validation and spelling fixes), [Jeroen Boonstra](https://github.com/JeroenBo) (the Vagrant development VM), [Shin Sterneck](https://github.com/shinsterneck) (LUA records), [DecentM](https://github.com/DecentM) (the modern theme), [jAHu](https://github.com/j4Hu) (PHP 7.3 and OpenSSL support), [Max Base](https://github.com/BaseMax) (PHP 8 fixes), and [bynicolas](https://github.com/bynicolas) and [Lennie](https://github.com/Lennie) (DNSSEC fixes).
+
+In the 3.x and 4.x series, thanks go to [b1tw0rker](https://github.com/b1tw0rker) (the basis of the spark dark theme), [benchea dan](https://github.com/bnchdan) (dashboard and navigation redesign), [Muckl](https://github.com/muckl) (German translation, mail and UI fixes), [Michiel Visser](https://github.com/michielvisser) (extensive testing and bug reports during the 4.x work) and [Patrick Omland](https://github.com/pomland-94) (DNSSEC key management and other API v2 work).
+
+Thanks as well to the security researchers who reported vulnerabilities responsibly; they are credited in the [published security advisories](https://github.com/poweradmin/poweradmin/security/advisories).
 
 Thanks also to everyone who reported bugs, sent patches, translated Poweradmin and helped other users on the mailing lists, GitHub issues and discussions.
