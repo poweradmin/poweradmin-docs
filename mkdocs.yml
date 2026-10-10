@@ -87,7 +87,7 @@ nav:
           - Headless / API-First Quickstart: getting-started/headless-quickstart.md
       - First Steps: getting-started/first-steps.md
       - System Requirements: getting-started/requirements.md
-      - Platform Lifecycle: getting-started/lifecycle.md
+      - Version Support: getting-started/lifecycle.md
       - Project History: getting-started/history.md
 
   - What's New:

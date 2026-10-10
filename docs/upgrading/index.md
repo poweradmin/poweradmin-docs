@@ -209,63 +209,9 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 ## Long-Term Support (LTS)
 
-Poweradmin keeps one 4.x line and the 3.9.x line on Long-Term Support:
-
-- **4.4.x** - LTS until December 2027
-- **3.9.x** - LTS until December 2027
-
-The 4.2.x and 4.3.x lines reach end of life three months after 4.5.0 is released. Plan the upgrade to 4.4.x or newer before then.
-
-### 4.4.x LTS Branch
-
-The 4.4.x branch (`release/4.4.x`) is the 4.x Long-Term Support line:
-
-- **Bug and security fixes until December 2027** - security fixes only later in the period
-- **No new features** - new features land in 4.5.0 and later
-- **Last line with API v1** - 4.5.0 removes the v1 API, so 4.4.x suits setups that still depend on it
-- **PHP compatibility** - supports PHP 8.2, 8.3, 8.4, and 8.5
-
-### 3.x LTS Branch
-
-Starting with version 3.9.8, the 3.x branch has entered **Long-Term Support (LTS)** status. This means:
-
-- **Security updates and bug fixes until December 2027**
-- **No new features** - only maintenance and critical fixes
-- **Stable API** - no breaking changes to existing functionality
-- **PHP compatibility** - supports PHP 8.1, 8.2, 8.3, 8.4, and 8.5
-
-**Who should use 3.x LTS?**
-
-- Organizations that prefer stability over new features
-- Environments where upgrading to 4.x requires significant planning
-- Users who want to migrate to 4.x at their own pace while maintaining security coverage
-
-**When to upgrade to 4.x?**
-
-The 4.x series offers significant improvements including:
-
-- Modern architecture with Domain-Driven Design
-- RESTful API for automation and integration
-- Enhanced security features (MFA, API keys)
-- Improved UI with better accessibility
-- Docker support with FrankenPHP
-
-We recommend planning your migration to 4.x when your schedule allows, while the 3.x LTS branch keeps your current installation secure.
-
-### Version Support Timeline
-
-| Branch | Status | PHP Versions |
-|--------|--------|--------------|
-| **4.5.x** | Next release (4.5.0, awaiting its release) on `master` | 8.2 - 8.5 |
-| **4.4.x** | **LTS until December 2027** (recommended for production) | 8.2 - 8.5 |
-| **4.3.x** | Maintenance - last fixes only; end of life three months after the 4.5.0 release | 8.2 - 8.5 |
-| **4.2.x** | Maintenance - last fixes only; end of life three months after the 4.5.0 release | 8.2 - 8.5 |
-| **4.1.x** | End of support - upgrade to 4.4.x | 8.1 - 8.5 |
-| **4.0.x** | End of support - upgrade to 4.4.x | 8.1 - 8.5 |
-| **3.9.x** | LTS until December 2027 | 8.1 - 8.5 |
-| **3.8.x and older** | EOL | - |
-
-> **PHP 8.1 Deprecation Notice:** Version **4.1.x is the last release to support PHP 8.1**. Starting with **4.2.x**, the minimum required PHP version is **8.2**. If you are running PHP 8.1, plan your PHP upgrade before moving to 4.2.x or newer.
+4.4.x and 3.9.x are LTS until December 2027. 4.2.x and 4.3.x reach end of life three months after
+4.5.0 is released. See [Version Support](../getting-started/lifecycle.md) for every release line,
+the support rules and the PHP range of each line.
 
 ## Troubleshooting
 

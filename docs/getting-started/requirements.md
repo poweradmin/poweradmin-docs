@@ -50,39 +50,10 @@ The included `.htaccess` file handles routing automatically for Apache. For Ngin
 
 ---
 
-## PHP Version Policy
+## Supported Platforms
 
-Poweradmin tracks the [official PHP release lifecycle](https://www.php.net/supported-versions.php). Rather than maintain
-a static list of supported versions, the policy is simple:
-
-- **Actively supported** PHP versions (active or security-only) are supported by the current Poweradmin release.
-- **End-of-life** PHP versions are dropped from the next Poweradmin minor release after they reach EOL.
-- New PHP minor releases are added to compatibility testing (`composer compat:*`) shortly after their stable release.
-
-This means the supported range moves forward over time. Always consult [php.net/supported-versions.php](https://www.php.net/supported-versions.php)
-for the authoritative EOL calendar before planning a long-running deployment.
-
----
-
-## Supported Distributions
-
-Default PHP versions are taken from each distribution's official package repository. Rows are
-updated as distributions ship new releases, so check your distribution's current package before
-planning a deployment.
-
-| Distribution                 | Default PHP | Notes                                                                                                                                                                                  |
-|------------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Debian 13 (Trixie)           | 8.4         | Current stable; meets the minimum out of the box.                                                                                                                                      |
-| Debian 12 (Bookworm)         | 8.2         | Oldstable; meets the minimum out of the box.                                                                                                                                           |
-| Ubuntu 26.04 LTS             | 8.5         | Released April 2026; meets the minimum out of the box.                                                                                                                                 |
-| Ubuntu 24.04 LTS             | 8.3         | Meets the minimum out of the box.                                                                                                                                                      |
-| Ubuntu 22.04 LTS             | 8.1         | Below the 8.2 minimum - install PHP 8.2 or newer from the [ondrej/php PPA](https://launchpad.net/~ondrej/+archive/ubuntu/php). Standard support ends April 2027.                       |
-| Fedora 44                    | 8.5         | Apache included by default.                                                                                                                                                            |
-| Fedora 43                    | 8.4         | Apache included by default.                                                                                                                                                            |
-| Rocky Linux 10 / AlmaLinux 10 | 8.3        | RHEL 10 dropped modularity; PHP 8.3 ships directly from AppStream. Use the [Remi repository](https://rpms.remirepo.net/) for newer releases.                                           |
-| Rocky Linux 9 / AlmaLinux 9  | 8.0         | Below the 8.2 minimum - run `dnf module reset php && dnf module enable php:8.2` (or `php:8.3`) to enable a newer module stream, or install from Remi.                                  |
-| OpenSUSE Leap 15.6           | 8.2         | Meets the minimum out of the box.                                                                                                                                                      |
-| FreeBSD 15.x / 14.4          | 8.4         | Ports default; `php83` and `php85` also available. No `php` meta-package - install the versioned one. `php82` is deprecated, removal due 2026-12-31.                                    |
+PHP versions, PowerDNS versions and the Linux distributions Poweradmin runs on, with their support
+dates and how to get a newer PHP or PowerDNS, are listed on [Version Support](lifecycle.md).
 
 ---
 
@@ -97,25 +68,6 @@ current default. `lang/php82` is deprecated and scheduled for removal on 2026-12
 for the package names, paths and service commands, which differ from the Linux guides.
 
 ---
-
-## Unsupported Distributions
-
-The following distributions are EOL or otherwise out of support and ship a PHP version below Poweradmin's 8.2 minimum. Distributions listed in "Supported" with a note about a third-party PPA or module stream are not repeated here.
-
-| Distribution        | Default PHP | Reason                                                         |
-|---------------------|-------------|----------------------------------------------------------------|
-| Debian 11 (Bullseye) | 7.4         | LTS support ended August 2026.                                |
-| Ubuntu 20.04 LTS     | 7.4         | Standard support ended April 2025.                            |
-| Rocky/AlmaLinux 8.x  | 7.2         | PHP below minimum; consider upgrading to 9.x or 10.x.         |
-
----
-
-## Notes
-
-- Distributions listed as unsupported can potentially be configured manually with a custom PHP build, but this is not
-  officially supported.
-
-- Upgrade paths are recommended for unsupported distributions to maintain security and compatibility.
 
 ## Tested Environments
 
@@ -146,37 +98,13 @@ Poweradmin manages the PowerDNS Authoritative Server only; the PowerDNS Recursor
 
 Poweradmin supports **PowerDNS Authoritative Server 4.x and 5.x**. It is tested from 4.5 onward.
 Versions 4.0-4.4 are expected to work but are not tested, and all of them are end of life upstream.
-See [Platform Lifecycle](lifecycle.md) for PowerDNS and distribution support dates.
+See [Version Support](lifecycle.md) for PowerDNS and distribution support dates.
 
 ### Tested PowerDNS Versions
 
 The development environment of 4.5.x and newer runs PowerDNS 5.1 by default and can switch to
 4.5, 4.6, 4.7, 4.8, 4.9 or 5.0. Versions older than 4.5 are not tested. See
 [Tested Environments](#tested-environments) for each release line.
-
-### PowerDNS in Distributions
-
-Many stable distributions still ship PowerDNS 4.x, which is why Poweradmin keeps supporting it.
-Versions below are from each distribution's default repository.
-
-| Distribution                    | PowerDNS | Upstream status     |
-|---------------------------------|----------|---------------------|
-| Debian 13 (Trixie)              | 4.9      | Critical fixes only |
-| Debian 12 (Bookworm)            | 4.7      | End of life         |
-| Ubuntu 26.04 LTS                | 5.0      | Critical fixes only |
-| Ubuntu 24.04 LTS                | 4.8      | End of life         |
-| Ubuntu 22.04 LTS                | 4.5      | End of life         |
-| Rocky/AlmaLinux 9 and 10 (EPEL) | 5.0      | Critical fixes only |
-| Rocky/AlmaLinux 8 (EPEL)        | 4.8      | End of life         |
-| Fedora 43 / 44                  | 5.0      | Critical fixes only |
-| openSUSE Leap 15.6              | 4.8      | End of life         |
-| Alpine 3.23 / 3.24              | 5.0      | Critical fixes only |
-| FreeBSD, OpenBSD, Arch Linux    | 5.1      | Supported           |
-
-Distributions usually patch security issues in their own package even after the upstream end of
-life. For a newer version on Debian, Ubuntu or RHEL-based systems, use the official
-[PowerDNS repositories](https://repo.powerdns.com/), which provide 5.1 for Debian 11-13,
-Ubuntu 22.04-26.04 and EL 8-10, or the official Docker images.
 
 ### Features That Need a Newer PowerDNS
 
@@ -213,8 +141,5 @@ Poweradmin maintains compatibility across PowerDNS versions due to its architect
 
 ### PowerDNS Version Recommendations
 
-For production environments, prefer a branch that is still receiving upstream fixes. PowerDNS publishes its own [End of Life (EOL) schedule](https://doc.powerdns.com/authoritative/appendices/EOL.html), which is the authoritative source - the dates below were correct at the time of writing but move forward with each release.
-
-- **PowerDNS 5.1.x**: The current release train, receiving correctness, stability and security updates.
-- **PowerDNS 5.0.x and 4.9.x**: Critical updates only. 5.0 goes end of life after 5.3 is released, 4.9 after 5.2.
-- **PowerDNS 4.8.x and older**: End of life - no updates at all. Plan an upgrade.
+For production, prefer a PowerDNS version that still gets upstream fixes. See
+[Version Support](lifecycle.md#powerdns) for the current status of each PowerDNS release.
