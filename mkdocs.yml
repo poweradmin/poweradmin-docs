@@ -45,6 +45,9 @@ theme:
 extra_css:
   - css/extra.css
 
+extra_javascript:
+  - js/mermaid-fullscreen.js
+
 # superfences renders code fences nested in lists, which the default fenced_code extension breaks
 markdown_extensions:
   - admonition

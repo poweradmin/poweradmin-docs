@@ -27,6 +27,7 @@ The rules:
 - 3.9.x is the last 3.x line and is LTS until December 2027.
 
 ```mermaid
+%%{init: {'themeCSS': 'text { font-family: var(--md-mermaid-font-family); } .tick text { font-size: 16px; }', 'gantt': {'fontSize': 18, 'sectionFontSize': 18, 'barHeight': 32, 'barGap': 8, 'leftPadding': 80}, 'themeVariables': {'critBkgColor': '#e07a7a', 'critBorderColor': '#c95f5f'}}}%%
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %b %Y
@@ -60,6 +61,7 @@ gantt
 ## Platform Timeline
 
 ```mermaid
+%%{init: {'themeCSS': 'text { font-family: var(--md-mermaid-font-family); } .tick text { font-size: 16px; }', 'gantt': {'fontSize': 18, 'sectionFontSize': 18, 'barHeight': 32, 'barGap': 8, 'leftPadding': 150}}}%%
 gantt
     dateFormat YYYY-MM-DD
     axisFormat %Y
