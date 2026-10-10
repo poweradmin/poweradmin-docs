@@ -33,4 +33,8 @@ See [What's New](../whats-new/index.md) for details of recent releases.
 
 ## Thanks
 
-Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to Rejo Zenger, Scott Harvanek, Peter Beernink, Fabian Dammekens, Antonio Nati and Okky Octaviano, and to everyone who reported bugs, sent patches and helped other users on the mailing lists.
+Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to Rejo Zenger, Scott Harvanek, Peter Beernink, Okky Octaviano and Fabian Dammekens.
+
+Later releases gained a lot from outside contributions: Arsen Stasic (DNSSEC and automatic PTR records), Alex Fisher (LDAP authentication and logging), Keenan Tims (rectify-zone handling), Josh Soref (record validation and spelling fixes), Jeroen Boonstra (the Vagrant development VM), and more recently Muckl (German translation, mail and UI fixes), benchea dan (UI refresh and LUA records) and Patrick Omland (DNSSEC key management and other API v2 work).
+
+Thanks also to everyone who reported bugs, sent patches, translated Poweradmin and helped other users on the mailing lists, GitHub issues and discussions.
