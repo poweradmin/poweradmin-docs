@@ -20,6 +20,10 @@ PowerDNS-Admin keeps a copy of the zone list in its own database and refreshes i
 stores users, accounts, roles, zone-to-user mappings, API keys, settings and history there. None of that carries
 over. The migration is mostly about users and permissions.
 
+With its default SQL backend, Poweradmin reads zones straight from the PowerDNS database, so there is no zone list
+to refresh and no sync job that can time out on a large server. API backend mode keeps a zone list too, see
+[Large Installations](../configuration/powerdns-api.md#large-installations).
+
 | Stays in PowerDNS | Must be recreated in Poweradmin |
 |---|---|
 | Zones and records | Users |

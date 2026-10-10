@@ -271,6 +271,18 @@ If PowerDNS becomes unreachable, sync stops but the dashboard does not throw a s
 - Admin pages show an API-error banner with the HTTP status and a short hint at what to check next (network, credentials, capabilities endpoint).
 - Sync retries are not throttled during outages - once the API comes back, the next page load reconciles normally.
 
+#### Large Installations
+
+With the SQL backend there is no sync: pages read the PowerDNS tables directly, so nothing has to run or finish
+before a zone shows up.
+
+In API backend mode the sync makes one `GET /zones` request. It reads only the zone list (names, kinds and
+primaries), never the records of each zone, and runs at most once per 5 minutes per session. With `dnssec.enabled`
+(or the signed serial column) turned on, the same request also asks PowerDNS for each zone's DNSSEC state, which
+PowerDNS works out zone by zone and which makes the response slower on large servers. New zones are added in a single
+transaction. The zone list page reads the same response, so on servers with tens of thousands of zones, raise
+`pdns_api.timeout` (default 10 seconds) if the list or the sync times out.
+
 ### Docker
 
 For Docker deployments, set the backend via environment variable:
