@@ -283,6 +283,32 @@ PowerDNS works out zone by zone and which makes the response slower on large ser
 transaction. The zone list page reads the same response, so on servers with tens of thousands of zones, raise
 `pdns_api.timeout` (default 10 seconds) if the list or the sync times out.
 
+### Known Issue: Backslash Escapes on PowerDNS Auth 5.1
+
+PowerDNS Auth 5.1.x removes one level of backslash escaping from record content written through
+its REST API (PowerDNS issue 18159). This affects API backend mode on every Poweradmin version
+that has it (4.3.0 and later). The SQL backend writes to the database directly and is not affected.
+
+| Content sent | PowerDNS 5.1.x stores | Served as |
+|---|---|---|
+| `"a\\b"` | `"a\b"` | `"ab"` |
+| `"a\"b"` | refused with `422` | - |
+
+Poweradmin saves a record by sending back every record with the same name and type, so saving
+any of them also rewrites the others. A TXT record holding `\\` loses a backslash even when you
+only add, edit or delete its neighbour. One holding `\"` makes every save at that name and type
+fail.
+
+From 4.5.0, the zone, add record, bulk add and edit record pages warn in API backend
+mode. They list the affected records and flag content you type that contains a backslash. The
+save still goes ahead.
+
+Until PowerDNS fixes this, edit these records with `pdnsutil`, for example:
+
+```bash
+pdnsutil rrset replace example.com. txt.example.com. TXT 3600 '"a\\b"'
+```
+
 ### Docker
 
 For Docker deployments, set the backend via environment variable:
