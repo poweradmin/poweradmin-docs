@@ -361,7 +361,7 @@ Starting with v4.0.3, Poweradmin supports Basic Authentication for accessing Pow
 
 ### Optional Pagination Parameters
 
-Starting with v4.0.1, pagination is optional for zones and users endpoints (issue #803). You can now request all records without pagination limits.
+Starting with v4.0.1, pagination is optional for zones and users endpoints (issue #803). You can now request all records without pagination limits. From 4.6.0 the other v2 list endpoints take them too, with `sort` and filters; see [Paging, sorting and filtering](../api/endpoints.md#paging-sorting-and-filtering).
 
 **Without pagination (returns all results):**
 

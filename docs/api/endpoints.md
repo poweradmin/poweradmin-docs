@@ -361,17 +361,33 @@ similar but the response envelope is less consistent and several v2 features
 See [API Configuration](../configuration/api.md#api-v1-endpoints-legacy-removed-in-450) for
 the v1 endpoint list, and migrate to v2 before upgrading to 4.5.0.
 
-## Pagination
+## Paging, sorting and filtering
 
-List endpoints for zones and users accept `page` and `per_page` query
-parameters:
+From 4.6.0, the v2 list endpoints in the table below accept `page` and `per_page`, and most
+also take `sort` and a few filters. Before 4.6.0 only `/zones` and `/users` paged, and none
+sorted or filtered. Short lists such as `/zones/{id}/owners` always come back whole.
+
+### Paging
 
 ```bash
-GET /api/v2/zones?page=1&per_page=50
+GET /api/v2/zones?page=2&per_page=50
 ```
 
-Omitting `per_page` returns all results. `page` is only read when `per_page` is
-given, and `per_page` is capped at 10000.
+Without `per_page` (or with `per_page=0`) the whole list comes back and there is no
+`pagination` object. With it, `page` starts at 1 (a smaller value is read as 1), `per_page`
+is capped at 10000, and the response carries a `pagination` object at the top level, next to
+`data`:
+
+```json
+{
+  "success": true,
+  "data": { "zones": [ ... ] },
+  "pagination": { "current_page": 2, "per_page": 50, "total": 150, "last_page": 3 }
+}
+```
+
+A page past the end returns an empty list together with the `pagination` object, so a client
+can stop when `current_page` reaches `last_page`.
 
 > **Warning:** The parameter is `per_page`, not `limit`. An unrecognised
 > parameter is ignored rather than rejected, so `?limit=50` silently returns
@@ -381,12 +397,78 @@ From 4.6.0, a query parameter sent as an array, such as `?type[]=A`, answers `40
 "Query parameter 'type' must be a single value". This applies to every v2 endpoint and to the
 internal API.
 
-Paginated responses include a `pagination` block alongside `data`:
+### Sorting
 
-```json
-{
-  "pagination": { "current_page": 1, "per_page": 50, "total": 150, "last_page": 3 }
-}
+`sort` takes comma-separated field names, each with an optional `:asc` or `:desc` suffix
+(ascending by default), up to five fields:
+
+```bash
+GET /api/v2/zones/42/records?sort=type,name:desc
+```
+
+A field the endpoint does not offer, a field given twice, or a direction other than `asc` or
+`desc` answers `400` with a message that lists the allowed fields.
+
+Without `sort`, most lists come in the database order of their name column; the exceptions are
+noted in the table below. Lists that are sorted in memory (records, RRsets, groups, templates,
+permissions) compare text fields case-insensitively in natural order, so `host2` sorts before
+`host10`. `/zones` applies that natural order only for `sort=name`, where numeric prefixes are
+compared as numbers. `/users` sorts case-insensitively but not naturally.
+
+### Filters
+
+Every filter is a query parameter and combines with `sort`, `page` and `per_page`. The
+`pagination.total` counts the filtered list. `q` is a case-insensitive substring match.
+
+| Endpoint | Sort fields | Filters |
+|----------|-------------|---------|
+| `GET /zones` | `name`, `type`, `id` | `name` (exact zone name), `q` (zone name) |
+| `GET /zones/{id}/records` | `name`, `type`, `content`, `ttl`, `priority` | `type` (record type), `name`, `content`, `q` (name or content). Default order: type, then name (as PowerDNS returns them in API backend mode) |
+| `GET /zones/{id}/rrsets` | `name`, `type`, `ttl` | `type` (record type), `name`, `content`, `q` (name or content); `content` and `q` keep an RRset when any of its records matches. Default order: type, then name (as PowerDNS returns them in API backend mode) |
+| `GET /users` | `id`, `username`, `fullname`, `email` | `q` (username, full name, email or description), `username` and `email` (exact lookups, see below). Default order: `id` |
+| `GET /groups` | `id`, `name`, `member_count`, `zone_count`, `created_at` | `q` (name or description) |
+| `GET /groups/{id}/members` | `user_id`, `username`, `fullname`, `email`, `joined_at` | `q` (username, full name or email). Default order: newest member first |
+| `GET /groups/{id}/zones` | `zone_id`, `zone_name`, `zone_type`, `created_at` | `q` (zone name). Default order: newest assignment first |
+| `GET /zone-templates` | `id`, `name`, `zones_linked` | `q` (name or description) |
+| `GET /zone-templates/{id}/records` | `name`, `type`, `content`, `ttl`, `priority` | `type` (record type, case-insensitive), `name`, `content`, `q` (name or content) |
+| `GET /permissions` | `id`, `name` | `q` (name or description) |
+| `GET /permission-templates` | `id`, `name`, `template_type` | `q` (name or description), `type` (`user` or `group`; anything else answers `400`) |
+| `GET /change-requests` | none | `status` (`pending` by default; `approved`, `rejected`, `cancelled`, `failed` or `all`; anything else answers `400`), `zone_id`. Default order: newest first |
+
+`name` and `content` on the record lists are case-insensitive substring matches like `q`;
+`q` searches both columns at once.
+
+`GET /users?username=alice` and `GET /users?email=alice@example.com` look up one user. The
+list then holds that user or is empty, `page`, `per_page` and `q` are ignored, `sort` is
+checked but not applied, no `pagination` object is returned, and `username` wins when both are
+given.
+
+`GET /change-requests` ignores `sort`; it always lists newest first. Without `per_page` it
+returns at most 10000 requests, and when more match, the response carries a `pagination`
+object (`per_page` 10000, `last_page` above 1) so the client knows to page on with
+`per_page` and `page`.
+
+### Examples
+
+The second page of 50 zones, newest id first:
+
+```bash
+curl -H "X-API-Key: your-api-key-here" \
+     "https://poweradmin.example.com/api/v2/zones?sort=id:desc&page=2&per_page=50"
+```
+
+The A records of a zone that mention `mail`, by name:
+
+```bash
+curl -H "X-API-Key: your-api-key-here" \
+     "https://poweradmin.example.com/api/v2/zones/42/records?type=A&q=mail&sort=name"
+```
+
+Group permission templates, ordered by name:
+
+```bash
+curl -H "X-API-Key: your-api-key-here" \
+     "https://poweradmin.example.com/api/v2/permission-templates?type=group&sort=name"
 ```
 
 ## Related documentation

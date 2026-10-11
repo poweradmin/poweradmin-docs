@@ -369,7 +369,8 @@ record-type rule as direct edits.
 
 `status` defaults to `pending`; pass `approved`, `rejected`, `cancelled`, `failed` or
 `all`. `zone_id` narrows to one zone. `per_page` and `page` paginate; without `per_page` the
-call returns every match up to the API page limit and no `pagination` block.
+call returns up to 10000 matches, newest first, and adds a `pagination` block only when more
+match, so you can fetch the rest with `per_page` and `page`.
 
 ```bash
 curl "https://dns.example.com/api/v2/change-requests?status=pending&per_page=25" \
