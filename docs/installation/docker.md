@@ -174,7 +174,7 @@ volumes:
 ```
 
 The official `powerdns/pdns-auth-*` images do not read `PDNS_*` environment
-variables — that convention belongs to third-party images, and the official
+variables - that convention belongs to third-party images, and the official
 image silently ignores them (see
 [PowerDNS/pdns#14951](https://github.com/PowerDNS/pdns/issues/14951)). The only
 configuration variable it honors is `PDNS_AUTH_API_KEY`; everything else has to
