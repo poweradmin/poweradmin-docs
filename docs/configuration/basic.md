@@ -133,6 +133,7 @@ For password policies and MFA settings, see [Security Policies](security-policie
 | `interface.style` | light | UI style: `light` or `dark` |
 | `interface.rows_per_page` | 10 | Rows per page in lists |
 | `interface.session_timeout` | 1800 | Session timeout in seconds. Must be a positive integer; from 4.5.0 a value of `0` is rejected with a configuration error instead of logging users out on their next request. The timeout cannot be disabled - use a large value |
+| `interface.session_max_lifetime` | 0 | End a session this many seconds after sign-in, however active it stays; `0` turns it off and leaves only `session_timeout`. For example `43200` signs users out after 12 hours *(v4.6.0+)* |
 | `interface.title` | Poweradmin | Application title |
 | `interface.application_url` | *(empty)* | Public base URL of the install. Required for OIDC, SAML, password reset and emailed links |
 | `interface.web_enabled` | true | Serve the web interface; `false` runs API-only - see the [Headless Quickstart](../getting-started/headless-quickstart.md#turning-the-web-interface-off) |

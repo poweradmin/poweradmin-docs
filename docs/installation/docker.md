@@ -517,6 +517,7 @@ docker run -d --name poweradmin -p 80:80 \
 | `PA_DEFAULT_LANGUAGE` | en_EN | Default language |
 | `PA_STYLE` | light | UI style: light or dark |
 | `PA_SESSION_TIMEOUT` | 1800 | Session timeout in seconds |
+| `PA_SESSION_MAX_LIFETIME` | 0 | End a session this many seconds after sign-in, however active; 0 = off *(v4.6.0+)* |
 | `PA_TIMEZONE` | UTC | Default timezone |
 | `PA_EDIT_CONFLICT_RESOLUTION` | last_writer_wins | Edit conflict resolution strategy |
 | `PA_DNS_CUSTOM_TLDS` | - | Comma-separated custom TLDs (e.g., `dn42,home`) |

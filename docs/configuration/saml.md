@@ -40,6 +40,12 @@ Alternatively, set `sp.entity_id`, `sp.assertion_consumer_service_url` and `sp.s
 
 Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback was removed in 4.2.6, 4.3.5, 4.4.1 and 4.5.0; on earlier releases of those lines the host is still derived from the request. After the removal: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could advertise an attacker's ACS URL to an IdP that consumes SP metadata dynamically.
 
+### HTTPS for the ACS URL *(v4.6.0+)*
+
+From 4.6.0 Poweradmin accepts a SAML response only as the answer to a sign-in started from the same browser. The request id travels in a short-lived `__Host-saml_flow` cookie, which browsers only keep over HTTPS (or on `localhost`), because the identity provider's POST to `/saml/acs` arrives without the session cookie.
+
+If users reach Poweradmin over plain HTTP on any other host, or you rely on sign-ins started from the identity provider's portal (IdP-initiated SSO), set `'allow_idp_initiated' => true` on that provider. It restores the pre-4.6.0 behaviour for that provider only. Responses are still checked for signature, audience and validity window.
+
 ## Global Settings
 
 | Setting | Default | Description |
@@ -189,6 +195,7 @@ Each provider requires IdP-specific configuration:
 | `slo_url` | No | IdP Single Logout URL |
 | `x509cert` | Yes | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks) |
 | `user_mapping` | Yes | Map SAML attributes to user fields |
+| `allow_idp_initiated` | No | Accept responses that do not answer a sign-in started in Poweradmin: IdP-initiated SSO, or installs not served over HTTPS. Default `false` *(v4.6.0+)* |
 
 ### Azure AD (SAML)
 
@@ -523,6 +530,10 @@ Configure multiple SAML providers:
 - Verify IdP is configured to release group claims
 - Check the attribute name matches `user_mapping.groups`
 - For Azure AD, configure Group claims in Token configuration
+
+### "The sign-in was not started from this browser or took too long"
+
+The response did not come with the sign-in cookie Poweradmin set when the login started. Common causes: Poweradmin is served over plain HTTP (the cookie needs HTTPS), the sign-in was started from the identity provider's portal, or more than 10 minutes passed at the identity provider. Serve Poweradmin over HTTPS, or set `allow_idp_initiated` on the provider (see [HTTPS for the ACS URL](#https-for-the-acs-url-v460)). The log names the provider and, at the start of the sign-in, warns when the ACS URL is not HTTPS.
 
 ### Redirect loop
 

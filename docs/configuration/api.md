@@ -15,6 +15,7 @@ API settings can be configured in the `config/settings.php` file under the `api`
 | `basic_auth_realm` | `Poweradmin API` | Realm name for HTTP Basic Authentication |
 | `docs_enabled` | `false` | Enable API documentation at /api/docs endpoint |
 | `max_keys_per_user` | `5` | Maximum API keys per user (admin users unlimited) |
+| `bulk_max_operations` | `1000` | Maximum operations in one `POST /zones/{id}/records/bulk` request; larger requests get `400`. `0` means no limit *(v4.6.0+)* |
 
 ## Configuration Example
 
