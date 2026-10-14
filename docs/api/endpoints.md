@@ -35,7 +35,7 @@ API v2 is the recommended version. All paths are prefixed with `/api/v2`.
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `GET` | `/zones` | List zones; `id` is the identifier the other zone endpoints take (`canonical_id` carries the same value) |
+| `GET` | `/zones` | List zones; `id` is the identifier the other zone endpoints take (from v4.6.0, `canonical_id` carries the same value) |
 | `POST` | `/zones` | Create zone |
 | `GET` | `/zones/{id}` | Get zone |
 | `PUT` | `/zones/{id}` | Update zone |
@@ -50,7 +50,7 @@ From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, changing a zone's `name`, `type` or `mas
 return `403`. A value that matches what is stored is not treated as a change, so clients that
 resend every field on update keep working.
 
-In API backend mode, `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this
+From v4.5.0, in API backend mode, `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this
 zone: its ID is shared with another zone" when the id belongs to two zones. See
 [Zone IDs Shared by Two Zones](../configuration/powerdns-api.md#zone-ids-shared-by-two-zones).
 

@@ -234,19 +234,21 @@ All existing zone ownership, group assignments, and permissions are preserved, e
 ### Zone IDs Shared by Two Zones
 
 A zone created in API backend mode and a zone migrated from SQL mode can end up with the same
-zone id. From 4.6.0 Poweradmin handles this as follows:
+zone id. From 4.5.0 Poweradmin handles this as follows:
 
-- The id opens one of the two zones.
+- The id opens one of the two zones. Zone lists, search and zone counts show only that zone.
 - Extra owners and group grants keyed by the shared id are ignored. Only the direct owner of the
   zone the id opens keeps access; administrators are not affected.
 - Adding owners or groups to a shared id is refused. The web forms say so, and the API v2
   `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this zone: its ID is
   shared with another zone".
-- Deleting either zone also removes the owner and group grants keyed by the shared id.
+- The owner and group grants keyed by the shared id are removed when either zone is deleted,
+  when the zone sync removes a zone that was deleted from PowerDNS, and when a zone whose old
+  entry was left behind is added again.
 
-The [Database Consistency Check](../maintenance/consistency-check.md) lists every shared id with
-both zone names, so an administrator can separate them. Poweradmin does not separate them
-automatically.
+From 4.6.0 the [Database Consistency Check](../maintenance/consistency-check.md) lists every
+shared id with both zone names, so an administrator can separate them. Poweradmin does not
+separate them automatically.
 
 ### Zone Sync Service
 
