@@ -113,6 +113,7 @@ Notes:
 - It's recommended to perform upgrades in a test environment first before applying to production
 - After upgrading, check the system for any warnings or errors
 - Verify that zones and records remain accessible and editable
+- Coming from 3.x, zone owners carry over unchanged; groups are optional, see [User Groups](../user-guide/groups.md#coming-from-3x)
 - Report any bugs or issues you encounter during the upgrade process
 
 ## Upgrade Path

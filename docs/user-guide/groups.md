@@ -59,6 +59,21 @@ All group members get access to owned zones based on the group's permission temp
 
 ![Group zones management](../screenshots/groups-zones.png)
 
+## Coming from 3.x
+
+Poweradmin 3.x had no groups: a zone was shared by giving it several owners. Upgrading to 4.x
+keeps every one of those owners, so the same users see and edit the same zones as before, with
+the rights of their own permission template. Nothing has to be migrated.
+
+Groups are optional and only add access. To move a team that shares zones into a group later:
+
+1. Create a group with the permission template the team should have
+2. Add the team's users as members
+3. Assign the shared zones to the group
+4. Optionally remove the individual owners from those zones on the zone's edit page
+
+Assign the zones to the group before removing anyone, so each zone always has an owner.
+
 ## How Permissions Work
 
 Poweradmin combines permissions from all sources. A user's effective permissions are the union of:
