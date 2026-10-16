@@ -56,9 +56,14 @@ Since 4.5.0, enforcement can be waived for users who log in through an external 
 To disable MFA on your account:
 
 1. Navigate to **Account** in the top navigation bar
-2. In the MFA section, click **Disable MFA** - it takes effect immediately, there is no confirmation step
+2. In the MFA section, enter a current code next to **Disable MFA**: a code from your authenticator app, a code sent by email, or one of your recovery codes
+3. Click **Disable MFA** - it takes effect immediately
 
 After disabling, you will only need your password to log in.
+
+The code proves you still hold the second factor, so someone using a stolen browser session cannot switch MFA off. **Regenerate Recovery Codes** asks for a code the same way. With email verification, click the button with the field empty and a code is sent to you; enter it and click again. If the email cannot be sent, the page says so and you can use a recovery code instead. Wrong codes here are counted on their own, so they never lock you out of logging in.
+
+Asking for a code is new in 4.6.0. Earlier versions disable MFA and regenerate recovery codes without one.
 
 > **Note:** If MFA is enforced for your account through a user or group template, you cannot disable it. The **Disable MFA** button is not shown, and a disable request sent anyway is refused with a message saying MFA is required by your organization's security policy. The enforcement has to be removed first.
 
