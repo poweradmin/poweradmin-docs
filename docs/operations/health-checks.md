@@ -131,6 +131,29 @@ location ~ ^/(ping|api/health)$ {
 </LocationMatch>
 ```
 
+### Token and result cache *(v4.6.0+)*
+
+Two optional settings limit what an anonymous caller can trigger. Both are off by default.
+
+```php
+'health' => [
+    'enabled' => true,
+    'token' => 'a-long-random-string',   // required in the X-Health-Token header
+    'cache_seconds' => 10,               // reuse the last result for 10 seconds
+],
+```
+
+With `token` set, `/api/health` answers `403` to any request without a matching
+`X-Health-Token` header and runs no check. `/ping` is not affected.
+
+With `cache_seconds` above `0`, the result is kept in a file in the system temp directory
+and reused until it is that many seconds old, so frequent scrapes make at most one database
+connect and one PowerDNS call per window. A failure is cached too, so the probe reports
+recovery up to that many seconds late.
+
+In Docker, use `PA_HEALTH_TOKEN` (or `PA_HEALTH_TOKEN__FILE` for a secret file) and
+`PA_HEALTH_CACHE_SECONDS`.
+
 ## Docker
 
 The image ships a `HEALTHCHECK` that requests `/`, which succeeds even when the database is
@@ -149,6 +172,17 @@ services:
       timeout: 5s
       retries: 3
 ```
+
+With `PA_HEALTH_TOKEN` set in `environment:`, send it from the check, or the container
+reports unhealthy:
+
+```yaml
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -H \"X-Health-Token: $$PA_HEALTH_TOKEN\" http://localhost/api/health"]
+```
+
+A token read from `PA_HEALTH_TOKEN__FILE` is not visible to the healthcheck process; read
+the secret file in the command instead.
 
 ## Kubernetes
 
@@ -172,6 +206,18 @@ readinessProbe:
     port: 80
   periodSeconds: 30
   timeoutSeconds: 5
+```
+
+With a token configured, add it to the readiness probe:
+
+```yaml
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: 80
+    httpHeaders:
+      - name: X-Health-Token
+        value: a-long-random-string
 ```
 
 ## Related documentation
