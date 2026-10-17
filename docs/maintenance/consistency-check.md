@@ -37,6 +37,7 @@ total issues, errors and warnings.
 | Zone IDs shared by two zones (4.6.0+) | Warning | Zone ids two zones share in API backend mode, with both zone names and the number of ignored owners and group grants | None - report only |
 | Zones without a stored name (4.6.0+) | Warning | SQL backend: zones with owners, group grants or API key restrictions but no zone row carrying their exact name, which a switch to the API backend would add again without them | **Fix** stores the name from PowerDNS, adding an ownerless row for a zone that has none; **Repair all** does the whole list |
 | Group assignments under a zone row ID (4.6.0+) | Warning | Group assignments made through the API before 4.6.0 whose stored id is a migrated zone's row id and names no zone now | None - report only; remove the assignment and assign the zone again |
+| Zone names differing only in letter case (4.6.0+) | Warning | Zones whose names match except for letter case, such as `Example.com` and `example.com`, with their ids. PowerDNS treats them as one name | None - report only; delete the zone you do not use |
 
 Every fix is a POST protected by a CSRF token, and destructive actions ask for confirmation first.
 
@@ -59,6 +60,10 @@ Four differences apply there:
   In SQL mode every zone has its own id, so the check always reports none.
 - The stored zone name check only applies to SQL mode, where it prepares a later switch to the API
   backend. The zone sync names every zone it keeps, so in API mode it always reports success.
+
+The letter case check can only find something where the backend stores two such names: SQLite, a
+MySQL database with a case-sensitive collation on the `domains` table, or API mode. The stock
+PowerDNS MySQL and PostgreSQL schemas refuse the second name, so there it always reports none.
 
 ## When to run it
 
