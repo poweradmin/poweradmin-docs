@@ -167,6 +167,8 @@ hold a request permission but no review scope, with a status filter.
 The zone lists show a count next to each zone that has pending requests you may list,
 linking to the requests page filtered to that zone.
 
+![Pending request count in the zone list](../screenshots/zone-list-change-requests.png)
+
 ## Reviewing
 
 The **Change requests** entry appears in the **Zones** menu for everyone who holds one of
