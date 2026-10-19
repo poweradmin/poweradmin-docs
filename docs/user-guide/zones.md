@@ -68,6 +68,17 @@ The edit page of a Master or Producer zone offers **Send NOTIFY** in the same pl
 
 ![Send NOTIFY](../screenshots/send-notify.png)
 
+## NOTIFY Status in the Zone List
+
+From 4.5.0, with the [API backend](../configuration/powerdns-api.md#api-backend-mode-v430), the **Serial** column of the zone lists shows whether PowerDNS has sent a NOTIFY for the current serial of a Master or Producer zone:
+
+- A blue cloud means a NOTIFY is pending: the zone's serial is higher than the last serial PowerDNS notified its secondaries about.
+- A green cloud with a check mark means PowerDNS has sent a NOTIFY for the current serial.
+
+Hovering the icon shows the serial it refers to. The Serial column is off by default; turn it on with `interface.display_serial_in_zone_list` or the **Zone serial numbers** [preference](user-preferences.md#zone-options). Other zone kinds and zones with serial 0 show no icon. The SQL backend has no NOTIFY status to show.
+
+![NOTIFY status in the zone list](../screenshots/zone-list-notify-pending.png)
+
 ## Creating Zones
 
 ### Adding a Master Zone
