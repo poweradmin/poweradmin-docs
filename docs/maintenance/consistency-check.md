@@ -29,11 +29,12 @@ total issues, errors and warnings.
 
 | Check | Severity | What it finds | Available fix |
 |-------|----------|---------------|---------------|
-| Zones without owners | Warning | Zones with no user owner | **Fix** assigns the zone to you; **Assign all to me** does the whole list at once |
+| Zones without owners | Warning | Zones with no user owner | **Fix** assigns the zone to you; **Assign all to me** does the whole list at once. From 4.6.0, with `dns.adopt_zone_owner_from_account` on, a zone goes to the user named in its PowerDNS account field instead |
 | Slave zones without masters | Warning | Slave zones with no master IP set, which can never transfer | **Delete** the zone |
 | Orphaned records | Error | Records whose zone no longer exists | **Delete** the record |
 | Duplicate SOA records | Error | Zones carrying more than one SOA | **Fix** keeps the first SOA and deletes the rest |
 | Zones without SOA | Error | Zones missing an SOA record entirely | **Fix** creates a default SOA |
+| Zones without a canonical ID (4.5.0+) | Warning | API backend: zone rows left without a canonical zone id by an interrupted zone creation | **Fix** repairs the row; **Repair all** does the whole list |
 | Zone IDs shared by two zones (4.6.0+) | Warning | Zone ids two zones share in API backend mode, with both zone names and the number of ignored owners and group grants | None - report only |
 | Zones without a stored name (4.6.0+) | Warning | SQL backend: zones with owners, group grants or API key restrictions but no zone row carrying their exact name, which a switch to the API backend would add again without them | **Fix** stores the name from PowerDNS, adding an ownerless row for a zone that has none; **Repair all** does the whole list |
 | Group assignments under a zone row ID (4.6.0+) | Warning | Group assignments made through the API before 4.6.0 whose stored id is a migrated zone's row id and names no zone now | None - report only; remove the assignment and assign the zone again |
