@@ -19,6 +19,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `api.basic_auth_realm` {#setting-api-basic-auth-realm} | `'Poweradmin API'` | Realm name for HTTP Basic Authentication | - |
 | `api.docs_enabled` {#setting-api-docs-enabled} | `false` | Enable API documentation at /api/docs endpoint | - |
 | `api.max_keys_per_user` {#setting-api-max-keys-per-user} | `5` | Maximum number of API keys per user (admin users have no limit) | - |
+| `api.bulk_max_operations` {#setting-api-bulk-max-operations} | `1000` | Maximum operations in one bulk records request; 0 = no limit | 4.6.0 |
 
 ## approval
 
@@ -42,6 +43,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `database.file` {#setting-database-file} | `''` | Only used for SQLite, provide full path to database file | 2.1.6 |
 | `database.debug` {#setting-database-debug} | `false` | Show all SQL queries | 2.1.6 |
 | `database.pdns_db_name` {#setting-database-pdns-db-name} | `''` | Separate database for PowerDNS, MySQL/MariaDB only | 3.8.0 |
+| `database.sqlite_wal` {#setting-database-sqlite-wal} | `true` | SQLite only: WAL journal mode on connect; set false on NFS | 4.6.0 |
 | `database.ssl` {#setting-database-ssl} | `false` | Enable SSL/TLS connection | - |
 | `database.ssl_verify` {#setting-database-ssl-verify} | `false` | Verify server SSL certificate (requires ssl=true) | - |
 | `database.ssl_ca` {#setting-database-ssl-ca} | `''` | Path to CA certificate file for server verification | - |
@@ -112,6 +114,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `interface.enabled_languages` {#setting-interface-enabled-languages} | `'ar_SA,bg_BG,bs_BA,cs_CZ,da_DK,de_DE,el_GR,en_EN,es_ES,et_EE,fa_IR,fi_FI,fr_FR,ga_IE,he_IL,hi_IN,hr_HR,hu_HU,id_ID,it_IT,ja_JP,ko_KR,lt_LT,lv_LV,ms_MY,nb_NO,nl_NL,pl_PL,pt_BR,pt_PT,ro_RO,ru_RU,sk_SK,sl_SI,sq_AL,sr_RS,sv_SE,th_TH,tr_TR,uk_UA,vi_VN,zh_CN,zh_TW'` | Added in 3.8.0 | - |
 | `interface.title` {#setting-interface-title} | `'Poweradmin'` | Application title (browser tab and header logo). Useful for distinguishing multiple server instances | 2.1.5 |
 | `interface.session_timeout` {#setting-interface-session-timeout} | `1800` | Session timeout in seconds (30 minutes); must be above 0, the timeout cannot be disabled | - |
+| `interface.session_max_lifetime` {#setting-interface-session-max-lifetime} | `0` | End a session this many seconds after sign-in, however active; 0 = off | 4.6.0 |
 | `interface.rows_per_page` {#setting-interface-rows-per-page} | `10` | - | - |
 | `interface.theme` {#setting-interface-theme} | `'default'` | Theme name to use (default, custom, etc.) | 4.0.0 |
 | `interface.style` {#setting-interface-style} | `'light'` | UI Style options: 'light', 'dark' | 4.0.0 |

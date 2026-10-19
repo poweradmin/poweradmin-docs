@@ -116,6 +116,11 @@ succeed. Keep the database on local storage, or force the old journal mode:
 sqlite3 /path/to/your/poweradmin.sqlite "PRAGMA journal_mode = DELETE;"
 ```
 
+From 4.6.0 Poweradmin switches the file to WAL on every connection. To keep the old
+mode, also set `database.sqlite_wal` to `false` (`DB_SQLITE_WAL=false` in Docker). The
+setting does not convert a file that is already in WAL, and the web installer always
+switches a new database to WAL, so run the command above once after setting it.
+
 ### Serving the database over the web
 
 Keep the database outside the web root. If it must live inside, note that the
