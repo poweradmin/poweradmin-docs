@@ -194,6 +194,13 @@ Kinds with a fixed set of valid values (`SOA-EDIT`, `SOA-EDIT-API`, `SOA-EDIT-DN
 PowerDNS version does not support yet are listed but disabled, with the required version
 shown. Kinds not in the built-in list can be added through the **Custom** entry.
 
+From 4.5.0 this is also where a zone's serial policy is set: `SOA-EDIT` controls the serial
+PowerDNS serves for a signed zone, and `SOA-EDIT-API` how PowerDNS updates the serial on API
+changes. `dns.soa_edit_options` and `dns.soa_edit_api_options` limit the values these selectors
+offer; see [DNS Settings](../configuration/dns-settings.md).
+
+![Serial policy in the metadata editor](../screenshots/zone-metadata-serial-policy.png)
+
 Some kinds accept several values - `ALLOW-AXFR-FROM`, `ALLOW-DNSUPDATE-FROM`, `ALSO-NOTIFY`,
 `TSIG-ALLOW-AXFR`, `TSIG-ALLOW-DNSUPDATE`, `GSS-ALLOW-AXFR-PRINCIPAL` and `PUBLISH-CDS`. Add
 one row per value. Every other kind holds a single value.
