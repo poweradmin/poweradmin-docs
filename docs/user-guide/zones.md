@@ -29,11 +29,15 @@ From the **producer** side, open the Producer zone and use the **Catalog Members
 editor. The page lists the zones the catalog currently publishes and lets you add or remove one at a
 time.
 
-From the **member** side, open the zone and use the **Catalog** selector in the zone details block.
+![Catalog Members page](../screenshots/catalog-members.png)
+
+From the **member** side, open the zone and use the **Catalog** selector in the **Zone Configuration** block.
 It offers every producer zone you are allowed to manage, plus `none` to take the zone out of its
 catalog. If the zone is already in a catalog whose producer this installation does not hold, the
 selector shows that catalog name marked `not managed here` and leaves it untouched unless you pick
 something else.
+
+![Catalog selector on a member zone](../screenshots/catalog-member-selector.png)
 
 Two limits come from PowerDNS itself:
 
