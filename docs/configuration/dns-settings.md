@@ -143,6 +143,20 @@ To allow cross-owner overlapping zones, set it to `false`:
 ],
 ```
 
+### In 4.4.2, 4.3.6, 4.2.7 and 3.9.13
+
+These releases ship a simpler form of the same check, also on by default:
+
+- It blocks only a **subdomain** of another owner's zone. Creating a parent of another owner's zone is not checked.
+- Only the closest existing parent zone counts. A parent zone with no owner at all, such as one an autoprimary created or one added with `pdnsutil`, does not block.
+- Ueberusers and users with `zone_content_edit_others` are exempt.
+
+On 4.2.x to 4.4.x, turn it off with the same `parent_zone_ownership_check` setting. On 3.9.x, add this to `inc/config.inc.php`:
+
+```php
+$dns_parent_zone_ownership_check = false;
+```
+
 ## Configuration Example
 
 ```php
