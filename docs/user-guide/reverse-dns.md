@@ -45,6 +45,16 @@ For single PTR records:
 
 ![Adding an individual PTR record](../screenshots/ptr-individual-record.png)
 
+## Keeping PTR and A/AAAA Records in Step
+
+Poweradmin can create or move the matching record on the other side when you add or edit an address record. Both options are on by default (`interface.add_reverse_record` and `interface.add_domain_record`).
+
+**Adding records.** In a forward zone, the add-record form has an **Add PTR** checkbox for A and AAAA records, which also creates the PTR in the matching reverse zone. In a reverse zone it has an **Add A/AAAA** checkbox, which creates the forward record in the zone that holds the PTR's hostname. Up to 4.5.0 this works for `in-addr.arpa` zones only; from 4.6.0 a PTR added in an `ip6.arpa` zone also creates the matching AAAA record.
+
+**Editing records (4.5.0).** The record edit page of a forward zone has an **Update PTR** checkbox. When it is ticked and the record is an A or AAAA record, saving deletes the PTR for the old address and creates one for the new address, name and TTL. If the PTR cannot be written, for example because there is no matching reverse zone, the record is still saved and a warning says why. The v2 API does the same with `update_ptr: true` on a record update.
+
+![Update PTR checkbox](../screenshots/edit-record-update-ptr.png)
+
 ## Method 2: Using Batch PTR Records Feature
 
 For creating multiple PTR records at once:
