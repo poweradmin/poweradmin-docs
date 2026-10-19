@@ -11,14 +11,14 @@ When upgrading Poweradmin from any version to a newer one, follow these general 
 2. **Backup your existing files** - Make a complete backup of your current installation
 3. **Replace files** - Replace all files with the new version's files
 4. **Restore configuration** - Depending on your version:
-   - For versions < 4.x: Restore `inc/config.inc.php` from your backup
+   - For versions < 4.x: Restore `inc/config.inc.php` from your backup, then convert it to `config/settings.php` with `php config/migrate-config.php`, which ships only in 4.0.x (see [v4.0.0](v4.0.0.md#configuration-migration))
    - For versions ≥ 4.x: Restore `config/settings.php` from your backup
 5. **Update database structure** - If required by the specific version upgrade
 6. **Test functionality** - Verify all features work correctly after upgrade
 
-## Patch Version Upgrades (e.g., 4.0.x → 4.0.y)
+## Patch Version Upgrades (e.g., 4.4.x → 4.4.y)
 
-For patch releases within the same minor version (e.g., 4.0.0 → 4.0.3, or 4.0.3 → 4.0.4), the upgrade process is straightforward:
+For patch releases within the same minor version (e.g., 4.4.0 → 4.4.2, or 4.4.1 → 4.4.2), the upgrade process is straightforward:
 
 1. **Backup your database and files** - Always a good practice
 2. **Replace all application files** - Extract the new release over your existing installation
@@ -47,10 +47,10 @@ For easier rollbacks, consider using symlinks:
 
 ```bash
 # Extract new version to versioned directory
-tar -xzf poweradmin-4.0.4.tar.gz -C /var/www/
+tar -xzf poweradmin-4.4.2.tar.gz -C /var/www/
 
 # Update symlink to point to new version
-ln -sfn /var/www/poweradmin-4.0.4 /var/www/poweradmin
+ln -sfn /var/www/poweradmin-4.4.2 /var/www/poweradmin
 
 # Keep config outside versioned directories
 ln -s /etc/poweradmin/settings.php /var/www/poweradmin/config/settings.php
@@ -62,7 +62,7 @@ This allows quick rollback by simply changing the symlink back to the previous v
 
 The official image does not migrate an existing database. On startup the entrypoint loads the Poweradmin schema only into an empty database; a database created by an older version is left as it is. Upgrading a container therefore means: back up, switch the image tag, restart, and run the release's migration script yourself. The image ships the `sql/` directory together with the `psql`, `mysql` and `sqlite3` clients, and the `DB_*` variables are already in the container's environment, so the script can be run from inside the new container.
 
-The examples below assume the Compose service names `poweradmin` and `postgres` (or `mysql`) and an upgrade from 4.3.x to 4.4.1. Adjust the names and the script version to your setup.
+The examples below assume the Compose service names `poweradmin` and `postgres` (or `mysql`) and an upgrade from 4.3.x to 4.4.2. Adjust the names and the script version to your setup.
 
 1. **Back up the database:**
 
@@ -74,7 +74,7 @@ The examples below assume the Compose service names `poweradmin` and `postgres` 
     docker compose exec mysql mysqldump -u poweradmin -p poweradmin > poweradmin-before-4.4.sql
     ```
 
-2. **Switch the image tag** in your Compose file (for example `poweradmin/poweradmin:4.4.1`), then pull and recreate only the application container:
+2. **Switch the image tag** in your Compose file (for example `poweradmin/poweradmin:4.4.2`), then pull and recreate only the application container:
 
     ```bash
     docker compose pull poweradmin
@@ -100,10 +100,11 @@ The examples below assume the Compose service names `poweradmin` and `postgres` 
 
 Notes:
 
-- Run one script per version, in order, and never skip a version. Coming from 4.2.x, run the 4.3.0 script before the 4.4.0 one.
-- Between the container restart and the migration, pages that read the new schema fail with "An error occurred while processing the request" (on 4.4.x: zone templates and add zone). The rest of the application keeps working, so the window is short but real; run the script right after the restart.
+- Run one script per version, in order, and never skip a version. Coming from 4.2.x, run the 4.3.0 script before the 4.4.0 one. On SQLite with the PowerDNS tables in the same file, also run `sql/poweradmin-sqlite-update-to-4.3.0-backfill.sql` right after the 4.3.0 script if you may later switch the database to API backend mode; it fills in the zone names that mode reads.
+- The `stable` and `latest` tags move between release lines at this release: `stable` now follows 4.4.x (it followed 4.3.x before) and `latest` follows 4.5.x. A Compose file on either tag jumps a minor version on the next pull and must run the update script for every minor version it crosses. Pin a version tag such as `4.4` or `4.4.2` to decide when you upgrade.
+- Between the container restart and the migration, pages that read the new schema fail with "An error occurred while processing the request" (which pages depends on the release; for the 4.4.0 script, zone templates and add zone). The rest of the application keeps working, so the window is short but real; run the script right after the restart.
 - Run each script once. The scripts are not idempotent: a second run stops with an error such as `column "is_default" of relation "zone_templ" already exists`, which is harmless but means the script was already applied.
-- Patch releases (4.4.0 to 4.4.1) need no script unless their release notes say otherwise; switching the tag and restarting is enough.
+- Patch releases (4.4.1 to 4.4.2) need no script unless their release notes say otherwise; switching the tag and restarting is enough.
 - A volume-mounted `config/settings.php` is left untouched. Check the release notes for new settings or container variables you may want to set.
 
 ## Important Considerations
@@ -120,19 +121,22 @@ Notes:
 
 If you're upgrading across multiple major versions, it's often safest to upgrade incrementally through each major version rather than jumping directly to the latest version.
 
-### Recommended Path from 2.0.0 to 4.4.0
+### Recommended Path from 2.0.0 to 4.5.0
 
-If you're upgrading from a very old version (e.g., 2.0.0) to the latest release, 4.4.0, we recommend the following path:
+If you're upgrading from a very old version (e.g., 2.0.0), we recommend the following path:
 
 1. 2.0.0 → 2.1.4 (Important database structure changes)
 2. 2.1.4 → 2.2.2 (API integration changes)
 3. 2.2.2 → 3.2.0 (DNSSEC implementation)
-4. 3.2.0 → 3.9.3 (Security improvements)
-5. 3.9.3 → 4.0.0 (Complete architecture overhaul)
-6. 4.0.0 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
+4. 3.2.0 → 3.9.13 (latest 3.x release; run the 3.9.0 and 3.9.7 update scripts)
+5. 3.9.x → 4.0.11 (last 4.0.x release, complete architecture overhaul; run the 4.0.0, 4.0.2 and 4.0.5 update scripts and convert the configuration with `php config/migrate-config.php`, which ships only in 4.0.x - 4.1.0 and later no longer read `inc/config.inc.php`)
+6. 4.0.11 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
 7. 4.1.0 → 4.2.0 (PHP 8.2 minimum, groups support, bulk record operations)
 8. 4.2.0 → 4.3.0 (PowerDNS API backend mode, zone metadata editor, separate API log table)
-9. 4.3.0 → 4.4.0 (Default zone template, PowerDNS capability detection, Views & Networks)
+9. 4.3.0 → 4.4.x (Default zone template, PowerDNS capability detection, Views & Networks)
+10. 4.4.x → 4.5.0 (Record change log, granular API keys, new permissions, API v1 removed)
+
+Coming from 3.9.x (LTS until December 2027), upgrade to 4.4.x, the production line. Continue to 4.5.0 only if you want its features.
 
 ### Critical Versions with SQL Migrations
 
@@ -158,12 +162,12 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.4.x Series:**
 
-- **v4.4.2** (Oct 2026) - MFA verified against the account that is signing in, exact email match for password reset, sendmail header line breaks refused, MFA setup and zone search paging fixes, Docker waits for the database before schema setup (`DB_WAIT_TIMEOUT`). No database migration
+- **v4.4.2** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also: new users only get a permission template within the creator's permissions, record comments sync to the related A or PTR record only in zones the user may edit, installer IP allow-list matches IPv6, dynamic DNS treats array query parameters as missing, username rename duplicate check fixed, MFA verified against the account that is signing in, exact email match for password reset, sendmail header line breaks refused, STARTTLS enforced when mail requires TLS, startup refused with the removed `md5` or `md5salt` password encryption, unknown record types and malformed RFC 3597 data refused, disabled accounts refused at OIDC and SAML login, opt-in strict session gates and single-use reset links, MFA setup and zone search paging fixes, Docker waits for the database before schema setup (`DB_WAIT_TIMEOUT`) and the `stable` tag now follows 4.4.x. No database migration
 - **v4.4.1** (Sep 2026) - Same fixes as v4.3.5 for the 4.4.x line, plus dynamic DNS routing each `myip` address to its own record family, bulk record paths matched before single-record lookup, the PowerDNS metrics URL derived from `pdns_api.url`, and container variables for the 4.4.0 settings. No database migration
 
 **v4.3.x Series:**
 
-- **v4.3.6** (Oct 2026) - Same fixes as v4.4.2 for the 4.3.x line, without the Docker database wait. No database migration
+- **v4.3.6** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also the v4.4.2 fixes that apply to 4.3.x, except the Docker database wait, plus fixes 4.4.x already had: global zone templates limited to superusers, `zone_content_edit_others` needed to assign a new zone to another user, the last owner of a zone can no longer be removed, IPv6 addresses matched in the login allow and deny lists, password reset declined for an email shared by several accounts, auth-critical fields kept out of user self-edit. The Docker `stable` tag no longer follows 4.3.x. No database migration
 - **v4.3.5** (Sep 2026) - Same fixes as v4.2.6 for the 4.3.x line, plus LUA records restricted for client-level editors on every surface, one canonical zone id in API backend mode, and container config generation that escapes secrets and emits valid booleans. No database migration
 - **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.3.3** (Jun 2026) - Permission and authorization hardening across API and DNSSEC, API-backend mode polish (record ordering, dashboard resilience), template sync correctness, Docker schema initialization
@@ -172,7 +176,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.2.x Series:**
 
-- **v4.2.7** (Oct 2026) - Same fixes as v4.3.6 for the 4.2.x line, plus LUA records restricted for client-level editors. No database migration
+- **v4.2.7** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also the v4.3.6 fixes that apply to 4.2.x, plus LUA records restricted to editors above client level. No database migration
 - **v4.2.6** (Sep 2026) - `interface.application_url` required for OIDC, SAML and password reset; Docker containers with SSO enabled refuse to start without a URL source; API user creation without `perm_templ` no longer yields an administrator; deactivating a user revokes their API keys; zone template records validated on save; five confirmation flows moved to POST (re-sync forked themes). No database migration
 - **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.2.4** (Jun 2026) - Same fixes as v4.3.3 for the 4.2.x line
@@ -202,7 +206,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v3.9.x Series (LTS):**
 
-- **v3.9.13** (Oct 2026) - Auth, dynamic DNS and record validation fixes, DNSSEC key management gated on the zone edit permission, TLD data refreshed. No database migration
+- **v3.9.13** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused, on by default; turn it off with `$dns_parent_zone_ownership_check = false;` in `inc/config.inc.php` (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also: new users only get a permission template within the creator's permissions, record comments sync to the related A or PTR record only in zones the user may edit, `zone_content_edit_others` needed to assign a new zone to another user, delegated managers can no longer edit superusers, LUA records limited to editors above client level, client-level editors can no longer delete NS records, control characters refused in records, SameSite set on the session cookie, installer IP allow-list matched by address family and prefix, dynamic DNS array parameter and username rename fixes, DNSSEC key management gated on the zone edit permission, TLD data refreshed. No database migration
 - **v3.9.12** (Sep 2026) - Permission checks on template, user and zone changes; template, supermaster and DNSSEC key changes require a confirmed POST; login timing equalised; session key warning distinguishes the shipped default; log and error output escaped; public suffix and TLD data refreshed. No database migration
 - **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates
 - **v3.9.10** (Mar 2026) - Translation updates for all locales
