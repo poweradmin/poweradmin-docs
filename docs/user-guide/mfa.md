@@ -45,7 +45,7 @@ Administrators can require specific users to set up MFA. This is controlled thro
 
 When MFA is enforced, users who have not yet set up MFA will be redirected to the MFA setup page after their next login. They cannot use Poweradmin until MFA is configured.
 
-By default the redirect applies to web pages only, and any path containing `/api/` is left alone. Set `security.strict_session_gates` to `true` (added in 4.6.0) to also refuse internal API calls with a 403 until setup is done, and to redirect web pages such as `/settings/api/logs`. API v1 and v2 use API keys, not the session, and are not affected. See [Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v460).
+By default the redirect applies to web pages only, and any path containing `/api/` is left alone. Set `security.strict_session_gates` to `true` (added in 4.5.0, 4.4.2 and 4.3.6) to also refuse internal API calls with a 403 until setup is done, and to redirect web pages such as `/settings/api/logs`. API v1 and v2 use API keys, not the session, and are not affected. See [Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v450).
 
 > **Note:** MFA enforcement requires both the global `mfa.enabled` and `mfa.enforced` settings to be set to `true` in your configuration. See [Configuration](#configuration) below.
 

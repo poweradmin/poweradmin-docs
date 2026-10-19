@@ -35,7 +35,7 @@ return [
 3. **Acceptance Required** - User must accept to continue
 4. **Access Granted** - User can access the system
 
-Until the agreement is accepted, web pages redirect to `/user-agreement`. Paths containing `/api/` are not redirected unless `security.strict_session_gates` is `true` (added in 4.6.0): then internal API calls answer 403 until acceptance, while API v1 and v2 (key-authenticated) are unaffected. See [Opt-in Hardening](security-policies.md#opt-in-hardening-v460).
+Until the agreement is accepted, web pages redirect to `/user-agreement`. Paths containing `/api/` are not redirected unless `security.strict_session_gates` is `true` (added in 4.5.0, 4.4.2 and 4.3.6): then internal API calls answer 403 until acceptance, while API v1 and v2 (key-authenticated) are unaffected. See [Opt-in Hardening](security-policies.md#opt-in-hardening-v450).
 
 ### Version Updates
 

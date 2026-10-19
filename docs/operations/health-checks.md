@@ -131,7 +131,7 @@ location ~ ^/(ping|api/health)$ {
 </LocationMatch>
 ```
 
-### Token and result cache *(v4.6.0+)*
+### Token and result cache *(v4.5.0+)*
 
 Two optional settings limit what an anonymous caller can trigger. Both are off by default.
 

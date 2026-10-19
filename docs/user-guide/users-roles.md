@@ -31,8 +31,8 @@ administrators.
 
 The last remaining super admin cannot be deleted or disabled, and the API `PATCH` that changes a user's template
 refuses to take super admin away from them. The user edit form and API `PUT` apply the same rule when
-`security.protect_last_admin_on_edit` is `true` (added in 4.6.0, off by default). See
-[Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v460).
+`security.protect_last_admin_on_edit` is `true` (added in 4.5.0, off by default). See
+[Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v450).
 
 ## Zone Ownership
 

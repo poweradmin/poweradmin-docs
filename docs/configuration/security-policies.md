@@ -9,8 +9,8 @@ Poweradmin offers various security features to protect your DNS management syste
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`
 - **login_token_validation**: Enable token validation for login form. Default: `true`
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
-- **protect_last_admin_on_edit**: Refuse a user edit that moves the last super admin to a template without super admin. Default: `false` (added in 4.6.0). See [Opt-in Hardening](#opt-in-hardening-v460)
-- **strict_session_gates**: Apply required MFA setup and the user agreement to internal API calls and to pages with `api` in their path. Default: `false` (added in 4.6.0). See [Opt-in Hardening](#opt-in-hardening-v460)
+- **protect_last_admin_on_edit**: Refuse a user edit that moves the last super admin to a template without super admin. Default: `false` (added in 4.5.0). See [Opt-in Hardening](#opt-in-hardening-v450)
+- **strict_session_gates**: Apply required MFA setup and the user agreement to internal API calls and to pages with `api` in their path. Default: `false` (added in 4.5.0, 4.4.2 and 4.3.6). See [Opt-in Hardening](#opt-in-hardening-v450)
 - **trusted_proxies**: Reverse proxy addresses allowed to set forwarded client-IP headers (`X-Forwarded-For`, `X-Real-IP`, `Client-IP`). Supports IPs, CIDRs (IPv4/IPv6), and IPv4 wildcards. Private and loopback peers are always trusted; add public proxy addresses here so their forwarded headers are honored. Default: `[]` (added in 4.5.0)
 
 ## Rotating the Session Key
@@ -133,7 +133,7 @@ return [
 ];
 ```
 
-## Opt-in Hardening (v4.6.0+)
+## Opt-in Hardening (v4.5.0+)
 
 These settings tighten behaviour that earlier releases allowed. They are off by default so an upgrade changes
 nothing; turn them on after checking the notes below.
@@ -185,9 +185,9 @@ Secure password reset functionality with rate limiting:
 - **rate_limit_attempts**: Maximum reset attempts per time window. Default: `5`
 - **rate_limit_window**: Rate limit window in seconds. Default: `3600` (1 hour)
 - **min_time_between_requests**: Minimum seconds between requests. Default: `60` (1 minute)
-- **single_use_claim**: Mark the link as used before the new password is saved, so one link sets one password even when it is submitted twice at the same moment. Default: `false` (added in 4.6.0)
+- **single_use_claim**: Mark the link as used before the new password is saved, so one link sets one password even when it is submitted twice at the same moment. Default: `false` (added in 4.5.0, 4.4.2 and 4.3.6)
 
-The reset token never appears in the application log: since 4.6.0 log lines carry a short fingerprint of it instead, so entries about the same link can still be matched.
+The reset token never appears in the application log: since 4.5.0 log lines carry a short fingerprint of it instead, so entries about the same link can still be matched.
 
 ### `interface.application_url` is required
 
