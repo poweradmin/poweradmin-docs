@@ -9,11 +9,17 @@ publish new plans.
 
 ## Which version should I use?
 
-- **Production**: 4.4.x. It is the 4.x LTS line and gets fixes until December 2027. In Docker, pin
-  a version tag such as `4.4`.
-- **Newest features**: the latest release. It gets fixes until three months after the next minor
-  release.
-- **Still on 3.x**: 3.9.x is LTS until December 2027. Plan the move to 4.4.x before then.
+- **Production**: 4.4.x. It is the 4.x LTS line and gets fixes until December 2027. In Docker, use
+  `stable` or pin a version tag such as `4.4`.
+- **Newest features**: 4.5.x, the latest release. Its fixes go to the `release/4.5.x` branch, and it
+  gets fixes until three months after the next minor release. In Docker, `latest` is the newest
+  4.5.x release.
+- **Still on 4.3.x or 4.2.x**: both get fixes until 2027-01-31. Plan the move to 4.4.x.
+- **Still on 3.x**: 3.9.x is LTS until December 2027 (Docker `lts`). Plan the move to 4.4.x before
+  then.
+- **Not for production**: `master`. It carries the 4.6.0 work and can break at any time. The
+  separate `develop` branch is retired, because coordinating two development branches was too
+  complicated. In Docker, this is the `dev` tag.
 
 ## Poweradmin Release Lines
 
