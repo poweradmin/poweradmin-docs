@@ -83,6 +83,10 @@ The edit page of a Master or Producer zone offers **Send NOTIFY** in the same pl
 
 The zone is created with the records defined in the selected template. If no template is chosen, only a SOA record is created.
 
+From 4.6.0, Poweradmin warns when a new zone hides records in its parent zone. Creating `shop.example.com` while `example.com` still holds `www.shop.example.com` means PowerDNS answers for that name from the new zone, so the parent's record is no longer served. The zone is still created; the zone list then shows a warning naming the parent zone and up to five of the hidden records. Add them to the new zone if they are needed, then delete them from the parent. Delegation records (NS and DS for the new zone and the glue for its name servers) are not reported. The warning is shown only to users who may view the parent zone, and also appears for slave zones, bulk registration and zone imports. The v2 API returns the same list as `shadowed_records` in the `POST /zones` response.
+
+![Parent zone warning](../screenshots/parent-zone-warning.png)
+
 ### Adding a Slave Zone
 
 1. Navigate to **Zones** and click **Add slave zone**
