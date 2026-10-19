@@ -76,7 +76,7 @@ The edit page of a Master or Producer zone offers **Send NOTIFY** in the same pl
 
 From 4.5.0, with the [API backend](../configuration/powerdns-api.md#api-backend-mode-v430), the **Serial** column of the zone lists shows whether PowerDNS has sent a NOTIFY for the current serial of a Master or Producer zone:
 
-- A blue cloud means a NOTIFY is pending: the zone's serial is higher than the last serial PowerDNS notified its secondaries about.
+- A blue cloud means a NOTIFY is pending: the zone's serial differs from the last serial PowerDNS notified its secondaries about.
 - A green cloud with a check mark means PowerDNS has sent a NOTIFY for the current serial.
 
 Hovering the icon shows the serial it refers to. The Serial column is off by default; turn it on with `interface.display_serial_in_zone_list` or the **Zone serial numbers** [preference](user-preferences.md#zone-options). Other zone kinds and zones with serial 0 show no icon. The SQL backend has no NOTIFY status to show.
@@ -104,7 +104,7 @@ PowerDNS can serve a signed zone with a different serial from the one stored, de
 
 The zone is created with the records defined in the selected template. If no template is chosen, only a SOA record is created.
 
-From 4.6.0, Poweradmin warns when a new zone hides records in its parent zone. Creating `shop.example.com` while `example.com` still holds `www.shop.example.com` means PowerDNS answers for that name from the new zone, so the parent's record is no longer served. The zone is still created; the zone list then shows a warning naming the parent zone and up to five of the hidden records. Add them to the new zone if they are needed, then delete them from the parent. Delegation records (NS and DS for the new zone and the glue for its name servers) are not reported. The warning is shown only to users who may view the parent zone, and also appears for slave zones, bulk registration and zone imports. The v2 API returns the same list as `shadowed_records` in the `POST /zones` response.
+From 4.6.0, Poweradmin warns when a new zone hides records in its parent zone. Creating `shop.example.com` while `example.com` still holds `www.shop.example.com` means PowerDNS answers for that name from the new zone, so the parent's record is no longer served. The zone is still created; the zone list then shows a warning naming the parent zone and up to five of the hidden records. Add them to the new zone if they are needed, then delete them from the parent. Delegation records (NS and DS for the new zone and the glue for its name servers) are not reported. The warning is shown only to users who may view the parent zone, and also appears for slave zones, bulk registration and zone imports. The v2 API returns the full list, with the parent zone name, as `shadowed_records` in the `POST /zones` response.
 
 ![Parent zone warning](../screenshots/parent-zone-warning.png)
 
@@ -195,14 +195,14 @@ Starting in v4.3.0, the **Metadata** button on the zone editor opens an editor f
 per-zone settings that control transfers, notifies, serial policy and DNSSEC behaviour. Each row
 is a metadata *kind* and one value; the PowerDNS page above defines what each kind does.
 
-Kinds with a fixed set of valid values (`SOA-EDIT`, `SOA-EDIT-API`, `SOA-EDIT-DNSUPDATE`,
+From 4.5.0, kinds with a fixed set of valid values (`SOA-EDIT`, `SOA-EDIT-API`, `SOA-EDIT-DNSUPDATE`,
 `API-RECTIFY`, `NSEC3NARROW`) offer a dropdown instead of a free-text field. Kinds your
 PowerDNS version does not support yet are listed but disabled, with the required version
 shown. Kinds not in the built-in list can be added through the **Custom** entry.
 
-From 4.5.0 this is also where a zone's serial policy is set: `SOA-EDIT` controls the serial
+This is also where a zone's serial policy is set: `SOA-EDIT` controls the serial
 PowerDNS serves for a signed zone, and `SOA-EDIT-API` how PowerDNS updates the serial on API
-changes. `dns.soa_edit_options` and `dns.soa_edit_api_options` limit the values these selectors
+changes. From 4.5.0, `dns.soa_edit_options` and `dns.soa_edit_api_options` limit the values these selectors
 offer; see [DNS Settings](../configuration/dns-settings.md).
 
 ![Serial policy in the metadata editor](../screenshots/zone-metadata-serial-policy.png)

@@ -29,7 +29,7 @@ total issues, errors and warnings.
 
 | Check | Severity | What it finds | Available fix |
 |-------|----------|---------------|---------------|
-| Zones without owners | Warning | Zones with no user owner | **Fix** assigns the zone to you; **Assign all to me** does the whole list at once. From 4.6.0, with `dns.adopt_zone_owner_from_account` on, a zone goes to the user named in its PowerDNS account field instead |
+| Zones without owners | Warning | Zones with no user owner | **Fix** assigns the zone to you; **Assign all to me** does the whole list at once. From 4.6.0, with `dns.adopt_zone_owner_from_account` on, a zone whose PowerDNS account names a user goes to that user instead; otherwise, or when that user is at their zone limit, it still goes to you |
 | Slave zones without masters | Warning | Slave zones with no master IP set, which can never transfer | **Delete** the zone |
 | Orphaned records | Error | Records whose zone no longer exists | **Delete** the record |
 | Duplicate SOA records | Error | Zones carrying more than one SOA | **Fix** keeps the first SOA and deletes the rest |
