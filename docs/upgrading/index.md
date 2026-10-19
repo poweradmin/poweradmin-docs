@@ -149,8 +149,8 @@ The following versions include important database structure changes:
 - [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, groups support, bulk record operations
 - [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
 - [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
-- [v4.5.0](v4.5.0.md) (unreleased - complete on the master branch, awaiting its tag) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
-- [v4.6.0](v4.6.0.md) (in development on the develop branch) - Change approval workflow (`zone_change_requests` table, four permissions)
+- [v4.5.0](v4.5.0.md) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
+- [v4.6.0](v4.6.0.md) (in development on the master branch) - Change approval workflow (`zone_change_requests` table, four permissions)
 
 ### Recent Patch Releases
 
@@ -158,10 +158,12 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.4.x Series:**
 
+- **v4.4.2** (Oct 2026) - MFA verified against the account that is signing in, exact email match for password reset, sendmail header line breaks refused, MFA setup and zone search paging fixes, Docker waits for the database before schema setup (`DB_WAIT_TIMEOUT`). No database migration
 - **v4.4.1** (Sep 2026) - Same fixes as v4.3.5 for the 4.4.x line, plus dynamic DNS routing each `myip` address to its own record family, bulk record paths matched before single-record lookup, the PowerDNS metrics URL derived from `pdns_api.url`, and container variables for the 4.4.0 settings. No database migration
 
 **v4.3.x Series:**
 
+- **v4.3.6** (Oct 2026) - Same fixes as v4.4.2 for the 4.3.x line, without the Docker database wait. No database migration
 - **v4.3.5** (Sep 2026) - Same fixes as v4.2.6 for the 4.3.x line, plus LUA records restricted for client-level editors on every surface, one canonical zone id in API backend mode, and container config generation that escapes secrets and emits valid booleans. No database migration
 - **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.3.3** (Jun 2026) - Permission and authorization hardening across API and DNSSEC, API-backend mode polish (record ordering, dashboard resilience), template sync correctness, Docker schema initialization
@@ -170,6 +172,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.2.x Series:**
 
+- **v4.2.7** (Oct 2026) - Same fixes as v4.3.6 for the 4.2.x line, plus LUA records restricted for client-level editors. No database migration
 - **v4.2.6** (Sep 2026) - `interface.application_url` required for OIDC, SAML and password reset; Docker containers with SSO enabled refuse to start without a URL source; API user creation without `perm_templ` no longer yields an administrator; deactivating a user revokes their API keys; zone template records validated on save; five confirmation flows moved to POST (re-sync forked themes). No database migration
 - **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
 - **v4.2.4** (Jun 2026) - Same fixes as v4.3.3 for the 4.2.x line
@@ -199,6 +202,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v3.9.x Series (LTS):**
 
+- **v3.9.13** (Oct 2026) - Auth, dynamic DNS and record validation fixes, DNSSEC key management gated on the zone edit permission, TLD data refreshed. No database migration
 - **v3.9.12** (Sep 2026) - Permission checks on template, user and zone changes; template, supermaster and DNSSEC key changes require a confirmed POST; login timing equalised; session key warning distinguishes the shipped default; log and error output escaped; public suffix and TLD data refreshed. No database migration
 - **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates
 - **v3.9.10** (Mar 2026) - Translation updates for all locales
@@ -210,8 +214,8 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 ## Long-Term Support (LTS)
 
-4.4.x and 3.9.x are LTS until December 2027. 4.2.x and 4.3.x reach end of life three months after
-4.5.0 is released. See [Version Support](../getting-started/lifecycle.md) for every release line,
+4.4.x and 3.9.x are LTS until December 2027. 4.2.x and 4.3.x reach end of life on
+2027-01-31. See [Version Support](../getting-started/lifecycle.md) for every release line,
 the support rules and the PHP range of each line.
 
 ## Troubleshooting

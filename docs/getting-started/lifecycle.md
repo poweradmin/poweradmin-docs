@@ -40,17 +40,17 @@ gantt
     section 4.x
     4.0.x                  :done, 2025-07-31, 2026-07-23
     4.1.x                  :done, 2026-02-08, 2026-07-23
-    4.2.x (end estimated)  :2026-03-19, 2027-01-31
-    4.3.x (end estimated)  :2026-04-23, 2027-01-31
+    4.2.x                  :2026-03-19, 2027-01-31
+    4.3.x                  :2026-04-23, 2027-01-31
     4.4.x LTS              :crit, 2026-07-23, 2027-12-31
 ```
 
 | Line          | Status                                         | Fixes until                     | PHP       |
 |---------------|------------------------------------------------|---------------------------------|-----------|
-| 4.5.x         | Next release (4.5.0)                           | three months after 4.6.0        | 8.2 - 8.5 |
+| 4.5.x         | Latest release                                 | three months after 4.6.0        | 8.2 - 8.5 |
 | 4.4.x         | **LTS**, recommended for production            | December 2027                   | 8.2 - 8.5 |
-| 4.3.x         | Last fixes only                                | three months after 4.5.0        | 8.2 - 8.5 |
-| 4.2.x         | Last fixes only                                | three months after 4.5.0        | 8.2 - 8.5 |
+| 4.3.x         | Last fixes only                                | 2027-01-31                      | 8.2 - 8.5 |
+| 4.2.x         | Last fixes only                                | 2027-01-31                      | 8.2 - 8.5 |
 | 4.1.x, 4.0.x  | End of life                                    | -                               | 8.1 - 8.5 |
 | 3.9.x         | **LTS**                                        | December 2027                   | 8.1 - 8.5 |
 | 3.8.x and older | End of life                                  | -                               | -         |
@@ -155,7 +155,7 @@ If your distribution ships an older PHP or PowerDNS than you need:
 
 ## What to Plan For
 
-- **About three months after 4.5.0**: 4.2.x and 4.3.x reach end of life. Move to 4.4.x or newer.
+- **31 January 2027**: 4.2.x and 4.3.x reach end of life. Move to 4.4.x or newer.
 - **End of 2026**: PHP 8.2 reaches end of life. Poweradmin 4.7.0 needs PHP 8.3. This affects
   Debian 12 and RHEL 8 users on PHP 8.2.
 - **June 2027**: Ubuntu 22.04 standard support ends. It is the last supported distribution that

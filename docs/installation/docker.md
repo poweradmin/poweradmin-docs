@@ -15,16 +15,17 @@ The image tags published for production and development use are:
 
 | Tag      | Source branch        | Description |
 |----------|----------------------|-------------|
-| `stable` | `release/4.3.x`      | Tracks the latest tagged release on `release/4.3.x`. |
+| `stable` | `release/4.4.x`      | Tracks the latest tagged release on `release/4.4.x`, the line recommended for production. |
+| `latest` | `release/4.5.x`      | Tracks the latest tagged release on `release/4.5.x`, the newest release line. |
+| `4.5.x`  | `release/4.5.x`      | Newest release line; updates on every commit to the branch. |
 | `4.4.x`  | `release/4.4.x`      | LTS line until December 2027; updates on every commit to the branch. |
-| `4.3.x`  | `release/4.3.x`      | Maintenance line, end of life three months after the 4.5.0 release; updates on every commit to the branch. |
-| `4.2.x`  | `release/4.2.x`      | Maintenance line, end of life three months after the 4.5.0 release; updates on every commit to the branch. |
-| `latest` | `master`             | Tracks `master`, which carries the newest release line between patch releases. |
-| `dev`    | `develop`            | Development tip - not for production. |
+| `4.3.x`  | `release/4.3.x`      | Maintenance line, end of life on 2027-01-31; updates on every commit to the branch. |
+| `4.2.x`  | `release/4.2.x`      | Maintenance line, end of life on 2027-01-31; updates on every commit to the branch. |
+| `dev`    | `master`             | Development tip (4.6.0 work) - unstable, not for production. |
 | `lts`    | `release/3.x`        | Long-term support for the 3.x series. |
-| `4.4.1`, `4.3.5` | Tagged release | Pin to a specific version, for example `4.4.1` on the LTS line - **recommended for production**. Image tags carry no `v` prefix: the `v4.4.1` git tag is published as `4.4.1` (plus `4.4` and `4`). |
+| `4.5.0`, `4.4.2` | Tagged release | Pin to a specific version, for example `4.4.2` on the LTS line - **recommended for production**. Image tags carry no `v` prefix: the `v4.4.2` git tag is published as `4.4.2` (plus `4.4` and `4`). |
 
-> **Note:** The `next` tag was removed when the release branch structure changed. The per-version tags (`4.4.1`) are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`, `4.4.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
+> **Note:** The `next` tag was removed when the release branch structure changed. The per-version tags (`4.4.2`) are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`, `4.4.x`, `4.5.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
 
 ## Quick Start
 
@@ -545,6 +546,8 @@ The interface has many more settings than the four above; see
 | `PA_HEALTH_PING_ENABLED` | false | Unauthenticated liveness endpoint at `/ping` |
 | `PA_HEALTH_DB_TIMEOUT` | 2 | Database connect timeout in seconds used by the health check |
 | `PA_HEALTH_PDNS_TIMEOUT` | 2 | PowerDNS API timeout in seconds used by the health check |
+| `PA_HEALTH_TOKEN` | - | When set, `/api/health` answers only requests sending it in the `X-Health-Token` header (`PA_HEALTH_TOKEN__FILE` reads it from a file) |
+| `PA_HEALTH_CACHE_SECONDS` | 0 | Reuse the last `/api/health` result for this many seconds; 0 runs the checks on every request |
 
 The image's `HEALTHCHECK` requests `/ping` when `PA_HEALTH_PING_ENABLED=true` (so a
 headless container with `PA_WEB_ENABLED=false` still reports healthy) and `/` otherwise.

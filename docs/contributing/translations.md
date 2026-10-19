@@ -116,7 +116,7 @@ Many catalogues were produced with automated tools and contain mistakes that onl
         -o locale/de_DE/LC_MESSAGES/messages.mo
     ```
 
-7. **Submit a pull request** against the `develop` branch with both the `.po` and `.mo` files.
+7. **Submit a pull request** against the `master` branch with both the `.po` and `.mo` files.
 
 ### Tips
 
