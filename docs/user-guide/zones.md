@@ -83,6 +83,12 @@ Hovering the icon shows the serial it refers to. The Serial column is off by def
 
 ![NOTIFY status in the zone list](../screenshots/zone-list-notify-pending.png)
 
+## Signed Serial in the Zone List
+
+PowerDNS can serve a signed zone with a different serial from the one stored, depending on the zone's `SOA-EDIT` [metadata](#zone-metadata). From 4.5.0, with the API backend and `interface.display_signed_serial_in_zone_list` set to `true`, the zone lists add a **Signed serial** column with the serial PowerDNS serves. It is filled for DNSSEC-signed zones only, since unsigned zones serve the stored serial. The setting is off by default and has no effect with the SQL backend.
+
+![Signed serial column](../screenshots/zone-list-signed-serial.png)
+
 ## Creating Zones
 
 ### Adding a Master Zone
