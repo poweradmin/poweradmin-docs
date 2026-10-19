@@ -127,6 +127,10 @@ Records are edited in the table itself:
 
 Enabling `interface.show_record_edit_button` adds an **Actions** column with a per-record edit button that opens the record on its own page. It is off by default, as is `interface.show_record_delete_button`, so a default install has no Actions column.
 
+With `interface.show_record_comments` on, a record that has a comment shows an info icon next to it from 4.5.0. Hovering the icon shows who last edited the comment and when.
+
+![Comment author and time](../screenshots/record-comment-author.png)
+
 ### Editing the SOA Record
 
 From 4.6.0 the SOA record has its own editor. Tick the SOA row and click **Edit selected**,
