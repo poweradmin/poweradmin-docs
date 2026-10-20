@@ -46,6 +46,8 @@ From 4.6.0 Poweradmin accepts a SAML response only as the answer to a sign-in st
 
 If users reach Poweradmin over plain HTTP on any other host, or you rely on sign-ins started from the identity provider's portal (IdP-initiated SSO), set `'allow_idp_initiated' => true` on that provider. It restores the pre-4.6.0 behaviour for that provider only. Responses are still checked for signature, audience and validity window.
 
+The setting is also in 4.4.3 and 4.5.1, where it defaults to `true` so that upgrading does not change how sign-in works. Set it to `false` to refuse responses that were not started from the same browser; this needs HTTPS, as above.
+
 ## Global Settings
 
 | Setting | Default | Description |
@@ -195,7 +197,7 @@ Each provider requires IdP-specific configuration:
 | `slo_url` | No | IdP Single Logout URL |
 | `x509cert` | Yes | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks) |
 | `user_mapping` | Yes | Map SAML attributes to user fields |
-| `allow_idp_initiated` | No | Accept responses that do not answer a sign-in started in Poweradmin: IdP-initiated SSO, or installs not served over HTTPS. Default `false` *(v4.6.0+)* |
+| `allow_idp_initiated` | No | Accept responses that do not answer a sign-in started in Poweradmin: IdP-initiated SSO, or installs not served over HTTPS. Default `false` from 4.6.0, `true` on 4.4.3 and 4.5.1 |
 
 ### Azure AD (SAML)
 
