@@ -98,9 +98,12 @@ writing your own client:
 Each project publishes a compatibility table mapping its own releases to the Poweradmin versions it
 supports. Check it before upgrading either side.
 
-> **Note:** These integrations target the released 4.x line. Older versions of some of them can
-> still be configured against API v1, which is removed in 4.5.0, so move to a v2-capable release
-> before upgrading Poweradmin.
+> **Note:** Poweradmin 4.5.0 removes API v1. The integrations default to v2, so older releases keep
+> working once their API version is set to v2. These releases also warn when v1 is configured and
+> explain the `410 Gone` reply: certbot-dns-poweradmin 0.2.7, cert-manager-webhook-poweradmin 0.2.17
+> and external-dns-poweradmin-webhook 1.5.0. Use terraform-provider-poweradmin 0.7.0 or later with
+> 4.5.0 in API backend mode: zone ids there change once to the canonical id, and 0.7.0 keeps
+> dependent resources in place instead of replacing them.
 
 ## Next steps
 
