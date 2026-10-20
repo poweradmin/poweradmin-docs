@@ -94,7 +94,9 @@ directly followed by a record is skipped with a warning. When record comments ar
 disabled, the comments in the file are skipped and the preview says so.
 
 Disabled records are not exported, with or without comments, because a zone file cannot
-mark a record as disabled.
+mark a record as disabled. The copy kept when a change request deletes a zone is the
+exception: it writes them as `; poweradmin-disabled:` lines, and Zone Import restores those
+as disabled records.
 
 ### Supported Features
 

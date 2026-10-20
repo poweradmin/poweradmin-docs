@@ -148,7 +148,10 @@ zone with all of its records.
 Before the zone is deleted, a copy of it is stored with the request as a BIND zone file.
 The review page of the approved request offers **Download zone file taken before
 deletion**, and the API returns it in the `snapshot` field of the request. Re-import it
-through the zone import tool to bring the zone back. The copy is visible to the requester,
+through the zone import tool to bring the zone back. Disabled records are kept in the copy
+as `; poweradmin-disabled:` lines, which other DNS tools read as comments, and the import
+restores them as disabled records; when those lines would push the file past the size
+limit below, the copy leaves the disabled records out. The copy is visible to the requester,
 to reviewers and to users who may view the zone, and is skipped when it exceeds 60000
 bytes.
 
