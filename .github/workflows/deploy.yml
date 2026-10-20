@@ -58,12 +58,12 @@ jobs:
           token: ${{ secrets.DEPLOY_TOKEN }}
 
       # The class reference is generated, not committed: Doctum renders lib/ from the
-      # develop branch into docs/reference, and mkdocs copies it to the site verbatim.
+      # master branch into docs/reference, and mkdocs copies it to the site verbatim.
       - name: Checkout poweradmin
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: poweradmin/poweradmin
-          ref: develop
+          ref: master
           path: poweradmin
 
       - name: Set up PHP
