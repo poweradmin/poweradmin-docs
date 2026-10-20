@@ -67,6 +67,35 @@ When enabled, zone import/export features are available from:
 3. Review the parsed records
 4. Confirm the import
 
+### Record Comments *(v4.6.0+)*
+
+Zone files can carry Poweradmin record comments, so a zone keeps them when it is exported
+and imported again. Both directions need `interface.show_record_comments` enabled.
+
+**Export.** Tick **Include comments** in the zone page's **Export** menu before choosing
+**Zone File**. Each comment is written on the line above its record, one marker line per
+line of the comment:
+
+```
+; poweradmin-comment: web server
+; poweradmin-comment: replaced in March
+www.example.com. 3600 IN A 192.0.2.1
+```
+
+The marker starts with `;`, so BIND, `pdnsutil load-zone` and other tools read it as an
+ordinary comment. With the box unticked the export is unchanged. A file with comments is
+built by Poweradmin from the zone's records rather than taken from the PowerDNS zone
+export.
+
+**Import.** Zone Import reads `; poweradmin-comment:` lines back into the comment of the
+record that follows them; the preview shows how many comments will be imported and lists
+them next to their records. Other `;` comments are ignored as before. A marker that is not
+directly followed by a record is skipped with a warning. When record comments are
+disabled, the comments in the file are skipped and the preview says so.
+
+Disabled records are not exported, with or without comments, because a zone file cannot
+mark a record as disabled.
+
 ### Supported Features
 
 - BIND zone file format
