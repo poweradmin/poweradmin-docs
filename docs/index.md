@@ -66,6 +66,8 @@ Poweradmin is an independently funded open-source project. Your support helps ke
 
 ### Support the Project
 
+Commercial support, upgrades, security reviews and sponsored feature development are available, see [Support & Sponsorship](https://www.poweradmin.org/p/support-and-sponsorship) or contact [support@poweradmin.org](mailto:support@poweradmin.org).
+
 If you find Poweradmin valuable, consider supporting its development:
 
 - [GitHub Sponsors](https://github.com/sponsors/edmondas)

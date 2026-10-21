@@ -21,6 +21,8 @@ publish new plans.
   separate `develop` branch is retired, because coordinating two development branches was too
   complicated. In Docker, this is the `dev` tag.
 
+For help with an upgrade, see [Support & Sponsorship](https://www.poweradmin.org/p/support-and-sponsorship).
+
 ## Poweradmin Release Lines
 
 The rules:
