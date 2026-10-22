@@ -125,6 +125,10 @@ through `docker exec`, as `www-data`:
 0 6 * * * docker exec -u www-data poweradmin php /app/addons/send_record_changes_email.php --to=ops@example.com --subject="DNS changes, last 24h"
 ```
 
+If the configuration path comes from `PA_CONFIG_PATH__FILE`, `docker exec` does not see it, so
+pass it on the command line: `docker exec -u www-data -e PA_CONFIG_PATH=/config/settings.php ...`.
+The image has no local mail server, so use `PA_MAIL_TRANSPORT=smtp`.
+
 On 4.5.0 the image does not include it; mount the file from the
 [source tree](https://github.com/poweradmin/poweradmin/blob/release/4.5.x/addons/send_record_changes_email.php)
 to `/app/addons/send_record_changes_email.php` until you upgrade.
