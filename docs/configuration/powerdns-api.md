@@ -311,6 +311,13 @@ Until PowerDNS fixes this, edit these records with `pdnsutil`, for example:
 pdnsutil rrset replace example.com. txt.example.com. TXT 3600 '"a\\b"'
 ```
 
+PowerDNS Auth 5.1.5 does not contain the fix yet.
+
+### Record Comments on LMDB
+
+Before PowerDNS Auth 5.1.5, the LMDB backend kept a zone's or RRset's comments after the zone or
+RRset was deleted. 5.1.5 deletes them together (PowerDNS pull request 18111).
+
 ### Docker
 
 For Docker deployments, set the backend via environment variable:
