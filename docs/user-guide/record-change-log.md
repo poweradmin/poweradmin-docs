@@ -118,6 +118,17 @@ A daily digest at 06:00 looks like this:
 0 6 * * * php /var/www/poweradmin/addons/send_record_changes_email.php --to=ops@example.com --subject="DNS changes, last 24h"
 ```
 
+With Docker, the script is in the image from 4.5.1 at `/app/addons/`. Run it from the host's cron
+through `docker exec`, as `www-data`:
+
+```
+0 6 * * * docker exec -u www-data poweradmin php /app/addons/send_record_changes_email.php --to=ops@example.com --subject="DNS changes, last 24h"
+```
+
+On 4.5.0 the image does not include it; mount the file from the
+[source tree](https://github.com/poweradmin/poweradmin/blob/release/4.5.x/addons/send_record_changes_email.php)
+to `/app/addons/send_record_changes_email.php` until you upgrade.
+
 Mail delivery uses the configured transport, so set that up first - see
 [Mail Configuration](../configuration/mail.md).
 
