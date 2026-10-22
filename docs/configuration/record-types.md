@@ -51,7 +51,9 @@ Two types have requirements on the PowerDNS side beyond simply being enabled her
   unless the zone carries the `ENABLE-LUA-RECORDS` metadata, which is neither readable nor writable
   over the API - set it with `pdnsutil` or in the database. Because they run code on the server,
   Poweradmin also restricts them: users limited to `zone_content_edit_own_as_client` cannot create
-  or edit them, and seeding one into a zone template needs full edit rights. See
+  or edit them, and seeding one into a zone template needs full edit rights. In API backend mode
+  on PowerDNS 5.1 and later, PowerDNS also refuses LUA writes unless `enable-lua-record-updates=yes`
+  is set ([details](powerdns-api.md#known-issue-lua-records-refused-on-powerdns-auth-51)). See
   [LUA records](https://doc.powerdns.com/authoritative/lua-records/index.html).
 
 ## Customizing Domain (Forward) Zone Record Types

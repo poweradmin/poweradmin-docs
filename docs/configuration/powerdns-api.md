@@ -313,6 +313,25 @@ pdnsutil rrset replace example.com. txt.example.com. TXT 3600 '"a\\b"'
 
 PowerDNS Auth 5.1.5 does not contain the fix yet.
 
+### Known Issue: LUA Records Refused on PowerDNS Auth 5.1
+
+PowerDNS Auth 5.1.0 added `enable-lua-record-updates`, which defaults to `no`. While it is off,
+PowerDNS refuses to create, update or delete LUA records over its REST API (and through AXFR and
+DNS UPDATE). In API backend mode Poweradmin therefore cannot add, edit or delete LUA records, and
+creating a zone from a template that contains LUA records fails. The SQL backend writes to the
+database directly and is not affected.
+
+The web record forms show the PowerDNS reason. The API v2 does not yet
+(poweradmin/poweradmin#1779): it answers `500` with "Failed to create record" (or "Failed to
+update record" / "Failed to delete record"), and creating a zone from such a template fails with
+"Failed to create LUA record for zone.". The PowerDNS message "update of Lua records is not
+allowed" is in the Poweradmin log. To allow these writes, set this in `pdns.conf` and restart
+PowerDNS:
+
+```ini
+enable-lua-record-updates=yes
+```
+
 ### Record Comments on LMDB
 
 Before PowerDNS Auth 5.1.5, the LMDB backend kept a zone's or RRset's comments after the zone or

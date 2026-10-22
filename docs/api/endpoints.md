@@ -185,7 +185,7 @@ zone are routed through review, the record write endpoints below answer `403` wi
 | `GET` | `/zones/{id}/records/{recordId}` | Fetch a single record |
 | `PUT` | `/zones/{id}/records/{recordId}` | Update record |
 | `DELETE` | `/zones/{id}/records/{recordId}` | Delete record |
-| `POST` | `/zones/{id}/records/bulk` | Bulk create records |
+| `POST` | `/zones/{id}/records/bulk` | Bulk create, update and delete records |
 | `GET` | `/zones/{id}/rrsets` | List RRsets |
 | `GET` | `/zones/{id}/rrsets/{name}/{type}` | Get a specific RRset |
 
@@ -200,6 +200,52 @@ Records in **Secondary** and **Consumer** zones are read-only - they replicate
 from a primary. Create, update, delete, and bulk-write calls against such a
 zone return `403` with a message stating the zone is read-only (rather than a
 permission error). Edit the records on the primary instead.
+
+#### Record comments (v4.6.0+)
+
+Record responses (list, single `GET`, `POST` and `PUT`) include `comment`, a string or `null`.
+`GET /zones/{id}/records` accepts a `comment` filter, a case-insensitive substring match like
+`name` and `content`. Records without a comment never match it, and `q` does not search comments.
+
+With the SQL backend the value is the record's linked comment, else the comment stored for its
+name and type. In API backend mode it is the RRset comment, so every record in an RRset returns
+the same one. A `PUT` without `comment` leaves the stored comment alone; an empty string clears it.
+
+#### Bulk operations
+
+`POST /zones/{id}/records/bulk` takes an `operations` array. Each operation has an `action` of
+`create`, `update` or `delete`, plus the fields of the matching single-record call (bulk
+`update` has no `update_ptr`).
+
+- `comment` on a `create` or `update` operation sets the record comment. The top-level `comment`
+  is the change reason; on its own it satisfies the require-reason setting.
+- `create_ptr` on a `create` operation (A and AAAA records only) also creates the PTR record in
+  the matching reverse zone. A PTR that cannot be created does not fail the batch; the reason is
+  added to `data.warnings`, which is always present and empty when there is nothing to report.
+- With the SQL backend the batch is one transaction and the PTR records roll back with it. In API
+  backend mode there is no transaction: operations already applied, PTR records included, stay
+  when a later operation fails.
+
+Set `dry_run` to `true` at the top level to run every check without writing anything. The zone
+scope, permissions, change-approval refusal, operation cap and required reason apply as for a real
+call, and the summary comes back with `"dry_run": true`. No records, comments, PTR records, serial
+change, log entry or change request is kept.
+
+```bash
+curl -X POST -H "X-API-Key: your-api-key-here" -H "Content-Type: application/json" \
+     -d '{"dry_run": true, "comment": "move the web tier", "operations": [
+           {"action": "create", "name": "www", "type": "A", "content": "192.0.2.10",
+            "comment": "web server", "create_ptr": true}]}' \
+     "https://poweradmin.example.com/api/v2/zones/42/records/bulk"
+```
+
+With the SQL backend a dry run executes the operations inside the transaction and rolls it back,
+so the result is exact. In API backend mode it only validates each operation against the zone as
+it is now, and tracks deletes, re-keying updates and duplicate creates inside the batch. It does
+not see a create followed by an update of that record, AAAA addresses spelled differently, a
+second `create_ptr` for the same address, or a CNAME added next to other data in the same batch.
+PowerDNS's own checks, such as the LUA record gate, are not run.
+
 
 ### Users
 
@@ -423,7 +469,7 @@ Every filter is a query parameter and combines with `sort`, `page` and `per_page
 | Endpoint | Sort fields | Filters |
 |----------|-------------|---------|
 | `GET /zones` | `name`, `type`, `id` | `name` (exact zone name), `q` (zone name) |
-| `GET /zones/{id}/records` | `name`, `type`, `content`, `ttl`, `priority` | `type` (record type), `name`, `content`, `q` (name or content). Default order: type, then name (as PowerDNS returns them in API backend mode) |
+| `GET /zones/{id}/records` | `name`, `type`, `content`, `ttl`, `priority` | `type` (record type), `name`, `content`, `comment`, `q` (name or content). Default order: type, then name (as PowerDNS returns them in API backend mode) |
 | `GET /zones/{id}/rrsets` | `name`, `type`, `ttl` | `type` (record type), `name`, `content`, `q` (name or content); `content` and `q` keep an RRset when any of its records matches. Default order: type, then name (as PowerDNS returns them in API backend mode) |
 | `GET /users` | `id`, `username`, `fullname`, `email` | `q` (username, full name, email or description), `username` and `email` (exact lookups, see below). Default order: `id` |
 | `GET /groups` | `id`, `name`, `member_count`, `zone_count`, `created_at` | `q` (name or description) |
@@ -435,7 +481,7 @@ Every filter is a query parameter and combines with `sort`, `page` and `per_page
 | `GET /permission-templates` | `id`, `name`, `template_type` | `q` (name or description), `type` (`user` or `group`; anything else answers `400`) |
 | `GET /change-requests` | none | `status` (`pending` by default; `approved`, `rejected`, `cancelled`, `failed` or `all`; anything else answers `400`), `zone_id`. Default order: newest first |
 
-`name` and `content` on the record lists are case-insensitive substring matches like `q`;
+`name` and `content` (and `comment` on the zone record list) are case-insensitive substring matches like `q`;
 `q` searches both columns at once.
 
 `GET /users?username=alice` and `GET /users?email=alice@example.com` look up one user. The
