@@ -432,13 +432,13 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | `PA_APPLICATION_URL` | *(empty)* | Public base URL. Required when OIDC or SAML is enabled, and for password reset and emailed links |
 | `PA_BASE_URL` | *(empty)* | Legacy base URL. Accepted as a URL source for SAML only |
 
-To use a full LDAP DN as the key, separate the mappings with `;` and put the Poweradmin name after the last `:`. A DN contains commas and equal signs itself, so the comma form cannot carry it:
+To use a full LDAP DN as the key (v4.6.0+), separate the mappings with `;` and put the Poweradmin name after the last `:`. A DN contains commas and equal signs itself, so the comma form cannot carry it:
 
 ```
 PA_LDAP_GROUP_MAPPING='cn=admins,ou=groups,dc=example,dc=com:Administrators;cn=ops,ou=groups,dc=example,dc=com:Editors|Viewers'
 ```
 
-A value with `|` maps one LDAP group to several Poweradmin groups. Plain names keep working in the comma form.
+A value with `|` maps one LDAP group to several Poweradmin groups. The DN must match the `memberOf` value exactly, including case. Plain names keep working in the comma form, but use either `=` or `:` pairs in one variable, not both.
 
 From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the container refuses to start when OIDC or SAML is enabled
 without a URL source, because the redirect and SP URLs can no longer be derived from the request.
