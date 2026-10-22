@@ -432,7 +432,7 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | `PA_APPLICATION_URL` | *(empty)* | Public base URL. Required when OIDC or SAML is enabled, and for password reset and emailed links |
 | `PA_BASE_URL` | *(empty)* | Legacy base URL. Accepted as a URL source for SAML only |
 
-To use a full LDAP DN as the key (v4.6.0+), separate the mappings with `;` and put the Poweradmin name after the last `:`. A DN contains commas and equal signs itself, so the comma form cannot carry it:
+To use a full LDAP DN as the key (v4.5.2+), separate the mappings with `;` and put the Poweradmin name after the last `:`. A DN contains commas and equal signs itself, so the comma form cannot carry it:
 
 ```
 PA_LDAP_GROUP_MAPPING='cn=admins,ou=groups,dc=example,dc=com:Administrators;cn=ops,ou=groups,dc=example,dc=com:Editors|Viewers'
