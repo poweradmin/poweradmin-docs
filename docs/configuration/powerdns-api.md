@@ -332,6 +332,16 @@ log. To allow these writes, set this in `pdns.conf` and restart PowerDNS:
 enable-lua-record-updates=yes
 ```
 
+### PowerDNS 5 Views and View Variants *(v4.5.2+)*
+
+With PowerDNS Auth 5 on the LMDB backend and `views=yes`, a zone can have per-view variants named
+`zone..variant`, created with `pdnsutil zone create example.com..internal`. In API backend mode
+Poweradmin opens and edits these zones: records are shown and written under the apex name
+(`www` becomes `www.example.com`), and the SOA serial bump and the SOA badge work. From 4.5.2,
+Dynamic DNS updates prefer the base zone over its variant. Earlier versions could not open a
+variant. The fix is in 4.6.0, 4.5.2 and 4.4.4. Reverse zone variants are not yet treated as reverse
+zones (poweradmin/poweradmin#1786).
+
 ### Record Comments on LMDB
 
 Before PowerDNS Auth 5.1.5, the LMDB backend kept a zone's or RRset's comments after the zone or
