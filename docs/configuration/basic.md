@@ -204,10 +204,17 @@ Email for filed and decided requests is a separate switch, `notifications.change
 
 \* Conflict resolution strategies:
 
-- `last_writer_wins` - Latest save overwrites previous
-- `only_latest_version` - Reject if record was modified
+- `last_writer_wins` - The save goes through; rows you edited replace what the zone holds for them now, even if someone else changed them after the form was opened
+- `only_latest_version` - The save is refused when the zone's SOA serial changed since the form was opened
 
-From 4.6.0 a rejected save keeps the submitted records and comment on the page, marks the rows that differ from what the zone holds, and lets you resubmit instead of retyping.
+The check applies to direct saves of the record table on the zone edit page. It compares the SOA
+serial, so anything that moves the serial (a record write, the zone comment, signing) refuses the
+whole form, and a change that does not move the serial is not detected. A save that files a change
+request is not refused; the review page notes when the serial moved since it was filed. The inline
+add form, adding, editing or deleting a single record, and API v2 writes are not checked themselves,
+but they move the serial, so a zone edit form opened before them is refused.
+
+From 4.6.0 a rejected save keeps the submitted records and comment on the page (when the browser sent only the edited rows, which it does with JavaScript on), marks the rows that differ from what the zone holds, and lets you resubmit instead of retyping.
 
 ![Stale zone save](../screenshots/stale-zone-save.png)
 
