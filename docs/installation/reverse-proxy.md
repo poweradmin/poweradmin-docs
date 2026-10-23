@@ -41,6 +41,24 @@ Outside Docker, set the application allowlist directly in `config/settings.php`.
 
 See [Security Policies](../configuration/security-policies.md) for details.
 
+### Two or more proxies *(v4.5.0+)*
+
+Each proxy appends the address it received the request from to `X-Forwarded-For`, so behind two
+proxies the header reads `client, proxy1`. Poweradmin reads the header from the right and skips only
+the addresses listed in `security.trusted_proxies`; the first address it does not know is logged as
+the client. `X-Forwarded-For` is read before `X-Real-IP`, so a correct `X-Real-IP` from the outer
+proxy does not change the result. The proxy that connects to Poweradmin is trusted automatically when its address is
+private, but the proxies further out appear only inside the header and must be listed.
+
+For example, with `client 10.10.10.10 -> proxy1 10.20.20.20 -> proxy2 -> Poweradmin`, set
+`TRUSTED_PROXIES=private_ranges,10.20.20.20` in Docker (keep `private_ranges` so Caddy still
+resolves the address for its own access log), or `'trusted_proxies' => ['10.20.20.20']` under
+`security` in `config/settings.php`. Without it the logs show 10.20.20.20. `private_ranges` does
+not help here, because it applies to Caddy only.
+
+Reading from the right is deliberate: the leftmost address can be set by the client, so trusting it
+would let anyone choose the address shown in audit logs and counted for login rate limits.
+
 ## Traefik
 
 ### Basic Setup (HTTP only)
