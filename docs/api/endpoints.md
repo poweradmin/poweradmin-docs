@@ -201,6 +201,16 @@ from a primary. Create, update, delete, and bulk-write calls against such a
 zone return `403` with a message stating the zone is read-only (rather than a
 permission error). Edit the records on the primary instead.
 
+#### PowerDNS refusals in API backend mode (v4.6.0+)
+
+In API backend mode, when PowerDNS answers a write with 400 or 422, the API returns `422` with the
+usual message followed by the PowerDNS reason, for example `Failed to create record: RRset
+www.example.com. IN LUA: update of Lua records is not allowed`. This covers record create, update
+and delete, bulk operations, RRset replace and delete, zone create from a template (`Failed to create LUA
+record for zone: <reason>`) and change request approval. When PowerDNS is unreachable or fails, the
+status stays `500` with the old message. Before 4.6.0 every one of these answered `500`. See the
+[LUA record note](../configuration/powerdns-api.md#known-issue-lua-records-refused-on-powerdns-auth-51).
+
 #### Record comments (v4.6.0+)
 
 Record responses (list, single `GET`, `POST` and `PUT`) include `comment`, a string or `null`.
