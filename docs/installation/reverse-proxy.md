@@ -200,6 +200,51 @@ Caddy automatically provisions TLS certificates via Let's Encrypt.
 
 Requires `mod_proxy`, `mod_proxy_http`, and `mod_ssl` modules.
 
+## Framing and Response Headers *(v4.6.0+)*
+
+Every response from Poweradmin carries these headers:
+
+| Header | Value |
+|---|---|
+| `X-Frame-Options` | `DENY` |
+| `Content-Security-Policy` | `frame-ancestors 'none'` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Referrer-Policy` | `same-origin` |
+
+Poweradmin cannot be shown inside a frame by default. To embed it in a portal or dashboard, list
+the origins that may do so in `config/settings.php`:
+
+```php
+'interface' => [
+    'frame_ancestors' => ['https://portal.example.com', 'https://*.example.net'],
+],
+```
+
+With origins set, the policy becomes `frame-ancestors 'self' https://portal.example.com ...` and
+`X-Frame-Options` is no longer sent, because it cannot name several origins. The default is an empty list,
+which denies all framing. Entries must be an `http://` or `https://` origin with no path;
+`https://*.example.com` allows every subdomain. Origins are lowercased, and an invalid entry is
+dropped and logged as a warning.
+
+The headers come from the application, so a proxy that passes requests through needs nothing extra. Files
+that the web server serves itself, such as CSS and images, bypass the application. The
+`nginx.conf.example` and `caddy.conf.example` shipped with Poweradmin add the same four headers
+to those files:
+
+```nginx
+location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    add_header X-Frame-Options "DENY" always;
+    add_header Content-Security-Policy "frame-ancestors 'none'" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "same-origin" always;
+}
+```
+
+If you allow framing, change or drop the two framing headers in that block to match.
+
+> **Note:** The application already sets these headers on dynamic pages. A header added again at the
+> proxy for the same pages can contradict `interface.frame_ancestors`, so leave them to the application.
+
 ## Health endpoints *(v4.5.0+)*
 
 If you enable the health endpoints, restrict them at the proxy. They answer without a
