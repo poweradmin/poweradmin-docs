@@ -4,6 +4,16 @@ site_description: Documentation for Poweradmin - PowerDNS Web Administration Too
 
 repo_url: https://github.com/poweradmin/poweradmin-docs
 edit_uri: edit/main/docs/
+copyright: 'Poweradmin is GPL-3.0 open source &middot; <a href="https://www.poweradmin.org">poweradmin.org</a>'
+
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://www.poweradmin.org
+      name: Poweradmin website
+    - icon: fontawesome/brands/github
+      link: https://github.com/poweradmin/poweradmin
+      name: Poweradmin on GitHub
 
 theme:
   name: material
