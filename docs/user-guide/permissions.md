@@ -285,6 +285,7 @@ templates above.
 - Allows the user to create, view, edit and revoke their own REST API keys
 - Gates the API Keys page and the equivalent service operations
 - Administrators hold this implicitly
+- A key that an administrator disabled can be enabled again by its owner. To cut a user off from the API, remove `api_manage_keys` from them and delete their keys
 - The API itself must be enabled with `api.enabled`; see [API Configuration](../configuration/api.md)
 
 ## Supermaster Permissions
