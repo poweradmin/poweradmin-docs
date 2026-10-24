@@ -371,7 +371,8 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `security.account_lockout.enable_lockout` {#setting-security-account-lockout-enable-lockout} | `false` | Enable account lockout after failed login attempts | - |
 | `security.account_lockout.lockout_attempts` {#setting-security-account-lockout-lockout-attempts} | `5` | Number of attempts before lockout | - |
 | `security.account_lockout.lockout_duration` {#setting-security-account-lockout-lockout-duration} | `15` | Duration in minutes | - |
-| `security.account_lockout.track_ip_address` {#setting-security-account-lockout-track-ip-address} | `true` | Lock accounts based on IP address | - |
+| `security.account_lockout.track_ip_address` {#setting-security-account-lockout-track-ip-address} | `true` | Lock accounts based on IP address (IPv6 counted per /64) | - |
+| `security.account_lockout.username_attempts` {#setting-security-account-lockout-username-attempts} | `0` | With track_ip_address: failures per account across all addresses before lockout, API and DynDNS included; 0 = off | 4.6.0 |
 | `security.account_lockout.clear_attempts_on_success` {#setting-security-account-lockout-clear-attempts-on-success} | `true` | Clear failed attempts after successful login | - |
 | `security.account_lockout.whitelist_ip_addresses` {#setting-security-account-lockout-whitelist-ip-addresses} | `[]` | IP addresses to never lock out (supports IPs, CIDRs, wildcards) - takes priority over blacklist | - |
 | `security.account_lockout.blacklist_ip_addresses` {#setting-security-account-lockout-blacklist-ip-addresses} | `[]` | IP addresses to always block (supports IPs, CIDRs, wildcards) | - |

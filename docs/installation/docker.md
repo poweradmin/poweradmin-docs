@@ -315,7 +315,8 @@ See [Password Policies](../configuration/password-policies.md) for the full poli
 | `PA_LOCKOUT_ENABLED` | false | Enable account lockout after failed logins |
 | `PA_LOCKOUT_ATTEMPTS` | 5 | Failed attempts before lockout |
 | `PA_LOCKOUT_DURATION` | 15 | Lockout duration in minutes |
-| `PA_LOCKOUT_TRACK_IP` | true | Lock accounts based on IP address |
+| `PA_LOCKOUT_TRACK_IP` | true | Lock accounts based on IP address; IPv6 clients are counted per /64 |
+| `PA_LOCKOUT_USERNAME_ATTEMPTS` | 0 | With IP tracking on, failures per account across all addresses before lockout; 0 = off (4.6.0) |
 | `PA_LOCKOUT_CLEAR_ON_SUCCESS` | true | Clear failed attempts after a successful login |
 | `PA_LOCKOUT_WHITELIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are never locked out; wins over the blacklist (v4.6.0+) |
 | `PA_LOCKOUT_BLACKLIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are always blocked (v4.6.0+) |
