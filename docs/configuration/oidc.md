@@ -700,3 +700,4 @@ Restart the web server (or `php-fpm`) so the new environment is picked up. Earli
 - [SAML Authentication](saml.md)
 - [LDAP Integration](ldap.md)
 - [Security Policies](security-policies.md)
+- [Passkeys and Security Keys](../user-guide/mfa.md#passkeys-and-security-keys) - require passkeys through the identity provider

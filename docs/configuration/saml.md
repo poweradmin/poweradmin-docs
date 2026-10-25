@@ -559,3 +559,4 @@ The response did not come with the sign-in cookie Poweradmin set when the login 
 - [OIDC Authentication](oidc.md)
 - [LDAP Integration](ldap.md)
 - [Security Policies](security-policies.md)
+- [Passkeys and Security Keys](../user-guide/mfa.md#passkeys-and-security-keys) - require passkeys through the identity provider

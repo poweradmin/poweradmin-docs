@@ -51,6 +51,18 @@ By default the redirect applies to web pages only, and any path containing `/api
 
 Since 4.5.0, enforcement can be waived for users who log in through an external identity provider (LDAP, OIDC, SAML) by setting `mfa.skip_for_external_auth` to `true`. Use this when the IdP already enforces MFA - it avoids a second OTP prompt in Poweradmin. Local (password) logins are still enforced, and external users can still enable Poweradmin MFA voluntarily.
 
+## Passkeys and Security Keys
+
+Poweradmin does not support passkeys or hardware security keys (WebAuthn) for local accounts yet. This is planned as an extra MFA method, tracked in [#1679](https://github.com/poweradmin/poweradmin/issues/1679).
+
+You can use them today by signing in through an identity provider that supports passkeys, such as Keycloak, Microsoft Entra ID or Authentik:
+
+1. Set up [OIDC](../configuration/oidc.md) or [SAML](../configuration/saml.md) login in Poweradmin
+2. In the identity provider, enable passkeys or security keys and require them for the Poweradmin client or application
+3. Optionally set `mfa.skip_for_external_auth` to `true`, so MFA enforcement does not also make OIDC and SAML users set up Poweradmin MFA (added in 4.5.0)
+
+Poweradmin does not check which method the identity provider used. Passkeys are only required if the identity provider is configured to require them. Local accounts that log in with a password still use Poweradmin's own MFA.
+
 ## Disabling MFA
 
 To disable MFA on your account:
