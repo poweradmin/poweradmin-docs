@@ -56,6 +56,21 @@ Two types have requirements on the PowerDNS side beyond simply being enabled her
   is set ([details](powerdns-api.md#known-issue-lua-records-refused-on-powerdns-auth-51)). See
   [LUA records](https://doc.powerdns.com/authoritative/lua-records/index.html).
 
+### HTTPS records and ECH
+
+Encrypted Client Hello (ECH) keys are published in an `HTTPS` record at the site name, in the
+`ech` parameter. The value is the base64 `ECHConfigList` your TLS server or CDN generates with
+its ECH key; Poweradmin checks only that it is valid base64.
+
+| Name | Type | Content |
+|---|---|---|
+| `example.com` | `HTTPS` | `1 . alpn=h2,h3 ipv4hint=192.0.2.1 ech="AEX+DQBB..."` |
+
+Write the value in quotes. The PowerDNS API refuses an unquoted `ech` value with
+"Not in expected format", so in API backend mode the record cannot be saved without them. From
+4.4.4, 4.5.2 and 4.6.0 Poweradmin adds the quotes itself when it saves the record. In SQL mode PowerDNS serves
+both forms the same way. Long values are fine: a 400-character key saves and is served unchanged.
+
 ## Customizing Domain (Forward) Zone Record Types
 
 To customize which record types are available when editing forward zones:
