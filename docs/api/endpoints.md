@@ -196,6 +196,16 @@ set, `dns.ttl` otherwise). See
 is accepted (do not cache); negative values and fractional strings such as
 `"0.5"` are refused with `400`.
 
+#### Internationalised names and duplicates
+
+From 4.5.2 and 4.6.0, record names and content written through the API are stored as punycode,
+as the web editor stores them: `www.bücher.example` is saved as `www.xn--bcher-kva.example`.
+Compare against the punycode form when reading records back.
+
+From 4.6.0, a create, single or bulk, that would give the zone a second record with the same name,
+type and content answers `409` with "A record with this hostname, type, and content already
+exists.". On 4.5.x the API still accepts the duplicate.
+
 Records in **Secondary** and **Consumer** zones are read-only - they replicate
 from a primary. Create, update, delete, and bulk-write calls against such a
 zone return `403` with a message stating the zone is read-only (rather than a
