@@ -176,6 +176,8 @@ Mapping keys must match a group value exactly. When `groups_attribute` returns D
 - `group_mapping` assigns **multiple** Poweradmin groups; memberships are re-evaluated (added and removed) on every login.
 - A template assigned via mapping is revoked back to `default_permission_template` if the user later matches no mapping; admin-assigned templates are never touched.
 
+From 4.6.0, sign-in sync never demotes or removes the last active super admin. It skips that change and logs a warning on every login until another super admin exists. See [Users and Roles](../user-guide/users-roles.md#understanding-uberuser-status).
+
 > **Note:** `memberOf` requires the overlay to be enabled on OpenLDAP; it is available out of the box on Active Directory. Nested group membership is not expanded.
 
 ### Granting access to an Active Directory group without pre-creating users

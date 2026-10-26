@@ -29,10 +29,23 @@ The `user_is_ueberuser` permission overrules any other permission the user may o
 full access to all features that would otherwise require specific permissions. This is typically reserved for
 administrators.
 
-The last remaining super admin cannot be deleted or disabled, and the API `PATCH` that changes a user's template
-refuses to take super admin away from them. The user edit form and API `PUT` apply the same rule when
-`security.protect_last_admin_on_edit` is `true` (added in 4.5.0, off by default). See
+Poweradmin keeps at least one active super admin. The last one cannot be deleted or disabled, and the API `PATCH`
+that changes a user's template refuses to take super admin away from them. The user edit form and API `PUT` apply the
+same rule when `security.protect_last_admin_on_edit` is `true` (added in 4.5.0, off by default). See
 [Opt-in Hardening](../configuration/security-policies.md#opt-in-hardening-v450).
+
+From 4.6.0, super admin granted through a group's permission template counts, and these changes are also refused when
+they would leave no active super admin:
+
+- removing a member from a group
+- deleting a group
+- changing a group's permission template
+- editing a permission template so it no longer grants `user_is_ueberuser`
+
+The API answers `409` for each of them. At sign-in, OIDC, SAML and LDAP group and template sync never demotes or
+removes the last super admin: it skips that change and logs a warning on every login until another super admin exists.
+
+On 4.5.x only the user's own template counts. 4.5.2 adds the check to deleting a user in the web interface.
 
 ## Zone Ownership
 

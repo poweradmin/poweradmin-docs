@@ -145,7 +145,7 @@ nothing; turn them on after checking the notes below.
 
 | Setting | What it changes | Check before enabling |
 |---|---|---|
-| `security.protect_last_admin_on_edit` | The user edit form and API `PUT /users/{id}` refuse to give the last super admin a template without `user_is_ueberuser`. Delete, disable and `PATCH` always refuse this | Super admin rights held only through a group are not counted, so with that setup a valid change can be refused; give the remaining admin a super admin template directly |
+| `security.protect_last_admin_on_edit` | The user edit form and API `PUT /users/{id}` refuse to give the last super admin a template without `user_is_ueberuser`. Delete, disable and `PATCH` always refuse this | Before 4.6.0, super admin rights held only through a group are not counted, so with that setup a valid change can be refused; give the remaining admin a super admin template directly. 4.6.0 counts them |
 | `security.strict_session_gates` | While a user still has to set up enforced MFA or accept the user agreement, internal API calls answer 403 instead of being let through, and pages such as `/settings/api/logs` redirect to the setup or agreement page. Reading user preferences stays allowed so the setup pages render | Nothing for normal use; scripts that drive the internal API with a browser session of such a user stop working until the user completes setup |
 | `security.password_reset.single_use_claim` | A reset link is marked as used before the new password is saved | If saving the password fails, the link is spent and the user requests a new one |
 

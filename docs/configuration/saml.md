@@ -109,6 +109,8 @@ Map SAML groups/roles to Poweradmin permission templates:
 
 ## Group Membership Mapping
 
+From 4.6.0, sign-in sync never demotes or removes the last active super admin. It skips that change and logs a warning on every login until another super admin exists. See [Users and Roles](../user-guide/users-roles.md#understanding-uberuser-status).
+
 Separate from permission templates, you can also map SAML groups to Poweradmin groups. This controls zone ownership and access through group membership.
 
 Key differences from permission template mapping:

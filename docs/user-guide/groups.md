@@ -124,3 +124,6 @@ Groups can enforce MFA for all their members. This is done by adding the `user_e
 Deleting a group removes the group and all its membership and zone associations. It does not delete the users or zones themselves. Click the delete button from the group list or the edit page.
 
 > **Warning:** This action cannot be undone. Make sure the group is no longer needed before deleting.
+
+From 4.6.0, deleting a group, removing a member or changing the group's permission template is refused when it would
+leave no active super admin. See [Understanding Uberuser Status](users-roles.md#understanding-uberuser-status).
