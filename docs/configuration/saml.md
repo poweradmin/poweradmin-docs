@@ -36,6 +36,8 @@ Set it to the full public URL of the install:
 
 Alternatively, set `sp.entity_id`, `sp.assertion_consumer_service_url` and `sp.single_logout_service_url` explicitly (see [Service Provider Configuration](#service-provider-sp-configuration)). Those are then used as given and nothing is derived, so `application_url` is not required for SAML.
 
+From 4.5.2 and 4.6.0 these advertised URLs are also what an incoming message is checked against: a response must have been sent to the ACS URL, and a logout request to the SLS URL. Earlier versions rebuilt the expected URL from the request PHP received, so a port mapping or proxy in front of PHP made every response fail (see [Response "received at" the wrong URL](#response-received-at-the-wrong-url)).
+
 `interface.base_url` is also still accepted as a source for the derived SP URLs. It is a legacy fallback kept so that installs which set it by hand are not broken; prefer `interface.application_url` for new configuration.
 
 Earlier versions derived the host from the web server's `SERVER_NAME` when this was empty. That fallback was removed in 4.2.6, 4.3.5, 4.4.1 and 4.5.0; on earlier releases of those lines the host is still derived from the request. After the removal: under the official Docker image (FrankenPHP/Caddy) and under Apache's default `UseCanonicalName Off`, `SERVER_NAME` comes from the client's `Host` header, so a forged header could advertise an attacker's ACS URL to an IdP that consumes SP metadata dynamically.
@@ -538,6 +540,16 @@ Configure multiple SAML providers:
 ### "The sign-in was not started from this browser or took too long"
 
 The response did not come with the sign-in cookie Poweradmin set when the login started. Common causes: Poweradmin is served over plain HTTP (the cookie needs HTTPS), the sign-in was started from the identity provider's portal, or more than 10 minutes passed at the identity provider. Serve Poweradmin over HTTPS, or set `allow_idp_initiated` on the provider (see [HTTPS for the ACS URL](#https-for-the-acs-url-v460)). The log names the provider and, at the start of the sign-in, warns when the ACS URL is not HTTPS.
+
+### Response "received at" the wrong URL
+
+The log shows an error like:
+
+```text
+The response was received at http://host/saml/acs instead of http://host:8089/saml/acs
+```
+
+PHP saw the request on a different port or host than the one advertised to the identity provider, typically a plain-HTTP container published with a port mapping such as Docker `-p 8089:80`. Before 4.5.2 and 4.6.0 every response was refused this way. Upgrade, and set `interface.application_url` (or the explicit `sp` URLs) to the address users reach, here `http://host:8089`. On 4.6.0 a plain-HTTP host other than `localhost` also needs `allow_idp_initiated`, see [HTTPS for the ACS URL](#https-for-the-acs-url-v460).
 
 ### Redirect loop
 
