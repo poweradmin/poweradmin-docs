@@ -232,6 +232,9 @@ the same one. A `PUT` without `comment` leaves the stored comment alone; an empt
 - `create_ptr` on a `create` operation (A and AAAA records only) also creates the PTR record in
   the matching reverse zone. A PTR that cannot be created does not fail the batch; the reason is
   added to `data.warnings`, which is always present and empty when there is nothing to report.
+  That includes a reverse zone outside the API key's zone list and one where the user must file
+  change requests: the PTR is skipped there, as with `create_ptr` and `update_ptr` on the
+  single-record calls.
 - With the SQL backend the batch is one transaction and the PTR records roll back with it. In API
   backend mode there is no transaction: operations already applied, PTR records included, stay
   when a later operation fails.

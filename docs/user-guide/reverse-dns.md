@@ -53,6 +53,8 @@ Poweradmin can create or move the matching record on the other side when you add
 
 **Editing records (4.5.0).** The record edit page of a forward zone has an **Update PTR** checkbox. When it is ticked and the record is an A or AAAA record, saving deletes the PTR for the old address and creates one for the new address, name and TTL. If the PTR cannot be written, for example because there is no matching reverse zone, the record is still saved and a warning says why. The v2 API does the same with `update_ptr: true` on a record update.
 
+**Rules of the other zone (4.6.0).** The PTR, the A/AAAA record and a synced comment are written to a different zone from the one you are editing, so the rules of that zone apply too. If you must file change requests there, Poweradmin skips the matching record and the warning says why; your own record is still saved. **Delete PTR** and **Delete A/AAAA** also leave the matching record in such a zone in place. Through the API, a key restricted to certain zones writes a PTR only into a reverse zone on its list (also in 4.5.2), and the response has `ptr_created: false` otherwise.
+
 ![Update PTR checkbox](../screenshots/edit-record-update-ptr.png)
 
 ## Method 2: Using Batch PTR Records Feature
