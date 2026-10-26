@@ -35,9 +35,9 @@ This document provides detailed explanations of all user permissions available i
 - Allows the user to add additional owners to their zone (if user_view_others is set to true)
 - User can remove owners (including themselves)
 - User cannot orphan a zone (at least one owner, user or group, must remain)
-- User can change zone type (i.e. from native to slave)
+- User can change zone type (i.e. from native to slave). From 4.5.2 and 4.6.0 this also needs the permission to create a zone of the new type: `zone_slave_add` for Secondary and Consumer, `zone_master_add` for the others
 - User can set IP of master server for slave zone
-- User can change used zone template (requires `zone_content_edit_own` plus either `zone_master_add` or `zone_slave_add`)
+- User can change used zone template (requires `zone_content_edit_own` plus either `zone_master_add` or `zone_slave_add`; from 4.5.2 and 4.6.0 the change is refused without `zone_content_edit_own`)
 
 ### Zones always keep an owner
 
@@ -70,7 +70,7 @@ then repeat the action. The same rule applies through the v2 API, which answers
 ### zone_meta_edit_others
 
 - Allows the user to edit the metadata of zones owned by other users
-- Can change owners, zone types, and master server IPs for others' zones
+- Can change owners, zone types, and master server IPs for others' zones. Changing the type needs the add permission for the new type, as for `zone_meta_edit_own`
 - High-level permission typically reserved for administrators
 
 ### zone_content_edit_own_as_client

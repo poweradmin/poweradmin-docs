@@ -145,7 +145,7 @@ Different template operations require different permissions:
 ### Applying Templates to Zones
 
 - **Creating zones with templates**: Requires `zone_master_add` permission. A template can only be chosen on the **Add master zone** form and in bulk registration; the slave zone form offers no template.
-- **Changing existing zone templates**: Requires zone editing permissions (`zone_content_edit_own` for owned zones or `zone_content_edit_others` for other zones) **and** `zone_master_add` or `zone_slave_add`. The editing permission only authorises removing the old template's records; writing the new template's records needs one of the add permissions. A user with editing rights alone ends up with the old records gone and no replacements.
+- **Changing existing zone templates**: Requires zone editing permissions (`zone_content_edit_own` for owned zones or `zone_content_edit_others` for other zones) **and** `zone_master_add` or `zone_slave_add`. The editing permission only authorises removing the old template's records; writing the new template's records needs one of the add permissions. A user with editing rights alone ends up with the old records gone and no replacements. From 4.5.2 and 4.6.0 the change is refused without the editing permission; earlier versions let `zone_meta_edit_own` or `zone_meta_edit_others` alone apply the new template's records.
 - **Unlinking zones from templates**: Requires `user_is_ueberuser` OR zone editing permissions (`zone_content_edit_own`/`zone_content_edit_others` OR `zone_meta_edit_own`/`zone_meta_edit_others`)
 
 ### Permission Templates
