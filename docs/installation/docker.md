@@ -606,6 +606,10 @@ PHP runs on `php.ini-production` with these overrides:
 To change any of them, mount an ini file into `/usr/local/etc/php/conf.d/`. The image's
 own overrides load first, so any file you mount there wins.
 
+The web server caps request bodies at `20MiB` *(v4.6.0+)*. When you raise `post_max_size`,
+raise the cap too with `REQUEST_BODY_MAX_SIZE` (for example `-e REQUEST_BODY_MAX_SIZE=50MiB`),
+or larger uploads are cut off and rejected. Use `MiB`: Caddy reads `M` and `MB` as millions of bytes.
+
 PHP warnings go to the container log (`docker logs`), not into the page *(v4.4.2+)*.
 
 Anything not listed on this page is in
