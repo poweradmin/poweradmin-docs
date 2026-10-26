@@ -82,6 +82,8 @@ Three behaviours differ from the password lockout, all deliberate:
 
 MFA failures are tracked separately from password failures, so a wrong code never blocks a later password login, and a fresh password login does not reset the MFA counter. Setting either value to `0` is treated as `1` rather than as "unlimited"; to remove the limit entirely, disable MFA.
 
+From 4.5.2 and 4.6.0 the same limit applies to the code asked for when a user disables MFA or regenerates recovery codes on the **Account** page. Those attempts have their own counter, so wrong codes there do not lock the user out of signing in.
+
 ## IP Address Management
 
 Control which IP addresses can access the system:

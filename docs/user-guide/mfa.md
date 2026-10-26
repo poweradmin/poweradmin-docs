@@ -73,9 +73,9 @@ To disable MFA on your account:
 
 After disabling, you will only need your password to log in.
 
-The code proves you still hold the second factor, so someone using a stolen browser session cannot switch MFA off. **Regenerate Recovery Codes** asks for a code the same way. With email verification, click the button with the field empty and a code is sent to you; enter it and click again. If the email cannot be sent, the page says so and you can use a recovery code instead. Wrong codes here are counted on their own, so they never lock you out of logging in.
+The code proves you still hold the second factor, so someone using a stolen browser session cannot switch MFA off. **Regenerate Recovery Codes** asks for a code the same way. With email verification, click the button with the field empty and a code is sent to you; enter it and click again. If the email cannot be sent, the page says so and you can use a recovery code instead. Wrong codes are limited the same way as at sign-in (`max_verify_attempts` and `verify_lockout_duration`, see [Configuration](#configuration)), but on their own counter, so they never lock you out of logging in.
 
-Asking for a code is new in 4.6.0. Earlier versions disable MFA and regenerate recovery codes without one.
+Asking for a code is new in 4.5.2 and 4.6.0. Earlier versions disable MFA and regenerate recovery codes without one.
 
 > **Note:** If MFA is enforced for your account through a user or group template, you cannot disable it. The **Disable MFA** button is not shown, and a disable request sent anyway is refused with a message saying MFA is required by your organization's security policy. The enforcement has to be removed first.
 
@@ -89,7 +89,7 @@ If you lose access to your authenticator app or email:
     - Set up MFA again with a new authenticator app
     - Regenerate new recovery codes if your supply is running low
 
-If you have no remaining recovery codes and cannot access your authenticator, contact your Poweradmin administrator. There is no admin screen for this: the user list shows whether MFA is configured, but nobody can clear another user's MFA from the interface or the API. Recovery means removing the user's row from the `user_mfa` table directly in the database, after which the account logs in with its password alone and can set MFA up again.
+If you have no remaining recovery codes and cannot access your authenticator, contact your Poweradmin administrator. There is no admin screen for this: the user list shows whether MFA is configured, but nobody can clear another user's MFA from the interface or the API. Recovery means removing the user's row from the `user_mfa` table directly in the database, after which the account logs in with its password alone and can set MFA up again. This is still the only way back for a user who has lost every factor: since 4.5.2 and 4.6.0 the user cannot switch MFA off without a current code either.
 
 ### Too many failed attempts
 
