@@ -285,6 +285,29 @@ exists, the request fails rather than granting administrator rights. This applie
 v4.2.6, v4.3.5, v4.4.1 and v4.5.0 - on earlier releases, omitting the field created an
 administrator, so check any client that relies on the old default.
 
+#### Passwords and LDAP (v4.5.2 and v4.6.0)
+
+`POST /users` and `PUT /users/{id}` follow the same rules as the user form:
+
+- A password is hashed with the configured algorithm and must satisfy the
+  [password policy](../configuration/password-policies.md). A weak password answers `400` with
+  the first rule it breaks.
+- `use_ldap` must be a JSON boolean; `"true"` or `1` answers `400` with "use_ldap must be a
+  boolean".
+- `use_ldap: true` answers `400` with "LDAP authentication is not enabled" when LDAP is turned off.
+- A create with `use_ldap: true` needs no `password`, since the account signs in through LDAP.
+
+On 4.6.0, `PUT /users/{id}` with `"use_ldap": false` and no `password` answers `400` with
+"Password is required when disabling LDAP authentication". On 4.5.x the same request still
+succeeds.
+
+#### Deleting a user who owns zones
+
+`DELETE /users/{id}` refuses to delete a user who owns zones unless the body names
+`transfer_to_user_id`. From 4.5.2 and 4.6.0 the transfer also needs meta-edit rights
+(`zone_meta_edit_own` or `zone_meta_edit_others`) on every zone handed over, as the web form
+requires, and answers `403` with "You do not have permission to reassign zone <id>" otherwise. Nothing is deleted or moved when the request is refused.
+
 #### Permission template and groups on reads (v4.5.0+)
 
 User reads carry the assigned permission template by ID and by name, plus the
