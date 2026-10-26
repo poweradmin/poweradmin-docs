@@ -564,6 +564,16 @@ Both succeed even with a dead database. To have container status track real read
 enable `PA_HEALTH_ENABLED` and override the healthcheck to request `/api/health`.
 See [Health Checks](../operations/health-checks.md).
 
+### Metrics endpoint *(v4.6.0+)*
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `PA_METRICS_ENABLED` | false | Prometheus metrics at `/api/metrics`; needs `PA_API_ENABLED=true` |
+| `PA_METRICS_REQUIRE_AUTH` | true | Scrapes need an API key (or Basic Auth) of a user with `server_status_view`; `false` makes the endpoint public |
+| `PA_METRICS_COUNT_RECORDS` | false | Also count records; SQL backend only, can be slow on large installations |
+
+See [Prometheus Metrics](../operations/metrics.md).
+
 ### Change approval *(v4.6.0+)*
 
 | Variable | Default | Description |
