@@ -206,6 +206,8 @@ You can automate this with a cron job or scheduled task.
 
 The `log_api` table has built-in retention: set `logging.api_log_retention_days` to a positive number of days and Poweradmin prunes older API log rows automatically (opportunistically, during API request logging). Leave it at `0` to keep API logs forever and manage them manually as above. This applies only to `log_api`; the other log tables have no built-in pruning.
 
+Failed API authentication (401) and permission errors (403) are written to `log_api` even with `api_request_logging` off, and that includes requests without valid credentials. If the API is reachable from untrusted networks, set `api_log_retention_days` and rate-limit `/api/` at the reverse proxy (`limit_req` in nginx, a rate-limit module in Caddy), so a flood of bad requests cannot grow the table without bound.
+
 ## Performance Considerations
 
 1. **Index optimization**: Ensure indexes on `zone_id`, `group_id`, and `created_at` columns
