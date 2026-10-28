@@ -143,6 +143,7 @@ To share a template, open it in the template editor and tick the groups under **
 - Editing a shared template never makes a group member its owner.
 - Global templates are visible to everyone and cannot be shared. Making a shared template global removes its shares.
 - The template list shows a **shared** badge with the group names. A group member sees only the groups they belong to.
+- When the owner's account is deleted, their shared templates are handed to the admin who deletes it, so the groups keep them. The delete page lists them first. Templates that are not shared are deleted with the account, as before.
 
 API v2 returns the groups as a read-only `groups` array on `GET /api/v2/zone-templates` and `GET /api/v2/zone-templates/{id}`. Sharing is set on the web only.
 
