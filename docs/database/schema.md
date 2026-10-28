@@ -476,6 +476,16 @@ Maps zones to groups for group-based ownership. A zone can be owned directly via
 | `group_id` | int unsigned | FK to `user_groups.id` (cascade delete) |
 | `created_at` | timestamp | Assignment timestamp |
 
+### `zone_templ_groups`
+The user groups each zone template is shared with (added in 4.6.0). Members of a group see and use the template, and edit it with `zone_templ_edit`. One row per template and group.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | int unsigned | Primary key |
+| `zone_templ_id` | int | FK to `zone_templ.id` (cascade delete) |
+| `group_id` | int unsigned | FK to `user_groups.id` (cascade delete) |
+| `created_at` | timestamp | When the template was shared with the group |
+
 ## Defaults and Application State
 
 ### `record_type_defaults`

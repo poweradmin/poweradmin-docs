@@ -131,6 +131,21 @@ Poweradmin shows which zones are out of sync with their template:
 
 The zones themselves are still only updated when you ask for it.
 
+## Sharing Templates with Groups
+
+From 4.6.0 a private template can be shared with one or more [user groups](users-roles.md). Members of those groups see the template in the template list and in the template dropdowns, and can create zones from it, on the web and through the API. Members who also hold `zone_templ_edit` can edit the template and its records.
+
+To share a template, open it in the template editor and tick the groups under **Shared with groups**, then click **Update**.
+
+- The template owner can share it with the groups they are a member of. A super admin can share it with any group.
+- Only the owner or a super admin can delete the template or change the groups it is shared with. Group members see the list of groups but cannot change it.
+- When the owner saves, groups a super admin added that the owner is not a member of stay shared.
+- Editing a shared template never makes a group member its owner.
+- Global templates are visible to everyone and cannot be shared. Making a shared template global removes its shares.
+- The template list shows a **shared** badge with the group names. A group member sees only the groups they belong to.
+
+API v2 returns the groups as a read-only `groups` array on `GET /api/v2/zone-templates` and `GET /api/v2/zone-templates/{id}`. Sharing is set on the web only.
+
 ## Permissions
 
 ### Zone Template Operations
@@ -139,8 +154,8 @@ Different template operations require different permissions:
 
 - **Creating zone templates**: Requires `zone_templ_add` permission
 - **Listing zone templates**: Requires `zone_templ_add` OR `zone_templ_edit` OR `user_is_ueberuser` permission
-- **Editing/deleting zone templates**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership)
-- **Adding/editing/deleting template records**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership)
+- **Editing zone templates and their records**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership) OR (`zone_templ_edit` AND membership of a group the template is shared with)
+- **Deleting zone templates and changing their groups**: Requires `user_is_ueberuser` OR (`zone_templ_edit` AND template ownership)
 
 ### Applying Templates to Zones
 

@@ -252,7 +252,7 @@ which script to run first. Then run every later script in order.
 | 4.3.0 | columns `zones.zone_name`, `zones.zone_type`, `users.perm_templ_source`, table `log_api` |
 | 4.4.0 | column `zone_templ.is_default` |
 | 4.5.0 | columns `api_keys.is_readonly`, `login_attempts.attempt_type`, table `log_record_changes` |
-| 4.6.0 | table `zone_change_requests` |
+| 4.6.0 | tables `zone_change_requests`, `zone_templ_groups` |
 
 To check a column or table:
 
