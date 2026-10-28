@@ -225,7 +225,7 @@ Every response from Poweradmin carries these headers:
 | Header | Value |
 |---|---|
 | `X-Frame-Options` | `DENY` |
-| `Content-Security-Policy` | `frame-ancestors 'none'` |
+| `Content-Security-Policy` | `frame-ancestors 'none'; object-src 'none'; base-uri 'self'` |
 | `X-Content-Type-Options` | `nosniff` |
 | `Referrer-Policy` | `same-origin` |
 
@@ -238,7 +238,10 @@ the origins that may do so in `config/settings.php`:
 ],
 ```
 
-With origins set, the policy becomes `frame-ancestors 'self' https://portal.example.com ...` and
+`object-src 'none'` blocks plugin content, which Poweradmin does not use, and `base-uri 'self'` stops an
+injected `<base>` tag from redirecting relative script and form URLs.
+
+With origins set, the policy becomes `frame-ancestors 'self' https://portal.example.com ...; object-src 'none'; base-uri 'self'` and
 `X-Frame-Options` is no longer sent, because it cannot name several origins. The default is an empty list,
 which denies all framing. Entries must be an `http://` or `https://` origin with no path;
 `https://*.example.com` allows every subdomain. Origins are lowercased, and an invalid entry is
@@ -262,6 +265,26 @@ If you allow framing, change or drop the two framing headers in that block to ma
 
 > **Note:** The application already sets these headers on dynamic pages. A header added again at the
 > proxy for the same pages can contradict `interface.frame_ancestors`, so leave them to the application.
+
+### HSTS
+
+Poweradmin does not send `Strict-Transport-Security`, because only the server that terminates TLS knows
+that every request arrives over HTTPS. Set it there once HTTPS works for all users, starting with a short
+`max-age` and raising it when nothing breaks.
+
+```nginx
+add_header Strict-Transport-Security "max-age=31536000" always;
+```
+
+```caddy
+header Strict-Transport-Security "max-age=31536000"
+```
+
+```apache
+Header always set Strict-Transport-Security "max-age=31536000"
+```
+
+Add `includeSubDomains` only when every subdomain of the host is served over HTTPS.
 
 ## Health endpoints *(v4.5.0+)*
 

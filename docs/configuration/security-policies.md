@@ -165,7 +165,8 @@ return [
 
 1. **Always change the default session key** to a unique, random string
 2. Use a strong password hashing algorithm (bcrypt or argon2id)
-3. Enable account lockout in production environments
+3. Enable account lockout in production: `enable_lockout` is off by default, and `username_attempts` caps
+   failures per account across addresses (see [Account Lockout](#account-lockout))
 4. Implement IP whitelisting for admin access in sensitive environments
 5. Enable both login and global token validation to prevent CSRF attacks
 6. Use HTTPS for all production deployments
