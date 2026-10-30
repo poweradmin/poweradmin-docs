@@ -20,6 +20,11 @@ The `private_ranges` value trusts all private IP ranges (10.0.0.0/8, 172.16.0.0/
 
 Both `X-Forwarded-For` and `X-Real-IP` headers are supported. Your reverse proxy must forward at least one of these headers - see the examples below for proxy-specific configuration.
 
+`X-Forwarded-For` is read first, so make sure a client cannot supply the header your proxy does not
+set. If the proxy only sets `X-Real-IP`, clear the incoming `X-Forwarded-For` (in nginx,
+`proxy_set_header X-Forwarded-For "";`), or the client's own value is used. A `Client-IP` header is
+ignored from 4.5.2 and 4.4.4, because proxies pass it through unchanged.
+
 ### Two trust layers (Docker)
 
 `TRUSTED_PROXIES` configures two layers at once. The Docker image (4.5.0 and later) writes the same list to Poweradmin's `security.trusted_proxies` setting in addition to the Caddy server, so the application also honors forwarded headers from the listed proxies:
@@ -58,6 +63,9 @@ not help here, because it applies to Caddy only.
 
 Reading from the right is deliberate: the leftmost address can be set by the client, so trusting it
 would let anyone choose the address shown in audit logs and counted for login rate limits.
+4.4.4 also reads the header from the right. It has no `trusted_proxies` setting, so behind two
+proxies it logs the outer proxy, and a dynamic DNS update that uses the caller's address stores the
+outer proxy's address too.
 
 ## Traefik
 
