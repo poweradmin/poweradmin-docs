@@ -120,6 +120,7 @@ nav:
           - Docker Installation: installation/docker.md
           - Docker Secrets: installation/docker-secrets.md
           - Reverse Proxy: installation/reverse-proxy.md
+      - Proxmox VE: installation/proxmox.md
       - Operating Systems:
           - Debian: installation/debian.md
           - Ubuntu: installation/ubuntu.md

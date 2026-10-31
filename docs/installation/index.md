@@ -17,6 +17,7 @@ Poweradmin can be installed on various operating systems and with different data
 - [Docker](docker.md) - Run Poweradmin in a container
 - [Docker Secrets](docker-secrets.md) - Use Docker / Swarm secrets for credentials
 - [Reverse Proxy](reverse-proxy.md) - Front Poweradmin with nginx, Traefik, or Caddy as a reverse proxy
+- [Proxmox VE](proxmox.md) - LXC container with PowerDNS and Poweradmin from the community helper script
 - [Remote Setup Guide](remote-setup-guide.md) - Install Poweradmin and PowerDNS on separate hosts
 
 ## Database Setup
