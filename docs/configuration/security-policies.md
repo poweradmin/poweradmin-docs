@@ -11,6 +11,7 @@ Poweradmin offers various security features to protect your DNS management syste
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
 - **protect_last_admin_on_edit**: Refuse a user edit that moves the last super admin to a template without super admin. Default: `false` (added in 4.5.0). See [Opt-in Hardening](#opt-in-hardening-v450)
 - **strict_session_gates**: Apply required MFA setup and the user agreement to internal API calls and to pages with `api` in their path. Default: `false` (added in 4.5.0, 4.4.2 and 4.3.6). See [Opt-in Hardening](#opt-in-hardening-v450)
+- **client_ip_header**: Which forwarded header holds the client address: `x-forwarded-for`, `x-real-ip`, `none` (the proxy's own address only) or `auto` (`X-Forwarded-For`, then `X-Real-IP`). Set it to the header your proxy writes, so a client cannot supply the other one. Use `none` only with no proxy in front: behind one, every client would share the proxy's address for login lockout. In Docker, Caddy reads the same header. Default: `auto` (added in 4.6.0)
 - **trusted_proxies**: Reverse proxy addresses allowed to set forwarded client-IP headers (`X-Forwarded-For`, `X-Real-IP`; a `Client-IP` header is ignored from 4.5.2 and 4.4.4). Supports IPs, CIDRs (IPv4/IPv6), and IPv4 wildcards. Private and loopback peers are always trusted; add public proxy addresses here so their forwarded headers are honored. Default: `[]` (added in 4.5.0)
 
 ## Rotating the Session Key

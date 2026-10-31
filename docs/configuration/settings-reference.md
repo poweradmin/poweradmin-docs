@@ -211,6 +211,14 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `mail.auth` {#setting-mail-auth} | `false` | Whether SMTP requires authentication | - |
 | `mail.sendmail_path` {#setting-mail-sendmail-path} | `'/usr/sbin/sendmail -t -i'` | Sendmail binary; -t reads recipients from headers (-bs is SMTP mode and drops piped messages) | - |
 
+## metrics
+
+| Setting | Default | Description | Added in |
+|---|---|---|---|
+| `metrics.enabled` {#setting-metrics-enabled} | `false` | Enable the metrics endpoint at /api/metrics | 4.6.0 |
+| `metrics.require_auth` {#setting-metrics-require-auth} | `true` | Require an API key/basic auth with server_status_view | 4.6.0 |
+| `metrics.count_records` {#setting-metrics-count-records} | `false` | Also count records; database backend only, can be slow on large installs | 4.6.0 |
+
 ## misc
 
 | Setting | Default | Description | Added in |
@@ -359,6 +367,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `security.login_token_validation` {#setting-security-login-token-validation} | `true` | Enable token validation for login form | 3.9.0 |
 | `security.global_token_validation` {#setting-security-global-token-validation} | `true` | Enable token validation for all forms | 3.9.0 |
 | `security.trusted_proxies` {#setting-security-trusted-proxies} | `[]` | Reverse proxy IPs/CIDRs/wildcards allowed to set X-Forwarded-For/X-Real-IP; private/loopback peers are always trusted | 4.5.0 |
+| `security.client_ip_header` {#setting-security-client-ip-header} | `'auto'` | Forwarded header that holds the client address: 'x-forwarded-for', 'x-real-ip', 'none' (peer address; only with no proxy in front) or 'auto' (X-Forwarded-For, then X-Real-IP) | 4.6.0 |
 | `security.protect_last_admin_on_edit` {#setting-security-protect-last-admin-on-edit} | `false` | Refuse a user edit that moves the last super admin to a template without super admin; delete, disable and API PATCH always refuse | 4.5.0 |
 | `security.strict_session_gates` {#setting-security-strict-session-gates} | `false` | Hold internal API calls with a 403, and match API paths by segment, while required MFA setup or a user agreement is pending | 4.5.0 |
 | `security.password_policy.enable_password_rules` {#setting-security-password-policy-enable-password-rules} | `true` | Enable password policy enforcement | - |

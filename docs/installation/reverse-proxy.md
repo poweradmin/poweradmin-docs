@@ -21,9 +21,16 @@ The `private_ranges` value trusts all private IP ranges (10.0.0.0/8, 172.16.0.0/
 Both `X-Forwarded-For` and `X-Real-IP` headers are supported. Your reverse proxy must forward at least one of these headers - see the examples below for proxy-specific configuration.
 
 `X-Forwarded-For` is read first, so make sure a client cannot supply the header your proxy does not
-set. If the proxy only sets `X-Real-IP`, clear the incoming `X-Forwarded-For` (in nginx,
+set. From 4.6.0, set `security.client_ip_header` (`PA_CLIENT_IP_HEADER` in Docker) to the one header
+your proxy writes, `x-forwarded-for` or `x-real-ip`, and the other is ignored. On older versions, if
+the proxy only sets `X-Real-IP`, clear the incoming `X-Forwarded-For` (in nginx,
 `proxy_set_header X-Forwarded-For "";`), or the client's own value is used. A `Client-IP` header is
 ignored from 4.5.2 and 4.4.4, because proxies pass it through unchanged.
+
+From 4.6.0, 4.5.2 and 4.4.4, an `X-Forwarded-For` entry with a port (`203.0.113.7:51234`,
+`[2001:db8::7]:51234`) or in IPv4-mapped form (`::ffff:203.0.113.7`) is read as the address. An entry
+that is not an address at all, such as the `unknown` some proxies write, makes Poweradmin use the
+proxy's own address rather than `X-Real-IP`, which a client could have sent itself.
 
 ### Two trust layers (Docker)
 

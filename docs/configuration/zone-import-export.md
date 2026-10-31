@@ -67,6 +67,18 @@ When enabled, zone import/export features are available from:
 3. Review the parsed records
 4. Confirm the import
 
+When you import into an existing zone, choose what happens to records that are already there:
+
+- **Add all**: every record in the file is added; records the zone already has are refused as copies.
+- **Skip**: a record the zone already holds with the same name, type and content is left out.
+- **Replace**: each set of records with the same name and type in the file replaces that set in the zone.
+
+In replace mode, every record of a set is checked before the zone's records of that name and type are
+deleted (4.6.0, 4.5.2 and 4.4.4). If one of them is refused, for example invalid content or a CNAME
+that conflicts with another record, the zone keeps its records for that name and type, and the file's
+records for it are counted as failed. Earlier versions deleted the set first, so one bad line in the
+file could leave the zone without those records.
+
 ### Record Comments *(v4.6.0+)*
 
 Zone files can carry Poweradmin record comments, so a zone keeps them when it is exported

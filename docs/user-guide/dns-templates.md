@@ -135,7 +135,11 @@ The zones themselves are still only updated when you ask for it.
 
 From 4.6.0 a private template can be shared with one or more [user groups](users-roles.md). Members of those groups see the template in the template list and in the template dropdowns, and can create zones from it, on the web and through the API. Members who also hold `zone_templ_edit` can edit the template and its records.
 
-To share a template, open it in the template editor and tick the groups under **Shared with groups**, then click **Update**.
+To share a template, tick the groups under **Shared with groups** when you add it, or open it in the template editor later, tick them and click **Update**. A global template is shared with everyone, so the group list is hidden while **Global template** is ticked. Through API v2, send the group ids as `groups` on `POST /zone-templates` or `PUT /zone-templates/{id}`; leaving `groups` out of a `PUT` keeps the current shares.
+
+![Sharing a new template with groups](../screenshots/template-share-add.png)
+
+![Shared with groups in the template editor](../screenshots/template-share-edit.png)
 
 - The template owner can share it with the groups they are a member of. A super admin can share it with any group.
 - Only the owner or a super admin can delete the template or change the groups it is shared with. Group members see the list of groups but cannot change it.
@@ -143,9 +147,12 @@ To share a template, open it in the template editor and tick the groups under **
 - Editing a shared template never makes a group member its owner.
 - Global templates are visible to everyone and cannot be shared. Making a shared template global removes its shares.
 - The template list shows a **shared** badge with the group names. A group member sees only the groups they belong to.
+
+    ![Shared badge in the template list](../screenshots/template-share-list.png)
+
 - When the owner's account is deleted, their shared templates are handed to the admin who deletes it, so the groups keep them. The delete page lists them first. Templates that are not shared are deleted with the account, as before.
 
-API v2 returns the groups as a read-only `groups` array on `GET /api/v2/zone-templates` and `GET /api/v2/zone-templates/{id}`. Sharing is set on the web only.
+API v2 returns the groups as a `groups` array on `GET /api/v2/zone-templates` and `GET /api/v2/zone-templates/{id}`, and takes them as ids on `POST` and `PUT`. A caller who is not the owner or a super admin gets 403 when sending `groups`; a list that is not an array of ids, or groups on a global template, gets 400.
 
 ## Permissions
 
