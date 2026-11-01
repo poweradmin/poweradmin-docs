@@ -1,6 +1,6 @@
 # Proxmox VE
 
-The [Proxmox VE community scripts](https://community-scripts.org/) project has a [helper script](https://community-scripts.org/scripts/powerdns) that creates an LXC container with PowerDNS and Poweradmin already set up. The script is listed as **PowerDNS**, so searching the catalog for "poweradmin" finds nothing.
+The [Proxmox VE community scripts](https://community-scripts.org/) project has a [helper script](https://community-scripts.org/scripts/powerdns) that creates an LXC container with PowerDNS and Poweradmin already set up.
 
 This script is maintained by the community-scripts project, not by the Poweradmin team. Report problems with the script itself to [community-scripts/ProxmoxVE](https://github.com/community-scripts/ProxmoxVE).
 
