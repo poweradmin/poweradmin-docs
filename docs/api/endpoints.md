@@ -50,6 +50,26 @@ From v4.2.6, v4.3.5, v4.4.1 and v4.5.0, changing a zone's `name`, `type` or `mas
 return `403`. A value that matches what is stored is not treated as a change, so clients that
 resend every field on update keep working.
 
+#### Secondary zone masters on update (v4.5.2+)
+
+`PUT /zones/{id}` accepts `masters` the same way `POST /zones` does: a comma-separated string
+or an array of addresses, each optionally with a port (`192.0.2.1:5300`, `[2001:db8::1]:5300`).
+When both are sent, `masters` wins over `master`. Before v4.5.2 the update ignored `masters` and
+still answered "Zone updated successfully".
+
+```json
+{
+  "type": "SLAVE",
+  "masters": ["192.0.2.1", "192.0.2.2:5300"]
+}
+```
+
+A SLAVE zone always needs a master. Converting a zone to SLAVE without one, or sending an empty
+`masters` (or `master`) for a zone that stays SLAVE, answers `400` "Master IP address is required
+for SLAVE zones". The master is cleared only together with a change to another type. Any value
+that is not a string, or an array of strings, answers `400` "Invalid field types in request
+body".
+
 From v4.5.0, in API backend mode, `POST /zones/{id}/owners` answers `409` with "Owners cannot be added to this
 zone: its ID is shared with another zone" when the id belongs to two zones. See
 [Zone IDs Shared by Two Zones](../configuration/powerdns-api.md#zone-ids-shared-by-two-zones).
