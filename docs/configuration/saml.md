@@ -88,8 +88,12 @@ id is normally the bundled Administrator template.
   address the provider has not vouched for is not treated as proof of identity.
 - the matched local account does not hold `user_is_ueberuser`. A superuser account
   is never claimed by email; link it explicitly by subject instead.
+- the matched local account is not already linked to another NameID at the same
+  provider. An address match never moves an existing link to a new identity.
+  If your provider really did change the NameID for a user, delete that user's row
+  for the provider from `saml_user_links`; the next login then links by email again.
 
-Both checks are logged when they block a link, so a login that stops working after
+Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log. Since 4.6.0 a link made without an
 `email_verified` claim is also logged as a warning; set `saml.require_verified_email`
 to refuse such links.

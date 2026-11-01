@@ -78,8 +78,12 @@ id is normally the bundled Administrator template.
   carry it.
 - the matched local account does not hold `user_is_ueberuser`. A superuser account
   is never claimed by email; link it explicitly by subject instead.
+- the matched local account is not already linked to another subject at the same
+  provider. An address match never moves an existing link to a new identity.
+  If your provider really did change the subject for a user, delete that user's row
+  for the provider from `oidc_user_links`; the next login then links by email again.
 
-Both checks are logged when they block a link, so a login that stops working after
+Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log.
 
 ### Requiring a verified address
