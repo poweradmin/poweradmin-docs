@@ -91,6 +91,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      # Engine-independent copy of validation.nav, which Zensical does not enforce.
+      - name: Check every page is in the nav
+        run: python scripts/check_nav.py
+
       - name: Build and deploy
         run: |
           cd poweradmin.github.io
