@@ -4,9 +4,9 @@ Poweradmin has been developed as an open source web interface for PowerDNS for m
 
 ## Origins
 
-Poweradmin was started around 2002 by **Roeland Nieuwenhuis** and the PowerAdmin Team, with the project site at poweradmin.sjeemz.nl; the poweradmin.org domain was also registered in 2002. The 1.x releases were developed in CVS; the change log carried into today's repository runs from October 2002 to the 1.2.4 work in May 2003, and the code targeted PHP 4 and PowerDNS 2.x.
+Poweradmin was started in 2002 by **Roeland Nieuwenhuis** and the PowerAdmin Team, and the poweradmin.org domain was registered the same year. PowerAdmin 1.0 was released on 23 October 2002, followed by 1.1 in December, 1.2 with full support for the gmysql backend on 30 December 2002, and a run of bug-fix releases up to 1.2.7 on 14 May 2003. The code was hosted on SourceForge with CVS, targeted PHP 4 and PowerDNS 2.x, and was released under the Qt Public License (QPL). It was already used in production: ISP-Services managed more than 16,000 domains with it. The [project website from 2004](https://web.archive.org/web/20040828180319/http://poweradmin.org/) is preserved in the Internet Archive.
 
-In April 2007 **Rejo Zenger** imported the 1.2.7 code into Subversion, which is where the history in today's repository begins. The 1.3 and 1.4 work followed that year and the 2.0.0 release in 2008. For many years the project website at poweradmin.org, the Trac issue tracker, the Subversion repository and the mailing lists were hosted by him.
+In April 2007 **Rejo Zenger** imported the 1.2.7 code into Subversion, which is where the history in today's repository begins. The 1.3 and 1.4 work followed that year. In December 2007 the license changed from QPL to GPLv3, which the project still uses, and 2.0.0 was released in 2008. For many years the project website at poweradmin.org, the Trac issue tracker, the Subversion repository and the mailing lists were hosted by him.
 
 ## The 2.1.x releases (2008-2014)
 
@@ -42,7 +42,7 @@ See [What's New](../whats-new/index.md) for details of recent releases.
 
 ## Thanks
 
-Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to Roeland Nieuwenhuis and the original PowerAdmin Team, [Rejo Zenger](https://github.com/rejozenger), [Scott Harvanek](https://github.com/mgob), [Peter Beernink](https://github.com/pbeernink), Okky Octaviano and [Fabian Dammekens](https://github.com/fdammeke).
+Many people have contributed code, testing, translations and infrastructure over the years. From the early years, thanks go in particular to Roeland Nieuwenhuis and the original PowerAdmin Team, Dennis Roos (log view, master and supermaster creation, PowerDNS control functions), Benny Amorsen (the PostgreSQL version of 1.2.7), [Rejo Zenger](https://github.com/rejozenger), [Scott Harvanek](https://github.com/mgob), [Peter Beernink](https://github.com/pbeernink), Okky Octaviano and [Fabian Dammekens](https://github.com/fdammeke).
 
 The 2.x releases gained a lot from outside contributions: [Arsen Stasic](https://github.com/stasic) (DNSSEC and automatic PTR records), [Alex Fisher](https://github.com/alexjfisher) (LDAP authentication and logging), [Keenan Tims](https://github.com/ktims) (rectify-zone handling), [Josh Soref](https://github.com/jsoref) (record validation and spelling fixes), [Jeroen Boonstra](https://github.com/JeroenBo) (the Vagrant development VM), [Shin Sterneck](https://github.com/shinsterneck) (LUA records), [DecentM](https://github.com/DecentM) (the modern theme), [jAHu](https://github.com/j4Hu) (PHP 7.3 and OpenSSL support), [Max Base](https://github.com/BaseMax) (PHP 8 fixes), and [bynicolas](https://github.com/bynicolas) and [Lennie](https://github.com/Lennie) (DNSSEC fixes).
 
