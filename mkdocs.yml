@@ -52,11 +52,16 @@ theme:
   icon:
     repo: fontawesome/brands/github
 
+# GLightbox and Swagger UI are vendored under docs/assets/vendor/ rather than pulled in by
+# plugins, so the site builds the same under MkDocs and Zensical. Versions are in README.md.
 extra_css:
+  - assets/vendor/glightbox/glightbox.min.css
   - css/extra.css
 
 extra_javascript:
   - js/mermaid-fullscreen.js
+  - assets/vendor/glightbox/glightbox.min.js
+  - js/lightbox.js
 
 # superfences renders code fences nested in lists, which the default fenced_code extension breaks
 markdown_extensions:
@@ -293,14 +298,4 @@ nav:
 
 plugins:
   - search
-  - swagger-ui-tag
-  - glightbox:
-      touchNavigation: true
-      loop: false
-      effect: zoom
-      slide_effect: slide
-      width: 100%
-      height: auto
-      zoomable: true
-      draggable: true
 

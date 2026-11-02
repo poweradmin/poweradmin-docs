@@ -40,6 +40,20 @@ Two pages are generated from the Poweradmin source and must not be edited by han
 A weekly workflow re-derives both from the Poweradmin repository and fails if they have drifted. It
 also checks that every `PA_*` variable the Docker entrypoint reads is documented in `DOCKER.md`.
 
+### Vendored scripts
+
+Two front-end libraries are committed under `docs/assets/vendor/` instead of coming from MkDocs
+plugins, so the site does not depend on a plugin for either and loads nothing from a third-party
+host:
+
+| Library | Version | Used by |
+|---|---|---|
+| [swagger-ui-dist](https://www.npmjs.com/package/swagger-ui-dist) | 5.33.3 | `docs/api/swagger.html`, embedded by `docs/api/reference.md` |
+| [glightbox](https://www.npmjs.com/package/glightbox) | 3.3.1 | `docs/js/lightbox.js`, which wraps content images |
+
+Dependabot does not track them. To update one, copy the same files from the new npm tarball and
+change the version here. `swagger-ui-dark.css` is not part of swagger-ui-dist; keep it.
+
 ## Deployment
 
 Pushing to `main` builds the site and publishes it to
