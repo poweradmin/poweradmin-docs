@@ -43,7 +43,7 @@ runs against the PowerDNS-Admin database. Quote `user` as `"user"` on PostgreSQL
 ```sql
 -- users and roles
 SELECT u.username, u.email, r.name AS role
-FROM user u JOIN role r ON r.id = u.role_id;
+FROM user u LEFT JOIN role r ON r.id = u.role_id;
 
 -- zones a user can reach directly
 SELECT u.username, d.name AS zone
@@ -52,10 +52,10 @@ JOIN user u ON u.id = du.user_id
 JOIN domain d ON d.id = du.domain_id;
 
 -- account members and the zones of each account
-SELECT a.name AS account, u.username, d.name AS zone
+SELECT a.name AS account, a.contact, a.mail, u.username, d.name AS zone
 FROM account a
-JOIN account_user au ON au.account_id = a.id
-JOIN user u ON u.id = au.user_id
+LEFT JOIN account_user au ON au.account_id = a.id
+LEFT JOIN user u ON u.id = au.user_id
 LEFT JOIN domain d ON d.account_id = a.id;
 ```
 
@@ -130,8 +130,8 @@ and Microsoft Entra ID (formerly Azure AD) login, which PowerDNS-Admin offers th
 Poweradmin's OIDC provider presets. GitHub login works through the `github` provider preset (4.6.0+). PowerDNS-Admin can also map IdP groups to
 accounts and roles; recreate that with the group and template mappings of the OIDC or SAML settings.
 
-Two-factor login is off by default, set `security.mfa.enabled`. Each user enrolls again, see
-[MFA](../user-guide/mfa.md).
+PowerDNS-Admin's `session_timeout` is in minutes, Poweradmin's `interface.session_timeout` is in seconds. A value
+of 10 there is 600 here.
 
 PowerDNS-Admin stores local passwords as bcrypt hashes starting with `$2b$`. Poweradmin does not recognize that
 prefix, but the same hash with the prefix changed to `$2y$` verifies. To let local users keep their passwords,
@@ -156,12 +156,36 @@ Write each value into Poweradmin's `users.password` for the same `username`, onl
 `sql`. On PostgreSQL, quote `user` as `"user"`. Poweradmin rehashes a password at the next login if its own
 settings call for a different algorithm or cost.
 
+Two-factor login is off by default, set `security.mfa.enabled`, see [MFA](../user-guide/mfa.md). Users with an
+authenticator app in PowerDNS-Admin can keep it. Both tools use standard TOTP (6 digits, 30 seconds, SHA-1) and
+store the secret as base32 text, so the secret can be copied as it is. A user with an empty `otp_secret` has
+two-factor login off.
+
+```sql
+-- run against the PowerDNS-Admin database
+SELECT username, otp_secret
+FROM user
+WHERE otp_secret IS NOT NULL AND otp_secret <> '';
+```
+
+For each of these users, look up their `id` in Poweradmin's `users` table and add a row to `user_mfa`:
+
+```sql
+-- run against the Poweradmin database
+INSERT INTO user_mfa (user_id, enabled, secret, type)
+VALUES (<poweradmin user id>, 1, '<otp_secret>', 'app');
+```
+
+The imported entry has no recovery codes. Each user can create them on their MFA settings page. Users without a
+copied secret enroll again.
+
 ### 5. Recreate Accounts as Groups and Assign Zones
 
 A PowerDNS-Admin account is a set of zones shared by its member users. Each zone belongs to at most one account.
 The matching concept in Poweradmin is a [group](../user-guide/groups.md):
 
-1. Create a group for each account and give it a permission template.
+1. Create a group for each account and give it a permission template. A group has a name and a description only.
+   Put the account's contact and mail into the description if you want to keep them.
 2. Add the account's members to the group.
 3. On the group's zones page, move the account's zones from **Available Zones** to **Owned Zones**. You can select
    several zones at once.
@@ -184,6 +208,10 @@ the user who creates it and can do at most what that user can do. Since 4.5.0 a 
 read-only, limited to some operations, or limited to some zones, see
 [Restricting what a key can do](../api/authentication.md#restricting-what-a-key-can-do). For a script, create a
 service user with the rights it needs, sign in as that user and create the key there.
+
+PowerDNS-Admin keeps only a salted hash of each key, so the keys cannot be carried over. Every script gets a new
+key. PowerDNS-Admin clients also send the key base64-encoded, while Poweradmin expects the key as shown when it was
+created.
 
 Enable the API (`api.enabled = true`) and create keys under **Settings -> API Keys** (`/settings/api-keys`), see
 [API Authentication](../api/authentication.md). A regular user can hold up to `api.max_keys_per_user` keys
@@ -208,11 +236,31 @@ endpoints, see [Dynamic DNS](../user-guide/ddns/overview.md):
   Poweradmin username and password.
 - `POST /api/v2/dynamic-dns`, authenticated with an API key.
 
-Change the URL in each client. Users who authenticate with a password need their new Poweradmin password.
+Change the URL in each client. Users who authenticate with a password need their new Poweradmin password. The
+example Caddy configuration (`caddy.conf.example`) already rewrites `/nic/update` to `/dynamic_update.php`; with
+another web server, add the same rewrite if you want to keep the old path.
+
+The two endpoints behave differently in a few ways:
+
+| | PowerDNS-Admin | Poweradmin |
+|---|---|---|
+| No IP address sent | Uses the client's address | Refused with `dnserr`. Send `myip`, or `myip=whatismyip` to use the client's address |
+| IPv6 | In `myip` | In `myip`, or separately in `myip6` |
+| Several addresses | The last one wins | All are kept, extra records are removed |
+| Missing record | Created only if the zone allows it | Always created |
+| TTL | Kept on update, 3600 on create | 60 |
+| Who may update | Any user, Administrators and Operators reach all zones | Users with edit rights on the zone; administrators are refused, use a separate user |
+| User agent | Not checked | Required, otherwise `badagent` |
+| Bad login | HTTP 401 | `badauth` |
+
+Stock clients such as ddclient, inadyn and OpenWrt send `myip` and a user agent, and work after the URL change.
 
 ### 8. Optional Features
 
 - [DNS templates](../user-guide/dns-templates.md) replace PowerDNS-Admin domain templates. Recreate them by hand.
+  PowerDNS-Admin template records use `@` and names relative to the zone; in Poweradmin use `[ZONE]` and
+  `www.[ZONE]`. MX and SRV priority goes in its own field. Record comments and the disabled flag have no place in a
+  Poweradmin template.
 - [DNSSEC](../user-guide/dnssec.md) management is off by default, set `dnssec.enabled`. See
   [DNSSEC configuration](../configuration/dnssec.md). Existing keys stay in PowerDNS.
 - [Change requests](../user-guide/change-requests.md) (4.6.0+) add a review step before changes are applied. Off by
@@ -221,6 +269,37 @@ Change the URL in each client. Users who authenticate with a password need their
 PowerDNS-Admin stores its settings in its database, overridable from the environment. Poweradmin reads them from
 `config/settings.php`, see
 [Settings Reference](../configuration/settings-reference.md).
+
+| PowerDNS-Admin setting | Poweradmin |
+|---|---|
+| `site_name` | `interface.title` |
+| `session_timeout` (minutes) | `interface.session_timeout` (seconds) |
+| `fullscreen_layout` | `interface.wide_layout` |
+| `default_domain_table_size`, `default_record_table_size` | `interface.rows_per_page` |
+| `gravatar_enabled` | `interface.avatar_gravatar_enabled` |
+| `pwd_*` | `security.password_policy` |
+| `captcha_*` | `security.recaptcha` |
+| `otp_field_enabled`, `otp_force` | `security.mfa.enabled`, `security.mfa.enforced` (forced only for users with the `user_enforce_mfa` permission) |
+| `mail_*` | `mail` |
+| `ldap_*` | `ldap`; for Active Directory set `ldap.user_attribute` to `sAMAccountName` |
+| `ldap_admin_group`, `ldap_operator_group`, `ldap_user_group` | `ldap.permission_template_mapping` (full group DNs) |
+| `autoprovisioning` | `ldap.auto_provision`, `ldap.default_permission_template` |
+| `google_oauth_*`, `github_oauth_*`, `azure_oauth_*`, `oidc_oauth_*` | `oidc.providers` presets |
+| `azure_admin_group` and the other group-to-role settings | `oidc.permission_template_mapping` |
+| `azure_group_accounts_*`, `oidc_oauth_account_name_property` | `oidc.group_mapping`, to groups created beforehand |
+| `saml_*` | `saml`; group-to-account and group-to-role settings become `saml.group_mapping` and `saml.permission_template_mapping` |
+| `allow_user_create_domain` | `zone_master_add` and `zone_slave_add` permissions |
+| `allow_user_remove_domain` | `zone_delete_own` permission |
+| `allow_user_view_history` | `zone_logs_view_own` permission |
+| `forward_records_allow_edit`, `reverse_records_allow_edit` | `dns.domain_record_types`, `dns.reverse_record_types` (apply to all users) |
+| `auto_ptr` | `interface.add_reverse_record` (a checkbox on the record form) |
+| `deny_domain_override` | `dns.parent_zone_ownership_check` |
+| `bg_domain_updates` | Not needed, see [What Carries Over](#what-carries-over) |
+
+Settings with no equivalent: `signup_enabled` and `verify_user_email` (Poweradmin has no self-registration),
+`local_db_enabled`, `login_ldap_first`, `ttl_options`, `enforce_api_ttl`, `pretty_ipv6_ptr`, `maintenance` and
+`warn_session_timeout`. In Poweradmin a user can manage DNSSEC only on zones they own, unless they are an
+administrator, so an Operator who managed DNSSEC on every zone needs `user_is_ueberuser`.
 
 ### 9. Switch Over
 
@@ -246,6 +325,6 @@ PowerDNS-Admin stores its settings in its database, overridable from the environ
 | LDAP, OIDC, SAML login | [LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md), [SAML](../configuration/saml.md) |
 | Google, Microsoft Entra ID login | [OIDC](../configuration/oidc.md) provider presets |
 | GitHub login | [OIDC](../configuration/oidc.md#github) `github` preset (4.6.0+) |
-| TOTP two-factor login | [MFA](../user-guide/mfa.md), users enroll again |
+| TOTP two-factor login | [MFA](../user-guide/mfa.md), secrets can be copied, see [Recreate Users](#4-recreate-users) |
 | `/nic/update` | `/dynamic_update.php` or `POST /api/v2/dynamic-dns`, see [Dynamic DNS](../user-guide/ddns/overview.md) |
 | Settings in database | `config/settings.php`, see [Settings Reference](../configuration/settings-reference.md) |
