@@ -95,6 +95,13 @@ jobs:
       - name: Check every page is in the nav
         run: python scripts/check_nav.py
 
+      # Build once more before deploying, so raw-HTML paths that --strict cannot see are
+      # checked here too; pushes to main do not go through validate.yml.
+      - name: Check local paths in the built site
+        run: |
+          mkdocs build --strict --site-dir /tmp/site-check
+          python scripts/check_site_paths.py /tmp/site-check
+
       - name: Build and deploy
         run: |
           cd poweradmin.github.io
