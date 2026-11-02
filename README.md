@@ -17,16 +17,18 @@ pip install -r requirements.txt   # pinned toolchain, same versions CI uses
 Edit the Markdown under `docs/` and open a pull request. Every page has an edit link in the top
 right on the site, which takes you straight to the right file.
 
-A change has to pass three checks, all of which run on pull requests and again before anything
+A change has to pass four checks, all of which run on pull requests and again before anything
 deploys:
 
 - `mkdocs build --strict` - broken links, dead anchors, and pages missing from the navigation
+- `scripts/check_nav.py` - every page under `docs/` is in the `mkdocs.yml` nav, and every nav entry
+  exists; the same rule as the build's, kept separate so it survives a change of build engine
 - `markdownlint-cli2` - the house style: dash bullets, four-space nested indentation, blank lines
   around lists and code fences
 - a check that no code fence sits unindented after a numbered list item, which would detach it from
   the step it belongs to
 
-Run all three locally with `./build.sh` and `npx markdownlint-cli2`.
+Run them locally with `./build.sh` (the nav check and the strict build) and `npx markdownlint-cli2`.
 
 ### Generated pages
 

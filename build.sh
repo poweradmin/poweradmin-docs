@@ -10,6 +10,7 @@
 
 set -e
 
+python3 scripts/check_nav.py
 mkdocs build --strict
 
 if [ "$1" = "serve" ]; then
