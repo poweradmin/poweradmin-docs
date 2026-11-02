@@ -46,6 +46,7 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `oidc.require_verified_email` | false | Only link by email when the provider sends `email_verified` |
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
 | `oidc.default_permission_template` | "Guest" | Default permission template for new users |
+| `oidc.required_claims` | `[]` | Only admit logins whose claims match (v4.6.0+). See [Requiring claims](#requiring-claims-v460) |
 
 ### Superuser rights are never provisioned from an identity provider
 
@@ -108,6 +109,38 @@ account ... although the provider sent no email_verified claim"). Search the log
 
 The option only governs the absent case. A provider that says `email_verified` is
 false is refused either way.
+
+### Requiring claims *(v4.6.0+)*
+
+`oidc.required_claims` admits only the users your provider sends a given claim for. Use it
+when the provider authenticates more people than should reach Poweradmin, for example a
+whole company directory:
+
+```php
+'oidc' => [
+    'required_claims' => [
+        'groups' => 'dns-admins',
+        'department' => 'it',
+    ],
+],
+```
+
+- Every listed claim must be present. A single value must equal the configured value; a
+  list such as `groups` or `roles` must contain it. Values are compared whole and case
+  matters, so `department => 'it'` does not admit `it support` or `IT`.
+- Claims are read from the userinfo response and the ID token, the same ones the group
+  mappings use. `scope` and claims that only the access token carries are never seen, so
+  requiring them refuses everyone.
+- The check runs before Poweradmin looks up the account, so it also applies to users who
+  are already linked. A refused login shows the usual sign-in failure and logs which claim
+  did not match.
+- The setting applies to every OIDC provider. An empty list admits everyone the provider
+  authenticates.
+- A setting that is not a list of name => value pairs, or holds an empty or list value,
+  refuses every OIDC login and logs a configuration error, so a typo cannot open sign-in.
+
+In Docker, set `PA_OIDC_REQUIRED_CLAIMS=groups=dns-admins,department=it`. Give one value per
+claim: a `|` list or an empty value is a configuration error.
 
 ## Permission Template Mapping
 

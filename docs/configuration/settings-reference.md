@@ -292,6 +292,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `oidc.allow_superuser_provisioning` {#setting-oidc-allow-superuser-provisioning} | `false` | Let OIDC mappings grant user_is_ueberuser | 4.5.0 |
 | `oidc.sync_user_info` {#setting-oidc-sync-user-info} | `true` | Sync user information (name, email) from OIDC provider | - |
 | `oidc.default_permission_template` {#setting-oidc-default-permission-template} | `'Guest'` | Default permission template for new OIDC users (minimal access until assigned proper role) | - |
+| `oidc.required_claims` {#setting-oidc-required-claims} | `[]` | Claim name => required value | 4.6.0 |
 | `oidc.permission_template_mapping` {#setting-oidc-permission-template-mapping} | `[]` | - | - |
 | `oidc.group_mapping` {#setting-oidc-group-mapping} | `[]` | - | - |
 | `oidc.providers` {#setting-oidc-providers} | `[]` | - | - |
@@ -347,6 +348,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `saml.allow_superuser_provisioning` {#setting-saml-allow-superuser-provisioning} | `false` | Let SAML mappings grant user_is_ueberuser | 4.5.0 |
 | `saml.sync_user_info` {#setting-saml-sync-user-info} | `true` | Sync user information (name, email) from SAML provider | - |
 | `saml.default_permission_template` {#setting-saml-default-permission-template} | `'Guest'` | Default permission template for new SAML users (minimal access until assigned proper role) | - |
+| `saml.required_attributes` {#setting-saml-required-attributes} | `[]` | Attribute name => required value | 4.6.0 |
 | `saml.permission_template_mapping` {#setting-saml-permission-template-mapping} | `[]` | - | - |
 | `saml.group_mapping` {#setting-saml-group-mapping} | `[]` | - | - |
 | `saml.sp.entity_id` {#setting-saml-sp-entity-id} | `''` | SP Entity ID (usually your PowerAdmin URL) | - |

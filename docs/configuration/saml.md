@@ -59,6 +59,7 @@ The setting is also in 4.4.3 and 4.5.1, where it defaults to `true` so that upgr
 | `saml.link_by_email` | true | Link SAML accounts to existing users by email |
 | `saml.sync_user_info` | true | Sync user info on each login |
 | `saml.default_permission_template` | "Guest" | Default permission template for new users |
+| `saml.required_attributes` | `[]` | Only admit logins whose attributes match (v4.6.0+). See [Requiring attributes](#requiring-attributes-v460) |
 
 ### Superuser rights are never provisioned from an identity provider
 
@@ -97,6 +98,25 @@ Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log. Since 4.6.0 a link made without an
 `email_verified` claim is also logged as a warning; set `saml.require_verified_email`
 to refuse such links.
+
+### Requiring attributes *(v4.6.0+)*
+
+`saml.required_attributes` admits only users whose assertion carries the given attribute
+values. SAML sends every attribute as a list, so the configured value must be one of its
+entries. Use the attribute names your IdP sends, the same ones `user_mapping` uses:
+
+```php
+'saml' => [
+    'required_attributes' => [
+        'department' => 'it',
+    ],
+],
+```
+
+The rules are the same as for [OIDC required claims](oidc.md#requiring-claims-v460): values
+are compared whole and case matters, the check runs before the account lookup so it also
+applies to linked users, and a malformed setting refuses every SAML login. In Docker, set
+`PA_SAML_REQUIRED_ATTRIBUTES=department=it`.
 
 ## Permission Template Mapping
 
