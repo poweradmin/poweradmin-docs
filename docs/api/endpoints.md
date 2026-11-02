@@ -216,8 +216,10 @@ configured default (`dns.ttl_reverse` for PTR records in reverse zones when
 set, `dns.ttl` otherwise). See
 [DNS settings](../configuration/dns-settings.md) for details. A `ttl` of `0`
 is accepted (do not cache) from 4.6.0; on 4.5.x and earlier it is refused with
-`400` "TTL must be greater than 0". Negative values and fractional strings such as
-`"0.5"` are refused with `400` on every release.
+`400` "TTL must be greater than 0". Negative values are refused with `400` on
+every release. From 4.6.0 a fractional string such as `"1.5"` is refused with
+`400` as well; 4.5.x and earlier truncate it to an integer, so `"1.5"` is stored
+as `1` and `"0.5"` becomes `0` and is refused.
 
 #### Internationalised names and duplicates
 
