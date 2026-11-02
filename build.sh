@@ -12,6 +12,7 @@ set -e
 
 python3 scripts/check_nav.py
 mkdocs build --strict
+python3 scripts/check_site_paths.py site
 
 if [ "$1" = "serve" ]; then
     mkdocs serve
