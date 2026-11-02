@@ -25,7 +25,7 @@ name,type,content[,priority][,ttl][,disabled][,comment]
 ```
 
 - **name** - hostname relative to the zone, or `@` for the zone apex
-- **type** - any supported record type (A, AAAA, CNAME, MX, TXT, SRV, ...)
+- **type** - a record type offered for the zone (A, AAAA, CNAME, MX, TXT, SRV, ...). Reverse zones and forward zones accept different type lists, filtered by what the connected PowerDNS supports
 - **content** - the record value
 - **priority** - for MX/SRV; ignored for record types that have no priority
 - **ttl** - optional; falls back to the zone or system default
@@ -51,7 +51,9 @@ SRV has its own parser and does not follow the generic column order above. The f
 
 - Quote any value that contains a comma or spaces.
 - For CNAME, MX, SRV: end the target with a trailing dot.
-- There is no validation pre-pass and no rollback. Lines are processed one at a time, valid ones are written immediately, and only the failing lines are listed back on the form with a warning.
+- A submission may hold at most 1000 non-empty lines; a longer list is refused before anything is added.
+- Lines that fail validation are skipped and listed back on the form with a warning, while the valid ones are saved. From 4.6.0, on the SQL backend an unexpected write error rolls back the whole list and reports "No records were added". On the API backend lines are written one at a time with no rollback.
+- The form has a **Reason for this change** field, stored in the [change log](record-change-log.md#changesets-and-change-reasons). It is required when `logging.require_change_comment` is on.
 - Records exported from a zone via **CSV export** can be re-imported with this form, but delete the header row first - `Name,Type,Content,...` is parsed as a record and rejected with "Invalid record type". The data rows import as they are.
 
 ---
@@ -76,9 +78,9 @@ Creates many zones at once from a list of domain names. All zones get the same t
 
 ### Form fields
 
-- **Zone names** - one domain per line (e.g. `example.com`, `example.net`, ...)
-- **Zone type** - `MASTER` or `NATIVE`
-- **Zone template** - optional; pre-populates SOA, NS, and any template records
+- **Domains** - one domain per line (e.g. `example.com`, `example.net`, ...)
+- **Zone Type** - `MASTER` or `NATIVE`
+- **Template** - optional (`none` by default); pre-populates SOA, NS, and any template records
 - **Owner** - user and/or group, subject to the `dns.zone_ownership_mode` setting (see [Zone Management → Restricting Ownership Assignment](zones.md#restricting-ownership-assignment))
 
 ### Tips
@@ -94,7 +96,8 @@ Creates many zones at once from a list of domain names. All zones get the same t
 All three features respect the standard permission model:
 
 - **Bulk Record Add** requires `zone_content_edit_own` (on an owned zone) or `zone_content_edit_others`.
-- **Batch PTR Records** requires the `add_reverse_record` feature flag and the same edit permissions as Bulk Record Add.
+- **Batch PTR Records** requires the `add_reverse_record` feature flag and one of `zone_content_edit_own`, `zone_content_edit_others` or `zone_content_edit_own_as_client`.
+- From 4.6.0, with the [change approval workflow](change-requests.md) on, Bulk Record Add and Batch PTR are refused on a zone whose changes need review. Batch PTR without a zone is refused when `approval.require_review_for_all` is on.
 - **Bulk Zone Registration** requires `zone_master_add` (and respects `dns.zone_ownership_mode`).
 
 See [Permissions](permissions.md) for the full list of permission constants and how to assign them through permission templates.

@@ -15,7 +15,7 @@ This page covers the typical cases someone working with a third-party service wi
     - **Content**: the value, wrapped in double quotes (e.g. `"v=spf1 include:_spf.example.com -all"`).
     - **TTL**: leave at the zone default unless the third-party service requires a specific value.
     - **Priority**: must be `0`. TXT records do not use priority.
-3. Click **Add Record**.
+3. Click **Add record** (**Add records** on the separate add page).
 
 > **Tip:** If the third-party instructions show the record as `host TXT "value"`, only the `value` (with surrounding quotes) goes into the **Content** field.
 

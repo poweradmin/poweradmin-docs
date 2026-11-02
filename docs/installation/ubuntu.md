@@ -112,7 +112,7 @@ Or download directly from your browser and transfer the files to your server.
 Move the Poweradmin files to your web server's document root:
 
 ```bash
-cp -r poweradmin-${VERSION}/* /var/www/html/
+cp -r poweradmin-${VERSION}/. /var/www/html/
 chown -R www-data:www-data /var/www/html/
 ```
 

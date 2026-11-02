@@ -39,6 +39,8 @@ total issues, errors and warnings.
 | Zones without a stored name (4.6.0+) | Warning | SQL backend: zones with owners, group grants or API key restrictions but no zone row carrying their exact name, which a switch to the API backend would add again without them | **Fix** stores the name from PowerDNS, adding an ownerless row for a zone that has none; **Repair all** does the whole list |
 | Group assignments under a zone row ID (4.6.0+) | Warning | Group assignments made through the API before 4.6.0 whose stored id is a migrated zone's row id and names no zone now | None - report only; remove the assignment and assign the zone again |
 | Zone names differing only in letter case (4.6.0+) | Warning | Zones whose names match except for letter case, such as `Example.com` and `example.com`, with their ids. PowerDNS treats them as one name | None - report only; delete the zone you do not use |
+| API key restrictions naming a deleted zone (4.6.0+) | Warning | API keys whose zone restriction names a zone id that no longer exists | **Fix** points the key at no zone; **Fix all** does the whole list |
+| Record names with uppercase letters (4.6.0+) | Warning | Records whose stored name contains uppercase letters | **Fix** lowercases the record name and the comments on its RRset; **Fix all** does the whole list |
 
 Every fix is a POST protected by a CSRF token, and destructive actions ask for confirmation first.
 

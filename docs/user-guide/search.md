@@ -10,19 +10,19 @@ only their own zones. Holding `search` alone does not widen what you can view.
 
 ## Options
 
-Five checkboxes control the search:
+Five checkboxes control the search. On a fresh page load Zones, Records, Wildcards and Reverse are ticked and Comments is not:
 
 | Option | Effect |
 |--------|--------|
 | Zones | Match zone names |
 | Records | Match record names and record content |
-| Wildcard | Match anywhere in the value. Unticked means an **exact** match |
+| Wildcards | Match anywhere in the value. Unticked means an **exact** match |
 | Reverse | Also match the PTR form of an IP address |
 | Comments | Also search zone and record comments |
 
 Two of these interact with the others:
 
-- **Ticking Comments turns Wildcard on**, because an exact-match comment search is rarely useful.
+- **Ticking Comments turns Wildcards on**, because an exact-match comment search is rarely useful.
 - **Reverse only applies to a valid IPv4 or IPv6 address.** For anything else it is ignored. When
   it does apply, the query is converted to its PTR name - `10.0.0.5` becomes
   `5.0.0.10.in-addr.arpa` - and matched against reverse-zone record names.
@@ -53,7 +53,7 @@ Searching comments needs the comment feature to be visible in the first place:
 - Zone comments require `interface.show_zone_comments`
 - Record comments require `interface.show_record_comments`
 
-If a comment type is hidden by configuration, ticking **Comments** will not search it. See
+If a comment type is hidden by configuration, ticking **Comments** will not search it. A comment search looks through at most 50 zones; when the limit is hit the page says "Comment matches were limited to 50 zones; refine your search to see more." and the record count carries a `+`. See
 [UI Customization Overview](../configuration/ui/overview.md).
 
 ## Results

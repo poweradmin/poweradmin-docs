@@ -77,7 +77,7 @@ return [
 ];
 ```
 
-With this on, bulk record add and bulk delete refuse to submit without a reason. Reasons are
+With this on, bulk record add and bulk delete refuse to submit without a reason, and so does a change request (added in 4.6.0; the reason field next to **Submit for approval** or **Request deletion** becomes required). Reasons are
 capped at 1000 characters.
 
 ## Exporting

@@ -149,7 +149,7 @@ Move the Poweradmin files into the web root and give them to the web server user
 
 ```bash
 mkdir -p /usr/local/www/poweradmin
-cp -r poweradmin-${VERSION}/* /usr/local/www/poweradmin/
+cp -r poweradmin-${VERSION}/. /usr/local/www/poweradmin/
 chown -R www:www /usr/local/www/poweradmin
 ```
 

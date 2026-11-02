@@ -11,8 +11,8 @@ Poweradmin supports two MFA methods:
 
 ## Enabling MFA for Your Account
 
-1. Log in to Poweradmin and navigate to **Account** in the top navigation bar
-2. In the MFA section, select your preferred method (authenticator app or email)
+1. Log in to Poweradmin and open **Account → Multi-Factor Authentication** in the top navigation bar
+2. Select your preferred method (authenticator app or email)
 3. If using an authenticator app:
     - A QR code is displayed on screen
     - Open your authenticator app and scan the QR code
@@ -67,8 +67,8 @@ Poweradmin does not check which method the identity provider used. Passkeys are 
 
 To disable MFA on your account:
 
-1. Navigate to **Account** in the top navigation bar
-2. In the MFA section, enter a current code next to **Disable MFA**: a code from your authenticator app, a code sent by email, or one of your recovery codes
+1. Open **Account → Multi-Factor Authentication**
+2. Enter a current code next to **Disable MFA**: a code from your authenticator app, a code sent by email, or one of your recovery codes
 3. Click **Disable MFA** - it takes effect immediately
 
 After disabling, you will only need your password to log in.

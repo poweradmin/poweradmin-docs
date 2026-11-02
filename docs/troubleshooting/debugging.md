@@ -55,19 +55,18 @@ return [
 ];
 ```
 
-### 4. DNSSEC Debugging
+### 4. Show Errors in the Interface
 
-Enable or disable DNSSEC debugging to log detailed DNSSEC operations and errors:
+`misc.display_errors` (default `false`) makes error pages and PowerDNS API and DNSSEC errors carry the upstream detail, and turns on strict Twig templates. Use it for troubleshooting only and turn it off again in production:
 
 ```php
 return [
     // Other settings...
-    
-    'dnssec' => [
-        // Other DNSSEC settings...
-        'debug' => true,    // Enable DNSSEC debug logging
+
+    'misc' => [
+        'display_errors' => true,
     ],
-    
+
     // Other settings...
 ];
 ```
@@ -112,21 +111,13 @@ By enabling these settings, you can gain more insight into the application's beh
 
 ### Password Character Issues
 
-If you experience PHP syntax errors when generating configuration files during installation, check your passwords for problematic characters:
+Installers before 4.5.0 wrote a broken `config/settings.php` when a database, LDAP or SMTP password contained a single quote (`'`) or a backslash (`\`). From 4.5.0 the web installer escapes both.
 
-**Symptoms:**
+**Symptoms (older installers, or a hand-written `settings.php`):**
 
 - Installation fails with PHP parse errors
 - Configuration file cannot be parsed
 - "Access denied for user" errors after successful installation test
-
-**Solution:**
-Avoid these characters in database, LDAP, and SMTP passwords:
-
-- Single quotes (`'`)
-- Double quotes (`"`)
-- Backslashes (`\`)
-- Line breaks
 
 **Example Error:**
 
@@ -134,14 +125,11 @@ Avoid these characters in database, LDAP, and SMTP passwords:
 Parse error: syntax error, unexpected 'password' in config/settings.php on line 42
 ```
 
-**Debugging Steps:**
+**Solution:**
 
-1. Check your password for the problematic characters listed above
-2. Use `var_dump(ConfigurationManager::getInstance()->getAll())` to inspect parsed configuration values
-3. Look for missing quotes or escape characters in the output
-4. Change the password to use only alphanumeric characters and basic symbols
-
-This issue occurs because the configuration file generator does not properly escape special PHP characters in password values during installation.
+- In a hand-written `settings.php`, write `\'` for a single quote and `\\` for a backslash inside single-quoted strings. Double quotes need no escaping there.
+- On an installer older than 4.5.0, avoid single quotes, backslashes and line breaks in these passwords, or fix the generated file by hand.
+- Use `var_dump(ConfigurationManager::getInstance()->getAll())` to inspect parsed configuration values.
 
 ### PowerDNS Answers REFUSED for Public Names
 

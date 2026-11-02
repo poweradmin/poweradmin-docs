@@ -96,10 +96,10 @@ PowerDNS can serve a signed zone with a different serial from the one stored, de
 ![Add Master Zone](../screenshots/zone-add-master.png)
 
 1. Navigate to **Zones** and click **Add master zone**
-2. Enter the **Zone name** (e.g., `example.com`)
+2. Enter the **Zone Name** (e.g., `example.com`)
 3. Select an **Owner** - the user who will manage this zone
-4. Optionally select a **Zone template** to pre-populate records (SOA, NS, etc.)
-5. Enable **DNSSEC** if you want the zone signed by PowerDNS
+4. Optionally select a **Template** to pre-populate records (SOA, NS, etc.)
+5. Tick **Enable DNSSEC** if you want the zone signed by PowerDNS
 6. Click **Add zone**
 
 The zone is created with the records defined in the selected template. If no template is chosen, only a SOA record is created.
@@ -111,7 +111,7 @@ From 4.6.0, Poweradmin warns when a new zone hides records in its parent zone. C
 ### Adding a Slave Zone
 
 1. Navigate to **Zones** and click **Add slave zone**
-2. Enter the **Zone name**
+2. Enter the **Zone Name**
 3. Enter the **IP address of master NS** that this slave will pull data from (several IPs can be given, separated by commas)
 4. Select an **Owner**
 5. Click **Add zone**
@@ -175,7 +175,7 @@ By default the zone editor shows an **Add record** button that opens a separate 
 2. Select the record **Type** (A, AAAA, CNAME, MX, TXT, etc.)
 3. Enter the **Content** (e.g., an IP address for A records)
 4. Set the **TTL** and **Priority** if applicable
-5. Click **Add Record**
+5. Click **Add record** (**Add records** on the separate add page)
 
 ### Optional Columns
 
@@ -254,14 +254,14 @@ require `zone_meta_edit_own` or `zone_meta_edit_others`.
 
 ## Bulk Operations
 
-Starting in v4.0.0, you can add multiple records to a zone at once:
+You can add multiple records to a zone at once:
 
 1. Open a zone in the zone editor
-2. Click **Add multiple records**
-3. Fill in several record rows in the bulk form
-4. Click **Add Records** to create them all at once
+2. Click **Bulk add**
+3. Enter one record per line as `name,type,content[,priority][,ttl][,disabled][,comment]`
+4. Click **Add records** to create them all at once
 
-This is particularly useful when setting up a new zone or adding a batch of similar records.
+See [Bulk and Batch Operations](bulk-operations.md#bulk-record-add) for the line format and limits. This is particularly useful when setting up a new zone or adding a batch of similar records.
 
 ## CSV Export
 

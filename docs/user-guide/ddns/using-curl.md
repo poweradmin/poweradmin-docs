@@ -83,15 +83,14 @@ done
 
 ## Error Handling
 
-The update script returns HTTP status codes and messages that can be captured:
+The endpoint always answers with HTTP 200, even on errors. The result is the status line in the body (`good`, `nochg`, `badauth`, `nohost`, ...), so test that instead of the HTTP code:
 
 ```bash
-response=$(curl -s -w "%{http_code}" -u "$USERNAME:$PASSWORD" "$SERVER?hostname=$HOSTNAME&myip=whatismyip")
-if [ $response -eq 200 ]; then
-    echo "Update successful"
-else
-    echo "Update failed with code: $response"
-fi
+response=$(curl -s -u "$USERNAME:$PASSWORD" "$SERVER?hostname=$HOSTNAME&myip=whatismyip")
+case "$response" in
+    good*|nochg*) echo "Update successful" ;;
+    *) echo "Update failed: $response" ;;
+esac
 ```
 
 ## Security Considerations
