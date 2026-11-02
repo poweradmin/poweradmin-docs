@@ -35,10 +35,10 @@ escalate to **IP-level bans** at the firewall.
 Most Poweradmin authentication events use the same field order:
 
 ```
-client_ip:<ip> user:<username> operation:<op> auth_method:<sql|ldap|oidc|saml> [reason:<code>] [mfa_type:<app|email>]
+client_ip:<ip> user:<username> operation:<op> auth_method:<sql|ldap|oidc|saml|remote_user> [reason:<code>] [mfa_type:<app|email>]
 ```
 
-Two shapes differ, though the filters below still match them:
+`remote_user` is added in 4.6.0 (web server authentication). Two shapes differ, though the filters below still match them:
 
 - MFA events carry no `auth_method:` field - they are `client_ip:<ip> user:<username> operation:<op> mfa_type:<app|email>`.
 - OIDC and SAML `login_error` events carry no `user:` field and report the cause as `error:<message>` rather than `reason:<code>`.

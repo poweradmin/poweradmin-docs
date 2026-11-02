@@ -93,28 +93,7 @@ If you are using SQLite, modify the database section in the `config/settings.php
 
 ## Updating Poweradmin
 
-If you installed Poweradmin using `composer create-project --no-dev poweradmin/poweradmin`, here's how to update it
-later:
-
-1. Navigate to your project directory in the terminal:
-
-    ```sh
-    cd /path/to/poweradmin
-    ```
-
-2. If you want to update to a newer version of the Poweradmin package itself, you'll need to modify the version
-   constraint in your `composer.json` file, then run the update command. For specifically updating just the Poweradmin
-   package:
-
-```sh
-composer update poweradmin/poweradmin --no-dev
-```
-
-If the project has specific update instructions, check the documentation or GitHub repository for any additional steps
-that might be required (such as database migrations).
-
-The `--no-dev` flag ensures that development dependencies aren't installed, keeping your production environment clean,
-just like when you initially installed the project.
+`composer create-project` makes Poweradmin itself the root package, so there is no dependency to bump with `composer update poweradmin/poweradmin`. Update a Composer-installed copy the same way as any other source install: follow the [upgrade guide](../upgrading/index.md#general-upgrade-instructions), replace the application files with the new release, keep your `config/settings.php`, and apply the database migrations for every version you skip.
 
 ## Post-Installation Steps
 

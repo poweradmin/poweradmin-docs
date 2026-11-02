@@ -54,10 +54,16 @@ To prevent logs from consuming excessive disk space:
 1. **Database Logs**: Implement a log rotation strategy for Poweradmin's database logs:
 
     ```sql
-    -- Example log cleanup (retain only the last 90 days)
+    -- Example log cleanup (retain only the last 90 days), MySQL/MariaDB syntax
     DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
     DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+    DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+    DELETE FROM log_changesets WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+    DELETE FROM log_record_changes WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+    DELETE FROM log_api WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
     ```
+
+    On PostgreSQL use `created_at < NOW() - INTERVAL '90 days'`; on SQLite use `created_at < datetime('now', '-90 days')`. Rows in `log_api` can also be pruned automatically with `logging.api_log_retention_days` (added in 4.5.0).
 
 2. **System Logs**: Configure log rotation for your web server and PHP logs:
 

@@ -35,13 +35,13 @@ Reverse zones are listed separately from forward zones, under Zones → **Revers
 For single PTR records:
 
 1. Go to the reverse zone's record list (e.g., `1.168.192.in-addr.arpa`)
-2. Click "Add Record" at the top of the zone edit page
+2. Click **Add record** at the top of the zone edit page
 3. Enter the information:
    - **Name**: The last octet of the IP address (e.g., `42` for 192.168.1.42)
    - **Type**: PTR
    - **Content**: The fully qualified domain name (FQDN) this IP should resolve to (e.g., `host42.example.com.`)
    - **TTL**: Time-to-live value (e.g., 86400 for 1 day)
-4. Click "Add Record"
+4. Click **Add records**
 
 ![Adding an individual PTR record](../screenshots/ptr-individual-record.png)
 
@@ -53,7 +53,7 @@ Poweradmin can create or move the matching record on the other side when you add
 
 **Editing records (4.5.0).** The record edit page of a forward zone has an **Update PTR** checkbox. When it is ticked and the record is an A or AAAA record, saving deletes the PTR for the old address and creates one for the new address, name and TTL. If the PTR cannot be written, for example because there is no matching reverse zone, the record is still saved and a warning says why. The v2 API does the same with `update_ptr: true` on a record update.
 
-**Rules of the other zone (4.6.0).** The PTR, the A/AAAA record and a synced comment are written to a different zone from the one you are editing, so the rules of that zone apply too. If you must file change requests there, Poweradmin skips the matching record and the warning says why; your own record is still saved. **Delete PTR** and **Delete A/AAAA** also leave the matching record in such a zone in place. Through the API, a key restricted to certain zones writes a PTR only into a reverse zone on its list (also in 4.5.2), and the response has `ptr_created: false` otherwise.
+**Rules of the other zone (4.6.0).** The PTR, the A/AAAA record and a synced comment are written to a different zone from the one you are editing, so the rules of that zone apply too. If you must file change requests there, Poweradmin skips the matching record and the warning says why; your own record is still saved. The delete forms' **Also delete corresponding PTR record (if exists)** and **Also delete corresponding A/AAAA record (if exists)** options also leave the matching record in such a zone in place. Through the API, a key restricted to certain zones writes a PTR only into a reverse zone on its list (also in 4.5.2), and the response has `ptr_created: false` otherwise.
 
 ![Update PTR checkbox](../screenshots/edit-record-update-ptr.png)
 
@@ -66,8 +66,9 @@ For creating multiple PTR records at once:
    - From the dashboard: Click the "PTR Records" card
    
 2. Complete the form:
-   - **IP Version**: Choose IPv4 or IPv6
-   - **Network Prefix**: The network in CIDR notation (e.g., `192.168.1.0/24` or `10.0.0.0/20`). The button beside the field picks from the reverse zones you already have.
+   - **IP Version**: Choose **IPv4 network** or **IPv6 (/64 network)**
+   - **IPv6 Count**: IPv6 only, how many addresses to create (default 256, at most 1000)
+   - **Network Prefix**: The network in CIDR notation (e.g., `192.168.1.0/24` or `10.0.0.0/20`). The prefix length must be between /20 and /30; a bare `192.168.1` means /24. For IPv6 give a /64 prefix of four groups (e.g., `2001:db8:1:1`). The button beside the field picks from the reverse zones you already have.
    - **Host Prefix**: Base name for the hosts (e.g., `server`). Leave empty to use just the domain.
    - **Domain**: Domain suffix for PTR records (e.g., `example.com`)
    - **Comment**: Optional, stored on each created record
@@ -123,7 +124,7 @@ The Batch PTR Records feature follows Poweradmin's permission system:
    - The `add_reverse_record` option must be enabled in the Poweradmin configuration
 
 2. **Required User Permissions**:
-   - Either the `zone_content_edit_own` or `zone_content_edit_others` permission is required to access this feature
+   - One of `zone_content_edit_own`, `zone_content_edit_others` or `zone_content_edit_own_as_client` is required to access this feature
    - When accessed from a specific zone page, you also need ownership of that zone (if using `zone_content_edit_own`)
 
 3. **Permission Hierarchy**:

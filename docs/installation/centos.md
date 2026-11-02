@@ -140,11 +140,11 @@ Move the Poweradmin files to your web server's document root:
 
 ```bash
 # For Apache (default directory)
-cp -r poweradmin-${VERSION}/* /var/www/html/
+cp -r poweradmin-${VERSION}/. /var/www/html/
 chown -R apache:apache /var/www/html/
 
 # For Nginx (if using a different directory)
-cp -r poweradmin-${VERSION}/* /usr/share/nginx/html/
+cp -r poweradmin-${VERSION}/. /usr/share/nginx/html/
 chown -R nginx:nginx /usr/share/nginx/html/
 ```
 

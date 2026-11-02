@@ -22,8 +22,8 @@ and the DNSSEC tables present in its schema.
 
 ## Signing the zone
 
-1. Open the zone, then choose **DNSSEC** from the zone's actions.
-2. Choose **Secure zone**. PowerDNS generates a key set for you and starts signing.
+1. Open the zone, then click **Manage DNSSEC**.
+2. Click **Sign zone**. PowerDNS generates a key set for you and starts signing.
 
 That is the whole operation for a normal zone. PowerDNS defaults to a single CSK, which is the
 right choice for most deployments - the older advice to split KSK and ZSK does not apply on
@@ -41,7 +41,7 @@ parent zone - normally your registrar - publishes a DS record pointing at your k
 
 ![DS and DNSKEY records](../screenshots/dnssec-ds-dnskey.png)
 
-1. On the DNSSEC page, open the **DS and DNSKEY records** view.
+1. On the DNSSEC page, click **Show DS and DNSKEY**.
 2. Copy the DS record. There is a copy-to-clipboard button, which is worth using: a DS record
    mistyped by one character breaks resolution for the whole zone.
 3. Give it to your registrar, in whatever form they accept.
@@ -55,7 +55,7 @@ Until then the zone is signed but unvalidated, which is harmless.
 
 ## Adding and rolling keys
 
-**Add key** creates an extra key of a chosen type (KSK, ZSK or CSK) and algorithm. The algorithm
+**Add new key** creates an extra key of a chosen type (KSK, ZSK or CSK) and algorithm. The algorithm
 dropdown only lists what the connected PowerDNS actually supports, so anything shown will work;
 `ecdsa256` and `ed25519` are the usual modern picks, with `rsasha256` on older zones.
 
@@ -89,7 +89,7 @@ signs the zone.
 
 ## Unsigning
 
-**Unsecure zone** removes the keys and stops PowerDNS signing.
+**Unsign zone** removes the keys and stops PowerDNS signing.
 
 Do it in the right order or you will break the zone: remove the DS record at your registrar first,
 wait long enough for it to expire from resolver caches, and only then unsign. A zone with a live DS

@@ -30,7 +30,7 @@ A checklist reminding you to have the following in place before going further:
 
 ## Step 4: Database Configuration
 
-Configure your database connection, select the database type (MySQL, PostgreSQL, or SQLite), and set the administrator password.
+Configure your database connection, select the database type (MySQL, PostgreSQL, or SQLite), and set the administrator password. This step also lets you choose the DNS backend (the PowerDNS database, or the PowerDNS API with its URL, key and server name), the database host, port, character set and collation, and an optional separate PowerDNS database name.
 
 ![Database configuration](../screenshots/install-step4-database.png)
 

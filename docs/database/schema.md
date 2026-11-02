@@ -116,6 +116,7 @@ Stores user accounts and authentication information.
 | `active` | int | Active status |
 | `use_ldap` | int | Use LDAP authentication |
 | `auth_method` | varchar(20) | Authentication method (sql, ldap, oidc, saml) |
+| `max_zones` | int | Per-user zone limit; NULL uses the `dns.default_max_zones_per_user` setting (added in 4.6.0) |
 
 ### `perm_items`
 Defines available permissions in the system.
@@ -256,8 +257,8 @@ Stores password reset tokens.
 |--------|------|-------------|
 | `id` | int | Primary key |
 | `email` | varchar(255) | User email |
-| `token` | varchar(64) | Reset token |
-| `expires_at` | timestamp | Expiration timestamp |
+| `token` | varchar(128) | Reset token |
+| `expires_at` | datetime | Expiration timestamp (`timestamp` before 4.6.0) |
 | `created_at` | timestamp | Creation timestamp |
 | `used` | tinyint | Token used flag |
 | `ip_address` | varchar(45) | Request IP address |
@@ -452,6 +453,7 @@ Named groups that bundle a permission template and a set of members. Underpins g
 | `name` | varchar(255) | Group name (unique) |
 | `description` | text | Free-form description |
 | `perm_templ` | int | FK to `perm_templ.id` - the permission template applied to members |
+| `max_zones` | int | Per-group zone limit; NULL uses the `dns.default_max_zones_per_group` setting (added in 4.6.0) |
 | `created_by` | int | FK to `users.id` (nullable; `SET NULL` on user deletion) |
 | `created_at` | timestamp | Creation timestamp |
 | `updated_at` | timestamp | Last update timestamp |
@@ -488,6 +490,14 @@ The user groups each zone template is shared with (added in 4.6.0). Members of a
 
 ## Defaults and Application State
 
+### `record_comment_links`
+Links a record, by its identifier, to the PowerDNS comment attached to it.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `record_id` | varchar(3072) on MySQL, varchar(4096) on PostgreSQL | Record identifier; primary key |
+| `comment_id` | int | Comment identifier (unique) |
+
 ### `record_type_defaults`
 Per-record-type default TTL values used when adding new records via the UI.
 
@@ -516,7 +526,7 @@ API-mode equivalent of `records_zone_templ`. Tracks which template a record was 
 |--------|------|-------------|
 | `id` | int | Primary key |
 | `domain_id` | int | Zone identifier |
-| `record_id` | varchar(255) | API-mode record identifier |
+| `record_id` | text | API-mode record identifier |
 | `zone_templ_id` | int | FK to `zone_templ.id` |
 
 ## Record Comment Tables

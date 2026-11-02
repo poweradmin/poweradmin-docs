@@ -16,7 +16,7 @@ Unpack the Poweradmin archive in a location accessible via your web server. Ensu
 
 ### 2. Import Database Structure
 
-Import the Poweradmin database structure as a database superuser. The schema bundles the tables Poweradmin needs alongside the PowerDNS tables your authoritative server already uses.
+Import the Poweradmin database structure as a database superuser. The schema file contains only Poweradmin's own tables. The PowerDNS tables (`domains`, `records` and so on) must already exist, for example from PowerDNS itself or from `sql/pdns/<version>/schema.*.sql`.
 
 #### For MySQL/MariaDB:
 
@@ -88,7 +88,7 @@ VALUES
 
 Create a `config/settings.php` file using the template below. A full list of configuration options can be found in `config/settings.defaults.php`.
 
-> **Warning:** When creating passwords for database, LDAP, or SMTP authentication, avoid using single quotes (`'`), double quotes (`"`), backslashes (`\`), and line breaks. These characters can cause configuration file generation to fail during installation with cryptic PHP syntax errors.
+> **Warning:** When creating passwords for database, LDAP, or SMTP authentication, escape single quotes (`'`) and backslashes (`\`) inside the single-quoted PHP strings below (`\'` and `\\`), and avoid line breaks. Unescaped, they cause PHP syntax errors. The web installer escapes them itself from 4.5.0.
 
 ```php
 <?php

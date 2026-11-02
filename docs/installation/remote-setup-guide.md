@@ -119,7 +119,6 @@ If you're using DNSSEC, enable it in your settings:
 ```php
 'dnssec' => [
     'enabled' => true,
-    'debug' => false,  // Set to true for troubleshooting
 ],
 ```
 

@@ -69,6 +69,7 @@ Notes:
 - `auth_method` was added in Poweradmin 4.1.0. If your install is older, that column may not exist - drop it from the `SET` clause. The legacy `use_ldap` column has been present since 2.1.7.
 - Resetting both `use_ldap = 0` and `auth_method = 'sql'` forces the account back onto local password authentication. Otherwise Poweradmin will continue routing the login through LDAP/SAML/OIDC and ignore the new hash.
 - Setting `active = 1` re-enables the account in case it was disabled.
+- If account lockout is enabled (`security.account_lockout`), also clear the failed attempts, or the account can stay locked: `DELETE FROM login_attempts WHERE user_id = (SELECT id FROM users WHERE username = 'admin');`
 
 ## 3. Clear MFA (Only If You Lost the Device)
 
@@ -94,4 +95,4 @@ Log in with the temporary password, then change it through the web UI under your
 
 - **"Invalid username or password" after the update.** Confirm you updated the row for the right account (`SELECT id, username, active, use_ldap FROM users WHERE username = 'admin';`) and that the hash was copied without trailing whitespace or line breaks.
 - **PHP `password_hash` not available.** Make sure you are running a supported PHP version: 4.0.x and 4.1.x require PHP 8.1 or newer, and 4.2.0 onwards requires PHP 8.2 or newer.
-- **Hash starts with `$1$` or is 32 hex characters.** That is a legacy md5/md5salt hash from an older Poweradmin version. Current releases still verify those hashes at login and re-hash them to the configured algorithm afterwards, so the account is not locked out - only hash generation was removed in 4.3.0. You can still replace it with a bcrypt/argon2 hash using the steps above.
+- **Hash is 32 hex characters, or 32 hex characters + `:` + 5 characters.** That is a legacy md5 or md5salt hash from an older Poweradmin version. Current releases still verify those hashes at login and re-hash them to the configured algorithm afterwards, so the account is not locked out - only hash generation was removed in 4.3.0. You can still replace it with a bcrypt/argon2 hash using the steps above.

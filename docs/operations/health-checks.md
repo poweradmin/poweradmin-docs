@@ -156,7 +156,7 @@ In Docker, use `PA_HEALTH_TOKEN` (or `PA_HEALTH_TOKEN__FILE` for a secret file) 
 
 ## Docker
 
-The image ships a `HEALTHCHECK` that requests `/`, which succeeds even when the database is
+The image ships a `HEALTHCHECK` that requests `/` (from 4.6.0, `/ping` when `PA_HEALTH_PING_ENABLED=true`), which succeeds even when the database is
 down. To make the container status reflect real readiness, enable the endpoint and override
 the healthcheck:
 
