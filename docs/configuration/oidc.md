@@ -526,6 +526,49 @@ If you use `group_mapping` or `permission_template_mapping`, the provider must r
     ],
     ```
 
+### GitHub
+
+GitHub speaks OAuth 2.0 without OpenID Connect, so there is no discovery and no
+`email_verified` claim. Poweradmin reads the user's email list from `emails_url` instead
+and uses the profile email when GitHub reports it verified, otherwise the verified primary
+address. The lookup also finds the address when the profile email is private (added in 4.6.0).
+
+1. Create an OAuth App under GitHub Settings > Developer settings > OAuth Apps
+2. Set the authorization callback URL to `https://your-poweradmin.com/oidc/callback`
+3. Generate a client secret
+
+    ```php
+    'oidc' => [
+        'enabled' => true,
+        'providers' => [
+            'github' => [
+                'name' => 'GitHub',
+                'display_name' => 'Sign in with GitHub',
+                'client_id' => 'your-client-id',
+                'client_secret' => 'your-client-secret',
+                'auto_discovery' => false,
+                'authorize_url' => 'https://github.com/login/oauth/authorize',
+                'token_url' => 'https://github.com/login/oauth/access_token',
+                'userinfo_url' => 'https://api.github.com/user',
+                'emails_url' => 'https://api.github.com/user/emails',
+                'scopes' => 'read:user user:email',
+                'user_mapping' => [
+                    'username' => 'login',
+                    'email' => 'email',
+                    'display_name' => 'name',
+                    'subject' => 'id',
+                    'avatar' => 'avatar_url',
+                ],
+            ],
+        ],
+    ],
+    ```
+
+The GitHub login becomes the Poweradmin username. GitHub sends no groups, so new users get
+`default_permission_template`. Keep `user:email` in the scopes: without it the email list
+answers 404, the address counts as unverified and a warning naming the HTTP status is logged.
+With `require_verified_email` on, such a user is not linked to an existing account by email.
+
 ### Generic OIDC Provider
 
 For providers not listed above, use manual endpoint configuration:
@@ -544,6 +587,7 @@ For providers not listed above, use manual endpoint configuration:
             'token_url' => 'https://provider.example.com/oauth/token',
             'userinfo_url' => 'https://provider.example.com/oauth/userinfo',
             'logout_url' => 'https://provider.example.com/oauth/logout',
+            'emails_url' => '',  // optional OAuth 2.0 email list, as on GitHub (added in 4.6.0)
             'scopes' => 'openid profile email',  // add 'groups' if your provider requires it for group claims
             'user_mapping' => [
                 'username' => 'preferred_username',
@@ -576,7 +620,7 @@ The `user_mapping` array maps OIDC claims to Poweradmin user fields:
 
 Use environment variables with the `PA_OIDC_` prefix:
 
-The entrypoint can generate three OIDC providers: `azure` (`PA_OIDC_AZURE_*`), `google` (`PA_OIDC_GOOGLE_*`) and `generic` (`PA_OIDC_GENERIC_*`). Any other IdP - Keycloak, Authentik, Okta - is configured through the generic provider:
+The entrypoint can generate four providers: `azure` (`PA_OIDC_AZURE_*`), `google` (`PA_OIDC_GOOGLE_*`), `github` (`PA_OIDC_GITHUB_*`, added in 4.6.0) and `generic` (`PA_OIDC_GENERIC_*`). Any other IdP - Keycloak, Authentik, Okta - is configured through the generic provider:
 
 ```yaml
 environment:
@@ -595,7 +639,18 @@ environment:
 
 > **Note:** `PA_APPLICATION_URL` is required. From 4.2.6, 4.3.5, 4.4.1 and 4.5.0 the container exits at startup if OIDC is enabled without it, because the OAuth `redirect_uri` cannot be derived from the request. OIDC accepts no alternative source - `PA_BASE_URL` does not satisfy it. The check runs only when the entrypoint generates the config; a mounted `settings.php` is used as-is.
 
-> **Note:** There are no `PA_OIDC_KEYCLOAK_*` variables. To run a named Keycloak provider alongside another IdP, configure it in `config/settings.php` instead - the entrypoint only writes the three providers above.
+> **Note:** There are no `PA_OIDC_KEYCLOAK_*` variables. To run a named Keycloak provider alongside another IdP, configure it in `config/settings.php` instead - the entrypoint only writes the four providers above.
+
+GitHub needs only the OAuth App credentials; the endpoints and scopes are fixed:
+
+```yaml
+environment:
+  PA_OIDC_GITHUB_ENABLED: "true"
+  PA_OIDC_GITHUB_CLIENT_ID: "your-client-id"
+  PA_OIDC_GITHUB_CLIENT_SECRET: "your-client-secret"
+```
+
+For another OAuth 2.0 provider with a GitHub-style email list, set `PA_OIDC_GENERIC_EMAILS_URL`.
 
 To change the groups claim name for the generic OIDC provider, use `PA_OIDC_GENERIC_GROUPS_ATTR`:
 
