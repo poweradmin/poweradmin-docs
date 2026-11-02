@@ -94,8 +94,12 @@ composer lint:no-traits
 composer analyse:all
 ```
 
-This runs `check:all`, `analyse:phpstan`, `lint:twig` and `lint:themes`. Run it plus
-`composer compat:8.2` before opening a pull request.
+This runs `check:all`, `analyse:phpstan` and `lint:all` (the Twig, theme drift, docblock,
+no-traits, domain-import and other convention lints). `lint:e2e-assertions` is not part of it.
+Run it plus `composer compat:8.2` before opening a pull request.
+
+`composer gate` runs the checks CI gates on in one go: `composer validate`, `check:all`,
+`lint:all`, `analyse:phpstan`, `compat:8.2`, `tests` and `tests:integration`.
 
 ## Setting Up Your Development Environment
 

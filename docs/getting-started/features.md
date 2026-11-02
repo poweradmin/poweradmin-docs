@@ -35,6 +35,8 @@ Features without a version marker have been present since 3.x or earlier.
 | Zone overlap guard on creation | 4.5.0 | [DNS Settings](../configuration/dns-settings.md) |
 | Secondary zone import over AXFR | 4.5.0 | [Secondary Zone Import](../user-guide/secondary-zone-import.md) |
 | Serial policies: per-zone SOA-EDIT and signed serial display | 4.5.0 | [DNS Settings](../configuration/dns-settings.md) |
+| Retrieve from primary and Send NOTIFY buttons on the zone page | 4.6.0 | [Zone Management](../user-guide/zones.md#read-only-zones) |
+| SOA record editor with separate fields | 4.6.0 | [Zone Management](../user-guide/zones.md#editing-the-soa-record) |
 
 ## Bulk operations and templates
 
@@ -52,6 +54,7 @@ Features without a version marker have been present since 3.x or earlier.
 | Selective template updates instead of full replacement | 4.3.0 | [DNS Templates](../user-guide/dns-templates.md) |
 | Default zone template pre-selected on the add-zone forms | 4.4.0 | [DNS Templates](../user-guide/dns-templates.md) |
 | SOA serial placeholders in templates | 4.5.0 | [DNS Templates](../user-guide/dns-templates.md) |
+| Zone templates shared with user groups | 4.6.0 | [DNS Templates](../user-guide/dns-templates.md#sharing-templates-with-groups) |
 
 ## DNSSEC
 
@@ -83,6 +86,8 @@ Features without a version marker have been present since 3.x or earlier.
 | Zone owners can read the audit log for their own zones | 4.4.0 | [Permissions](../user-guide/permissions.md) |
 | Log-view, metadata-view and ownership-view permissions | 4.5.0 | [Permissions](../user-guide/permissions.md) |
 | Delegation NS editing below the apex | 4.5.0 | [Permissions](../user-guide/permissions.md) |
+| Change approval workflow: file, review and approve zone changes | 4.6.0 | [Change Requests](../user-guide/change-requests.md) |
+| Zone limits per user and group | 4.6.0 | [Users and Roles](../user-guide/users-roles.md#zone-limits) |
 
 ## Authentication and security
 
@@ -109,6 +114,9 @@ Features without a version marker have been present since 3.x or earlier.
 | MFA verification rate limiting | 4.5.0 | [Security Policies](../configuration/security-policies.md) |
 | Trusted proxy allowlist for forwarded-IP headers | 4.5.0 | [Reverse Proxy](../installation/reverse-proxy.md) |
 | IdP superuser provisioning off unless opted into | 4.5.0 | [OIDC](../configuration/oidc.md), [SAML](../configuration/saml.md) |
+| Sign in with GitHub (OAuth 2.0 preset) | 4.6.0 | [OIDC Authentication](../configuration/oidc.md#github) |
+| Required claims and attributes for SSO sign-in | 4.6.0 | [OIDC Authentication](../configuration/oidc.md#requiring-claims-v460) |
+| Sign in through the web server (`REMOTE_USER` or proxy header) | 4.6.0 | [Web Server Authentication](../configuration/remote-user.md) |
 
 ## API
 
@@ -125,6 +133,7 @@ Features without a version marker have been present since 3.x or earlier.
 | Granular API keys: read-only, operation-scoped, zone-scoped | 4.5.0 | [Authentication](../api/authentication.md#restricting-what-a-key-can-do) |
 | DNSSEC and dynamic DNS endpoints | 4.5.0 | [Endpoints](../api/endpoints.md) |
 | API v1 removed; `/api/v1/*` answers 410 Gone | 4.5.0 | [API Overview](../api/overview.md) |
+| Change request endpoints; paging, sorting and filtering on list endpoints | 4.6.0 | [Endpoints](../api/endpoints.md#paging-sorting-and-filtering) |
 
 ## Logging and monitoring
 
@@ -195,3 +204,4 @@ Features without a version marker have been present since 3.x or earlier.
 | Automatic schema initialisation on first container start | 4.3.3 | [Docker Installation](../installation/docker.md) |
 | Configurable PowerDNS API timeout with retry | 4.4.0 | [PowerDNS API](../configuration/powerdns-api.md) |
 | Admin-managed settings groundwork | 4.5.0 | [Admin-Managed Settings](../configuration/admin-managed-settings.md) |
+| Docker environment variables for every setting | 4.6.0 | [Docker Installation](../installation/docker.md) |

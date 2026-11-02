@@ -208,13 +208,16 @@ zone are routed through review, the record write endpoints below answer `403` wi
 | `POST` | `/zones/{id}/records/bulk` | Bulk create, update and delete records |
 | `GET` | `/zones/{id}/rrsets` | List RRsets |
 | `GET` | `/zones/{id}/rrsets/{name}/{type}` | Get a specific RRset |
+| `PUT`, `POST`, `PATCH` | `/zones/{id}/rrsets` | Replace or change RRsets. For an API key this needs the `create` and `update` operations, plus `delete` when the new set has fewer records |
+| `DELETE` | `/zones/{id}/rrsets/{name}/{type}` | Delete an RRset |
 
 When `ttl` is omitted on a record create call, Poweradmin applies the
 configured default (`dns.ttl_reverse` for PTR records in reverse zones when
 set, `dns.ttl` otherwise). See
 [DNS settings](../configuration/dns-settings.md) for details. A `ttl` of `0`
-is accepted (do not cache); negative values and fractional strings such as
-`"0.5"` are refused with `400`.
+is accepted (do not cache) from 4.6.0; on 4.5.x and earlier it is refused with
+`400` "TTL must be greater than 0". Negative values and fractional strings such as
+`"0.5"` are refused with `400` on every release.
 
 #### Internationalised names and duplicates
 
@@ -222,7 +225,7 @@ From 4.5.2 and 4.6.0, record names and content written through the API are store
 as the web editor stores them: `www.bücher.example` is saved as `www.xn--bcher-kva.example`.
 Compare against the punycode form when reading records back.
 
-From 4.6.0, a create, single or bulk, that would give the zone a second record with the same name,
+From 4.6.0, a create (single or bulk) or an update that would give the zone a second record with the same name,
 type and content answers `409` with "A record with this hostname, type, and content already
 exists.". On 4.5.x the API still accepts the duplicate.
 
@@ -265,6 +268,8 @@ the same one. A `PUT` without `comment` leaves the stored comment alone; an empt
   That includes a reverse zone outside the API key's zone list and one where the user must file
   change requests: the PTR is skipped there, as with `create_ptr` and `update_ptr` on the
   single-record calls.
+- A request with more than `api.bulk_max_operations` operations (default 1000, `0` for no limit;
+  added in 4.6.0) answers `400` "Too many operations: at most N per request".
 - With the SQL backend the batch is one transaction and the PTR records roll back with it. In API
   backend mode there is no transaction: operations already applied, PTR records included, stay
   when a later operation fails.
@@ -298,7 +303,12 @@ PowerDNS's own checks, such as the LUA record gate, are not run.
 | `POST` | `/users` | Create user |
 | `GET` | `/users/{id}` | Get user |
 | `PUT` | `/users/{id}` | Update user |
+| `PATCH` | `/users/{id}` | Assign a permission template (body: `perm_templ`; needs the permission to edit permission templates) |
 | `DELETE` | `/users/{id}` | Delete user |
+
+From 4.6.0, `POST /users` and `PUT /users/{id}` also accept `max_zones`, the number of zones the
+user may own directly (`null` uses `dns.default_max_zones_per_user`). Only administrators may
+send it, and user reads return it.
 
 Writing `perm_templ` is gated separately from the write itself, and a rejected
 assignment returns `403`:
@@ -451,7 +461,8 @@ templates to anyone who may add a zone. Writing a template still needs the templ
 ## Health endpoints (v4.5.0+)
 
 These sit outside the versioned API and outside the API key model. They take no
-credentials, are **disabled by default**, and return `404` while disabled. Paths are
+API credentials, are **disabled by default**, and return `404` while disabled. When `health.token`
+is set, `/api/health` also needs it in an `X-Health-Token` header and answers `403` without it. Paths are
 absolute, not relative to `/api/v2`.
 
 | Method | Path | Purpose |
@@ -461,6 +472,12 @@ absolute, not relative to `/api/v2`.
 
 They are not part of the OpenAPI specification, and they answer regardless of whether
 `api.enabled` is set. See [Health Checks](../operations/health-checks.md).
+
+### Metrics (added in 4.6.0)
+
+`GET /api/metrics` serves Prometheus text-format counts about Poweradmin itself. It is disabled
+by default, and keys restricted to specific zones are refused. See
+[Metrics](../operations/metrics.md).
 
 ## API v1 endpoints
 

@@ -10,7 +10,7 @@ This document outlines the testing strategy and implementation details for the P
 - **Playwright**: end-to-end browser tests
 
 Poweradmin also uses several code quality tools, described in the
-[Coding Standards Guide](coding-standards.md): PHPCS, PHPStan, PHP-CS-Fixer, Psalm and Phan.
+[Coding Standards Guide](coding-standards.md): PHPCS, PHPStan, Psalm and Phan.
 
 ## Test Directory Structure
 

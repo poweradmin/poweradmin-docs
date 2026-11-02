@@ -121,17 +121,17 @@ Notes:
 
 If you're upgrading across multiple major versions, it's often safest to upgrade incrementally through each major version rather than jumping directly to the latest version.
 
-### Recommended Path from 2.0.0 to 4.5.0
+### Recommended Path from 2.0.0 to 4.5.1
 
 If you're upgrading from a very old version (e.g., 2.0.0), we recommend the following path:
 
 1. 2.0.0 → 2.1.4 (Important database structure changes)
 2. 2.1.4 → 2.2.2 (API integration changes)
 3. 2.2.2 → 3.2.0 (DNSSEC implementation)
-4. 3.2.0 → 3.9.13 (latest 3.x release; run the 3.9.0 and 3.9.7 update scripts)
-5. 3.9.x → 4.0.11 (last 4.0.x release, complete architecture overhaul; run the 4.0.0, 4.0.2 and 4.0.5 update scripts and convert the configuration with `php config/migrate-config.php`, which ships only in 4.0.x - 4.1.0 and later no longer read `inc/config.inc.php`)
-6. 4.0.11 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
-7. 4.1.0 → 4.2.0 (PHP 8.2 minimum, groups support, bulk record operations)
+4. 3.2.0 → 3.9.14 (latest 3.x release; run the 3.9.0 and 3.9.7 update scripts)
+5. 3.9.x → 4.0.12 (last 4.0.x release, complete architecture overhaul; run the 4.0.0, 4.0.2 and 4.0.5 update scripts and convert the configuration with `php config/migrate-config.php`, which ships only in 4.0.x - 4.1.0 and later no longer read `inc/config.inc.php`)
+6. 4.0.12 → 4.1.0 (OIDC/SAML authentication, DNS wizards, permission improvements)
+7. 4.1.0 → 4.2.0 (PHP 8.2 minimum, user groups, module system, BIND zone import/export)
 8. 4.2.0 → 4.3.0 (PowerDNS API backend mode, zone metadata editor, separate API log table)
 9. 4.3.0 → 4.4.x (Default zone template, PowerDNS capability detection, Views & Networks)
 10. 4.4.x → 4.5.0 (Record change log, granular API keys, new permissions, API v1 removed)
@@ -150,35 +150,43 @@ The following versions include important database structure changes:
 - [v4.0.0](v4.0.0.md) - Complete schema overhaul, including user management
 - [v4.0.5](v4.0.5.md) - Primary key on records_zone_templ, PostgreSQL sequence fixes
 - [v4.1.0](v4.1.0.md) - OIDC/SAML authentication, DNS wizards, zone deletion permissions, permission templates
-- [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, groups support, bulk record operations
+- [v4.2.0](v4.2.0.md) - PHP 8.2 minimum, user groups, module system, BIND zone import/export
 - [v4.3.0](v4.3.0.md) - PowerDNS API backend mode, zone metadata editor, separate API log table
 - [v4.4.0](v4.4.0.md) - Default zone template (`zone_templ.is_default`), PowerDNS capability detection, Views & Networks for PowerDNS 5.0
 - [v4.5.0](v4.5.0.md) - Serial policies (SOA-EDIT), record change log, granular API keys, log/metadata/ownership view permissions
-- [v4.6.0](v4.6.0.md) (in development on the master branch) - Change approval workflow (`zone_change_requests` table, four permissions)
+- [v4.6.0](v4.6.0.md) (in development on the master branch) - Change approval workflow (`zone_change_requests` table, four permissions), template sharing with groups (`zone_templ_groups`), zone limits (`users.max_zones`, `user_groups.max_zones`), unique `users.username` index, UTC password reset expiry
 
 ### Recent Patch Releases
 
 The following releases are bug fix updates. Unless marked otherwise, no special upgrade steps are required - simply replace files and preserve your configuration. Releases marked **requires SQL migration** need their `sql/` update script run first:
 
+**v4.5.x Series:**
+
+- **v4.5.1** (Oct 2026) - Zone and record access checked before reporting whether a zone or record exists, LDAP auto-provisioning reaches new users with a single login failure message, SAML responses refused unless they answer a sign-in started from the same browser, zone ids used for API zone addresses so classless reverse zones survive a decoding proxy, bulk add capped at 1000 lines and Add Record rows capped, DNSSEC records PowerDNS generates skipped on zone import, v2 dynamic DNS lowercases the hostname, non-numeric `DB_PORT` rejected in Docker, record change email addon shipped in the image. No database migration
+
 **v4.4.x Series:**
+
+- **v4.4.3** (Oct 2026) - Zone access checked before zones, records and catalog zones are reported as missing, SAML responses tied to the browser that started the sign-in, bulk add and Add Record caps, API zone addressing by PowerDNS zone id, a deleted user's zones kept when handed to a new owner in API backend mode, PostgreSQL permission sequences resynced in the 4.1.0 and 4.2.0 update scripts, non-numeric `DB_PORT` rejected in Docker. No database migration
 
 - **v4.4.2** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also: new users only get a permission template within the creator's permissions, record comments sync to the related A or PTR record only in zones the user may edit, installer IP allow-list matches IPv6, dynamic DNS treats array query parameters as missing, username rename duplicate check fixed, MFA verified against the account that is signing in, exact email match for password reset, sendmail header line breaks refused, STARTTLS enforced when mail requires TLS, startup refused with the removed `md5` or `md5salt` password encryption, unknown record types and malformed RFC 3597 data refused, disabled accounts refused at OIDC and SAML login, opt-in strict session gates and single-use reset links, MFA setup and zone search paging fixes, Docker waits for the database before schema setup (`DB_WAIT_TIMEOUT`) and the `stable` tag now follows 4.4.x. API zone rename in SQL backend mode is refused. No database migration
 - **v4.4.1** (Sep 2026) - Same fixes as v4.3.5 for the 4.4.x line, plus dynamic DNS routing each `myip` address to its own record family, bulk record paths matched before single-record lookup, the PowerDNS metrics URL derived from `pdns_api.url`, and container variables for the 4.4.0 settings. No database migration
 
 **v4.3.x Series:**
 
+- **v4.3.7** (Oct 2026) - A deleted user's zones kept when handed to a new owner in API backend mode, PostgreSQL permission sequences resynced in the 4.1.0 and 4.2.0 update scripts, dependency and base image updates. No database migration
 - **v4.3.6** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also the v4.4.2 fixes that apply to 4.3.x, except the Docker database wait, plus fixes 4.4.x already had: global zone templates limited to superusers, `zone_content_edit_others` needed to assign a new zone to another user, the last owner of a zone can no longer be removed, IPv6 addresses matched in the login allow and deny lists, password reset declined for an email shared by several accounts, auth-critical fields kept out of user self-edit, API zone rename in SQL backend mode refused. The Docker `stable` tag no longer follows 4.3.x. No database migration
 - **v4.3.5** (Sep 2026) - Same fixes as v4.2.6 for the 4.3.x line, plus LUA records restricted for client-level editors on every surface, one canonical zone id in API backend mode, and container config generation that escapes secrets and emits valid booleans. No database migration
-- **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
+- **v4.3.4** (Jul 2026) - User management and SSO account hardening, `max_input_vars` form fixes for large zones and groups, record/log/template binding fixes, MariaDB 11.6+ record search fix, per-zone logs button (**requires MySQL migration**: `sql/poweradmin-mysql-update-to-4.3.4.sql`, which the 4.4.0 and later scripts include; PostgreSQL/SQLite unaffected)
 - **v4.3.3** (Jun 2026) - Permission and authorization hardening across API and DNSSEC, API-backend mode polish (record ordering, dashboard resilience), template sync correctness, Docker schema initialization
 - **v4.3.2** (May 2026) - API-mode zone handling (reverse zone owner display, DNSSEC status on forward zones, record counts from PowerDNS, zone kind sync), template fixes (correct sync column, preserved spaces, API-mode safe), `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, DNSSEC sign events in activity feed
 - **v4.3.1** (Apr 2026) - Patch release for 4.3.x line
 
 **v4.2.x Series:**
 
+- **v4.2.8** (Oct 2026) - PostgreSQL permission sequences resynced in the 4.1.0 and 4.2.0 update scripts, dependency and base image updates. No database migration
 - **v4.2.7** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused by the new setting `dns.parent_zone_ownership_check`, on by default (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also the v4.3.6 fixes that apply to 4.2.x, plus LUA records restricted to editors above client level. No database migration
 - **v4.2.6** (Sep 2026) - `interface.application_url` required for OIDC, SAML and password reset; Docker containers with SSO enabled refuse to start without a URL source; API user creation without `perm_templ` no longer yields an administrator; deactivating a user revokes their API keys; zone template records validated on save; five confirmation flows moved to POST (re-sync forked themes). No database migration
-- **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**; PostgreSQL/SQLite unaffected)
+- **v4.2.5** (Jul 2026) - Same fixes as v4.3.4 for the 4.2.x line (**requires MySQL migration**: `sql/poweradmin-mysql-update-to-4.2.5.sql`; PostgreSQL/SQLite unaffected)
 - **v4.2.4** (Jun 2026) - Same fixes as v4.3.3 for the 4.2.x line
 - **v4.2.3** (May 2026) - `X-Forwarded-For` header trust scoped to private peers, group-owned zone control visibility, PostgreSQL `record_comment_links` strict-typing fix, bulk record CSV escaping, CNAME validator accepts numeric-string IDs, API record edits honor `zone_content_edit_own_as_client`, Users API `auth_method`/`use_ldap` sync, zone template column and content-listing fixes
 - **v4.2.2** (Apr 2026) - Patch release for 4.2.x line
@@ -186,6 +194,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.1.x Series:**
 
+- **v4.1.5** (Oct 2026) - Docker image only: FrankenPHP updated to 1.13.2 with PHP 8.4.27, exec-form health check. No database migration
 - **v4.1.4** (May 2026) - Record search fix for an ambiguous `ORDER BY` column
 - **v4.1.3** (Apr 2026) - Duplicate SOA serial increment on inline record add, comment search query referencing a non-existent table, plural-form headers and missing format specifiers in several locales
 - **v4.1.2** (Mar 2026) - xmlseclibs updated to 3.1.5 (CVE-2026-32313), SSO fixes (default permission template applied to new users only, `auth_method` preserved on edit, OIDC groups read from the ID token), Docker entrypoint fixes for `PA_LOGGING_*` and volume-mounted config
@@ -193,6 +202,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v4.0.x Series:**
 
+- **v4.0.12** (Oct 2026) - Docker image only: FrankenPHP updated to 1.13.2 with PHP 8.4.27, exec-form health check. No database migration
 - **v4.0.11** (May 2026) - Record search fix for an ambiguous `ORDER BY` column
 - **v4.0.10** (Apr 2026) - Duplicate SOA serial increment on inline record add, format specifiers and plural headers across all locales
 - **v4.0.9** (Mar 2026) - Zone creation API validates the template as a numeric ID, sign-zone button separated from the edit form to prevent accidental signing, Docker entrypoint fixes for volume-mounted config, light theme gradient fix
@@ -206,6 +216,7 @@ The following releases are bug fix updates. Unless marked otherwise, no special 
 
 **v3.9.x Series (LTS):**
 
+- **v3.9.14** (Oct 2026) - Dependency and base image updates only. No database migration
 - **v3.9.13** (Oct 2026) - Creating a zone inside a zone owned by another user is now refused, on by default; turn it off with `$dns_parent_zone_ownership_check = false;` in `inc/config.inc.php` (see [Zone Overlap Protection](../configuration/dns-settings.md#zone-overlap-protection)). Also: new users only get a permission template within the creator's permissions, record comments sync to the related A or PTR record only in zones the user may edit, `zone_content_edit_others` needed to assign a new zone to another user, delegated managers can no longer edit superusers, LUA records limited to editors above client level, client-level editors can no longer delete NS records, control characters refused in records, SameSite set on the session cookie, installer IP allow-list matched by address family and prefix, dynamic DNS array parameter and username rename fixes, DNSSEC key management gated on the zone edit permission, template assignment needs `user_edit_templ_perm`, TLD data refreshed. `.htaccess` now ships in the archive, so merge your own before overwriting. No database migration
 - **v3.9.12** (Sep 2026) - Permission checks on template, user and zone changes; template, supermaster and DNSSEC key changes require a confirmed POST; login timing equalised; session key warning distinguishes the shipped default; log and error output escaped; public suffix and TLD data refreshed. No database migration
 - **v3.9.11** (Jul 2026) - Record edits and log entries bound to the record's real zone, duplicate email rejection, dependency updates

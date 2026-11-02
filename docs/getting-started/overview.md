@@ -29,7 +29,7 @@ Two ways to try Poweradmin without committing to an installation:
 ## Before you install
 
 Poweradmin needs PHP 8.2 or newer, one of MySQL/MariaDB, PostgreSQL or SQLite, and PowerDNS
-Authoritative Server 4.0.0 or newer. From version 4.1.0 the web server must also rewrite all
+Authoritative Server 4.x or 5.x (tested from 4.5). From version 4.1.0 the web server must also rewrite all
 requests to `index.php`, because Poweradmin uses clean URLs.
 
 [System Requirements](requirements.md) has the full list, including PHP extensions, the supported

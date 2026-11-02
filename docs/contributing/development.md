@@ -114,7 +114,7 @@ The two themes must stay in sync except for the files listed in
 
 ### Testing
 
-- **tests/**: PHPUnit suites (`unit`, `integration`, `functional`, `api`, `sql`, `docker`)
+- **tests/**: PHPUnit suites (`unit`, `integration`, `functional`), plus `api` (shell-driven API tests), `sql` (SQL fixtures) and `docker` (image smoke test)
 - **playwright/**: end-to-end browser tests
 
 See the [Testing Guide](testing.md).
