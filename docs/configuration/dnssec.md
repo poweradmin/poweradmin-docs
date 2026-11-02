@@ -127,14 +127,22 @@ Signed zones must be rectified after their contents change, or the NSEC/NSEC3 ch
 `ordername` values go stale and resolvers start getting bogus denial-of-existence answers.
 Poweradmin calls PowerDNS's rectify endpoint for you after record writes - adding, editing and
 deleting single records, batch and bulk record operations, PTR creation, and zone creation from a
-template. You do not need to run `pdnsutil rectify-zone` by hand for changes made through
-Poweradmin.
+template. From 4.6.0, 4.5.2, 4.4.4 and 4.3.8 it also rectifies after applying a template to an
+existing zone (also with **update all zones** on the template page) and after a dynamic DNS update
+adds or removes a record; 3.9.15 rectifies after a template is applied. In 4.6.0 the database
+consistency repairs that rename or add records rectify too. You do not need to run
+`pdnsutil rectify-zone` by hand for changes made through Poweradmin.
 
-Two things to know:
+Things to know:
 
 - Rectify goes through the PowerDNS API, so it only happens when `pdns_api.url` and `pdns_api.key`
   are set. Without them Poweradmin loads a no-op DNSSEC provider and rectify silently does nothing,
-  along with every other DNSSEC action.
+  along with every other DNSSEC action. From 4.6.0 the dashboard warns administrators when
+  `dnssec.enabled` is on but the PowerDNS API is not configured.
+- A rectify that fails is logged and does not undo the change. When one fails after 3 seconds or
+  more, for example because the PowerDNS API timed out, the rest of that request skips rectify
+  and logs each skipped zone, so updating many zones from a template cannot stall once per zone.
+  Rectify those zones afterwards.
 - Changes made outside Poweradmin - direct SQL, another tool - are not rectified by Poweradmin.
   Set the [`API-RECTIFY`](https://doc.powerdns.com/authoritative/domainmetadata.html#metadata-api-rectify)
   metadata on the zone so PowerDNS rectifies after its own API edits, or rectify manually, for
