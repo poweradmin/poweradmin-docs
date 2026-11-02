@@ -49,9 +49,11 @@ jobs:
         run: |
           composer install --prefer-dist --no-progress --quiet
           vendor/bin/openapi lib/Application/Controller/Api/V2/ --output /tmp/openapi.json
-          if ! diff -q /tmp/openapi.json ../docs/api/openapi.json >/dev/null; then
+          # Compare without trailing newlines: swagger-php writes none, editors add one.
+          norm() { printf '%s\n' "$(cat "$1")"; }
+          if ! diff -q <(norm /tmp/openapi.json) <(norm ../docs/api/openapi.json) >/dev/null; then
             echo "::error::docs/api/openapi.json is stale; regenerate it from the poweradmin source"
-            diff /tmp/openapi.json ../docs/api/openapi.json | head -40
+            diff <(norm /tmp/openapi.json) <(norm ../docs/api/openapi.json) | head -40
             exit 1
           fi
           echo "docs/api/openapi.json matches the source annotations"

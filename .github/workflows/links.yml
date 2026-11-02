@@ -21,8 +21,9 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
           # Placeholder hosts are excluded via .lycheeignore. 429 is accepted
-          # so a rate-limited host does not read as a dead link.
-          args: --no-progress --accept '200..=299,429' --max-concurrency 8 --timeout 30 --max-retries 3 'docs/**/*.md'
+          # so a rate-limited host does not read as a dead link. --root-dir resolves
+          # root-absolute links such as /api/swagger.html against docs/.
+          args: --no-progress --root-dir '${{ github.workspace }}/docs' --accept '200..=299,429' --max-concurrency 8 --timeout 30 --max-retries 3 'docs/**/*.md'
           fail: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
