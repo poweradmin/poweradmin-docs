@@ -33,12 +33,9 @@ return [
 
 ## Configuration Precedence
 
-When using Docker, configuration is loaded in this order (later overrides earlier):
+Poweradmin always layers `config/settings.php` (or the file named by `PA_CONFIG_PATH`) over `config/settings.defaults.php`.
 
-1. `config/settings.defaults.php` - Default values
-2. `config/settings.php` - Your custom settings file
-3. Environment variables (`PA_*`) - Docker/container settings
-4. Docker secrets (`PA_*__FILE`) - Sensitive values from files
+In Docker, `PA_*` variables do not override a settings file. If `config/settings.php` (or the `PA_CONFIG_PATH` file) exists and is not empty, the container uses it as is and ignores every `PA_*` variable except `PA_CONFIG_PATH`. Only when that file is missing or empty does the entrypoint generate it from the `PA_*` variables, after resolving `PA_*__FILE` secrets.
 
 > **Note:** A secret and its plain environment variable are mutually exclusive, not layered. If both `PA_FOO` and `PA_FOO__FILE` are set, the container logs an error and exits rather than preferring one over the other.
 
@@ -110,6 +107,7 @@ The configuration is organized into logical sections:
 | `database.file` | - | SQLite database file path |
 | `database.debug` | false | Log SQL queries |
 | `database.pdns_db_name` | *(empty)* | Separate PowerDNS database, MySQL/MariaDB only (v3.8.0+) |
+| `database.sqlite_wal` | true | SQLite only: switch the file to WAL journal mode on connect; set `false` on NFS (v4.6.0+) |
 
 ## Security Settings
 

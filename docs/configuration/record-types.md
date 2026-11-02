@@ -22,7 +22,7 @@ The record type customization is configured in the `dns` section of your `settin
 
 By default, both settings are set to `null`, which means Poweradmin uses its built-in default sets - not every type it knows about:
 
-- **Forward zones**: the common types (A, AAAA, CNAME, MX, NS, SOA, SRV, TXT) plus a larger set of less common but valid types (CAA, DNAME, HTTPS, NAPTR, SSHFP, SVCB, TLSA, URI and others). DNSSEC types (DNSKEY, DS, CDS, CDNSKEY, RRSIG, NSEC, NSEC3, NSEC3PARAM, ZONEMD) are merged in only when `dnssec.enabled` is true.
+- **Forward zones**: the common types (A, AAAA, CNAME, MX, NS, SOA, SRV, TXT) plus a larger set of less common but valid types (CAA, DNAME, HTTPS, NAPTR, SSHFP, SVCB, TLSA, URI and others). DNSSEC types (DNSKEY, DS, CDS, CDNSKEY, RRSIG, NSEC, NSEC3, NSEC3PARAM, ZONEMD) are merged in only when `dnssec.enabled` is true. With `dnssec.enabled` they are also appended to custom `domain_record_types` and `reverse_record_types` lists, so you do not need to list them.
 - **Reverse zones**: only six types - CNAME, LOC, NS, PTR, SOA, TXT.
 
 Types the connected PowerDNS does not support are filtered out. Only the types whose support
@@ -91,7 +91,7 @@ Similarly, you can customize which record types are available when editing rever
 
 ## Zone Templates
 
-When editing zone templates, Poweradmin will automatically show the combined list of both `domain_record_types` and `reverse_record_types` to ensure all potential record types for template use are available.
+When editing zone templates, Poweradmin will automatically show the combined list of both `domain_record_types` and `reverse_record_types` to ensure all potential record types for template use are available. If only one of the two is set, the other contributes only its common default set (not the longer default list).
 
 ## Pinning Popular Record Types to the Top (4.4.0)
 

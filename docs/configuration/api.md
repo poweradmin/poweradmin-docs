@@ -132,6 +132,8 @@ API v2 (introduced in v4.1.0) is the current API and is recommended for every in
 
 ### API v2 Endpoints *(v4.1.0+)*
 
+The lists below cover the main resources. Zone metadata, DNSSEC, change request, dynamic DNS and server status endpoints, and the write methods on RRsets, are listed in [API Endpoints](../api/endpoints.md).
+
 #### Zone Management
 
 - `GET /api/v2/zones` - List all zones
@@ -334,7 +336,7 @@ Poweradmin can integrate with PowerDNS metrics endpoints for monitoring and stat
 
 ### Configuration
 
-Everything lives in the `pdns_api` section. There is no separate `pdns` section and no `metrics.enabled` toggle - the status page is shown by `interface.show_pdns_status`.
+Everything lives in the `pdns_api` section. There is no separate `pdns` section - the PowerDNS status page is shown by `interface.show_pdns_status`. The unrelated Prometheus endpoint `/api/metrics` has its own `metrics.*` settings (added in 4.6.0), see [Metrics](../operations/metrics.md).
 
 ```php
 'pdns_api' => [
@@ -402,6 +404,14 @@ GET /api/v2/users?page=2&per_page=25
 ```
 
 ## Version History
+
+### v4.6.0
+
+- **Added:** `api.bulk_max_operations` limit for `POST /zones/{id}/records/bulk`
+- **Added:** Prometheus endpoint `GET /api/metrics` with the `metrics.*` settings
+- **Added:** DNSSEC key import, `POST /zones/{id}/dnssec/keys/import`
+- **Added:** Change request endpoints under `/api/v2/change-requests`
+- **Added:** Paging, sorting and filtering on the other v2 list endpoints
 
 ### v4.5.0
 

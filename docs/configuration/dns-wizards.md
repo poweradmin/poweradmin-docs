@@ -52,7 +52,7 @@ You can limit which wizards are available:
 
 ## CAA Provider Configuration
 
-The CAA wizard includes a list of common Certificate Authorities. You can customize this list:
+The CAA wizard includes a list of common Certificate Authorities. Entries you set in `settings.php` are merged into the default list: a new domain is added, and an existing domain gets your label. The defaults cannot be removed this way.
 
 ```php
 'modules' => [
@@ -62,7 +62,7 @@ The CAA wizard includes a list of common Certificate Authorities. You can custom
             'letsencrypt.org' => "Let's Encrypt",
             'digicert.com' => 'DigiCert',
             'sectigo.com' => 'Sectigo (Comodo)',
-            // Add your preferred CAs
+            // Added to the default list
         ],
     ],
 ],
@@ -106,7 +106,7 @@ The following providers are included by default:
             'digicert.com' => 'DigiCert',
             'sectigo.com' => 'Sectigo (Comodo)',
             'pki.goog' => 'Google Trust Services',
-            // Add custom CAs as needed
+            // Added to the default list
         ],
     ],
 ],

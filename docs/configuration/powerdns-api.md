@@ -89,7 +89,7 @@ With the PowerDNS API properly configured, Poweradmin gains the following capabi
 - Metadata management
 - Direct server statistics access
 - New zones served at once in SQL mode (v4.6.0+), see below
-- **Send NOTIFY** and **Retrieve from primary** on the zone edit page in SQL mode (v4.6.0+)
+- **Send NOTIFY** on the zone edit page of a primary zone, and **Retrieve from primary** on a secondary zone (v4.6.0+; in SQL mode both need `pdns_api.url` and `pdns_api.key`)
 
 The **PowerDNS Server Status** page reports whether the server is reachable, its version, daemon
 type and uptime, and the connectivity of each configured autoprimary. It is shown when
@@ -155,12 +155,14 @@ return [
     ],
 
     // Poweradmin's own database (still required)
-    'db_host' => 'localhost',
-    'db_port' => 3306,
-    'db_user' => 'poweradmin',
-    'db_pass' => 'password',
-    'db_name' => 'poweradmin',
-    'db_type' => 'mysql',
+    'database' => [
+        'host' => 'localhost',
+        'port' => '3306',
+        'user' => 'poweradmin',
+        'password' => 'password',
+        'name' => 'poweradmin',
+        'type' => 'mysql',
+    ],
 
     // PowerDNS database settings are NOT needed in API mode
 ];
@@ -227,7 +229,7 @@ All existing zone ownership, group assignments, and permissions are preserved, e
 **What changes at runtime:**
 
 - All zone and record writes go through the PowerDNS API, so cache flush and DNSSEC rectify/signing are triggered automatically. In SQL mode these required manual `pdns_control cache-flush` calls.
-- NOTIFY is *not* sent as a side effect of an API write. PowerDNS only sends one from the explicit `PUT /zones/{id}/notify` endpoint, which Poweradmin does not call, or from the primary's periodic serial-check loop - which needs `primary=yes` (formerly `master=yes`) in `pdns.conf` and behaves the same way in SQL mode.
+- NOTIFY is *not* sent as a side effect of an API write. From 4.6.0 the **Send NOTIFY** button on a primary zone's edit page calls `PUT /zones/{id}/notify`; otherwise PowerDNS sends one from the primary's periodic serial-check loop - which needs `primary=yes` (formerly `master=yes`) in `pdns.conf` and behaves the same way in SQL mode.
 - The Poweradmin app no longer needs credentials for the PowerDNS database. You can remove `pdns_db_*` settings and revoke the corresponding database grants.
 - When PowerDNS no longer lists more than half of the zones Poweradmin knows, the automatic zone sync changes nothing and logs a warning, because that usually means `pdns_api.url` points at the wrong or an empty server. An administrator's manual sync on the Forward Zones page applies the changes.
 
