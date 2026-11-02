@@ -14,7 +14,7 @@ For the full list of configuration options and security recommendations, see
 
 | Version | Base path | Status | When to use |
 |---------|-----------|--------|-------------|
-| **v2** | `/api/v2` | Recommended | All integrations. Consistent response envelope, RRset endpoints, bulk record creation, zone owners, zone templates, groups. |
+| **v2** | `/api/v2` | Recommended | All integrations. Consistent response envelope, RRset endpoints, bulk record changes, zone owners, zone templates, groups. |
 | **v1** | `/api/v1` | Removed in 4.5.0 | Nothing new. Deprecated in 4.3.0, still present in 4.2.x-4.4.x. |
 
 On 4.4.x and older, both versions ship together and share API keys and
@@ -58,8 +58,8 @@ Paginated list endpoints add a `pagination` block alongside `data`.
 
 ## What the API can do
 
-- **Zones**: list, create, update, delete; manage owners (v4.2.0+); list RRsets
-- **Records**: list per zone, create, update, delete, bulk create
+- **Zones**: list, create, update, delete; manage owners (v4.2.0+); list, replace and delete RRsets
+- **Records**: list per zone, create, update, delete, bulk create/update/delete
 - **Users**: full CRUD; user responses include the groups the user belongs to (v4.5.0+)
 - **Zone metadata and DNSSEC**: read and write zone metadata, read DNSSEC status, sign and unsign zones
 - **Dynamic DNS**: update a record from a dynamic DNS client

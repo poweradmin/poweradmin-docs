@@ -6,7 +6,8 @@ Poweradmin supports two authentication methods for API requests: API keys
 [API Configuration](../configuration/api.md) for the settings.
 
 The health endpoints `/api/health` and `/ping` are the exception: they take no
-credentials at all and are disabled by default. See
+API credentials and are disabled by default (`/api/health` can additionally
+require an `X-Health-Token` header when `health.token` is set). See
 [Health Checks](../operations/health-checks.md).
 
 ## API key authentication
@@ -27,6 +28,9 @@ API keys are created through the web UI:
 A regular user can hold up to `api.max_keys_per_user` keys (default 5). Admin
 users have no limit.
 
+The add and edit forms also take an optional **Expires at** date. Once it passes,
+the key is rejected with `401`, the same as a disabled key.
+
 ### Using a key
 
 Send the key in the `X-API-Key` header:
@@ -39,6 +43,10 @@ curl -H "X-API-Key: your-api-key-here" \
 
 `Authorization: Bearer your-api-key-here` is accepted as an equivalent if your
 client is easier to configure that way.
+
+A key is also accepted as an `api_key` query parameter, but do not use it: URLs
+end up in web server, proxy and browser logs, which would leak the key. Send it
+in a header.
 
 The key inherits the permissions of the user it belongs to. If that user can
 edit zone X in the web UI, the key can edit zone X over the API; if they
@@ -70,9 +78,12 @@ Three independent restrictions are available:
 Read-only and allowed-operations are checked on every API v2 request. Zone access
 applies to the endpoints that address a zone - zones, records, RRsets, DNSSEC,
 metadata, owners, and a group's zone assignments. Endpoints for users, groups,
-permissions, permission templates and zone templates are not zone-scoped
-resources, so a zone restriction does not narrow them; restrict those with the
-operations list instead. Listing endpoints that can filter, such as a group's
+group members, permissions, permission templates and zone templates are not tied
+to a zone, so a key restricted to specific zones is refused on them with `403`
+("this API key is restricted to specific zones"). `GET /server/status` and
+`GET /api/metrics` behave the same. Use a key without a zone restriction for
+those endpoints, and narrow it with read-only or allowed operations instead.
+Listing endpoints that can filter, such as a group's
 zones, return only the zones in scope rather than refusing the whole request.
 
 Operations map onto HTTP methods: `POST` is create, `PUT` and `PATCH` are update,
@@ -154,8 +165,10 @@ forwarding the header to PHP - see the nginx example in
 | Status | Meaning | What to check |
 |--------|---------|---------------|
 | `401 Unauthorized` | No credentials, or bad credentials | Header name, key value, account is active |
-| `403 Forbidden` | Authenticated but lacks permission | The owning user's permission template |
+| `400 Bad Request` | Invalid body or query parameter | The `message` field names the problem |
+| `403 Forbidden` | Authenticated but lacks permission, or the API is turned off | The owning user's permission template, the key's restrictions, and `api.enabled` (when it is `false` every `/api/v2` request answers `403` "The API feature is disabled in the system configuration.") |
 | `404 Not Found` | Often a resource that the user cannot see | Permissions can mask resources as missing |
+| `405 Method Not Allowed` | The path does not support that HTTP method | The `Allow` response header lists the supported methods |
 
 ## Next steps
 

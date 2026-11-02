@@ -13,7 +13,7 @@ There is no import tool. This page describes a manual migration. Try it on a tes
 ## What Carries Over
 
 Records live in PowerDNS. Point Poweradmin at the same PowerDNS and the zones are there. Current PowerDNS-Admin
-releases (2026.08 and later) need PowerDNS 5.0 or newer; Poweradmin works with PowerDNS 4.0.0 and newer, so it
+releases (2026.08 and later) need PowerDNS 5.0 or newer; Poweradmin works with PowerDNS 4.x and 5.x (tested from 4.5), so it
 runs against the server you already have, see [System Requirements](../getting-started/requirements.md).
 
 PowerDNS-Admin keeps a copy of the zone list in its own database and refreshes it from the PowerDNS API. It also
@@ -127,7 +127,7 @@ permissions on a group instead (next step). The `permissions.show_user_access_te
 Users set new passwords, or sign in through an external system. Poweradmin supports
 [LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md) and [SAML](../configuration/saml.md). Google
 and Microsoft Entra ID (formerly Azure AD) login, which PowerDNS-Admin offers through OAuth, work through
-Poweradmin's OIDC provider presets. GitHub login has no equivalent. PowerDNS-Admin can also map IdP groups to
+Poweradmin's OIDC provider presets. GitHub login works through the `github` provider preset (4.6.0+). PowerDNS-Admin can also map IdP groups to
 accounts and roles; recreate that with the group and template mappings of the OIDC or SAML settings.
 
 Two-factor login is off by default, set `security.mfa.enabled`. Each user enrolls again, see
@@ -245,7 +245,7 @@ PowerDNS-Admin stores its settings in its database, overridable from the environ
 | History | [Record change log](../user-guide/record-change-log.md) and the zone logs at `/zones/logs`, not migrated |
 | LDAP, OIDC, SAML login | [LDAP](../configuration/ldap.md), [OIDC](../configuration/oidc.md), [SAML](../configuration/saml.md) |
 | Google, Microsoft Entra ID login | [OIDC](../configuration/oidc.md) provider presets |
-| GitHub login | No equivalent |
+| GitHub login | [OIDC](../configuration/oidc.md#github) `github` preset (4.6.0+) |
 | TOTP two-factor login | [MFA](../user-guide/mfa.md), users enroll again |
 | `/nic/update` | `/dynamic_update.php` or `POST /api/v2/dynamic-dns`, see [Dynamic DNS](../user-guide/ddns/overview.md) |
 | Settings in database | `config/settings.php`, see [Settings Reference](../configuration/settings-reference.md) |
