@@ -4,13 +4,21 @@
 mkdocs build --strict validates Markdown links only. Paths written in raw HTML, such as the
 iframe in docs/api/reference.md or the script tags in docs/api/swagger.html, are passed
 through unchecked; this catches them after the build. Usage: check_site_paths.py [site_dir]
+
+Checked: src and href attributes in any quoting, and `url: "..."` keys in inline scripts (the
+spec swagger.html loads). Not checked: srcset, CSS url(), and links inside comments or code
+samples. Run on macOS, a link that differs only in case passes here and fails on the Linux
+runner.
 """
 import re
 import sys
 from pathlib import Path
 from urllib.parse import unquote
 
-ATTR_RE = re.compile(r'\b(?:src|href)="([^"]+)"')
+ATTR_RE = re.compile(r"""\b(?:src|href)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))""", re.I)
+INLINE_SCRIPT_RE = re.compile(r"<script\b(?![^>]*\bsrc\s*=)[^>]*>(.*?)</script>", re.S | re.I)
+SCRIPT_URL_RE = re.compile(r"""\burl\s*:\s*["']([^"']+)["']""")
+COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 # Code samples show paths that are examples, not links.
 CODE_RE = re.compile(r"<(pre|code)\b.*?</\1>", re.S)
 EXTERNAL_RE = re.compile(r"^([a-z][a-z0-9+.-]*:|#|//)", re.I)
@@ -19,8 +27,12 @@ SKIP_DIRS = {"reference"}
 
 
 def targets(page, site):
-    html = CODE_RE.sub("", page.read_text(errors="replace"))
-    for url in ATTR_RE.findall(html):
+    html = CODE_RE.sub("", COMMENT_RE.sub("", page.read_text(errors="replace")))
+    urls = ["".join(groups) for groups in ATTR_RE.findall(html)]
+    for script in INLINE_SCRIPT_RE.findall(html):
+        urls += SCRIPT_URL_RE.findall(script)
+    for url in urls:
+        url = url.strip()
         if EXTERNAL_RE.match(url):
             continue
         path = unquote(url.split("#")[0].split("?")[0])
