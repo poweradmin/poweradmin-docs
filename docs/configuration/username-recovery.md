@@ -11,9 +11,9 @@ When enabled, users can request their username by providing their registered ema
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `security.username_recovery.enabled` | false | Enable username recovery feature |
-| `security.username_recovery.rate_limit_attempts` | 5 | Maximum recovery attempts per time window |
+| `security.username_recovery.rate_limit_attempts` | 5 | Maximum recovery attempts per email address and time window |
 | `security.username_recovery.rate_limit_window` | 3600 | Time window for rate limiting (seconds) |
-| `security.username_recovery.min_time_between_requests` | 60 | Minimum time between requests (seconds) |
+| `security.username_recovery.min_time_between_requests` | 60 | Minimum time between requests for the same email address (seconds) |
 
 ## Configuration
 
@@ -56,9 +56,9 @@ See [Mail Configuration](mail.md) for email setup.
 
 The rate limiting prevents abuse of the recovery feature:
 
-- **Attempts per window**: Maximum 5 attempts (default) per hour
-- **Minimum interval**: At least 60 seconds between requests
-- **Per-IP tracking**: Rate limits are tracked per IP address
+- **Attempts per window**: Maximum 5 attempts (default) per hour, counted per email address
+- **Minimum interval**: At least 60 seconds between requests for the same email address
+- **Per-IP cap**: Each source IP address is limited to twice the attempts per window
 
 If a user exceeds the rate limit, they receive a generic message (to prevent email enumeration).
 
@@ -70,7 +70,7 @@ If a user exceeds the rate limit, they receive a generic message (to prevent ema
 
 3. **Logging**: All recovery attempts are logged for security auditing
 
-4. **Email verification**: Only sends to verified email addresses in the system
+4. **Active accounts only**: Only active accounts are matched. If several share the address, all their usernames are listed in one email
 
 ## User Flow
 

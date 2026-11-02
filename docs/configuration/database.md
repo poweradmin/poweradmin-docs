@@ -4,7 +4,7 @@ Poweradmin's database settings are configured in the `config/settings.php` file 
 
 ## Configuration Options
 
-- **type**: Database type. Options: 'mysql', 'pgsql', 'sqlite'. Default: 'mysql'
+- **type**: Database type. Options: 'mysql', 'mysqli', 'pgsql', 'sqlite'. Default: 'mysql'
 - **host**: Database server hostname. Default: 'localhost'
 - **port**: Database server port. Default: '3306' for MySQL, '5432' for PostgreSQL
 - **name**: Database name. Default: 'powerdns'
@@ -13,6 +13,8 @@ Poweradmin's database settings are configured in the `config/settings.php` file 
 - **charset**: Database character set. Default: 'latin1'. Only the literal value `utf8` affects the connection: on MySQL/MariaDB it appends `charset=utf8` to the DSN. Any other value, `utf8mb4` included, leaves the connection on the server's default character set. The installer offers the driver's full charset list (about 38 values for MySQL) and uses that choice when creating the tables, which is a separate thing from the connection charset
 - **file**: SQLite database file path (only for SQLite)
 - **debug**: Enable SQL query debugging. Default: `false`
+- **sqlite_wal**: SQLite only. Switches the database file to WAL journal mode on connect. Default: `true` (added in v4.6.0). Set `false` on NFS. `false` does not convert a file already in WAL; run `PRAGMA journal_mode = DELETE` once
+- **ssl**, **ssl_verify**, **ssl_ca**, **ssl_key**, **ssl_cert**: TLS for MySQL/MariaDB and PostgreSQL connections (added in v4.1.0). See the [MySQL/MariaDB](../database/mysql-configuration.md) and [PostgreSQL](../database/postgresql-configuration.md) setup guides
 - **pdns_db_name**: Separate database name for PowerDNS (added in v3.8.0). MySQL/MariaDB only - ignored (and rejected by config validation) on PostgreSQL and SQLite. Default: same as 'name'
 
 ## Example Configuration

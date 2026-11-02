@@ -123,7 +123,7 @@ Administrators can view logs through the web interface:
 
 Each log page supports filtering by user, event type, and date range, with CSV/JSON export.
 
-From v4.4.0, zone owners can read the audit log for the zones they own (directly or via group ownership) without being administrators. They see only entries for their own zones - the filter is applied server-side. Administrators continue to see everything.
+Users whose permission template grants `zone_logs_view_own` can read the zone log for the zones they own (directly or via group ownership). They see only entries for their own zones - the filter is applied server-side. `zone_logs_view_others` shows every zone, and administrators always see everything. Both permissions were added in 4.5.0 and are not granted to existing templates automatically; before 4.5.0 `zone_content_view_own` was enough (from v4.4.0).
 
 > **Note:** All of these pages need `logging.database_enabled` to be on. Without it the pages
 > still exist but nothing is ever written to the log tables, so they stay empty.

@@ -27,6 +27,8 @@ Add a `permissions` section to your `settings.php`:
 | `show_user_access_templates` | `true` | Show per-user permission template assignment in the UI |
 | `show_group_access_templates` | `true` | Show group-based permission template management in the UI |
 
+At least one of the two must stay `true`; setting both to `false` is a configuration error. In Docker the variables are `PA_SHOW_USER_ACCESS_TEMPLATES` and `PA_SHOW_GROUP_ACCESS_TEMPLATES`.
+
 ## Usage Scenarios
 
 ### Group-only permissions (recommended for larger teams)
@@ -43,7 +45,7 @@ Set `show_user_access_templates` to `false` to hide user-level template assignme
 When user templates are hidden:
 
 - New users are automatically assigned the minimal (Guest) permission template
-- The template dropdown is hidden from user creation and edit forms
+- The template dropdown is hidden from user creation and edit forms, and editing a user no longer changes their template
 - The Template column is hidden from the users list
 - The permission template list shows only group templates
 

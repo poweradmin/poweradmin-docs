@@ -8,8 +8,9 @@ Poweradmin ships two complete themes:
 
 - **default**: The standard theme, with navigation across the top of the page.
 - **modern** *(since v4.1.0)*: A Bootstrap 5 layout with a collapsible sidebar instead of a
-  top bar, tuned for smaller screens. It carries the same set of templates as `default` and
-  is kept in sync with it, so every page exists in both.
+  top bar, tuned for smaller screens. It overrides only the pages it restyles (header, footer,
+  API keys, permission templates, and the status and consistency pages); every other page is
+  served from `default` through a fallback.
 
 A third value, **custom**, points Poweradmin at your own template directory - see
 [Creating Custom Themes](#creating-custom-themes) below.

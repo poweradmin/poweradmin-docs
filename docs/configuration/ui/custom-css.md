@@ -33,7 +33,8 @@ Each theme includes support for custom CSS extension files that are automaticall
 | `custom_dark.css` | Loaded automatically when using Dark style |
 
 - Custom stylesheets override base theme styles using CSS cascade
-- Files are only loaded if they exist (no errors if missing)
+- Files are only loaded if they exist (no errors if missing). The page looks for the file matching `interface.style`, so create both files, or at least the one for your configured style
+- The files live in the active theme's own `style/` directory, for example `templates/modern/style/` when `theme` is `modern`
 - Works with the existing light/dark theme switcher
 
 ## File Structure

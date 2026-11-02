@@ -310,12 +310,13 @@ Each provider requires specific configuration. All providers share these common 
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `name` | Yes | Display label for the provider. The provider identifier is the array key, not this field |
-| `display_name` | Yes | Text shown on login button |
+| `name` | No | Display label for the provider. The provider identifier is the array key, not this field |
+| `display_name` | No | Text shown on login button. Falls back to `name`, then to the capitalised provider key |
 | `client_id` | Yes | OAuth client ID from provider |
 | `client_secret` | Yes | OAuth client secret from provider |
 | `auto_discovery` | No | Use OpenID Connect Discovery (default: false). When disabled, `authorize_url`, `token_url` and `userinfo_url` are all required or the provider is rejected |
 | `metadata_url` | Conditional | OpenID Configuration endpoint (if auto_discovery) |
+| `emails_url` | No | OAuth 2.0 email list such as GitHub's `/user/emails`, used to find a verified address (added in 4.6.0) |
 | `scopes` | No | OAuth scopes (default: openid profile email) |
 | `logout_url` | No | Provider logout endpoint |
 | `response_mode` | No | How the provider returns the authorization code: `query` (default) or `form_post` |
@@ -648,6 +649,7 @@ The `user_mapping` array maps OIDC claims to Poweradmin user fields:
 | `display_name` | name | Display name |
 | `groups` | groups | Group memberships |
 | `avatar` | picture | Profile picture URL |
+| `subject` | sub | Claim used as the stable subject of the account link; GitHub uses `id` |
 
 ## Docker Configuration
 
@@ -706,6 +708,8 @@ environment:
 > ```yaml
 > PA_OIDC_GROUP_MAPPING: "team1=Editors|Viewers,team2=Administrators"
 > ```
+
+Other global variables: `PA_OIDC_LINK_BY_EMAIL`, `PA_OIDC_REQUIRE_VERIFIED_EMAIL`, `PA_OIDC_SYNC_USER_INFO` and `PA_OIDC_ALLOW_SUPERUSER_PROVISIONING`.
 
 For secrets, use the `__FILE` suffix:
 

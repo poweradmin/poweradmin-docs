@@ -42,7 +42,7 @@ The `avatar_priority` setting determines which source is checked first:
 - **oauth**: Check OAuth provider first, fall back to Gravatar
 - **gravatar**: Check Gravatar first
 
-The fallback only applies with `oauth`: if the login supplied no avatar URL, Gravatar is used instead. With `gravatar`, any user who has an email address gets a Gravatar URL (Gravatar serves a generated default image for unknown addresses), so the OAuth picture is never reached.
+With `oauth`, Gravatar is used when the login supplied no avatar URL. With `gravatar`, any user who has an email address gets a Gravatar URL (Gravatar serves a default image for unknown addresses), so the OAuth picture is only used for users without an email address.
 
 ## OAuth Avatars
 
@@ -50,6 +50,7 @@ OAuth avatars are retrieved from identity providers during login:
 
 - Azure AD, Google, Keycloak, etc. provide profile pictures
 - The `picture` claim is mapped automatically
+- Microsoft Graph photo URLs are skipped because they need a bearer token, so Azure AD users get the Gravatar fallback or no avatar
 - The URL is kept in the session and the image is loaded by the browser straight from the provider
 
 ### OIDC Configuration
@@ -75,7 +76,7 @@ Users can set their Gravatar at [gravatar.com](https://gravatar.com).
 
 ### Gravatar Defaults
 
-If a user has no Gravatar, a default image is displayed. Gravatar provides several default styles:
+If a user has no Gravatar, Gravatar's `mp` (mystery person) default image is displayed. Poweradmin always requests `mp`; the style is not configurable. Gravatar itself offers other styles:
 
 - `mp` - Mystery person silhouette
 - `identicon` - Geometric pattern

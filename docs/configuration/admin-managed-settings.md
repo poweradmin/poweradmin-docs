@@ -56,6 +56,6 @@ When the schema update hasn't been applied yet, `DbAppSettingRepository::isReady
 
 ## What's not in 4.5.0
 
-- No setting has been moved from `config/settings.php` yet. The new table exists but is empty.
+- No admin-editable setting has been moved from `config/settings.php` yet. The table holds only internal marker rows (for example `backend.zone_ids`, added in 4.6.0), which you should not change except as documented in [PowerDNS API](powerdns-api.md#migrating-from-sql-to-api-backend).
 - There is no admin UI for editing `app_settings` rows. Future features will add focused UIs (similar to [TTL defaults by record type](../user-guide/reverse-dns.md#per-record-type-default-ttls-450)) that read/write specific keys.
 - Per-user overrides remain in [`user_preferences`](../user-guide/users-roles.md) - `app_settings` is system-wide.

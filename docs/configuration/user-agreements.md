@@ -45,6 +45,10 @@ When `require_on_version_change` is enabled:
 2. **Re-acceptance Required** - Users with older versions must re-accept
 3. **Updated Record** - System records new acceptance date and version
 
+With `require_on_version_change` set to `false`, only users who have never accepted any version are asked; raising `current_version` re-prompts nobody.
+
+In Docker, use `PA_USER_AGREEMENT_ENABLED`, `PA_USER_AGREEMENT_VERSION` and `PA_USER_AGREEMENT_REQUIRE_ON_CHANGE`.
+
 ### Agreement Storage
 
 The system tracks:

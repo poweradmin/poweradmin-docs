@@ -58,6 +58,7 @@ The setting is also in 4.4.3 and 4.5.1, where it defaults to `true` so that upgr
 | `saml.auto_provision` | true | Auto-create users from SAML assertions |
 | `saml.link_by_email` | true | Link SAML accounts to existing users by email |
 | `saml.sync_user_info` | true | Sync user info on each login |
+| `saml.require_verified_email` | false | Refuse email linking when the assertion carries no `email_verified` attribute (`settings.php` only, no Docker variable) |
 | `saml.default_permission_template` | "Guest" | Default permission template for new users |
 | `saml.required_attributes` | `[]` | Only admit logins whose attributes match (v4.6.0+). See [Requiring attributes](#requiring-attributes-v460) |
 
@@ -183,9 +184,9 @@ Poweradmin acts as a SAML Service Provider. Configure SP settings in the `sp` se
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `sp.entity_id` | (auto) | SP Entity ID (defaults to `{base_url}/saml/metadata`) |
-| `sp.assertion_consumer_service_url` | (auto) | ACS URL (defaults to `{base_url}/saml/acs`) |
-| `sp.single_logout_service_url` | (auto) | SLO URL (defaults to `{base_url}/saml/sls`) |
+| `sp.entity_id` | (auto) | SP Entity ID (defaults to `{interface.application_url}/saml/metadata`) |
+| `sp.assertion_consumer_service_url` | (auto) | ACS URL (defaults to `{interface.application_url}/saml/acs`) |
+| `sp.single_logout_service_url` | (auto) | SLO URL (defaults to `{interface.application_url}/saml/sls`) |
 | `sp.name_id_format` | emailAddress | NameID format |
 | `sp.x509cert` | "" | SP certificate for signing (optional) |
 | `sp.private_key` | "" | SP private key for signing (optional) |
@@ -214,17 +215,17 @@ For example: `https://your-poweradmin.com/saml/metadata?provider=azure`. With no
 
 ## Provider Configuration
 
-Each provider requires IdP-specific configuration:
+Each provider requires IdP-specific configuration. The provider key (the array key) may contain only letters, digits and underscores; other keys are rejected with "Invalid SAML provider".
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `name` | Yes | Display label for the provider. The provider identifier is the array key, not this field |
-| `display_name` | Yes | Text shown on login button |
+| `display_name` | No | Text shown on login button. Falls back to `name`, then to the provider key |
 | `entity_id` | Yes | IdP Entity ID |
 | `sso_url` | Yes | IdP Single Sign-On URL |
 | `slo_url` | No | IdP Single Logout URL |
-| `x509cert` | Yes | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks) |
-| `user_mapping` | Yes | Map SAML attributes to user fields |
+| `x509cert` | Strongly recommended | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks). Without it assertions are not signature-checked; the Docker entrypoint refuses to start without it |
+| `user_mapping` | No | Map SAML attributes to user fields. Missing keys default to `username`, `email`, `firstName`, `lastName`, `displayName` and `groups` |
 | `allow_idp_initiated` | No | Accept responses that do not answer a sign-in started in Poweradmin: IdP-initiated SSO, or installs not served over HTTPS. Default `false` from 4.6.0, `true` on 4.4.3 and 4.5.1 |
 
 ### Azure AD (SAML)
@@ -499,6 +500,8 @@ environment:
 > ```yaml
 > PA_SAML_GROUP_MAPPING: "team1=Editors|Viewers,team2=Administrators"
 > ```
+
+Other variables: `PA_SAML_ALLOW_SUPERUSER_PROVISIONING`, and per provider `PA_SAML_<IDP>_ALLOW_IDP_INITIATED` (default `false`, see [HTTPS for the ACS URL](#https-for-the-acs-url-v460)).
 
 For certificates and keys, use Docker secrets:
 

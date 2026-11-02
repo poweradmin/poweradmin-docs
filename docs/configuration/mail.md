@@ -36,6 +36,10 @@ The mail settings are configured in the `config/settings.php` file under the `ma
 - **return_path**: Default "Return-Path" address for bounce handling. Default: `poweradmin@example.com`
 - **transport**: Transport method. Options: 'smtp', 'sendmail', 'php', 'logger' (writes messages to the log instead of sending, see [Email Debug Logging](#email-debug-logging)). Default: `php`
 
+Zone access and change request emails are switched on separately in the `notifications` section (`zone_access_enabled`, `change_request_enabled`, `change_request_soa_contact`; the last two added in 4.6.0). See [Basic configuration](basic.md).
+
+In Docker, the mail settings are `PA_MAIL_ENABLED`, `PA_MAIL_TRANSPORT`, `PA_MAIL_FROM`, `PA_MAIL_FROM_NAME`, `PA_MAIL_RETURN_PATH`, `PA_SMTP_HOST`, `PA_SMTP_PORT`, `PA_SMTP_USER`, `PA_SMTP_PASSWORD`, `PA_SMTP_ENCRYPTION`, `PA_SMTP_AUTH` and `PA_SENDMAIL_PATH`.
+
 ### SMTP Settings
 
 SMTP settings live as flat keys under `mail` (they are not nested in an `smtp` subarray):
