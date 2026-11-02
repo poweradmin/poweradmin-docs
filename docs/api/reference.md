@@ -13,4 +13,4 @@ if you would rather browse than search.
 > release, so it describes the current release line. A running instance can also serve this
 > interactively at `/api/docs` when `api.docs_enabled` is true.
 
-<swagger-ui src="openapi.json"/>
+<iframe class="api-reference" src="/api/swagger.html" title="Poweradmin API v2 reference"></iframe>

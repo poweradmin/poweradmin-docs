@@ -2,6 +2,4 @@
 # Dependabot bumps these; keep build.sh and .github/workflows/* using this file.
 mkdocs==1.6.1
 mkdocs-material==9.8.0
-mkdocs-glightbox==0.5.3
 pymdown-extensions==12.3
-mkdocs-swagger-ui-tag==0.8.1
