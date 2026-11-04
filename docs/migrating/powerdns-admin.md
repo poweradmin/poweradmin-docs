@@ -236,15 +236,16 @@ endpoints, see [Dynamic DNS](../user-guide/ddns/overview.md):
   Poweradmin username and password.
 - `POST /api/v2/dynamic-dns`, authenticated with an API key.
 
-Change the URL in each client. Users who authenticate with a password need their new Poweradmin password. The
-example Caddy configuration (`caddy.conf.example`) already rewrites `/nic/update` to `/dynamic_update.php`; with
-another web server, add the same rewrite if you want to keep the old path.
+Users who authenticate with a password need their new Poweradmin password. From 4.6.0, the Docker image, the
+shipped `.htaccess` and the example nginx and Caddy configurations accept `/nic/update`, so clients only need the new
+host name. On older versions, or with your own web server configuration, change the URL to `/dynamic_update.php` or
+add the rewrite shown in [Client Setup](../user-guide/ddns/client-setup.md#using-ddclient-dyndns2-protocol).
 
 The two endpoints behave differently in a few ways:
 
 | | PowerDNS-Admin | Poweradmin |
 |---|---|---|
-| No IP address sent | Uses the client's address | Refused with `dnserr`. Send `myip`, or `myip=whatismyip` to use the client's address |
+| No IP address sent | Uses the client's address | Uses the client's address (4.6.0+); earlier versions refuse it with `dnserr`, send `myip=whatismyip` instead |
 | IPv6 | In `myip` | In `myip`, or separately in `myip6` |
 | Several addresses | The last one wins | All are kept, extra records are removed |
 | Missing record | Created only if the zone allows it | Always created |

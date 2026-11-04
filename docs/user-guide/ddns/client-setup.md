@@ -45,6 +45,14 @@ You can use `whatismyip` for the IP parameters to automatically detect your addr
 curl "https://dns.example.com/dynamic_update.php?hostname=host.example.com&myip=whatismyip&verbose=1"
 ```
 
+From 4.6.0, a request that sends none of `myip`, `ip`, `myip6` or `ip6` does the same: the record is set to the
+address the request came from. With `dualstack_update=1` it is still refused with `dnserr`, since the missing family
+would have its records deleted. Earlier versions answer `dnserr` to any request without an address.
+
+The detected address is the one Poweradmin sees. Behind a reverse proxy or load balancer with a public address, list
+it in `security.trusted_proxies`, otherwise every client is detected as the proxy. Proxies on private and loopback
+addresses are trusted without configuration.
+
 ### Multiple IP Management
 
 The system supports managing multiple IP addresses per host:
@@ -95,6 +103,9 @@ You can also create a client that uses HTTP basic authentication with username a
 ## Using `ddclient` (dyndns2 protocol)
 
 `ddclient` and other dyndns2 clients expect the update endpoint at `/nic/update`. Poweradmin exposes the endpoint at `/dynamic_update.php`, so you need a small web-server rewrite to make stock clients work.
+
+From 4.6.0 the rewrite is already in the Docker image, the shipped `.htaccess`, `nginx.conf.example` and
+`caddy.conf.example`. Add it yourself only for an older version or your own web server configuration.
 
 ### Apache
 
