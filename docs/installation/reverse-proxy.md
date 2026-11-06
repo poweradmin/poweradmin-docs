@@ -253,6 +253,9 @@ the origins that may do so in `config/settings.php`:
 ],
 ```
 
+In Docker, set `PA_FRAME_ANCESTORS` to the same origins separated by commas, for example
+`-e PA_FRAME_ANCESTORS=https://portal.example.com,https://*.example.net` *(v4.6.0+)*.
+
 `object-src 'none'` blocks plugin content, which Poweradmin does not use, and `base-uri 'self'` stops an
 injected `<base>` tag from redirecting relative script and form URLs.
 

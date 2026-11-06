@@ -432,6 +432,7 @@ For detailed module configuration, see the [Configuration](../configuration/zone
 | `PA_SAML_ENABLED` | false | Enable SAML authentication |
 | `PA_APPLICATION_URL` | *(empty)* | Public base URL. Required when OIDC or SAML is enabled, and for password reset and emailed links |
 | `PA_BASE_URL` | *(empty)* | Legacy base URL. Accepted as a URL source for SAML only |
+| `PA_FRAME_ANCESTORS` | *(empty)* | Comma-separated origins allowed to embed Poweradmin in a frame; empty denies all framing (v4.6.0+). See [Framing and Response Headers](reverse-proxy.md#framing-and-response-headers-v460) |
 
 To use a full LDAP DN as the key (v4.5.2+), separate the mappings with `;` and put the Poweradmin name after the last `:`. A DN contains commas and equal signs itself, so the comma form cannot carry it:
 
