@@ -164,6 +164,7 @@ nav:
       - Permissions: configuration/permissions.md
       - Password Policies: configuration/password-policies.md
       - Security Policies: configuration/security-policies.md
+      - Personal Data and Privacy: configuration/privacy.md
       - API Configuration: configuration/api.md
       - WHOIS Configuration: configuration/whois.md
       - RDAP Configuration: configuration/rdap.md
