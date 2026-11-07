@@ -50,7 +50,8 @@ Two types have requirements on the PowerDNS side beyond simply being enabled her
 - **`LUA`** records execute a Lua expression on the DNS server at query time. PowerDNS ignores them
   unless `enable-lua-records=yes` is set in `pdns.conf` or the zone carries the `ENABLE-LUA-RECORDS`
   metadata, which is neither readable nor writable over the API - set it with `pdnsutil` or in the
-  database. Because they run code on the server, Poweradmin also restricts them: users limited to
+  database. They run code on the server, and functions such as `ifurlup` and `ifportup` make the
+  DNS server connect to any address the record names. Poweradmin therefore restricts them: users limited to
   `zone_content_edit_own_as_client` cannot create or edit them, and seeding one into a zone template
   needs full edit rights. Anyone with `zone_content_edit_own` or a broader edit permission can still
   write them, so where PowerDNS runs LUA records, grant those permissions only to users you trust to
