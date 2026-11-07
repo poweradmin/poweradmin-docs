@@ -24,7 +24,7 @@ The following additional security settings are available in the `security` secti
 
 ### bcrypt and long passwords
 
-bcrypt only uses the first 72 bytes of a password and ignores the rest. A non-ASCII letter takes two or more bytes, so the limit is reached with fewer characters. From 4.6.0, while `password_encryption` is `bcrypt`, a new password longer than 72 bytes is refused when it is set, changed or reset. Login is not affected, so users who already have a longer password keep signing in with it.
+bcrypt only uses the first 72 bytes of a password and ignores the rest. A non-ASCII letter takes two or more bytes, so the limit is reached with fewer characters. From 4.6.0, while `password_encryption` is `bcrypt`, a new password longer than 72 bytes is refused when it is set, changed or reset. Login is not affected, so users who already have a longer password keep signing in with it. The installer applies the same limit to the administrator password. A password containing a NUL byte is refused with any algorithm.
 
 argon2i and argon2id have no such limit. You can switch `password_encryption` to `argon2id` at any time: existing bcrypt hashes keep working and each one is rehashed with argon2id at the user's next successful login. Check that your PHP build includes Argon2 first (`php -r 'var_dump(defined("PASSWORD_ARGON2ID"));'` prints `bool(true)`); the official Docker image does.
 
