@@ -181,9 +181,9 @@ Poweradmin supports multi-factor authentication to add an extra layer of securit
 - **enforced**: Enforce MFA for users who hold the `user_enforce_mfa` permission. Default: `false`
 - **skip_for_external_auth**: Skip MFA enforcement for LDAP, OIDC, SAML and web server logins, where the identity provider is trusted to enforce it. Default: `false` (added in 4.5.0)
 - **app_enabled**: Enable the authenticator app option (TOTP). Default: `true`. Setting it to `false` hides the option and refuses the setup request. It is ignored while email verification is unusable - disabled, or with no mail transport configured - so that disabling both methods cannot leave an enforced user with no way to complete setup.
-- **email_enabled**: Enable email verification option. Default: `true`
+- **email_enabled**: Enable email verification codes. Default: `true`. NIST SP 800-63B does not accept email as a second factor, because whoever can read the mailbox gets the code. Where you follow NIST, set it to `false` and use an authenticator app.
 - **recovery_codes**: Number of recovery codes to generate. Default: `8`
-- **recovery_code_length**: Length of recovery codes. Default: `10`
+- **recovery_code_length**: Length of recovery codes in characters. Default: `10`. From 4.6.0, shorter values are raised to 10.
 
 ## Password Reset
 
