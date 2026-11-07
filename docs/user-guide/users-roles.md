@@ -61,6 +61,10 @@ Since version 4.6.0 a superuser can cap how many zones a user or a group may own
 - A **group** counts the zones assigned to it.
 - Superusers are never limited, whatever their limit says.
 
+A user who may create zones for one of their groups can leave the zone without a user owner. Such a
+group-only zone counts against the group, not against the user who created it. For a hard cap on
+one user, also set a limit on every group that user belongs to.
+
 Set the limit in the **Zone limit** field on the add and edit forms for users and groups. Leave it
 empty to use the default from `dns.default_max_zones_per_user` or `dns.default_max_zones_per_group`
 (unlimited unless configured). `0` means the user or group may not own any zone. Only superusers
