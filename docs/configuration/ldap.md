@@ -83,6 +83,35 @@ For secure LDAP (LDAPS), use the following configuration:
 'uri' => 'ldaps://domaincontroller.example.com',
 ```
 
+The server certificate is checked by the OpenLDAP client library that PHP's LDAP extension uses,
+not by Poweradmin. If your directory uses a certificate from a private CA, tell that library where
+the CA certificate is (see `man ldap.conf`):
+
+- In the system `ldap.conf` (`/etc/ldap/ldap.conf` on Debian and Ubuntu, `/etc/openldap/ldap.conf`
+  on Alpine and RHEL):
+
+  ```
+  TLS_CACERT /etc/ssl/certs/company-ca.pem
+  TLS_REQCERT demand
+  ```
+
+- Or through the environment of the PHP process: `LDAPTLS_CACERT=/path/to/ca.pem`. In the Docker
+  image, mount the CA file and set the variable on the container:
+
+  ```yaml
+  environment:
+    LDAPTLS_CACERT: /etc/ssl/certs/company-ca.pem
+  volumes:
+    - ./company-ca.pem:/etc/ssl/certs/company-ca.pem:ro
+  ```
+
+  PHP-FPM clears the environment of its workers by default (`clear_env = yes`), so with FPM use
+  `ldap.conf` instead.
+
+Keep `TLS_REQCERT demand` (the default). `never` turns certificate checks off and lets anyone on
+the network read the passwords. Poweradmin does not support StartTLS on port 389 yet; use `ldaps://`
+on port 636.
+
 ### User Attribute Mapping
 
 Configure how Poweradmin maps LDAP attributes to user properties:
