@@ -51,21 +51,30 @@ VACUUM;
 
 To prevent logs from consuming excessive disk space:
 
-1. **Database Logs**: Implement a log rotation strategy for Poweradmin's database logs:
+1. **Database Logs**: Implement a log rotation strategy for Poweradmin's database logs. Check
+    your legal retention period first: the Swiss data protection ordinance (DSV Art. 4) asks for at
+    least one year of logs of automated processing, and audit frameworks such as PCI DSS 10.5 also
+    ask for one year. The example keeps 365 days:
 
     ```sql
-    -- Example log cleanup (retain only the last 90 days), MySQL/MariaDB syntax
-    DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
-    DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
-    DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
-    DELETE FROM log_changesets WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
-    DELETE FROM log_record_changes WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
-    DELETE FROM log_api WHERE created_at < DATE_SUB(NOW(), INTERVAL 90 DAY);
+    -- Example log cleanup (retain the last 365 days), MySQL/MariaDB syntax
+    DELETE FROM log_users WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
+    DELETE FROM log_zones WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
+    DELETE FROM log_groups WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
+    DELETE FROM log_changesets WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
+    DELETE FROM log_record_changes WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
+    DELETE FROM log_api WHERE created_at < DATE_SUB(NOW(), INTERVAL 365 DAY);
     ```
 
-    On PostgreSQL use `created_at < NOW() - INTERVAL '90 days'`; on SQLite use `created_at < datetime('now', '-90 days')`. Rows in `log_api` can also be pruned automatically with `logging.api_log_retention_days` (added in 4.5.0).
+    On PostgreSQL use `created_at < NOW() - INTERVAL '365 days'`; on SQLite use `created_at < datetime('now', '-365 days')`. Rows in `log_api` can also be pruned automatically with `logging.api_log_retention_days` (added in 4.5.0).
 
-2. **System Logs**: Configure log rotation for your web server and PHP logs:
+2. **A copy outside the database**: the log tables live in the same database that Poweradmin
+    writes to, so anyone with its credentials can change or delete them. Enable syslog
+    (`logging.syslog_enabled`) and forward it to a central or append-only collector (rsyslog,
+    journald remote, a SIEM) so the audit trail survives. `log_changesets` and `log_record_changes`
+    are not sent to syslog; back them up with the database.
+
+3. **System Logs**: Configure log rotation for your web server and PHP logs:
 
     ```
     # Example logrotate configuration (/etc/logrotate.d/poweradmin)
@@ -97,14 +106,30 @@ pg_dump -U username powerdns > powerdns_$(date +%Y%m%d).sql
 sqlite3 poweradmin.sqlite .dump > poweradmin_$(date +%Y%m%d).sql
 ```
 
+If PowerDNS uses a separate database (`database.pdns_db_name`), back it up too. With the PowerDNS
+API backend, zones and DNSSEC keys live in PowerDNS, so back up PowerDNS itself as well.
+
 #### Configuration Backup
 
-Back up your Poweradmin configuration files:
+Back up your Poweradmin configuration files. `config/settings.php` holds the session key and the
+database, LDAP, OIDC and SMTP secrets in plain text, so encrypt the archive:
 
 ```bash
-# Create a compressed archive of configuration files
-tar -czf poweradmin_config_$(date +%Y%m%d).tar.gz /path/to/poweradmin/config/
+# Create an encrypted archive of the configuration files
+tar -czf - /path/to/poweradmin/config/ | gpg --symmetric --cipher-algo AES256 -o poweradmin_config_$(date +%Y%m%d).tar.gz.gpg
 ```
+
+#### Restoring and testing
+
+A backup only counts once a restore has worked. Restore into a test instance regularly:
+
+1. Load the database dump into an empty database (`mysql powerdns < powerdns_YYYYMMDD.sql`, `psql`, or `sqlite3 poweradmin.sqlite < poweradmin_YYYYMMDD.sql`).
+2. Restore `config/settings.php` and point it at the test database.
+3. Run the same Poweradmin version that made the backup, sign in, and check zones and logs.
+4. Only then upgrade, if the restore is part of a move to a newer version.
+
+Backups and syslog copies keep personal data (user names, email addresses, IP addresses) after it
+is deleted in Poweradmin. Give them a retention period too (see [Personal Data and Privacy](../configuration/privacy.md)).
 
 ### Security Updates
 
