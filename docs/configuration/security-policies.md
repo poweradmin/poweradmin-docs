@@ -183,7 +183,9 @@ Poweradmin supports multi-factor authentication to add an extra layer of securit
 - **app_enabled**: Enable the authenticator app option (TOTP). Default: `true`. Setting it to `false` hides the option and refuses the setup request. It is ignored while email verification is unusable - disabled, or with no mail transport configured - so that disabling both methods cannot leave an enforced user with no way to complete setup.
 - **email_enabled**: Enable email verification codes. Default: `true`. NIST SP 800-63B does not accept email as a second factor, because whoever can read the mailbox gets the code. Where you follow NIST, set it to `false` and use an authenticator app.
 - **recovery_codes**: Number of recovery codes to generate. Default: `8`
-- **recovery_code_length**: Length of recovery codes in characters. Default: `10`. From 4.6.0, shorter values are raised to 10.
+- **recovery_code_length**: Length of recovery codes in characters. Default: `10`. From 4.6.0, shorter values are raised to 10 and longer ones are capped at 72.
+
+From 4.6.0, recovery codes are stored as salted bcrypt hashes, as NIST SP 800-63B asks for look-up secrets this short, and each code works once. Codes created by earlier versions keep working and are re-stored the first time a code is entered. A user who is locked out after too many wrong codes has to wait until the lockout ends; a recovery code does not lift it.
 
 ## Password Reset
 

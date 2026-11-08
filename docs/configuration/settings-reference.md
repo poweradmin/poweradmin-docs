@@ -287,7 +287,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 |---|---|---|---|
 | `oidc.enabled` {#setting-oidc-enabled} | `false` | Enable OIDC authentication | - |
 | `oidc.auto_provision` {#setting-oidc-auto-provision} | `true` | Automatically create user accounts from OIDC | - |
-| `oidc.link_by_email` {#setting-oidc-link-by-email} | `true` | Link OIDC accounts to existing users by email | - |
+| `oidc.link_by_email` {#setting-oidc-link-by-email} | `true` | Link OIDC accounts by email to existing users without a local password | - |
 | `oidc.require_verified_email` {#setting-oidc-require-verified-email} | `false` | Only link by email when the provider sends email_verified | 4.5.0 |
 | `oidc.allow_superuser_provisioning` {#setting-oidc-allow-superuser-provisioning} | `false` | Let OIDC mappings grant user_is_ueberuser | 4.5.0 |
 | `oidc.sync_user_info` {#setting-oidc-sync-user-info} | `true` | Sync user information (name, email) from OIDC provider | - |
@@ -344,7 +344,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 |---|---|---|---|
 | `saml.enabled` {#setting-saml-enabled} | `false` | Enable SAML authentication | - |
 | `saml.auto_provision` {#setting-saml-auto-provision} | `true` | Automatically create user accounts from SAML | - |
-| `saml.link_by_email` {#setting-saml-link-by-email} | `true` | Link SAML accounts to existing users by email | - |
+| `saml.link_by_email` {#setting-saml-link-by-email} | `true` | Link SAML accounts by email to existing users without a local password | - |
 | `saml.allow_superuser_provisioning` {#setting-saml-allow-superuser-provisioning} | `false` | Let SAML mappings grant user_is_ueberuser | 4.5.0 |
 | `saml.sync_user_info` {#setting-saml-sync-user-info} | `true` | Sync user information (name, email) from SAML provider | - |
 | `saml.default_permission_template` {#setting-saml-default-permission-template} | `'Guest'` | Default permission template for new SAML users (minimal access until assigned proper role) | - |
@@ -391,9 +391,9 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `security.mfa.enforced` {#setting-security-mfa-enforced} | `false` | Enable MFA enforcement (requires user_enforce_mfa permission) | - |
 | `security.mfa.skip_for_external_auth` {#setting-security-mfa-skip-for-external-auth} | `false` | Skip MFA enforcement for LDAP/OIDC/SAML logins - the IdP is trusted to enforce MFA | 4.5.0 |
 | `security.mfa.app_enabled` {#setting-security-mfa-app-enabled} | `true` | Enable authenticator app option | - |
-| `security.mfa.email_enabled` {#setting-security-mfa-email-enabled} | `true` | Enable email verification option | - |
+| `security.mfa.email_enabled` {#setting-security-mfa-email-enabled} | `true` | Enable email verification codes; NIST SP 800-63B does not accept email as a second factor | - |
 | `security.mfa.recovery_codes` {#setting-security-mfa-recovery-codes} | `8` | Number of recovery codes to generate | - |
-| `security.mfa.recovery_code_length` {#setting-security-mfa-recovery-code-length} | `10` | Length of recovery codes | - |
+| `security.mfa.recovery_code_length` {#setting-security-mfa-recovery-code-length} | `10` | Length of recovery codes in characters; shorter values are raised to 10 | - |
 | `security.mfa.max_verify_attempts` {#setting-security-mfa-max-verify-attempts} | `5` | Failed second-factor guesses before the code is refused | 4.5.0 |
 | `security.mfa.verify_lockout_duration` {#setting-security-mfa-verify-lockout-duration} | `15` | Minutes to refuse further attempts once the limit is hit | 4.5.0 |
 | `security.password_reset.enabled` {#setting-security-password-reset-enabled} | `false` | Enable/disable password reset functionality | - |
