@@ -178,7 +178,7 @@ return [
 Poweradmin supports multi-factor authentication to add an extra layer of security:
 
 - **enabled**: Enable MFA functionality. Default: `false`
-- **enforced**: Enforce MFA for users who hold the `user_enforce_mfa` permission. Default: `false`
+- **enforced**: Enforce MFA for users who hold the `user_enforce_mfa` permission. Default: `false`. Until such a user has set up MFA, web pages redirect to the setup page, but internal API calls (`/api/` paths) still go through unless `strict_session_gates` is `true`.
 - **skip_for_external_auth**: Skip MFA enforcement for LDAP, OIDC, SAML and web server logins, where the identity provider is trusted to enforce it. Default: `false` (added in 4.5.0)
 - **app_enabled**: Enable the authenticator app option (TOTP). Default: `true`. Setting it to `false` hides the option and refuses the setup request. It is ignored while email verification is unusable - disabled, or with no mail transport configured - so that disabling both methods cannot leave an enforced user with no way to complete setup.
 - **email_enabled**: Enable email verification codes. Default: `true`. NIST SP 800-63B does not accept email as a second factor, because whoever can read the mailbox gets the code. Where you follow NIST, set it to `false` and use an authenticator app.
