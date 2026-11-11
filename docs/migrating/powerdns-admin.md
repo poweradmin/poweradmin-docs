@@ -292,7 +292,7 @@ PowerDNS-Admin stores its settings in its database, overridable from the environ
 | `allow_user_create_domain` | `zone_master_add` and `zone_slave_add` permissions |
 | `allow_user_remove_domain` | `zone_delete_own` permission |
 | `allow_user_view_history` | `zone_logs_view_own` permission |
-| `forward_records_allow_edit`, `reverse_records_allow_edit` | `dns.domain_record_types`, `dns.reverse_record_types` (apply to all users) |
+| `forward_records_allow_edit`, `reverse_records_allow_edit` | `dns.domain_record_types`, `dns.reverse_record_types` choose the types the record form offers to all users; they do not refuse other types sent through the API |
 | `auto_ptr` | `interface.add_reverse_record` (a checkbox on the record form) |
 | `deny_domain_override` | `dns.parent_zone_ownership_check` |
 | `bg_domain_updates` | Not needed, see [What Carries Over](#what-carries-over) |

@@ -64,6 +64,10 @@ For a read-only zone, Poweradmin blocks every record-changing action across the 
 
 To change the records in a read-only zone, edit them on the primary server - the changes replicate automatically. You can still change the zone's own configuration (such as the Secondary master IP) and delete the zone itself.
 
+PowerDNS transfers a Secondary zone from whatever primary address is set, including loopback and
+private ranges. On a shared server where users may add Secondary zones, limit which hosts PowerDNS
+can reach for transfers at the network level.
+
 From 4.6.0, when Poweradmin can reach the [PowerDNS API](../configuration/powerdns-api.md) (the API backend, or the SQL backend with `pdns_api.url` and `pdns_api.key` set), the edit page of a Secondary zone offers **Retrieve from primary** next to the primary IP. It asks PowerDNS to transfer the zone from its primary right away instead of waiting for the next SOA refresh, and reports whether the request was accepted. The button needs the zone meta edit permission. Without the PowerDNS API there is no way to trigger a transfer, so the button is not shown and PowerDNS pulls on its own schedule.
 
 The edit page of a Master or Producer zone offers **Send NOTIFY** in the same place, under the same conditions: the PowerDNS API and the zone meta edit permission. It asks PowerDNS to send a NOTIFY to the zone's secondaries and ALSO-NOTIFY targets now instead of waiting for its next check. PowerDNS accepts the request even when it has nobody to notify, so a success message means it was asked, not that a secondary transferred the zone.
@@ -217,6 +221,21 @@ Two kinds are gated on the connected server's version, because PowerDNS added th
   make PowerDNS synthesize CDS/CDNSKEY records for the other zones it serves, per
   [RFC 9615](https://doc.powerdns.com/authoritative/domainmetadata.html#signaling-zone).
 - **`CATALOG-HASH`** and the catalog kinds appear on 4.7+ as described above.
+
+### Administrator-only metadata (v4.6.0)
+
+Some kinds reach beyond the zone's own records, so only a user holding `user_is_ueberuser` can
+set or change them:
+
+- `ENABLE-LUA-RECORDS` and `LUA-AXFR-SCRIPT` make PowerDNS evaluate Lua (since 4.5.0).
+- `ALLOW-DNSUPDATE-FROM`, `FORWARD-DNSUPDATE` and `TSIG-ALLOW-DNSUPDATE` let RFC 2136 clients
+  write the zone directly, past record validation, client restrictions and change review, when
+  PowerDNS runs with `dnsupdate=yes`.
+- `AXFR-MASTER-TSIG` and `TSIG-ALLOW-AXFR` name a TSIG key, and keys are shared by every zone on
+  the server.
+
+Zone editors keep every other kind, including `ALLOW-AXFR-FROM` and `ALSO-NOTIFY`. Values an
+administrator already set stay, and a zone editor can still save unrelated metadata on that zone.
 
 ### Restrictions with the PowerDNS API backend
 

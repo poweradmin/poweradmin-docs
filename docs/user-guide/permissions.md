@@ -198,6 +198,7 @@ then repeat the action. The same rule applies through the v2 API, which answers
 - Allows the user to edit information for other users
 - Can modify other users' details and access rights
 - High-level administrative permission
+- From 4.6.0, changing another user's email address or username also needs `user_passwd_edit_others`
 
 ### user_add_new
 
@@ -210,6 +211,7 @@ then repeat the action. The same rule applies through the v2 API, which answers
 - Allows the user to change passwords for other users
 - Can reset passwords when users are locked out
 - Administrative security management permission
+- From 4.6.0, also needed to change another user's email address or username, since either can hand over the account through a password reset or a directory sign-in
 
 ### user_edit_templ_perm
 
