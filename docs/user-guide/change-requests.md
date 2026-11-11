@@ -155,7 +155,8 @@ limit below, the copy leaves the disabled records out. The copy is visible to th
 to reviewers and to users who may view the zone, and is skipped when it exceeds 60000
 bytes.
 
-Deleting several zones at once from the zone list stays direct-only.
+Deleting several zones at once from the zone list cannot file a request. Under
+`require_review_for_all` it is refused; delete each zone from its own page instead.
 
 ### Following your own requests
 
@@ -441,7 +442,11 @@ keep `require_review_for_all` off for installations that rely on DDNS.
 - A request carries the record itself only: the "Add PTR", "Add A/AAAA" and "Update PTR"
   companion options are not offered in request mode. File the reverse record separately.
 - Zone creation is not reviewed.
-- Deleting several zones at once from the zone list is not reviewed and keeps no snapshot.
+- Deleting several zones at once from the zone list cannot file a request. It is refused under
+  `require_review_for_all` and keeps no snapshot.
+- DNSSEC signing and keys, zone metadata, zone owners and groups, and catalog membership are
+  not reviewed. They need their own permissions, which a requester does not hold, and apply
+  directly even under `require_review_for_all`.
 - Self-approval is allowed unless `approval.allow_self_approval` is `false`.
 - Stale requests warn but can still be approved.
 - Requests are kept indefinitely. Prune the `zone_change_requests` table on your own
