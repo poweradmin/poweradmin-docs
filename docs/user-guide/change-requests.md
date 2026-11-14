@@ -125,14 +125,17 @@ page uses it to warn when the zone moved on.
 The first version routes single record edits, adds, deletes and zone deletion through
 review. Everything that writes many records at once stays direct-only and is hidden from a
 requester on the edit page: **Bulk add**, **Multi-record mode**, **Delete record(s)** for a
-selection, the DNS wizards, zone **Import**, PTR generation, and applying a zone template.
+selection, the DNS wizards, zone **Import** into an existing zone, PTR generation, and applying
+a zone template.
 Opening any of these pages by URL, or editing the zone comment on its own page, is refused
 with "This zone requires approval for changes; use the zone editor to submit a change
 request." The same refusal applies to editors under `require_review_for_all`, so the only
 way to change a reviewed zone is a change request.
 
 Zone creation is not reviewed. A user who may add zones still adds them directly, with
-`require_review_for_all` on or off.
+`require_review_for_all` on or off. This includes the records a new zone starts with: those
+of the zone template picked on the add form or in API v2, and those of a zone file imported
+into a new zone.
 
 Records in Secondary and Consumer zones replicate from a primary and cannot be requested
 either.
