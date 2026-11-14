@@ -45,6 +45,17 @@ DNSSEC settings are configured in the `config/settings.php` file under the `dnss
 | dnssec.enabled | false | Enable (true) or disable (false) DNSSEC support | 2.1.7 |
 | dnssec.debug | false | Enable debug for DNSSEC operations. Has had no effect since the pdnsutil provider was dropped; removed in 4.6.0 | 2.1.9 |
 
+### The dnssec.enabled setting
+
+`dnssec.enabled` decides whether Poweradmin changes DNSSEC state. With it off, signing and
+unsigning a zone and adding, importing, activating, deactivating and deleting keys are refused
+with "DNSSEC is not enabled on the server". From 4.6.0 this also covers API v2, which answers
+`400` for these calls and for rectify; 4.5.2 and 4.4.4 refuse the web actions and leave the API
+as it was. Viewing keys and DS/DNSKEY records works with the setting off.
+
+Tools that manage DNSSEC through API v2, such as the Terraform provider, need
+`dnssec.enabled = true` from 4.6.0 (`PA_DNSSEC_ENABLED=true` in Docker).
+
 ## Enabling DNSSEC
 
 To enable DNSSEC:
