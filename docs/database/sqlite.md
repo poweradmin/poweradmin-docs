@@ -69,6 +69,16 @@ sqlite3 /path/to/your/poweradmin.sqlite < /path/to/poweradmin/sql/poweradmin-sql
 You can use the provided script from the Poweradmin repository:
 https://github.com/poweradmin/poweradmin-scripts/blob/master/create_sqlite_db.sh
 
+Clone it as `scripts/` inside your Poweradmin directory and run it from there:
+
+```bash
+./scripts/create_sqlite_db.sh /path/to/your/poweradmin.sqlite
+```
+
+It creates one database file holding both the PowerDNS schema (the newest one under `sql/pdns/` by default; pass
+a version such as `47` as a second argument to pick another) and the Poweradmin tables. It refuses to overwrite an
+existing file. Give the web server user write access to the file and its directory afterwards, as in Option 1.
+
 ### Running the Installer
 
 After creating your SQLite database, run the Poweradmin installer and select SQLite as the database type in step 4, then provide the full path to your database file:
