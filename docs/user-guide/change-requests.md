@@ -271,7 +271,9 @@ The SOA contact is derived from the RNAME field of the SOA record: the first lab
 the mailbox, an escaped dot in it stays a dot, and the rest becomes the domain, so
 `hostmaster.example.com.` is mailed as `hostmaster@example.com`. It is off by default
 (`PA_NOTIFICATION_CHANGE_REQUEST_SOA_CONTACT` in Docker) because that mailbox may belong to
-someone outside the installation. A mail failure never undoes the
+someone outside the installation. Anyone who may edit the zone's SOA record decides that
+address, and the mail carries the requester's comment, so turn it on only where zone owners
+are trusted to keep the SOA contact pointing at the right people. A mail failure never undoes the
 request or the decision; it is logged and the workflow continues.
 
 Templates are `templates/emails/change-request-filed.*.twig` and

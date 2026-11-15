@@ -30,6 +30,8 @@ Poweradmin believes whatever the web server tells it. Anyone who can reach PHP w
 
 nginx fills `$remote_user` from any client's `Authorization` header, whether or not the password was checked. Pass `REMOTE_USER` to PHP only in locations protected by `auth_basic`.
 
+The same applies to every other location you exempt from `auth_basic`, such as `/nic/update` and `/dynamic_update.php` for dynamic DNS clients, the SAML ACS (`/saml/acs`) or `/api/health`: set `fastcgi_param REMOTE_USER "";` there as the `/api/v2/` example does.
+
 This pattern comes from the Poweradmin devcontainer. `auth_basic` covers the whole site and hands the checked user to PHP. `/api/v2/` is exempted in a prefix `location`, which nginx matches on the normalised path, so `/api/v2/../index.php` cannot slip past `auth_basic`. Do not key the exemption on `$request_uri`, which is not normalised.
 
 ```nginx
