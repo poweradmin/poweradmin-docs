@@ -445,8 +445,22 @@ Anything you set here overrides the derived defaults below.
 | `logoutResponseSigned` | true when `sp.private_key` is set, otherwise false | Sign logout responses |
 | `signMetadata` | true when `sp.private_key` is set, otherwise false | Sign the generated SP metadata |
 | `signatureAlgorithm` | rsa-sha256 | Signature algorithm |
+| `allowRSA15KeyTransport` | false | Accept assertions and NameIDs encrypted with RSA 1.5 key transport (v4.6.0, 4.5.2, 4.4.4, 4.3.8, 4.2.9) |
+| `allowCBCEncryption` | true | Accept AES-CBC encrypted content; `false` accepts only AES-GCM (v4.6.0, 4.5.2, 4.4.4, 4.3.8, 4.2.9) |
 
 Signing therefore switches on by itself once you configure an SP key and certificate, and assertion signing is required as soon as the provider has an IdP certificate configured.
+
+### Encrypted assertions and older identity providers *(v4.6.0, 4.5.2, 4.4.4, 4.3.8, 4.2.9)*
+
+These releases ship php-saml 4.4 with xmlseclibs 4, which fixes several signature and decryption flaws in older xmlseclibs versions. It also refuses assertions and NameIDs encrypted with RSA 1.5 key transport. This only matters when the identity provider encrypts assertions or NameIDs for Poweradmin, which needs an SP key and certificate; signed-only setups are not affected. If an older identity provider can only use RSA 1.5, sign-in fails after the upgrade with "Authentication failed" and `RSA-1.5 key transport is disabled` in the log. In that case switch the provider to RSA-OAEP, or allow RSA 1.5 for that provider:
+
+```php
+'security' => [
+    'allowRSA15KeyTransport' => true,
+],
+```
+
+`allowCBCEncryption` (default `true`) controls whether AES-CBC encrypted content is still accepted; set it to `false` to accept only AES-GCM.
 
 ## SP Signing (Optional)
 
