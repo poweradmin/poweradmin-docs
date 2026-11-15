@@ -94,7 +94,7 @@ There is no built-in export yet. Collect a user's data from the tables above wit
 
 ### Correction
 
-Users with the `user_edit_own` permission can change their own full name, email and description. Others need an administrator. For OIDC and SAML accounts, change the data at the identity provider: Poweradmin copies it again at the next sign-in.
+Users with the `user_edit_own` permission can change their own full name, email and description. Others need an administrator. From 4.6.0, changing your own email or username asks for your current password, and LDAP and web server (`remote_user`) accounts ask an administrator to change them. For OIDC and SAML accounts, change the data at the identity provider: Poweradmin copies it again at the next sign-in.
 
 ### Restriction
 

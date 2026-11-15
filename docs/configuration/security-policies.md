@@ -50,7 +50,7 @@ These settings help prevent brute force attacks by temporarily locking accounts 
 
 - **enable_lockout**: Enable account lockout after failed login attempts. Default: `false`
 - **lockout_attempts**: Number of failed attempts before account is locked. Default: `5`
-- **lockout_duration**: Duration of the lockout in minutes. Default: `15`
+- **lockout_duration**: Duration of the lockout in minutes. Default: `15`. From 4.6.0 a value below 1 counts as 1.
 - **track_ip_address**: Lock accounts based on IP address. Default: `true`. IPv6 clients are counted per /64 network and IPv4-mapped addresses (`::ffff:192.0.2.1`) as their IPv4 address, so rotating addresses inside one subnet does not reset the count (since 4.6.0)
 - **username_attempts**: With `track_ip_address` on, the number of failures per account across all addresses before it is locked. Failures through API Basic auth and DynDNS count too. Default: `0` (off) (added in 4.6.0)
 - **clear_attempts_on_success**: Clear failed attempts after successful login. Default: `true`
