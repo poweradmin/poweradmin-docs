@@ -154,8 +154,8 @@ deletion**, and the API returns it in the `snapshot` field of the request. Re-im
 through the zone import tool to bring the zone back. Disabled records are kept in the copy
 as `; poweradmin-disabled:` lines, which other DNS tools read as comments, and the import
 restores them as disabled records; when those lines would push the file past the size
-limit below, the copy leaves the disabled records out. The copy is visible to the requester,
-to reviewers and to users who may view the zone, and is skipped when it exceeds 60000
+limit below, the copy leaves the disabled records out. The copy is visible to reviewers and
+to users who may view the zone (from 4.6.0 the requester alone no longer opens it), and is skipped when it exceeds 60000
 bytes.
 
 Deleting several zones at once from the zone list cannot file a request. Under

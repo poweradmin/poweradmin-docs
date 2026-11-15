@@ -234,6 +234,8 @@ The container can automatically create an admin user on first startup:
 | `PA_ADMIN_EMAIL` | admin@example.com | Admin email |
 | `PA_ADMIN_FULLNAME` | Administrator | Admin display name |
 
+The check runs on every container start. From 4.6.0 the account is created only when the database has no active superuser yet, so renaming or deleting the built-in `admin` and restarting with `PA_CREATE_ADMIN` still on does not bring it back; older images created it again whenever no user had that username. Turn `PA_CREATE_ADMIN` off once the first administrator exists.
+
 If `PA_ADMIN_PASSWORD` is not set, a secure password is generated and logged:
 
 ```bash
