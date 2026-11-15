@@ -75,6 +75,7 @@ In a remote setup:
 
 2. Configure Poweradmin to connect to the remote database:
     - Copy `config/settings.defaults.php` to `config/settings.php`
+    - Set `security.session_key` to a long random value, for example the output of `openssl rand -hex 32`. Poweradmin uses it to encrypt the password kept in the session and to tie OIDC and SAML sessions to this installation, so never leave the `change_this_key` placeholder
     - Edit the database connection settings:
 
 ```php

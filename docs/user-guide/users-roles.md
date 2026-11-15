@@ -113,6 +113,15 @@ They cannot be used to become an administrator. A user who is not already an adm
 cannot assign such a template to an account. See
 [Permissions](permissions.md#template-permissions) for the details.
 
+In 4.5.x and 4.4.x the web pages credit a group's permission template only for zones that group owns, while API v2 combines every template a user holds, their own and their groups', with any zone they own directly or through a group. A user whose own template allows editing their zones and who belongs to a view-only group that owns a zone can therefore edit that zone through API v2 but not on the web. 4.6.0 uses the combined rule everywhere. Keep this in mind when you give a user an edit template of their own and also put them in view-only groups.
+
+Deleting a group on a database created by the web installer did not always remove the group's memberships and zone grants: SQLite installs on 4.5.x and earlier, and every database on 4.4.x, 4.3.x and 4.2.x, have no foreign keys to do it. From 4.6.0, 4.5.2, 4.4.4, 4.3.8 and 4.2.9 the delete removes them itself. Rows left behind by an earlier delete still give former members ownership of the group's zones; remove them once with:
+
+```sql
+DELETE FROM user_group_members WHERE group_id NOT IN (SELECT id FROM user_groups);
+DELETE FROM zones_groups WHERE group_id NOT IN (SELECT id FROM user_groups);
+```
+
 Anyone with root shell access to the server running Poweradmin, or to the PowerDNS database server,
 effectively has uberuser rights regardless of the permission system.
 
