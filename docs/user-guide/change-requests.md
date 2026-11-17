@@ -127,9 +127,9 @@ review. Everything that writes many records at once stays direct-only and is hid
 requester on the edit page: **Bulk add**, **Multi-record mode**, **Delete record(s)** for a
 selection, the DNS wizards, zone **Import** into an existing zone, PTR generation, and applying
 a zone template.
-Opening any of these pages by URL, or editing the zone comment on its own page, is refused
-with "This zone requires approval for changes; use the zone editor to submit a change
-request." The same refusal applies to editors under `require_review_for_all`, so the only
+Opening any of these pages by URL, editing the zone comment on its own page, or changing the
+zone's type or primary servers is refused with "This zone requires approval for changes; use
+the zone editor to submit a change request." The same refusal applies to editors under `require_review_for_all`, so the only
 way to change a reviewed zone is a change request.
 
 Zone creation is not reviewed. A user who may add zones still adds them directly, with
@@ -428,7 +428,10 @@ refuse instead of writing:
 
 The status is `403`. This applies to `POST`, `PUT` and `DELETE` on
 `/api/v2/zones/{id}/records`, `/api/v2/zones/{id}/records/bulk`, the RRset endpoints, the
-dynamic DNS endpoint, and to `DELETE /api/v2/zones/{id}` under `require_review_for_all`.
+dynamic DNS endpoint, to `PUT /api/v2/zones/{id}` when it changes the zone's type, primaries
+or description, and to `DELETE /api/v2/zones/{id}` under `require_review_for_all`. A `PUT`
+that resends the zone's stored values unchanged is accepted, so a client that sends every
+field on each update is not refused when nothing changes.
 A client that gets this answer files a change request instead.
 
 ## Dynamic DNS
@@ -442,8 +445,8 @@ keep `require_review_for_all` off for installations that rely on DDNS.
 ## Limitations of this version
 
 - Bulk add, multi-record mode, deleting a selection of records, applying a zone template,
-  the DNS wizards, zone import, PTR generation and the zone comment page cannot file a
-  request; they are refused for a reviewed zone.
+  the DNS wizards, zone import, PTR generation, the zone comment page and changing a zone's
+  type or primary servers cannot file a request; they are refused for a reviewed zone.
 - A request carries the record itself only: the "Add PTR", "Add A/AAAA" and "Update PTR"
   companion options are not offered in request mode. File the reverse record separately.
 - Zone creation is not reviewed.
