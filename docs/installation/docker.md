@@ -22,7 +22,7 @@ The image tags published for production and development use are:
 | `4.3.x`  | `release/4.3.x`      | Maintenance line, end of life on 2027-01-31; updates on every commit to the branch. |
 | `4.2.x`  | `release/4.2.x`      | Maintenance line, end of life on 2027-01-31; updates on every commit to the branch. |
 | `dev`    | `master`             | Development tip (4.6.0 work) - unstable, not for production. |
-| `lts`    | `release/3.x`        | Long-term support for the 3.x series. |
+| `lts`    | `release/3.x`        | Long-term support for the 3.x series. Test image only: it starts with the account `admin` / `testadmin` and a session key fixed when the image was built. Do not expose it; use a 4.x tag in production. |
 | `4.5.1`, `4.4.3` | Tagged release | Pin to a specific version, for example `4.4.3` on the LTS line - **recommended for production**. Image tags carry no `v` prefix: the `v4.4.3` git tag is published as `4.4.3` (plus `4.4` and `4`). |
 
 > **Note:** The `next` tag was removed when the release branch structure changed. The per-version tags (`4.4.3`) are the safest choices for production; the branch tags (`4.2.x`, `4.3.x`, `4.4.x`, `4.5.x`) update on every push and may include unreleased fixes. For moving an existing container to a newer release, see [Upgrading a Docker deployment](../upgrading/index.md#upgrading-a-docker-or-docker-compose-deployment).
