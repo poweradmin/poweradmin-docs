@@ -143,6 +143,11 @@ This is convenient for ad-hoc requests but it has trade-offs:
 Account lockout still applies: repeated failures over Basic Auth count towards
 the same `security.account_lockout` thresholds as the browser login.
 
+From 4.6.0, a Basic Auth request that a browser marks as coming from another
+site (`Sec-Fetch-Site` other than `same-origin` or `none`) is refused with
+`403`, so a web page cannot reuse credentials the browser has cached for the
+API. Command-line tools, the Terraform provider and API keys are not affected.
+
 For anything beyond exploration, prefer API keys.
 
 ## Required request headers

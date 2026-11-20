@@ -8,6 +8,8 @@ Work through the causes below in order.
 
 Poweradmin sets the `Secure` flag on its session cookie when the request looks like HTTPS: either PHP sees `$_SERVER['HTTPS']` set, or the request carries `X-Forwarded-Proto: https`. Browsers never send a `Secure` cookie over plain HTTP, so the session is lost on the next page.
 
+It also keeps the flag when `session.cookie_secure` is on in `php.ini`: from 4.6.0, 4.5.2, 4.4.4 and 3.9.15 Poweradmin can raise that setting but never turns it off. A `php.ini` with `session.cookie_secure = 1` on an install reached over plain HTTP therefore causes this loop as well.
+
 Check this when:
 
 - you open Poweradmin over `http://`, but the web server or PHP-FPM always passes `HTTPS=on` (a `fastcgi_param HTTPS on;` or similar copied from an HTTPS block);
