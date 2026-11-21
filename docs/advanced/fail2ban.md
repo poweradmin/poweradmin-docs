@@ -76,7 +76,7 @@ Create `/etc/fail2ban/filter.d/poweradmin.conf`:
 # Match credential failures and MFA brute force.
 # Deliberately excludes operation:login_error (backend/IdP outages) and
 # operation:login_locked (already throttled at the application layer).
-failregex = ^.*\bpoweradmin\b.*client_ip:<HOST> .*operation:(login_failed|mfa_failed)\b
+failregex = ^.*\bpoweradmin(?:\[\d+\])?: client_ip:<HOST> user:\S* operation:(login_failed|mfa_failed)\b
 
 ignoreregex =
 
@@ -87,8 +87,13 @@ ignoreregex =
 The `<HOST>` token tells fail2ban which capture group is the client IP.
 The regex anchors on:
 
-- `\bpoweradmin\b` - the syslog identity, so unrelated lines on the same
-  file don't match.
+- `poweradmin:` (optionally `poweradmin[pid]:`) - the syslog identity, so
+  unrelated lines on the same file don't match.
+- `client_ip:<HOST> user:\S* operation:` - the leading fields, in the order
+  Poweradmin writes them. Anchoring on them means text inside a logged value,
+  such as record content, cannot supply the address or the operation. Use
+  this form rather than a `.*` between the fields, which an older version of
+  this page showed.
 - `operation:(login_failed|mfa_failed)` - the credential-side events
   only.
 
