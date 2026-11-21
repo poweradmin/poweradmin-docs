@@ -10,6 +10,10 @@ This page describes a direct upgrade from 2.1.7 through 2.2.2 to 4.4.x. It was t
 2026 by upgrading a 2.1.7 database to 4.4.x on MariaDB and PostgreSQL. There is no need to install
 every release in between: you install 4.4.x and run the update scripts it ships, in order.
 
+> **Need help with the upgrade?** Paid upgrade assistance, from planning to doing the upgrade with you,
+> is available through [Support & Sponsorship](https://www.poweradmin.org/p/support-and-sponsorship),
+> or write to [support@poweradmin.org](mailto:support@poweradmin.org).
+
 ## Before you start
 
 - Back up the PowerDNS database and the Poweradmin tables (they usually share one database).

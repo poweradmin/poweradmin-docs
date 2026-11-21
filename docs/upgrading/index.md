@@ -3,6 +3,10 @@
 Coming from another PowerDNS web interface, such as PowerDNS-Admin, Opera DNS UI, nsedit or PDNS Manager? See
 [Migrating from Other Tools](../migrating/index.md).
 
+> **Need help with the upgrade?** Paid upgrade assistance, from planning to doing the upgrade with you,
+> is available through [Support & Sponsorship](https://www.poweradmin.org/p/support-and-sponsorship),
+> or write to [support@poweradmin.org](mailto:support@poweradmin.org).
+
 ## Unsupported Versions
 
 Only the lines listed in [Version Support](../getting-started/lifecycle.md) get security fixes.
