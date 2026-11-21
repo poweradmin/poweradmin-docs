@@ -3,6 +3,14 @@
 Coming from another PowerDNS web interface, such as PowerDNS-Admin, Opera DNS UI, nsedit or PDNS Manager? See
 [Migrating from Other Tools](../migrating/index.md).
 
+## Unsupported Versions
+
+Only the lines listed in [Version Support](../getting-started/lifecycle.md) get security fixes.
+Poweradmin 2.x is the most exposed of the unsupported versions: its forms have no CSRF protection,
+several pages print stored data without escaping, a logged-in user can change zones they do not
+own, and a leftover `install/` directory can be used without logging in. Keep a 2.x installation
+off the public internet and follow [Upgrading from 2.x](from-2x.md), which goes straight to 4.4.x.
+
 ## General Upgrade Instructions
 
 When upgrading Poweradmin from any version to a newer one, follow these general steps:
@@ -123,7 +131,9 @@ If you're upgrading across multiple major versions, it's often safest to upgrade
 
 ### Recommended Path from 2.0.0 to 4.5.1
 
-If you're upgrading from a very old version (e.g., 2.0.0), we recommend the following path:
+From 2.1.7 through 2.2.2, the shorter route in [Upgrading from 2.x](from-2x.md) installs 4.4.x
+directly and runs the update scripts in order; it was tested from 2.1.7. For older versions
+(e.g., 2.0.0), we recommend the following path:
 
 1. 2.0.0 → 2.1.4 (Important database structure changes)
 2. 2.1.4 → 2.2.2 (API integration changes)
