@@ -26,6 +26,8 @@ $dns_ns1 = 'ns1.example.net';
 $dns_ns2 = 'ns2.example.net';
 ```
 
+v3.x reads this file without running it, so every value must be a literal: a quoted string, a number, `true` or `false`. Expressions and function calls are not evaluated. `$session_key = getenv('PA_SESSION_KEY');` stores the text `getenv` as the key, and `$iface_expire = 60 * 30;` stores `60`. Write the final value directly.
+
 ## Database Settings
 
 | Variable | Default | Description | Added |
