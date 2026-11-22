@@ -45,6 +45,7 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `oidc.link_by_email` | true | Link OIDC accounts to existing users by email |
 | `oidc.require_verified_email` | false | Only link by email when the provider sends `email_verified` |
 | `oidc.sync_user_info` | true | Sync user info (name, email) on each login |
+| `oidc.verify_id_token` | false | Verify the ID token's signature and claims (v4.6.0+; Docker: `PA_OIDC_VERIFY_ID_TOKEN`). See [ID token verification](#id-token-verification-v460) |
 | `oidc.default_permission_template` | "Guest" | Default permission template for new users |
 | `oidc.required_claims` | `[]` | Only admit logins whose claims match (v4.6.0+). See [Requiring claims](#requiring-claims-v460) |
 
@@ -323,8 +324,69 @@ Each provider requires specific configuration. All providers share these common 
 | `emails_url` | No | OAuth 2.0 email list such as GitHub's `/user/emails`, used to find a verified address (added in 4.6.0) |
 | `scopes` | No | OAuth scopes (default: openid profile email) |
 | `logout_url` | No | Provider logout endpoint |
+| `verify_id_token` | No | Overrides `oidc.verify_id_token` for this provider (v4.6.0+) |
+| `jwks_url` | Conditional | Signing keys (JWKS) URL. Needed with verification when `auto_discovery` is off; with discovery it is read from `jwks_uri` unless set here (v4.6.0+) |
+| `issuer` | Conditional | Expected `iss` of the ID token. Needed with verification when `auto_discovery` is off; with discovery it is read from `issuer` unless set here (v4.6.0+) |
 | `response_mode` | No | How the provider returns the authorization code: `query` (default) or `form_post` |
 | `user_mapping` | No | Map OIDC claims to user fields |
+
+### ID token verification *(v4.6.0+)*
+
+By default Poweradmin reads the claims of the ID token without checking its signature,
+because the token arrives straight from the provider's token endpoint over TLS. Turn on
+`oidc.verify_id_token` to check it as the OpenID Connect specification describes:
+
+```php
+'oidc' => [
+    'verify_id_token' => true,
+    'providers' => [
+        'keycloak' => [
+            // with auto_discovery the issuer and signing keys URL come from the metadata
+            'auto_discovery' => true,
+            'metadata_url' => 'https://keycloak.example.com/realms/master/.well-known/openid-configuration',
+        ],
+        'custom' => [
+            'auto_discovery' => false,
+            'jwks_url' => 'https://idp.example.com/keys',
+            'issuer' => 'https://idp.example.com',
+            // ...
+        ],
+        'github' => [
+            'verify_id_token' => false,   // OAuth 2.0 only, sends no ID token
+            // ...
+        ],
+    ],
+],
+```
+
+With verification on:
+
+- The authorization request carries a random `nonce`, and the ID token must return it.
+  The nonce works once per login.
+- The token response must contain an ID token. It must be signed with RS256, RS384,
+  RS512, ES256 or ES384 by a key from the provider's JWKS (tokens with `alg` set to
+  `none` or an HMAC algorithm are refused).
+- `iss` must equal the issuer, `aud` must contain the provider's `client_id` (with several
+  audiences `azp` must also equal it), `exp` must be in the future and `iat` not in the
+  future, each with 60 seconds of clock tolerance.
+- The token must carry a `sub`, and the userinfo response's `sub` must be the same, or the login is refused.
+- Claims such as groups are taken only from a token that passed these checks.
+- Any failure refuses the login with the usual generic error. The reason is written to the
+  Poweradmin log, without the token.
+
+Notes:
+
+- A provider's own `verify_id_token` wins over the global setting. Set it to `false` for
+  OAuth 2.0 providers such as GitHub that send no ID token, or the login is refused.
+- A configured `issuer` or `jwks_url` is used instead of the value from discovery, and a warning is logged when it differs from the advertised one. The issuer must match the token's `iss` exactly, including any trailing slash.
+- Redirects on the JWKS request are followed over HTTPS only.
+- With Docker, `PA_OIDC_VERIFY_ID_TOKEN=true` turns on the global setting; the generated providers have no `jwks_url` or `issuer`, so use it with `PA_OIDC_GENERIC_AUTO_DISCOVERY=true`, and note it applies to the GitHub provider too, which sends no ID token.
+- Without `auto_discovery`, a provider with verification on needs both `jwks_url` and
+  `issuer`, otherwise its login button is hidden.
+- The key set is cached for an hour under `var/cache/oidc`. An ID token signed with an
+  unknown key id triggers one refetch, at most once a minute, so key rotation needs no action.
+  The directory must be writable by the web server; without it keys are fetched on every login.
+- The JWKS request uses the same HTTP client and proxy settings as the token request.
 
 ### Response mode (`response_mode`)
 
@@ -755,6 +817,7 @@ You can configure multiple OIDC providers. Users will see all enabled providers 
 3. **Validate redirect URIs**: Configure exact redirect URIs in your identity provider
 4. **PKCE**: Poweradmin uses PKCE (Proof Key for Code Exchange) automatically for enhanced security
 5. **State validation**: CSRF protection via state parameter is enabled by default
+6. **ID token verification**: Turn on `oidc.verify_id_token` to check the token signature, issuer, audience, expiry and a per-login nonce. See [ID token verification](#id-token-verification-v460)
 
 ## Troubleshooting
 
