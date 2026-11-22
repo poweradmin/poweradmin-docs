@@ -19,14 +19,14 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `api.basic_auth_realm` {#setting-api-basic-auth-realm} | `'Poweradmin API'` | Realm name for HTTP Basic Authentication | - |
 | `api.docs_enabled` {#setting-api-docs-enabled} | `false` | Enable API documentation at /api/docs endpoint | - |
 | `api.max_keys_per_user` {#setting-api-max-keys-per-user} | `5` | Maximum number of API keys per user (admin users have no limit) | - |
-| `api.bulk_max_operations` {#setting-api-bulk-max-operations} | `1000` | Maximum operations in one bulk records request; 0 = no limit | 4.6.0 |
+| `api.bulk_max_operations` {#setting-api-bulk-max-operations} | `1000` | Maximum operations in one bulk records request, or records in one RRset replace; 0 = no limit | 4.6.0 |
 
 ## approval
 
 | Setting | Default | Description | Added in |
 |---|---|---|---|
 | `approval.enabled` {#setting-approval-enabled} | `false` | Route changes of request-only users through review | 4.6.0 |
-| `approval.require_review_for_all` {#setting-approval-require-review-for-all} | `false` | Every zone change becomes a request, even for editors and admins | 4.6.0 |
+| `approval.require_review_for_all` {#setting-approval-require-review-for-all} | `false` | Record, zone comment and zone delete changes become requests for everyone; DNSSEC, metadata, owner/group and catalog changes stay direct | 4.6.0 |
 | `approval.allow_self_approval` {#setting-approval-allow-self-approval} | `true` | False: a requester cannot approve their own change request | 4.6.0 |
 
 ## database
@@ -240,6 +240,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `modules.zone_import_export.enabled` {#setting-modules-zone-import-export-enabled} | `false` | - | - |
 | `modules.zone_import_export.auto_ttl_value` {#setting-modules-zone-import-export-auto-ttl-value} | `300` | - | - |
 | `modules.zone_import_export.max_file_size` {#setting-modules-zone-import-export-max-file-size} | `1048576` | - | - |
+| `modules.zone_import_export.max_records` {#setting-modules-zone-import-export-max-records} | `5000` | - | - |
 | `modules.whois.enabled` {#setting-modules-whois-enabled} | `false` | - | - |
 | `modules.whois.default_server` {#setting-modules-whois-default-server} | `''` | - | - |
 | `modules.whois.custom_servers` {#setting-modules-whois-custom-servers} | `[]` | - | - |
@@ -291,6 +292,7 @@ Override any of them in `config/settings.php`; see [Basic Configuration](basic.m
 | `oidc.require_verified_email` {#setting-oidc-require-verified-email} | `false` | Only link by email when the provider sends email_verified | 4.5.0 |
 | `oidc.allow_superuser_provisioning` {#setting-oidc-allow-superuser-provisioning} | `false` | Let OIDC mappings grant user_is_ueberuser | 4.5.0 |
 | `oidc.sync_user_info` {#setting-oidc-sync-user-info} | `true` | Sync user information (name, email) from OIDC provider | - |
+| `oidc.verify_id_token` {#setting-oidc-verify-id-token} | `false` | Verify the ID token signature, issuer, audience, expiry and nonce; a provider can override it | 4.6.0 |
 | `oidc.default_permission_template` {#setting-oidc-default-permission-template} | `'Guest'` | Default permission template for new OIDC users (minimal access until assigned proper role) | - |
 | `oidc.required_claims` {#setting-oidc-required-claims} | `[]` | Claim name => required value | 4.6.0 |
 | `oidc.permission_template_mapping` {#setting-oidc-permission-template-mapping} | `[]` | - | - |
