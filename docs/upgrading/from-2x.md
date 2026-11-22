@@ -7,7 +7,7 @@ without logging in. Upgrade to 4.4.x, the LTS line, and until then keep 2.x off 
 internet (VPN, IP allow-list or web server authentication).
 
 This page describes a direct upgrade from 2.1.7 through 2.2.2 to 4.4.x. It was tested in November
-2026 by upgrading a 2.1.7 database to 4.4.x on MariaDB and PostgreSQL. There is no need to install
+2026 by upgrading 2.1.6 and 2.1.7 databases to 4.4.3 on MariaDB, PostgreSQL and SQLite. There is no need to install
 every release in between: you install 4.4.x and run the update scripts it ships, in order.
 
 > **Need help with the upgrade?** Paid upgrade assistance, from planning to doing the upgrade with you,
@@ -23,10 +23,15 @@ every release in between: you install 4.4.x and run the update scripts it ships,
   [PowerDNS upgrade notes](https://doc.powerdns.com/authoritative/upgrading.html). 2.1.7 and older
   were built for PowerDNS 3.x. Reference schemas for current PowerDNS releases ship in
   Poweradmin's `sql/pdns/` directory.
+- 4.1 and later need URL rewriting: use the shipped `.htaccess` (Apache with `AllowOverride All`)
+  or `nginx.conf.example`.
 - On MySQL, keep the database's existing character set. Converting a PowerDNS 3.x-era schema to
   utf8 fails on `records.content VARCHAR(64000)`.
 - On 2.1.4 through 2.1.6, first run only the SQL from the [v2.1.5](v2.1.5.md), [v2.1.6](v2.1.6.md)
   and [v2.1.7](v2.1.7.md) pages for each release after yours; skip their file and tarball steps.
+  The 2.1.7 statements need the PowerDNS tables `domainmetadata`, `cryptokeys` and `tsigkeys`, so
+  upgrade the PowerDNS schema (previous point) first. After this, your database counts as 2.1.7 for
+  the steps below.
   The 2.1.7 PHP migration that links existing records to their zone templates cannot run on this
   route, so those records stay unlinked. Older than 2.1.4: follow the incremental path in the
   [upgrade overview](index.md#upgrade-path).
@@ -87,6 +92,10 @@ every release in between: you install 4.4.x and run the update scripts it ships,
 - Existing passwords keep working. 2.x stored unsalted MD5 hashes by default; 4.4.x accepts them
   and replaces each one with a bcrypt hash on the user's first login. Ask users who never log in
   to reset their password, or reset it for them.
+- If you had your own permission templates named **Zone Manager** or **Editor**, check them: the
+  4.1.0 script adds template and API key permissions to any template named Zone Manager, and the
+  4.2.0 script renames the stock "DNS Editor" to Editor, so a custom Editor ends up next to a
+  second one. Rename duplicates under **Access > List templates**.
 - Review users, permission templates and zone owners. 2.x let any logged-in user change zone types,
   slave masters and owners, so check for changes you did not make.
 - Some differences from a fresh 4.4.x schema remain. None affect how 4.4.x works:
