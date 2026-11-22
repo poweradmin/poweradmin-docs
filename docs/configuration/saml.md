@@ -62,6 +62,10 @@ The setting is also in 4.4.3 and 4.5.1, where it defaults to `true` so that upgr
 | `saml.default_permission_template` | "Guest" | Default permission template for new users |
 | `saml.required_attributes` | `[]` | Only admit logins whose attributes match (v4.6.0+). See [Requiring attributes](#requiring-attributes-v460) |
 
+### Switching SAML off ends existing sessions *(v4.4.4, v4.5.2, v4.6.0+)*
+
+Setting `saml.enabled` to false, or disabling a provider by setting its `enabled` to false or removing it from `saml.providers`, logs out everyone signed in through it on their next request. Before you switch SAML off, make sure at least one administrator can sign in with a password: an administrator created only through SAML cannot sign in with a password and is locked out until SAML is turned back on or a password is set for them.
+
 ### Superuser rights are never provisioned from an identity provider
 
 `saml.allow_superuser_provisioning` (default `false`, added in 4.5.0) blocks two ways an

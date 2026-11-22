@@ -48,6 +48,10 @@ Earlier versions derived the host from the web server's `SERVER_NAME` when this 
 | `oidc.default_permission_template` | "Guest" | Default permission template for new users |
 | `oidc.required_claims` | `[]` | Only admit logins whose claims match (v4.6.0+). See [Requiring claims](#requiring-claims-v460) |
 
+### Switching OIDC off ends existing sessions *(v4.4.4, v4.5.2, v4.6.0+)*
+
+Setting `oidc.enabled` to false, or disabling a provider by clearing its `client_id` or `client_secret`, setting `enabled` to false, or removing it from `oidc.providers`, logs out everyone signed in through it on their next request. Before you switch OIDC off, make sure at least one administrator can sign in with a password: an administrator created only through OIDC cannot sign in with a password and is locked out until OIDC is turned back on or a password is set for them.
+
 ### Superuser rights are never provisioned from an identity provider
 
 `oidc.allow_superuser_provisioning` (default `false`, added in 4.5.0) blocks two ways an
