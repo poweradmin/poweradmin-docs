@@ -44,9 +44,12 @@ curl -H "X-API-Key: your-api-key-here" \
 `Authorization: Bearer your-api-key-here` is accepted as an equivalent if your
 client is easier to configure that way.
 
-A key is also accepted as an `api_key` query parameter, but do not use it: URLs
-end up in web server, proxy and browser logs, which would leak the key. Send it
-in a header.
+A key is also accepted as an `api_key` query parameter, but this is deprecated
+in 4.6.0 and may be removed in a later release. URLs end up in web server,
+proxy and browser logs, which would leak the key. Poweradmin logs a warning
+(never the key) once per request that authenticates this way, and the OpenAPI
+spec marks the parameter as deprecated. Send the key in the `X-API-Key` header
+instead.
 
 The key inherits the permissions of the user it belongs to. If that user can
 edit zone X in the web UI, the key can edit zone X over the API; if they
