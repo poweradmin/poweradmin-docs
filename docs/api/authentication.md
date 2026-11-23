@@ -124,6 +124,11 @@ coarsest option when an account rather than a single key is the concern.
 Rotate keys on a schedule that matches your security policy, and revoke
 immediately if a key may have leaked.
 
+A key is a credential of its own. Changing or resetting the owner's password,
+changing their email, or changing their MFA setup does not affect their keys.
+After a suspected account compromise, disable or delete the user's keys as
+well, or deactivate the account.
+
 ## HTTP Basic Authentication
 
 When `api.basic_auth_enabled` is `true`, the API also accepts standard HTTP
