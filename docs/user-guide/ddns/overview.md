@@ -45,6 +45,7 @@ Before setting up Dynamic DNS, ensure you have:
 Two server endpoints accept dynamic updates:
 
 - **`/dynamic_update.php`** - dyndns2-compatible endpoint authenticated with the user's Poweradmin username and password (HTTP Basic Auth or query parameters). Designed for stock clients like `ddclient` and `inadyn`. See [Client Setup](client-setup.md).
+  This endpoint checks the password only: multi-factor authentication does not apply to it. Give each device a dedicated account that owns only the zones it updates, rather than a person's own login.
 - **`POST /api/v2/dynamic-dns`** - JSON / form-encoded endpoint authenticated with an API key (`X-API-Key` header). Returns the result as a structured JSON document. Recommended for any client you control or any automation where storing a Poweradmin login password would be undesirable. Request body:
 
     ```json

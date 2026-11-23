@@ -65,8 +65,9 @@ For a read-only zone, Poweradmin blocks every record-changing action across the 
 To change the records in a read-only zone, edit them on the primary server - the changes replicate automatically. You can still change the zone's own configuration (such as the Secondary master IP) and delete the zone itself.
 
 PowerDNS transfers a Secondary zone from whatever primary address is set, including loopback and
-private ranges. On a shared server where users may add Secondary zones, limit which hosts PowerDNS
-can reach for transfers at the network level.
+private ranges. A user who may add Secondary zones can therefore have PowerDNS copy a zone from an
+internal DNS server that allows transfers to it, and then read that zone in Poweradmin. On a shared
+server, limit which hosts PowerDNS can reach for transfers at the network level.
 
 From 4.6.0, when Poweradmin can reach the [PowerDNS API](../configuration/powerdns-api.md) (the API backend, or the SQL backend with `pdns_api.url` and `pdns_api.key` set), the edit page of a Secondary zone offers **Retrieve from primary** next to the primary IP. It asks PowerDNS to transfer the zone from its primary right away instead of waiting for the next SOA refresh, and reports whether the request was accepted. The button needs the zone meta edit permission. Without the PowerDNS API there is no way to trigger a transfer, so the button is not shown and PowerDNS pulls on its own schedule.
 
