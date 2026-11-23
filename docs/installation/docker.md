@@ -196,6 +196,8 @@ webserver-address=0.0.0.0
 webserver-allow-from=0.0.0.0/0
 ```
 
+This file does not publish the PowerDNS API port, so it is reachable only from the compose network. Keep it that way. If you copy this config elsewhere, do not publish the port, and narrow `webserver-address` and `webserver-allow-from` to the networks that need the API.
+
 The example also relies on `./init.sql` to prepare MySQL on first startup: it
 must create both databases and users, and load the PowerDNS schema into the
 `pdns` database. Start with:
@@ -321,7 +323,7 @@ See [Password Policies](../configuration/password-policies.md) for the full poli
 | `PA_LOCKOUT_USERNAME_ATTEMPTS` | 0 | With IP tracking on, failures per account across all addresses before lockout; 0 = off (4.6.0) |
 | `PA_LOCKOUT_CLEAR_ON_SUCCESS` | true | Clear failed attempts after a successful login |
 | `PA_LOCKOUT_WHITELIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are never locked out; wins over the blacklist (v4.6.0+) |
-| `PA_LOCKOUT_BLACKLIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards that are always blocked (v4.6.0+) |
+| `PA_LOCKOUT_BLACKLIST_IPS` | - | Comma-separated IPs, CIDRs or wildcards whose password and second-factor logins are refused as locked. For the password stage this only applies with `PA_LOCKOUT_ENABLED=true`. It is not an access control (v4.6.0+) |
 
 Before 4.6.0 the IP whitelist and blacklist have no environment variables and must be set in `settings.php`. See [Security Policies](../configuration/security-policies.md).
 
