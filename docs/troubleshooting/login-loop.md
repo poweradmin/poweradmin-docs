@@ -31,6 +31,8 @@ The session lives on the server, by default as a file in `session.save_path`. If
 
 Behind a load balancer, the login request and the next request can land on different instances. With file-based sessions each instance only knows its own sessions. Enable sticky sessions on the load balancer, or point every instance at shared session storage (for example a common Redis or Memcached through PHP's `session.save_handler`).
 
+Shared session storage must lock sessions, as PHP's file handler does. Redis and Memcached do not lock by default: turn it on with `redis.session.locking_enabled = 1` (phpredis) or `memcached.sess_locking = On` (the default in the memcached extension, keep it on). Without locking, a request that was already running when a user signed out can write the old session back, so the session stays valid after logout.
+
 ## 4. The address changes between requests
 
 Cookies belong to one host name. If the login form is served from one name (`poweradmin.example.com`) and the redirect after login goes to another (`www.poweradmin.example.com` or an IP address), the browser does not send the cookie.
