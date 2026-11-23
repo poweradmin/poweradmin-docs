@@ -127,7 +127,7 @@ Configure how Poweradmin maps LDAP attributes to user properties:
 return [
     'ldap' => [
         'enabled' => true,
-        'uri' => 'ldap://ad.company.com',
+        'uri' => 'ldaps://ad.company.com',
         'base_dn' => 'DC=company,DC=com',
         'bind_dn' => 'CN=ServiceAccount,OU=Users,DC=company,DC=com',
         'bind_password' => 'password',
@@ -143,7 +143,7 @@ return [
 return [
     'ldap' => [
         'enabled' => true,
-        'uri' => 'ldap://ldap.company.com',
+        'uri' => 'ldaps://ldap.company.com',
         'base_dn' => 'ou=users,dc=company,dc=com',
         'bind_dn' => 'cn=admin,dc=company,dc=com',
         'bind_password' => 'password',
