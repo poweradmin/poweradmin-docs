@@ -21,7 +21,7 @@ Poweradmin believes whatever the web server tells it. Anyone who can reach PHP w
 
 - Enable the feature only when PHP cannot be reached except through the authenticating server or proxy. Do not publish the PHP-FPM port or the container port directly.
 - The server variable must be set by the web server itself. Names starting with `HTTP_` or `PHP_AUTH_` (and Apache's `REDIRECT_` copies of them) are refused, because a client can set them.
-- A proxy header is believed only when the request comes from an address in `remote_user.trusted_proxies`. The list is explicit and nothing is trusted implicitly. Addresses are compared as PHP sees them, so `::ffff:10.0.0.5` does not match `10.0.0.5`.
+- A proxy header is believed only when the request comes from an address in `remote_user.trusted_proxies`. The list is explicit and nothing is trusted implicitly. A plain address entry such as `10.0.0.5` also matches the IPv4-mapped form `::ffff:10.0.0.5`. CIDR and wildcard entries are compared against the address as PHP sees it, so `10.0.0.0/8` and `10.0.0.*` do not match a peer that arrives as `::ffff:10.0.0.5`.
 - The proxy must overwrite the header on every request, not append to it.
 - Exclude `/api/v2` from the web server's authentication. API v2 uses API keys (or Basic auth) as before and is not affected by this feature.
 - `/api/internal` must stay protected like the rest of the web interface.
@@ -240,7 +240,7 @@ The image's Caddy server does not authenticate users itself, so in Docker this i
     Ignoring the remote_user header from 10.0.0.5, which is not in remote_user.trusted_proxies
     ```
 
-    Behind a Docker network the address is the proxy container's address. IPv4-mapped IPv6 (`::ffff:10.0.0.5`) does not match `10.0.0.5`.
+    Behind a Docker network the address is the proxy container's address. A peer that arrives as IPv4-mapped IPv6 (`::ffff:10.0.0.5`) matches a plain `10.0.0.5` entry but not a CIDR or wildcard entry such as `10.0.0.0/8`.
 
 - Check that the web server really sets the variable. Names starting with `HTTP_` or `PHP_AUTH_` are refused, with this log line:
 
