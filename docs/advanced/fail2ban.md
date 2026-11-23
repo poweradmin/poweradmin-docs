@@ -1,6 +1,6 @@
 # Brute-Force Protection with fail2ban
 
-Poweradmin logs every authentication and MFA event in a single structured
+Poweradmin logs web sign-in and MFA events in a single structured
 format that [fail2ban](https://www.fail2ban.org/) can consume. This page
 documents the log format, shows the filter and jail you need, and explains
 the trade-offs between the different event types.
@@ -8,6 +8,16 @@ the trade-offs between the different event types.
 This complements the built-in [account lockout](../configuration/security-policies.md)
 (which throttles attempts against a single account) by letting fail2ban
 escalate to **IP-level bans** at the firewall.
+
+!!! note "API Basic auth and dynamic DNS"
+    From 4.6.0, 4.5.2 and 4.4.4, failed API Basic auth and dynamic DNS
+    (`dynamic_update.php`) requests write the same `login_failed` line, so the
+    filter below covers them. On earlier versions only web, LDAP and SAML
+    sign-in failures are logged. Guessing against API Basic auth (when enabled)
+    or `dynamic_update.php` does not reach this log, and only the
+    [account lockout](../configuration/security-policies.md), which is off by
+    default, limits it. Failed API key requests are written to the API log in
+    the database, not to syslog, on every version.
 
 ## Prerequisites
 
