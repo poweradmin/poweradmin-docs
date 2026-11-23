@@ -63,7 +63,7 @@ All cookies and stored values are needed for the application to work or are set 
 | Name | Type | Purpose | Lifetime |
 |---|---|---|---|
 | PHP session cookie (`PHPSESSID` unless changed) | Cookie | Keeps the user signed in | Until the browser closes |
-| `oidc_flow` | Cookie | Links an OIDC sign-in to the browser that started it | Minutes, during sign-in |
+| `__Host-oidc_flow` (`oidc_flow` before 4.5.2) | Cookie | Links an OIDC sign-in to the browser that started it | Minutes, during sign-in |
 | `__Host-saml_flow` | Cookie | Links a SAML sign-in to the browser that started it | Minutes, during sign-in |
 | `style` | localStorage | Light or dark theme chosen by the user | Until cleared |
 | `poweradmin_language` | localStorage | Language chosen by the user | Until cleared |

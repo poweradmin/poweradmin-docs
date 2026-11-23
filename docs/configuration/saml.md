@@ -98,6 +98,7 @@ id is normally the bundled Administrator template.
   provider. An address match never moves an existing link to a new identity.
   If your provider really did change the NameID for a user, delete that user's row
   for the provider from `saml_user_links`; the next login then links by email again.
+- the matched local account does not sign in through LDAP or a web server header (remote_user), and has no local password. If it does, the whole sign-in is refused and no account is created, so users you are moving from local passwords to SSO must have the password or the address cleared first.
 
 Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log. Since 4.6.0 a link made without an
@@ -228,7 +229,7 @@ Each provider requires IdP-specific configuration. The provider key (the array k
 | `entity_id` | Yes | IdP Entity ID |
 | `sso_url` | Yes | IdP Single Sign-On URL |
 | `slo_url` | No | IdP Single Logout URL |
-| `x509cert` | Strongly recommended | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks). Without it assertions are not signature-checked; the Docker entrypoint refuses to start without it |
+| `x509cert` | Required | IdP X.509 certificate (PEM string, with or without `-----BEGIN CERTIFICATE-----`/`-----END CERTIFICATE-----` headers and line breaks). Without it no sign-in succeeds, because the SAML library cannot verify any signature and rejects the response. The Docker entrypoint refuses to start without it |
 | `user_mapping` | No | Map SAML attributes to user fields. Missing keys default to `username`, `email`, `firstName`, `lastName`, `displayName` and `groups` |
 | `allow_idp_initiated` | No | Accept responses that do not answer a sign-in started in Poweradmin: IdP-initiated SSO, or installs not served over HTTPS. Default `false` from 4.6.0, `true` on 4.4.3 and 4.5.1 |
 

@@ -88,6 +88,7 @@ id is normally the bundled Administrator template.
   provider. An address match never moves an existing link to a new identity.
   If your provider really did change the subject for a user, delete that user's row
   for the provider from `oidc_user_links`; the next login then links by email again.
+- the matched local account does not sign in through LDAP or a web server header (remote_user), and has no local password. If it does, the whole sign-in is refused and no account is created, so users you are moving from local passwords to SSO must have the password or the address cleared first.
 
 Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log.
