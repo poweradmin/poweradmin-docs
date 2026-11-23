@@ -50,12 +50,14 @@ These settings help prevent brute force attacks by temporarily locking accounts 
 
 - **enable_lockout**: Enable account lockout after failed login attempts. Default: `false`
 - **lockout_attempts**: Number of failed attempts before account is locked. Default: `5`
-- **lockout_duration**: Duration of the lockout in minutes. Default: `15`. From 4.6.0 a value below 1 counts as 1.
+- **lockout_duration**: Length of the window in minutes in which failed attempts are counted. Default: `15`. From 4.6.0 a value below 1 counts as 1.
 - **track_ip_address**: Lock accounts based on IP address. Default: `true`. IPv6 clients are counted per /64 network and IPv4-mapped addresses (`::ffff:192.0.2.1`) as their IPv4 address, so rotating addresses inside one subnet does not reset the count (since 4.6.0)
 - **username_attempts**: With `track_ip_address` on, the number of failures per account across all addresses before it is locked. Failures through API Basic auth and DynDNS count too. Default: `0` (off) (added in 4.6.0)
 - **clear_attempts_on_success**: Clear failed attempts after successful login. Default: `true`
 
-With `track_ip_address` on, every source address gets its own `lockout_attempts`. The /64 grouping covers a single subnet, but an attacker holding a larger IPv6 range still gets a new budget per /64. Set `username_attempts` to cap the account as a whole. The trade-off is that anyone can then lock a known username for `lockout_duration`, so pick a value well above `lockout_attempts`, such as 20.
+`lockout_duration` is a rolling window, not a fixed lock length. Failed attempts older than the window stop counting, and attempts made while locked are not counted. The lock ends when the oldest of the counted failures ages out. If the failures were spread over several minutes, the lock is shorter than `lockout_duration`: ten failures over 25 minutes with a 30 minute window lock for about 5 minutes.
+
+With `track_ip_address` on, every source address gets its own `lockout_attempts`. The /64 grouping covers a single subnet, but an attacker holding a larger IPv6 range still gets a new budget per /64. Set `username_attempts` to cap the account as a whole. The trade-off is that anyone can then lock a known username for up to `lockout_duration`, so pick a value well above `lockout_attempts`, such as 20.
 
 These settings govern the password stage only. The second factor is throttled separately - see [Second-factor attempt limit](#second-factor-attempt-limit) below.
 
@@ -72,14 +74,14 @@ Account lockout does not cover this on its own. It ships disabled, and an attemp
 A six-digit second factor is small enough to guess, so MFA verification is rate limited on its own, independently of the account lockout above. This limit is always active when MFA is enabled: it does not require `enable_lockout`, which ships disabled. The limit itself exists on every supported line; the two settings below are configurable from 4.5.0 onwards, and are fixed at 5 attempts and 15 minutes on the 4.2.x, 4.3.x and 4.4.x lines.
 
 - **mfa.max_verify_attempts**: Wrong MFA codes tolerated before verification is refused. Default: `5` (added in 4.5.0)
-- **mfa.verify_lockout_duration**: Minutes to keep refusing attempts once the limit is reached. Default: `15` (added in 4.5.0)
+- **mfa.verify_lockout_duration**: Window in minutes in which wrong codes are counted. Attempts are refused until the oldest counted failure leaves the window, so the wait can be shorter than this value. Default: `15` (added in 4.5.0)
 
 Three behaviours differ from the password lockout, all deliberate:
 
 - MFA failures are counted per account across every source address. `track_ip_address` does not apply, because an attacker rotating addresses would otherwise reset the counter on each request.
 - `whitelist_ip_addresses` does not exempt the second factor. The whitelist exists so a bot cannot lock staff out of password login; the second factor is the only barrier left once a password is known, so it is never waived. The blacklist still applies.
 - Reaching the limit invalidates any pending emailed code, and no replacement is sent until the lockout expires.
-- Recovery codes are still accepted during a lockout on every line, so they remain the way back into the account. A wrong recovery code during the lockout is written to the audit log but does not count as a further attempt. A blacklisted source address is refused regardless.
+- Recovery codes are still accepted during a lockout on 4.5.x and the 4.2.x to 4.4.x lines, so they remain the way back into the account. A wrong recovery code during the lockout is written to the audit log but does not count as a further attempt. From 4.6.0 every code, recovery codes included, is refused until the lockout ends. A blacklisted source address is refused regardless.
 
 MFA failures are tracked separately from password failures, so a wrong code never blocks a later password login, and a fresh password login does not reset the MFA counter. Setting either value to `0` is treated as `1` rather than as "unlimited"; to remove the limit entirely, disable MFA.
 
@@ -87,10 +89,10 @@ From 4.5.2 and 4.6.0 the same limit applies to the code asked for when a user di
 
 ## IP Address Management
 
-Control which IP addresses can access the system:
+These lists only affect the account lockout. They are not an access control for the application: they do not restrict pages, established sessions, API keys, dynamic DNS, OIDC or SAML sign-in. Use the web server or a firewall to restrict who can reach Poweradmin.
 
-- **whitelist_ip_addresses**: IP addresses that are always allowed to access the system. Takes priority over blacklist. Supports IPs, CIDRs, and wildcards. Default: `[]`
-- **blacklist_ip_addresses**: IP addresses that are blocked from accessing the system. Supports IPs, CIDRs, and wildcards. Default: `[]`
+- **whitelist_ip_addresses**: IP addresses that are never locked out after failed password logins. It does not exempt the second factor. Takes priority over blacklist. Supports IPs, CIDRs, and wildcards. Default: `[]`
+- **blacklist_ip_addresses**: IP addresses whose password and second-factor login attempts are always refused as locked. Supports IPs, CIDRs, and wildcards. Default: `[]`. For the password stage the blacklist is only checked when `enable_lockout` is `true`, so with lockout off (the default) it has no effect there. The second-factor check does not depend on `enable_lockout`.
 
 ## Example Configuration
 
@@ -168,7 +170,7 @@ return [
 2. Use a strong password hashing algorithm (bcrypt or argon2id)
 3. Enable account lockout in production: `enable_lockout` is off by default, and `username_attempts` caps
    failures per account across addresses (see [Account Lockout](#account-lockout))
-4. Implement IP whitelisting for admin access in sensitive environments
+4. Restrict admin access by IP at the web server or firewall. The lockout whitelist does not do this
 5. Enable both login and global token validation to prevent CSRF attacks
 6. Use HTTPS for all production deployments
 7. Regularly update Poweradmin to get the latest security fixes
