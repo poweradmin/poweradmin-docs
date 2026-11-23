@@ -7,7 +7,7 @@ Poweradmin offers various security features to protect your DNS management syste
 - **session_key**: A unique key used for session security. Default: `change_this_key` (you should always change this)
 - **password_encryption**: Password hashing algorithm. Options: 'bcrypt', 'argon2i', 'argon2id'. Default: `bcrypt`. Note: 'md5' and 'md5salt' were removed in 4.3.0
 - **password_cost**: Cost factor for bcrypt algorithm. Default: `12`
-- **login_token_validation**: Enable token validation for login form. Default: `true`
+- **login_token_validation**: Enable token validation for login form. Default: `true`. The login token is also checked when `global_token_validation` is on, so turning this off alone does not disable it
 - **global_token_validation**: Enable token validation for all forms. Default: `true`
 - **protect_last_admin_on_edit**: Refuse a user edit that moves the last super admin to a template without super admin. Default: `false` (added in 4.5.0). See [Opt-in Hardening](#opt-in-hardening-v450)
 - **strict_session_gates**: Apply required MFA setup and the user agreement to internal API calls and to pages with `api` in their path. Default: `false` (added in 4.5.0, 4.4.2 and 4.3.6). See [Opt-in Hardening](#opt-in-hardening-v450)

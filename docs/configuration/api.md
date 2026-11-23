@@ -40,7 +40,7 @@ The API requires proper web server configuration to function correctly. The PHP 
 | Requirement | Description |
 |-------------|-------------|
 | **CORS Headers** | Required for cross-origin API requests from browsers |
-| **Authorization Header** | Must be forwarded to PHP for API key authentication |
+| **Authorization Header** | Must be forwarded to PHP for HTTP Basic auth and Bearer tokens. API keys use the `X-API-Key` header and do not need it |
 | **Clean URL Routing** | Route non-file requests to `index.php` |
 
 ### Configuration Examples
