@@ -309,6 +309,8 @@ Add `includeSubDomains` only when every subdomain of the host is served over HTT
 If you enable the health endpoints, restrict them at the proxy. They answer without a
 session and without an API key, so anyone who can reach the path can call them.
 
+nginx uses the first regex location that matches. Put the nginx block before any `location ~ ^/api` block, or `/api/health` is served by that block and the allow and deny lines never apply.
+
 ```nginx
 location ~ ^/(ping|api/health)$ {
     allow 10.0.0.0/8;

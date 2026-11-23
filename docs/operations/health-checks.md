@@ -115,6 +115,8 @@ monitoring system.
 
 **nginx**
 
+nginx uses the first regex location that matches. Put this block before the `location ~ ^/api` block, or `/api/health` is served by that block and the allow and deny lines never apply.
+
 ```nginx
 location ~ ^/(ping|api/health)$ {
     allow 10.0.0.0/8;
