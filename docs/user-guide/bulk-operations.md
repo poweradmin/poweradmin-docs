@@ -50,9 +50,9 @@ SRV has its own parser and does not follow the generic column order above. The f
 ### Tips
 
 - Quote any value that contains a comma or spaces.
-- Inside a quoted value, write a quote as two quotes (`""`); a backslash is kept as is. From 4.6.0 this matches the CSV export, so exported records import back unchanged.
+- Inside a quoted value, write a quote as two quotes (`""`); a backslash is kept as is. From 4.4.4, 4.5.2 and 4.6.0 this matches the CSV export, so exported records import back unchanged, and a quoted comment that spans several lines stays with its record.
 - For CNAME, MX, SRV: end the target with a trailing dot.
-- A submission may hold at most 1000 non-empty lines; a longer list is refused before anything is added.
+- A submission may hold at most 1000 non-empty records (a quoted value spanning lines counts once); a longer list is refused before anything is added.
 - Lines that fail validation are skipped and listed back on the form with a warning, while the valid ones are saved. From 4.6.0, on the SQL backend an unexpected write error rolls back the whole list and reports "No records were added". On the API backend lines are written one at a time with no rollback.
 - The form has a **Reason for this change** field, stored in the [change log](record-change-log.md#changesets-and-change-reasons). It is required when `logging.require_change_comment` is on.
 - Records exported from a zone via **CSV export** can be re-imported with this form, but delete the header row first - `Name,Type,Content,...` is parsed as a record and rejected with "Invalid record type". The data rows import as they are.
