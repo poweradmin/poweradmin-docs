@@ -93,6 +93,8 @@ id is normally the bundled Administrator template.
 Each check is logged when it blocks a link, so a login that stops working after
 an upgrade can be traced in the application log.
 
+A new account created at sign-in gets no email address when another account already holds it (compared without regard to case), or, with `oidc.require_verified_email` on, when the provider has not verified it. The account is still created and a warning is logged. This keeps one address per account, so password reset keeps working for the existing holder. Since 4.4.4 (held addresses only), 4.5.2 and 4.6.0.
+
 ### Requiring a verified address
 
 Providers are not obliged to send `email_verified` at all, and an absent claim is

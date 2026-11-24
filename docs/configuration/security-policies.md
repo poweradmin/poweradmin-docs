@@ -200,6 +200,8 @@ Secure password reset functionality with rate limiting:
 - **min_time_between_requests**: Minimum seconds between requests. Default: `60` (1 minute)
 - **single_use_claim**: Mark the link as used before the new password is saved, so one link sets one password even when it is submitted twice at the same moment. Default: `false` (added in 4.5.0, 4.4.2 and 4.3.6)
 
+An address that more than one account holds gets no reset link, and links already sent to it stop working, because Poweradmin cannot tell which account the request is for. From 4.4.4 and 4.5.2 addresses are compared without regard to case on every database, as MySQL and 4.6.0 already did, so on PostgreSQL and SQLite two accounts whose addresses differ only in case (`Alice@example.com` and `alice@example.com`) now count as sharing one. Give each account its own address to restore reset for them.
+
 The reset token never appears in the application log: since 4.5.0 log lines carry a short fingerprint of it instead, so entries about the same link can still be matched.
 
 ### `interface.application_url` is required

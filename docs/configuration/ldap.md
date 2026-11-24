@@ -238,6 +238,8 @@ Group members are created in Poweradmin on their first login with the mapped per
 
 > **Warning:** with `auto_provision` enabled and no group condition in `search_filter`, any user in the directory can log in and receives `default_permission_template`.
 
+A provisioned account gets no email address when another account already holds the directory address (compared without regard to case), for example a shared team mailbox. The account is still created and a warning is logged. Since 4.5.2 and 4.6.0.
+
 ## Security Considerations
 
 - Always use LDAPS (LDAP over SSL/TLS) in production environments
