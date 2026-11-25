@@ -101,6 +101,11 @@ dual-stack dynamic DNS update that sends only an IPv4 address and would clear th
 AAAA records. Replacing records with the same number of new ones, or changing the
 TTL, only needs `create` and `update`.
 
+From 4.6.0 the DNSSEC endpoints change an existing zone, so they need `update`:
+`POST /zones/{id}/dnssec`, `POST /zones/{id}/dnssec/keys` and
+`POST /zones/{id}/dnssec/keys/import`. Removing a key with
+`DELETE /zones/{id}/dnssec/keys/{key_id}` needs `update` and `delete`.
+
 Restrictions only narrow access - they never widen it. A read-only key belonging to
 a user with no zone permissions still cannot read anything.
 
