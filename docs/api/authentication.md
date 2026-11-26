@@ -106,6 +106,12 @@ From 4.6.0 the DNSSEC endpoints change an existing zone, so they need `update`:
 `POST /zones/{id}/dnssec/keys/import`. Removing a key with
 `DELETE /zones/{id}/dnssec/keys/{key_id}` needs `update` and `delete`.
 
+Endpoints that change who can reach a zone follow the same rule from 4.6.0.
+`POST /zones/{id}/owners` and `POST /groups/{id}/zones` need `update`, and
+`DELETE /zones/{id}/owners/{user_id}` and `DELETE /groups/{id}/zones/{zone_id}`
+need `update` and `delete`. Filing a change request with
+`POST /zones/{id}/change-requests` needs `update`, whatever the actions in it.
+
 Restrictions only narrow access - they never widen it. A read-only key belonging to
 a user with no zone permissions still cannot read anything.
 
